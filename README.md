@@ -12,11 +12,21 @@ We are excited to announce that Yendoukoa AI is now accessible across all your d
 
 Stay productive everywhere with Yendoukoa AI!
 
+## GitHub Site Web View & Split Architecture
+
+Yendoukoa AI now uses a split architecture to optimize deployment and performance:
+
+1.  **Frontend (Static):** The React-based marketplace frontend is hosted on **GitHub Pages** (the `docs/` directory). This provides a fast, globally distributed "Web View" of the platform.
+2.  **Backend (API):** The Flask-based API is deployed separately (e.g., on Google Cloud Run or AWS).
+
+This split allows for independent scaling and simplifies the deployment of the frontend to GitHub's static hosting.
+
 ## Devpost Challenge Submission
 
 This project is a submission for the **[Name of Devpost Challenge]**.
 
-*   **Live Demo:** [https://yendoukoa.ai](https://yendoukoa.ai)
+*   **Live Demo (Frontend):** [https://yendoukoa.ai](https://yendoukoa.ai)
+*   **API Documentation:** [https://yendoukoa.ai/api/v1](https://yendoukoa.ai/api/v1) (when backend is active)
 *   **Video Walkthrough:** [Link to Video Walkthrough]
 
 ## Sponsorship
@@ -96,18 +106,38 @@ Enter a full website URL (e.g., `https://example.com`) to scan the page for brok
 
 ### Running the Application
 
-1. **Initialize the database:**
-   ```bash
-   flask init-db
-   ```
+#### 1. Backend (Flask API)
 
-2. **Start the server:**
-   ```bash
-   flask run
-   ```
+1.  **Initialize the database:**
+    ```bash
+    flask init-db
+    ```
 
-3. **Open your web browser:**
-   Navigate to `http://127.0.0.1:5000` to access the application.
+2.  **Start the server:**
+    ```bash
+    flask run --port 5001
+    ```
+
+#### 2. Frontend (React Marketplace)
+
+1.  **Navigate to the frontend directory:**
+    ```bash
+    cd marketplace-frontend
+    ```
+
+2.  **Set the API URL (Optional for local dev):**
+    Create a `.env.local` file:
+    ```
+    VITE_API_BASE_URL=http://localhost:5001/api/v1
+    ```
+
+3.  **Start the development server:**
+    ```bash
+    npm run dev
+    ```
+
+4.  **Open your web browser:**
+    Navigate to the URL provided by Vite (usually `http://localhost:5173`).
 
 ## Developer Deployment and Integration
 
