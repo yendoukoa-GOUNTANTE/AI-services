@@ -59,7 +59,7 @@ export const aiService = {
   getGendarmerieAssistance: (prompt: string) => apiClient.post('/gendarmerie/assistance', { prompt }),
   getPoliceAssistance: (prompt: string) => apiClient.post('/police/assistance', { prompt }),
   getSecurityOptimization: (prompt: string) => apiClient.post('/security/optimization', { prompt }),
-  getConflictDebugAssistance: (prompt: string) => apiClient.post('/conflict-debug/assistance', { prompt }),
+  getConflictDebugAssistance: (prompt: string, mediaData?: string, mimeType?: string) => apiClient.post('/conflict-debug/assistance', { prompt, media_data: mediaData, mime_type: mimeType }),
   executeLangflow: (prompt: string) => apiClient.post('/langflow/execute', { prompt }),
   getAutoMLFeatureEngineering: (prompt: string) => apiClient.post('/automl/feature-engineering', { prompt }),
   getAutoMLHyperparameterTuning: (prompt: string) => apiClient.post('/automl/hyperparameter-tuning', { prompt }),
@@ -76,6 +76,8 @@ export const aiService = {
   getMixtralMultilingual: (prompt: string) => apiClient.post('/nvidia/mixtral', { prompt }),
   getClaudeIntelligence: (prompt: string) => apiClient.post('/anthropic/intelligence', { prompt }),
   getClaudeCoding: (prompt: string) => apiClient.post('/anthropic/coding', { prompt }),
+  getVisualAnalysis: (prompt: string, mediaData?: string, mimeType?: string) => apiClient.post('/visual/analysis', { prompt, media_data: mediaData, mime_type: mimeType }),
+  genericAssistance: (systemMessage: string, prompt: string, mediaData?: string, mimeType?: string) => apiClient.post('/generic/assistance', { system_message: systemMessage, prompt, media_data: mediaData, mime_type: mimeType }),
 };
 
 export const userService = {

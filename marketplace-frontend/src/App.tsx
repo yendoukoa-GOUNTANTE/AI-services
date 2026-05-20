@@ -38,7 +38,9 @@ import {
   DollarSign,
   Handshake,
   PiggyBank,
-  Brain
+  Brain,
+  Camera,
+  Video
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { userService, aiService, paymentService, setAuthToken, type User } from './api';
@@ -109,7 +111,8 @@ const AI_SERVICES: AIService[] = [
   { id: 'claude-intel', name: 'Claude Intelligence', category: 'Advanced', icon: Brain, description: 'Deep reasoning and strategic analysis powered by Anthropic Claude.' },
   { id: 'claude-coder', name: 'Claude Coder', category: 'Development', icon: Code2, description: 'Elite code generation and architectural advice powered by Anthropic Claude.' },
   { id: 'malware-defense', name: 'Malware Defender', category: 'Security', icon: ShieldX, description: 'Elite specialist for detecting, preventing, and removing all types of malware.' },
-  { id: 'ussd-blockchain', name: 'USSD Blockchain Expert', category: 'Development', icon: Smartphone, description: 'Design and create USSD applications integrated with blockchain technology.' }
+  { id: 'ussd-blockchain', name: 'USSD Blockchain Expert', category: 'Development', icon: Smartphone, description: 'Design and create USSD applications integrated with blockchain technology.' },
+  { id: 'visual-intel', name: 'Visual Intelligence', category: 'Advanced', icon: Camera, description: 'Analyze images and videos captured from your camera to provide insights and descriptions.' }
 ];
 
 const App: React.FC = () => {
@@ -129,6 +132,12 @@ const App: React.FC = () => {
   const [showServiceModal, setShowServiceModal] = useState(false);
   const [servicePrompt, setServicePrompt] = useState('');
   const [serviceResponse, setServiceResponse] = useState('');
+  const [isCameraActive, setIsCameraActive] = useState(false);
+  const [isRecording, setIsRecording] = useState(false);
+  const [capturedMedia, setCapturedMedia] = useState<{data: string, type: string} | null>(null);
+  const videoRef = React.useRef<HTMLVideoElement>(null);
+  const mediaRecorderRef = React.useRef<MediaRecorder | null>(null);
+  const chunksRef = React.useRef<Blob[]>([]);
 
   useEffect(() => {
     const savedApiKey = localStorage.getItem('globalApiKey');
@@ -168,7 +177,13 @@ const App: React.FC = () => {
       setLoading(true);
       setError(null);
       let response;
+      const mediaData = capturedMedia?.data.split(',')[1];
+      const mimeType = capturedMedia?.type;
+
       switch (selectedService.id) {
+        case 'visual-intel':
+          response = await aiService.getVisualAnalysis(servicePrompt, mediaData, mimeType);
+          break;
         case 'website':
           response = await aiService.generateWebsite(servicePrompt);
           break;
@@ -248,7 +263,7 @@ const App: React.FC = () => {
           response = await aiService.getSecurityOptimization(servicePrompt);
           break;
         case 'conflict-debug':
-          response = await aiService.getConflictDebugAssistance(servicePrompt);
+          response = await aiService.getConflictDebugAssistance(servicePrompt, mediaData, mimeType);
           break;
         case 'langflow':
           response = await aiService.executeLangflow(servicePrompt);
@@ -331,6 +346,77 @@ const App: React.FC = () => {
       setError(err.response?.data?.error || 'Operation failed');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const startCamera = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      if (videoRef.current) {
+        videoRef.current.srcObject = stream;
+        setIsCameraActive(true);
+      }
+    } catch (err) {
+      setError('Failed to access camera');
+    }
+  };
+
+  const stopCamera = () => {
+    if (videoRef.current && videoRef.current.srcObject) {
+      const tracks = (videoRef.current.srcObject as MediaStream).getTracks();
+      tracks.forEach(track => track.stop());
+      videoRef.current.srcObject = null;
+      setIsCameraActive(false);
+    }
+  };
+
+  const capturePhoto = () => {
+    if (videoRef.current) {
+      const canvas = document.createElement('canvas');
+      canvas.width = videoRef.current.videoWidth;
+      canvas.height = videoRef.current.videoHeight;
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        ctx.drawImage(videoRef.current, 0, 0);
+        const dataUrl = canvas.toDataURL('image/jpeg');
+        setCapturedMedia({ data: dataUrl, type: 'image/jpeg' });
+        stopCamera();
+      }
+    }
+  };
+
+  const startRecording = () => {
+    if (videoRef.current && videoRef.current.srcObject) {
+      const stream = videoRef.current.srcObject as MediaStream;
+      const mediaRecorder = new MediaRecorder(stream);
+      mediaRecorderRef.current = mediaRecorder;
+      chunksRef.current = [];
+
+      mediaRecorder.ondataavailable = (e) => {
+        if (e.data.size > 0) {
+          chunksRef.current.push(e.data);
+        }
+      };
+
+      mediaRecorder.onstop = () => {
+        const blob = new Blob(chunksRef.current, { type: 'video/webm' });
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setCapturedMedia({ data: reader.result as string, type: 'video/webm' });
+        };
+        reader.readAsDataURL(blob);
+        stopCamera();
+      };
+
+      mediaRecorder.start();
+      setIsRecording(true);
+    }
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorderRef.current && isRecording) {
+      mediaRecorderRef.current.stop();
+      setIsRecording(false);
     }
   };
 
@@ -432,6 +518,80 @@ const App: React.FC = () => {
                     <div className="mt-4">
                       {!serviceResponse ? (
                         <form onSubmit={handleServiceExecution}>
+                          {(selectedService.id === 'visual-intel' || selectedService.category === 'Advanced') && (
+                            <div className="mb-4">
+                              <label className="block text-sm font-medium text-gray-700 mb-2">Multimodal Input (Optional for Advanced Agents)</label>
+                              <div className="border-2 border-dashed rounded-lg p-4 flex flex-col items-center justify-center bg-gray-50">
+                                {isCameraActive ? (
+                                  <div className="w-full flex flex-col items-center">
+                                    <video ref={videoRef} autoPlay playsInline className="w-full max-w-sm rounded-lg mb-2" />
+                                    <div className="flex space-x-2">
+                                      {!isRecording ? (
+                                        <>
+                                          <button
+                                            type="button"
+                                            onClick={capturePhoto}
+                                            className="bg-blue-600 text-white p-2 rounded-full hover:bg-blue-700"
+                                            title="Take Photo"
+                                          >
+                                            <Camera size={20} />
+                                          </button>
+                                          <button
+                                            type="button"
+                                            onClick={startRecording}
+                                            className="bg-red-600 text-white p-2 rounded-full hover:bg-red-700"
+                                            title="Start Recording"
+                                          >
+                                            <Video size={20} />
+                                          </button>
+                                        </>
+                                      ) : (
+                                        <button
+                                          type="button"
+                                          onClick={stopRecording}
+                                          className="bg-gray-800 text-white p-2 rounded-full hover:bg-black animate-pulse"
+                                          title="Stop Recording"
+                                        >
+                                          <div className="w-5 h-5 bg-red-600 rounded-sm"></div>
+                                        </button>
+                                      )}
+                                      <button
+                                        type="button"
+                                        onClick={stopCamera}
+                                        className="bg-gray-400 text-white p-2 rounded-full hover:bg-gray-500"
+                                      >
+                                        <X size={20} />
+                                      </button>
+                                    </div>
+                                  </div>
+                                ) : capturedMedia ? (
+                                  <div className="w-full flex flex-col items-center">
+                                    {capturedMedia.type.startsWith('image') ? (
+                                      <img src={capturedMedia.data} alt="Captured" className="w-full max-w-sm rounded-lg mb-2" />
+                                    ) : (
+                                      <video src={capturedMedia.data} controls className="w-full max-w-sm rounded-lg mb-2" />
+                                    )}
+                                    <button
+                                      type="button"
+                                      onClick={() => { setCapturedMedia(null); startCamera(); }}
+                                      className="text-blue-600 text-sm font-medium hover:underline"
+                                    >
+                                      Retake
+                                    </button>
+                                  </div>
+                                ) : (
+                                  <button
+                                    type="button"
+                                    onClick={startCamera}
+                                    className="flex flex-col items-center text-gray-500 hover:text-blue-600"
+                                  >
+                                    <Camera size={40} />
+                                    <span className="mt-2 text-sm">Open Camera</span>
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+                          )}
                           <div className="mb-4">
                             <label className="block text-sm font-medium text-gray-700">Prompt / Requirements</label>
                             <textarea
@@ -453,7 +613,10 @@ const App: React.FC = () => {
                             </button>
                             <button
                               type="button"
-                              onClick={() => setShowServiceModal(false)}
+                              onClick={() => {
+                                stopCamera();
+                                setShowServiceModal(false);
+                              }}
                               className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:w-auto sm:text-sm"
                             >
                               Cancel

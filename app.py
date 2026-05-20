@@ -1444,9 +1444,24 @@ def autogpt_assistance_endpoint():
 def conflict_debug_assistance_endpoint():
     data = request.get_json()
     prompt = data.get('prompt')
+    media_data = data.get('media_data')
+    mime_type = data.get('mime_type')
     if not prompt:
         return jsonify({"error": _("Prompt is required")}), 400
-    message = google_ai.provide_conflict_debug_assistance(prompt)
+    message = google_ai.provide_conflict_debug_assistance(prompt, media_data, mime_type)
+    return jsonify({"status": "success", "message": message})
+
+
+@app.route('/api/v1/visual/analysis', methods=['POST'])
+@require_api_key
+def visual_analysis_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    media_data = data.get('media_data')
+    mime_type = data.get('mime_type')
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+    message = google_ai.provide_visual_intelligence(prompt, media_data, mime_type)
     return jsonify({"status": "success", "message": message})
 
 
@@ -1456,9 +1471,11 @@ def generic_assistance_endpoint():
     data = request.get_json()
     system_message = data.get('system_message')
     prompt = data.get('prompt')
+    media_data = data.get('media_data')
+    mime_type = data.get('mime_type')
     if not all([system_message, prompt]):
         return jsonify({"error": _("system_message and prompt are required")}), 400
-    message = google_ai.generic_ai_service(system_message, prompt)
+    message = google_ai.generic_ai_service(system_message, prompt, media_data, mime_type)
     return jsonify({"status": "success", "message": message})
 
 

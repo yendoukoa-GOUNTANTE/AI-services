@@ -1,7 +1,7 @@
 import os
 import re
 import vertexai
-from vertexai.generative_models import GenerativeModel
+from vertexai.generative_models import GenerativeModel, Part
 from langchain_google_vertexai import ChatVertexAI
 from langchain_openai import ChatOpenAI
 from langchain_anthropic import ChatAnthropic
@@ -1071,9 +1071,10 @@ def provide_autogpt_assistance(prompt: str) -> str:
 import asyncio
 from concurrent.futures import ThreadPoolExecutor
 
-def provide_conflict_debug_assistance(prompt: str) -> str:
+def provide_conflict_debug_assistance(prompt: str, media_data: str = None, mime_type: str = None) -> str:
     """
     Empowers the AI to debug code and resolve conflicts by leveraging multiple models (Gemini, ChatGPT, Claude, NVIDIA).
+    Supports multimodal input for visual debugging.
     """
     models = {
         "Gemini": get_model(),
@@ -1082,8 +1083,17 @@ def provide_conflict_debug_assistance(prompt: str) -> str:
         "NVIDIA": get_nvidia_model()
     }
 
-    def get_insight(name, model, prompt):
+    def get_insight(name, model, prompt, media_data=None, mime_type=None):
         try:
+            if name == "Gemini" and media_data and mime_type:
+                # Use multimodal Gemini for insight if media is present
+                gen_model = GenerativeModel("gemini-1.5-flash")
+                import base64
+                media_part = Part.from_data(data=base64.b64decode(media_data), mime_type=mime_type)
+                contents = [f"You are a professional debugger using Gemini. Analyze this issue and the provided image/video: {prompt}", media_part]
+                response = gen_model.generate_content(contents)
+                return name, response.text.strip()
+
             system_prompt = f"You are a professional debugger using the {name} model. Provide a concise technical insight for the following issue."
             prompt_template = ChatPromptTemplate.from_messages([
                 ("system", system_prompt),
@@ -1096,7 +1106,7 @@ def provide_conflict_debug_assistance(prompt: str) -> str:
 
     insights = {}
     with ThreadPoolExecutor(max_workers=len(models)) as executor:
-        futures = [executor.submit(get_insight, name, model, prompt) for name, model in models.items()]
+        futures = [executor.submit(get_insight, name, model, prompt, media_data, mime_type) for name, model in models.items()]
         for future in futures:
             name, insight = future.result()
             insights[name] = insight
@@ -1104,6 +1114,30 @@ def provide_conflict_debug_assistance(prompt: str) -> str:
     # Use Gemini as the final orchestrator to synthesize all insights
     try:
         orchestrator = get_model()
+
+        # If there is media, use the generative model for synthesis too
+        if media_data and mime_type:
+            gen_orchestrator = GenerativeModel("gemini-1.5-flash")
+            import base64
+            media_part = Part.from_data(data=base64.b64decode(media_data), mime_type=mime_type)
+
+            synthesis_prompt = f"""You are an Elite Multi-Model AI Orchestrator.
+            You have gathered insights from several top AI models regarding a code bug or conflict.
+            An image/video of the issue has also been provided.
+
+            User Problem: {prompt}
+
+            Model Insights:
+            - Gemini: {insights.get('Gemini')}
+            - OpenAI: {insights.get('OpenAI')}
+            - Claude: {insights.get('Claude')}
+            - NVIDIA: {insights.get('NVIDIA')}
+
+            Based on these insights and the visual evidence, provide a definitive, comprehensive solution.
+            """
+            response = gen_orchestrator.generate_content([synthesis_prompt, media_part])
+            return response.text.strip()
+
         synthesis_prompt = f"""You are an Elite Multi-Model AI Orchestrator.
         You have gathered insights from several top AI models regarding a code bug or conflict.
 
@@ -1125,20 +1159,49 @@ def provide_conflict_debug_assistance(prompt: str) -> str:
     except Exception as e:
         return f"Error in multi-model synthesis: {e}. Raw insights: {insights}"
 
-def generic_ai_service(system_message: str, user_prompt: str) -> str:
+def provide_visual_intelligence(prompt: str, media_data: str = None, mime_type: str = None) -> str:
     """
-    A generic AI service using LangChain to allow flexible role creation.
+    Expert AI Model for Visual Intelligence, analyzing images and video.
     """
-    model = get_model()
-    prompt_template = ChatPromptTemplate.from_messages([
-        ("system", system_message),
-        ("user", "{prompt}")
-    ])
-    chain = prompt_template | model | StrOutputParser()
     try:
-        return chain.invoke({"prompt": user_prompt}).strip()
+        model = GenerativeModel("gemini-1.5-flash")
+        contents = [prompt]
+        if media_data and mime_type:
+            import base64
+            media_part = Part.from_data(data=base64.b64decode(media_data), mime_type=mime_type)
+            contents.append(media_part)
+
+        response = model.generate_content(contents)
+        return response.text.strip()
     except Exception as e:
-        return f"Error: {e}"
+        return f"Visual Intelligence Error: {e}"
+
+def generic_ai_service(system_message: str, user_prompt: str, media_data: str = None, mime_type: str = None) -> str:
+    """
+    A generic AI service using LangChain or Vertex AI directly to allow flexible role creation with multimodal support.
+    """
+    if media_data and mime_type:
+        # For multimodal, we use GenerativeModel directly for better support
+        try:
+            model = GenerativeModel("gemini-1.5-flash")
+            import base64
+            media_part = Part.from_data(data=base64.b64decode(media_data), mime_type=mime_type)
+            contents = [f"System: {system_message}", user_prompt, media_part]
+            response = model.generate_content(contents)
+            return response.text.strip()
+        except Exception as e:
+            return f"Error in multimodal generic service: {e}"
+    else:
+        model = get_model()
+        prompt_template = ChatPromptTemplate.from_messages([
+            ("system", system_message),
+            ("user", "{prompt}")
+        ])
+        chain = prompt_template | model | StrOutputParser()
+        try:
+            return chain.invoke({"prompt": user_prompt}).strip()
+        except Exception as e:
+            return f"Error: {e}"
 
 def provide_malware_defense_assistance(prompt: str) -> str:
     """
