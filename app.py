@@ -1890,8 +1890,8 @@ def create_subscription_checkout():
                 },
             ],
             'mode': 'subscription',
-            'success_url': request.host_url + 'dashboard?session_id={CHECKOUT_SESSION_ID}',
-            'cancel_url': request.host_url + 'dashboard',
+            'success_url': request.host_url + '?payment=success&session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url': request.host_url + '?payment=cancel',
             'client_reference_id': str(g.user.id),
             'metadata': {
                 'user_id': g.user.id,

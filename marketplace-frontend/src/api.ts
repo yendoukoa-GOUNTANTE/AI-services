@@ -78,6 +78,20 @@ export const aiService = {
   getClaudeCoding: (prompt: string) => apiClient.post('/anthropic/coding', { prompt }),
   getVisualAnalysis: (prompt: string, mediaData?: string, mimeType?: string) => apiClient.post('/visual/analysis', { prompt, media_data: mediaData, mime_type: mimeType }),
   genericAssistance: (systemMessage: string, prompt: string, mediaData?: string, mimeType?: string) => apiClient.post('/generic/assistance', { system_message: systemMessage, prompt, media_data: mediaData, mime_type: mimeType }),
+  getGameDeveloper: (prompt: string) => apiClient.post('/develop/game', { prompt }),
+  getBackendArchitect: (prompt: string) => apiClient.post('/develop/backend', { prompt }),
+  getBlockchainExpert: (prompt: string) => apiClient.post('/develop/blockchain', { prompt }),
+  getEshopAssistance: (prompt: string) => apiClient.post('/eshop/assistance', { prompt }),
+  getCyberInvestigation: (prompt: string) => apiClient.post('/investigation/security', { prompt }),
+  getMLOpsAssistance: (prompt: string) => apiClient.post('/automl/mlops', { prompt }),
+  getBiotechAssistance: (prompt: string) => apiClient.post('/biotech/assistance', { prompt }),
+  getLogisticsAssistance: (prompt: string) => apiClient.post('/logistics/assistance', { prompt }),
+  getITOpsAssistance: (prompt: string) => apiClient.post('/it-operations/assistance', { prompt }),
+  getScienceEducation: (prompt: string) => apiClient.post('/sciences/educator', { prompt }),
+  getFakeContentVerification: (prompt: string) => apiClient.post('/fake-content/verification', { prompt }),
+  getHardwareMaintenance: (prompt: string) => apiClient.post('/maintenance/assistance', { prompt }),
+  getAIResearcher: (prompt: string) => apiClient.post('/ia-researcher/assistance', { prompt }),
+  getLegalAssistance: (prompt: string) => apiClient.post('/legal/assistance', { prompt }),
 };
 
 export const userService = {

@@ -145,6 +145,18 @@ const App: React.FC = () => {
       setAuthToken(savedApiKey);
       fetchUserData();
     }
+
+    // Check for payment callback
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('payment') === 'success') {
+      setActiveTab('dashboard');
+      alert('Payment successful! Your subscription has been updated.');
+      window.history.replaceState({}, document.title, window.location.pathname);
+    } else if (urlParams.get('payment') === 'cancel') {
+      setActiveTab('dashboard');
+      alert('Payment cancelled.');
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
   }, []);
 
   const fetchUserData = async () => {
@@ -307,9 +319,53 @@ const App: React.FC = () => {
         case 'claude-coder':
           response = await aiService.getClaudeCoding(servicePrompt);
           break;
+        case 'game':
+          response = await aiService.getGameDeveloper(servicePrompt);
+          break;
+        case 'backend':
+          response = await aiService.getBackendArchitect(servicePrompt);
+          break;
+        case 'blockchain':
+          response = await aiService.getBlockchainExpert(servicePrompt);
+          break;
+        case 'eshop':
+          response = await aiService.getEshopAssistance(servicePrompt);
+          break;
+        case 'investigation':
+          response = await aiService.getCyberInvestigation(servicePrompt);
+          break;
+        case 'biotech':
+          response = await aiService.getBiotechAssistance(servicePrompt);
+          break;
+        case 'logistics':
+          response = await aiService.getLogisticsAssistance(servicePrompt);
+          break;
+        case 'it-ops':
+          response = await aiService.getITOpsAssistance(servicePrompt);
+          break;
+        case 'education':
+          response = await aiService.getScienceEducation(servicePrompt);
+          break;
+        case 'verification':
+          response = await aiService.getFakeContentVerification(servicePrompt);
+          break;
+        case 'maintenance':
+          response = await aiService.getHardwareMaintenance(servicePrompt);
+          break;
+        case 'researcher':
+          response = await aiService.getAIResearcher(servicePrompt);
+          break;
+        case 'legal':
+          response = await aiService.getLegalAssistance(servicePrompt);
+          break;
         default:
-          // Fallback for demo purposes if specific endpoint isn't mapped in aiService yet
-          response = { data: { message: "This service is currently in demo mode. The full integration is coming soon!" } };
+          // Fallback for newer services
+          response = await aiService.genericAssistance(
+            `You are the ${selectedService.name}. ${selectedService.description}`,
+            servicePrompt,
+            mediaData,
+            mimeType
+          );
       }
       setServiceResponse(response.data.message || response.data.promotion_text || "Service executed successfully.");
     } catch (err: any) {
@@ -449,6 +505,12 @@ const App: React.FC = () => {
                 >
                   Dashboard
                 </button>
+                <button
+                  onClick={() => setActiveTab('webbook')}
+                  className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${activeTab === 'webbook' ? 'border-blue-500 text-gray-900' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'}`}
+                >
+                  Webbook
+                </button>
               </div>
             </div>
             <div className="flex items-center space-x-4">
@@ -482,6 +544,29 @@ const App: React.FC = () => {
             </div>
           </div>
         </div>
+        {/* Mobile menu */}
+        {isMenuOpen && (
+          <div className="md:hidden border-t px-4 pt-2 pb-3 space-y-1 bg-white">
+            <button
+              onClick={() => { setActiveTab('marketplace'); setIsMenuOpen(false); }}
+              className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium ${activeTab === 'marketplace' ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-50'}`}
+            >
+              Marketplace
+            </button>
+            <button
+              onClick={() => { setActiveTab('dashboard'); setIsMenuOpen(false); }}
+              className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium ${activeTab === 'dashboard' ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-50'}`}
+            >
+              Dashboard
+            </button>
+            <button
+              onClick={() => { setActiveTab('webbook'); setIsMenuOpen(false); }}
+              className={`block w-full text-left px-3 py-2 rounded-md text-base font-medium ${activeTab === 'webbook' ? 'bg-blue-50 text-blue-700' : 'text-gray-600 hover:bg-gray-50'}`}
+            >
+              Webbook
+            </button>
+          </div>
+        )}
       </nav>
 
       {error && (
@@ -769,7 +854,50 @@ const App: React.FC = () => {
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {activeTab === 'marketplace' ? (
+        {activeTab === 'webbook' ? (
+          <div className="bg-white p-8 rounded-xl shadow-sm border prose max-w-none">
+            <h1 className="text-3xl font-bold mb-6 text-blue-600">Yendoukoa AI: Official Project Webbook</h1>
+
+            <section className="mb-8">
+              <h2 className="text-2xl font-bold mb-4">1. Introduction</h2>
+              <p>Welcome to the Yendoukoa AI Production Environment. This platform represents the pinnacle of integrated AI services, designed for professional use across various sectors including development, business, security, and public administration.</p>
+            </section>
+
+            <section className="mb-8">
+              <h2 className="text-2xl font-bold mb-4">2. Our Ecosystem</h2>
+              <p>Yendoukoa AI operates as a unified ecosystem connecting industry-leading AI models (Google Gemini, OpenAI GPT-4o, Anthropic Claude, and NVIDIA Llama) through a single, secure gateway. Our architecture ensures that you always have the most capable model for your specific task.</p>
+            </section>
+
+            <section className="mb-8">
+              <h2 className="text-2xl font-bold mb-4">3. Getting Started</h2>
+              <ol className="list-decimal pl-5 space-y-2">
+                <li><strong>Register:</strong> Create an account to receive your unique API Key.</li>
+                <li><strong>API Key:</strong> Keep your API Key secure. It is required for all service executions.</li>
+                <li><strong>Credits:</strong> Each service execution consumes credits. You can manage your balance in the Dashboard.</li>
+                <li><strong>Subscriptions:</strong> Upgrade to Premium or Pro plans to unlock high-capacity services and monthly credit top-ups.</li>
+              </ol>
+            </section>
+
+            <section className="mb-8">
+              <h2 className="text-2xl font-bold mb-4">4. Key Services</h2>
+              <ul className="list-disc pl-5 space-y-2">
+                <li><strong>Advanced Multi-Model Debugger:</strong> Resolves complex conflicts by synthesizing insights from four major AI providers.</li>
+                <li><strong>USSD Blockchain:</strong> Bridges the gap between feature phone technology and modern decentralized finance.</li>
+                <li><strong>Public Sector AI:</strong> Specialized tools for Togolese public services and national security.</li>
+                <li><strong>Infrastructure as a Service (XaaS):</strong> Elite guidance for IaaS, PaaS, SaaS, and ITaaS deployments.</li>
+              </ul>
+            </section>
+
+            <section className="mb-8">
+              <h2 className="text-2xl font-bold mb-4">5. Security & Privacy</h2>
+              <p>We prioritize the security of your data and the integrity of AI-generated content. With integrated Llama Guard and Malware Defender agents, Yendoukoa AI ensures a safe and compliant production environment.</p>
+            </section>
+
+            <div className="mt-12 p-6 bg-blue-50 rounded-lg border border-blue-100">
+              <p className="text-blue-800 font-bold">Need help? Contact our elite support team at support@yendoukoa.ai</p>
+            </div>
+          </div>
+        ) : activeTab === 'marketplace' ? (
           <div>
             <div className="flex justify-between items-center mb-8">
               <h2 className="text-2xl font-bold text-gray-900">Featured Services</h2>
