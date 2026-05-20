@@ -8,6 +8,7 @@ import asyncio
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin, urlparse
 from flask import Flask, jsonify, render_template, request, g, session, redirect, url_for
+from flask_cors import CORS
 import secrets
 from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
@@ -66,6 +67,7 @@ class Payment(db.Model):
 
 # --- Flask App Setup ---
 app = Flask(__name__, template_folder='frontend/templates', static_folder='frontend/static')
+CORS(app, resources={r"/api/*": {"origins": ["https://yendoukoa.ai", "http://localhost:5173", "http://localhost:3000"]}}, supports_credentials=True)
 app.config['SECRET_KEY'] = secrets.token_hex(16)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///project.db'
 app.config['LANGUAGES'] = LANGUAGES
