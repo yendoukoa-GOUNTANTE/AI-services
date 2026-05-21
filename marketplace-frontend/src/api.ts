@@ -47,6 +47,12 @@ export const aiService = {
   getPaaSAssistance: (prompt: string) => apiClient.post('/paas/assistance', { prompt }),
   getSaaSAssistance: (prompt: string) => apiClient.post('/saas/assistance', { prompt }),
   getITaaSAssistance: (prompt: string) => apiClient.post('/itaas/assistance', { prompt }),
+  getGumloopAssistance: (prompt: string, execute = false, pipelineId?: string, inputs?: any) =>
+    apiClient.post('/gumloop/assistance', { prompt, execute, pipeline_id: pipelineId, inputs }),
+  getN8nAssistance: (prompt: string, execute = false, webhookUrl?: string, payload?: any) =>
+    apiClient.post('/n8n/assistance', { prompt, execute, webhook_url: webhookUrl, payload }),
+  getLamaticAssistance: (prompt: string, execute = false, workflowId?: string) =>
+    apiClient.post('/lamatic/assistance', { prompt, execute, workflow_id: workflowId }),
   getMalwareDefenseAssistance: (prompt: string) => apiClient.post('/malware-defense/assistance', { prompt }),
   getUSSDBlockchainAssistance: (prompt: string) => apiClient.post('/ussd-blockchain/assistance', { prompt }),
   getGovernmentAssistance: (prompt: string) => apiClient.post('/government/assistance', { prompt }),

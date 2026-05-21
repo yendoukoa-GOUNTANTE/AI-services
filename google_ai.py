@@ -163,6 +163,145 @@ def generate_business_strategy(prompt: str) -> str:
     except Exception as e:
         return f"Error: {e}"
 
+import requests
+
+def provide_gumloop_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Gumloop (formerly Skyvern) automation.
+    """
+    model = get_model()
+    system_prompt = (
+        "You are an Elite Gumloop Automation Specialist. "
+        "Your expertise covers the design and implementation of AI-powered browser automation "
+        "using Gumloop. Provide high-level technical guidance on building robust workflows, "
+        "handling dynamic website elements, and integrating Gumloop with other services "
+        "to automate complex manual tasks efficiently. I can also trigger Gumloop pipelines if provided with a pipeline ID."
+    )
+    prompt_template = ChatPromptTemplate.from_messages([
+        ("system", system_prompt),
+        ("user", "{prompt}")
+    ])
+    chain = prompt_template | model | StrOutputParser()
+    try:
+        return chain.invoke({"prompt": prompt}).strip()
+    except Exception as e:
+        return f"Gumloop AI Error: {e}"
+
+def run_gumloop_workflow(pipeline_id: str, inputs: dict) -> dict:
+    """
+    Triggers a Gumloop pipeline.
+    """
+    api_key = os.environ.get("GUMLOOP_API_KEY")
+    user_id = os.environ.get("GUMLOOP_USER_ID")
+    if not api_key or not user_id:
+        return {"error": "Gumloop credentials not configured"}
+
+    url = "https://api.gumloop.com/api/v1/start_pipeline"
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json"
+    }
+    payload = {
+        "user_id": user_id,
+        "saved_item_id": pipeline_id,
+        "pipeline_inputs": inputs
+    }
+    try:
+        response = requests.post(url, json=payload, headers=headers, timeout=30)
+        response.raise_for_status()
+        return response.json()
+    except Exception as e:
+        return {"error": str(e)}
+
+def provide_n8n_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for n8n workflow automation.
+    """
+    model = get_model()
+    system_prompt = (
+        "You are an Elite n8n Workflow Architect. "
+        "Your expertise covers the design, deployment, and optimization of fair-code "
+        "workflow automation using n8n. Provide technical guidance on node configuration, "
+        "custom function nodes (JavaScript), API integrations, and self-hosting n8n "
+        "for secure and scalable enterprise automation. I can also trigger n8n workflows via webhooks."
+    )
+    prompt_template = ChatPromptTemplate.from_messages([
+        ("system", system_prompt),
+        ("user", "{prompt}")
+    ])
+    chain = prompt_template | model | StrOutputParser()
+    try:
+        return chain.invoke({"prompt": prompt}).strip()
+    except Exception as e:
+        return f"n8n AI Error: {e}"
+
+def trigger_n8n_webhook(webhook_url: str, data: dict) -> dict:
+    """
+    Triggers an n8n workflow via a webhook.
+    """
+    if not webhook_url:
+        webhook_url = os.environ.get("N8N_WEBHOOK_URL")
+
+    if not webhook_url:
+        return {"error": "n8n Webhook URL not configured"}
+
+    try:
+        response = requests.post(webhook_url, json=data, timeout=30)
+        response.raise_for_status()
+        # Some n8n workflows return JSON, others might just return 200 OK
+        try:
+            return response.json()
+        except:
+            return {"status": "success", "status_code": response.status_code}
+    except Exception as e:
+        return {"error": str(e)}
+
+def provide_lamatic_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Lamatic.ai (Generative AI App Platform).
+    """
+    model = get_model()
+    system_prompt = (
+        "You are an Elite Lamatic.ai Platform Specialist. "
+        "Your expertise covers the creation and management of Generative AI applications "
+        "using the Lamatic.ai low-code platform. Provide guidance on building RAG pipelines, "
+        "integrating various LLMs, and deploying production-grade AI agents that are "
+        "scalable and secure. I can also interact with Lamatic.ai agents via their API."
+    )
+    prompt_template = ChatPromptTemplate.from_messages([
+        ("system", system_prompt),
+        ("user", "{prompt}")
+    ])
+    chain = prompt_template | model | StrOutputParser()
+    try:
+        return chain.invoke({"prompt": prompt}).strip()
+    except Exception as e:
+        return f"Lamatic.ai AI Error: {e}"
+
+def execute_lamatic_workflow(workflow_id: str, prompt: str) -> dict:
+    """
+    Interacts with a Lamatic.ai agent/workflow.
+    """
+    api_key = os.environ.get("LAMATIC_API_KEY")
+    project_id = os.environ.get("LAMATIC_PROJECT_ID")
+    if not api_key or not project_id:
+        return {"error": "Lamatic.ai credentials not configured"}
+
+    url = f"https://api.lamatic.ai/v1/projects/{project_id}/workflows/{workflow_id}/execute"
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json"
+    }
+    payload = {
+        "prompt": prompt
+    }
+    try:
+        response = requests.post(url, json=payload, headers=headers, timeout=60)
+        response.raise_for_status()
+        return response.json()
+    except Exception as e:
+        return {"error": str(e)}
+
 def provide_ussd_blockchain_assistance(prompt: str) -> str:
     """
     Expert AI Model for USSD Specialist and USSD Blockchain Creator.

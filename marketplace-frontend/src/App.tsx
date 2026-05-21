@@ -96,6 +96,9 @@ const AI_SERVICES: AIService[] = [
   { id: 'paas', name: 'PaaS Specialist', category: 'Infrastructure', icon: Cloud, description: 'Platform as a Service expert for application development environments.' },
   { id: 'saas', name: 'SaaS Specialist', category: 'Infrastructure', icon: Globe, description: 'Software as a Service expert for internet-delivered applications.' },
   { id: 'itaas', name: 'ITaaS Specialist', category: 'Infrastructure', icon: Layout, description: 'IT as a Service expert for comprehensive IT service delivery.' },
+  { id: 'gumloop', name: 'Gumloop Expert', category: 'Advanced', icon: Zap, description: 'Elite AI-powered browser automation and workflow specialist.' },
+  { id: 'n8n', name: 'n8n Architect', category: 'Advanced', icon: Cpu, description: 'Elite fair-code workflow automation and node configuration specialist.' },
+  { id: 'lamatic', name: 'Lamatic.ai Specialist', category: 'Advanced', icon: Bot, description: 'Elite Generative AI app platform and RAG pipeline specialist.' },
   { id: 'conflict-debug', name: 'Multi-Model Debugger', category: 'Development', icon: ShieldCheck, description: 'Debug and resolve conflicts using Gemini, ChatGPT, Claude, and NVIDIA.' },
   { id: 'automl-feat', name: 'AutoML Feature Eng', category: 'Development', icon: Binary, description: 'Automated feature engineering and data preparation.' },
   { id: 'automl-tune', name: 'AutoML Tuner', category: 'Development', icon: TrendingUp, description: 'Automated hyperparameter optimization and tuning.' },
@@ -132,6 +135,7 @@ const App: React.FC = () => {
   const [showServiceModal, setShowServiceModal] = useState(false);
   const [servicePrompt, setServicePrompt] = useState('');
   const [serviceResponse, setServiceResponse] = useState('');
+  const [executionParams, setExecutionParams] = useState<any>({});
   const [isCameraActive, setIsCameraActive] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [capturedMedia, setCapturedMedia] = useState<{data: string, type: string} | null>(null);
@@ -225,6 +229,15 @@ const App: React.FC = () => {
           break;
         case 'itaas':
           response = await aiService.getITaaSAssistance(servicePrompt);
+          break;
+        case 'gumloop':
+          response = await aiService.getGumloopAssistance(servicePrompt, executionParams.execute, executionParams.pipeline_id, executionParams.inputs);
+          break;
+        case 'n8n':
+          response = await aiService.getN8nAssistance(servicePrompt, executionParams.execute, executionParams.webhook_url, executionParams.payload);
+          break;
+        case 'lamatic':
+          response = await aiService.getLamaticAssistance(servicePrompt, executionParams.execute, executionParams.workflow_id);
           break;
         case 'malware-defense':
           response = await aiService.getMalwareDefenseAssistance(servicePrompt);
@@ -592,6 +605,65 @@ const App: React.FC = () => {
                               </div>
                             </div>
                           )}
+                          {['gumloop', 'n8n', 'lamatic'].includes(selectedService.id) && (
+                            <div className="mb-4 bg-gray-50 p-4 rounded-lg border">
+                              <div className="flex items-center mb-4">
+                                <input
+                                  type="checkbox"
+                                  id="execute-workflow"
+                                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                                  checked={executionParams.execute || false}
+                                  onChange={(e) => setExecutionParams({ ...executionParams, execute: e.target.checked })}
+                                />
+                                <label htmlFor="execute-workflow" className="ml-2 block text-sm text-gray-900 font-medium">
+                                  Trigger Workflow / Execute Action
+                                </label>
+                              </div>
+
+                              {executionParams.execute && (
+                                <div className="space-y-4">
+                                  {selectedService.id === 'gumloop' && (
+                                    <div>
+                                      <label className="block text-sm font-medium text-gray-700">Pipeline ID</label>
+                                      <input
+                                        type="text"
+                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
+                                        placeholder="Enter Gumloop Pipeline ID"
+                                        value={executionParams.pipeline_id || ''}
+                                        onChange={(e) => setExecutionParams({ ...executionParams, pipeline_id: e.target.value })}
+                                        required
+                                      />
+                                    </div>
+                                  )}
+                                  {selectedService.id === 'n8n' && (
+                                    <div>
+                                      <label className="block text-sm font-medium text-gray-700">Webhook URL (Optional if using default)</label>
+                                      <input
+                                        type="text"
+                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
+                                        placeholder="https://your-n8n-instance.com/webhook/..."
+                                        value={executionParams.webhook_url || ''}
+                                        onChange={(e) => setExecutionParams({ ...executionParams, webhook_url: e.target.value })}
+                                      />
+                                    </div>
+                                  )}
+                                  {selectedService.id === 'lamatic' && (
+                                    <div>
+                                      <label className="block text-sm font-medium text-gray-700">Workflow ID</label>
+                                      <input
+                                        type="text"
+                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
+                                        placeholder="Enter Lamatic Workflow ID"
+                                        value={executionParams.workflow_id || ''}
+                                        onChange={(e) => setExecutionParams({ ...executionParams, workflow_id: e.target.value })}
+                                        required
+                                      />
+                                    </div>
+                                  )}
+                                </div>
+                              )}
+                            </div>
+                          )}
                           <div className="mb-4">
                             <label className="block text-sm font-medium text-gray-700">Prompt / Requirements</label>
                             <textarea
@@ -600,7 +672,7 @@ const App: React.FC = () => {
                               value={servicePrompt}
                               onChange={(e) => setServicePrompt(e.target.value)}
                               rows={5}
-                              required
+                              required={!executionParams.execute}
                             />
                           </div>
                           <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
@@ -819,6 +891,7 @@ const App: React.FC = () => {
                           setShowServiceModal(true);
                           setServicePrompt('');
                           setServiceResponse('');
+                              setExecutionParams({});
                         }}
                         className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 z-10"
                       >

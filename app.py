@@ -1580,6 +1580,69 @@ def itaas_assistance_endpoint():
     return jsonify({"status": "success", "message": message})
 
 
+@app.route('/api/v1/gumloop/assistance', methods=['POST'])
+@require_api_key
+def gumloop_assistance_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    execute = data.get('execute', False)
+    pipeline_id = data.get('pipeline_id')
+    inputs = data.get('inputs', {})
+
+    if not prompt and not execute:
+        return jsonify({"error": _("Prompt or execute flag is required")}), 400
+
+    if execute:
+        if not pipeline_id:
+            return jsonify({"error": _("Pipeline ID is required for execution")}), 400
+        result = google_ai.run_gumloop_workflow(pipeline_id, inputs)
+        return jsonify({"status": "success", "message": str(result)})
+
+    message = google_ai.provide_gumloop_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+
+@app.route('/api/v1/n8n/assistance', methods=['POST'])
+@require_api_key
+def n8n_assistance_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    execute = data.get('execute', False)
+    webhook_url = data.get('webhook_url')
+    payload = data.get('payload', {})
+
+    if not prompt and not execute:
+        return jsonify({"error": _("Prompt or execute flag is required")}), 400
+
+    if execute:
+        result = google_ai.trigger_n8n_webhook(webhook_url, payload)
+        return jsonify({"status": "success", "message": str(result)})
+
+    message = google_ai.provide_n8n_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+
+@app.route('/api/v1/lamatic/assistance', methods=['POST'])
+@require_api_key
+def lamatic_assistance_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    execute = data.get('execute', False)
+    workflow_id = data.get('workflow_id')
+
+    if not prompt and not execute:
+        return jsonify({"error": _("Prompt or execute flag is required")}), 400
+
+    if execute:
+        if not workflow_id:
+            return jsonify({"error": _("Workflow ID is required for execution")}), 400
+        result = google_ai.execute_lamatic_workflow(workflow_id, prompt)
+        return jsonify({"status": "success", "message": str(result)})
+
+    message = google_ai.provide_lamatic_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+
 @app.route('/api/v1/malware-defense/assistance', methods=['POST'])
 @require_api_key
 def malware_defense_assistance_endpoint():
