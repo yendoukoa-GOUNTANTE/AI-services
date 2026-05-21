@@ -24,6 +24,28 @@ We are excited to announce that Yendoukoa AI is now accessible across all your d
 
 Stay productive everywhere with Yendoukoa AI!
 
+## 💰 Monetization & Business Model
+
+Yendoukoa AI is built on a sustainable business model designed to provide high-quality AI services while ensuring continuous innovation and infrastructure stability. Our monetization strategy is three-fold:
+
+### 1. Subscription-Based Access (SaaS)
+We offer tiered subscription plans powered by **Stripe** to cater to different user needs:
+-   **Free Tier:** Basic access to standard AI agents with a limited monthly credit allowance.
+-   **Premium Plan ($19/mo):** Enhanced access to advanced models (Claude 3.5, GPT-4o), priority support, and a higher credit quota.
+-   **Pro Plan ($49/mo):** Full access to elite models (Llama 3.1 405B, Nemotron 340B), custom workflow execution (n8n, Gumloop), and API access for developers.
+
+### 2. Pay-Per-User / Credit System
+Our platform utilizes a flexible **Credit System** for high-compute tasks. This ensures fair usage and allows users to pay only for what they consume:
+-   **Standard Execution:** Standard agent tasks cost a fixed amount of credits (typically 50 credits per use).
+-   **On-Demand Top-ups:** Users can purchase additional credit packs if they exceed their plan's monthly allocation.
+-   **Transparent Usage:** Real-time credit tracking is available in the user dashboard.
+
+### 3. USSD & Mobile Financial Services
+Specializing in emerging markets, Yendoukoa AI provides a unique **USSD & Blockchain Ecosystem**:
+-   **USSD Blockchain Integration:** We enable financial services and blockchain interaction via USSD, making advanced tech accessible to feature phone users without internet.
+-   **Enterprise USSD Solutions:** Custom USSD gateway design and smart contract interfaces for mobile operators and banks.
+-   **Transaction Security:** Specialized AI agents for fraud detection and transaction optimization in mobile money ecosystems.
+
 ## GitHub Site Web View & Split Architecture
 
 Yendoukoa AI now uses a split architecture to optimize deployment and performance:
