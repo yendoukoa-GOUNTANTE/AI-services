@@ -115,6 +115,8 @@ const AI_SERVICES: AIService[] = [
   { id: 'claude-coder', name: 'Claude Coder', category: 'Development', icon: Code2, description: 'Elite code generation and architectural advice powered by Anthropic Claude.' },
   { id: 'malware-defense', name: 'Malware Defender', category: 'Security', icon: ShieldX, description: 'Elite specialist for detecting, preventing, and removing all types of malware.' },
   { id: 'ussd-blockchain', name: 'USSD Blockchain Expert', category: 'Development', icon: Smartphone, description: 'Design and create USSD applications integrated with blockchain technology.' },
+  { id: 'ussd-design', name: 'USSD Menu Designer', category: 'Development', icon: Smartphone, description: 'Expert guidance on designing intuitive and efficient USSD menu structures.' },
+  { id: 'ussd-monetization', name: 'USSD Monetization', category: 'Business', icon: DollarSign, description: 'Strategies and technical integration for mobile money and premium USSD billing.' },
   { id: 'visual-intel', name: 'Visual Intelligence', category: 'Advanced', icon: Camera, description: 'Analyze images and videos captured from your camera to provide insights and descriptions.' }
 ];
 
@@ -244,6 +246,12 @@ const App: React.FC = () => {
           break;
         case 'ussd-blockchain':
           response = await aiService.getUSSDBlockchainAssistance(servicePrompt);
+          break;
+        case 'ussd-design':
+          response = await aiService.getUSSDDesignAssistance(servicePrompt);
+          break;
+        case 'ussd-monetization':
+          response = await aiService.getUSSDMonetizationAssistance(servicePrompt);
           break;
         case 'gov-admin':
           response = await aiService.getGovernmentAssistance(servicePrompt);

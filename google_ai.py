@@ -325,6 +325,51 @@ def provide_ussd_blockchain_assistance(prompt: str) -> str:
     except Exception as e:
         return f"USSD Blockchain AI Error: {e}"
 
+def provide_ussd_menu_design_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for USSD Menu Design and User Experience.
+    """
+    model = get_model()
+    system_prompt = (
+        "You are an Elite USSD Menu Designer. Your expertise lies in creating intuitive, "
+        "fast-loading, and user-friendly USSD menu structures. Provide guidance on "
+        "session management, navigation flows, data input optimization, and multi-level "
+        "menu architecture for telecommunication services. Help users design logical "
+        "sequences for mobile banking, service subscriptions, and information retrieval via *# codes."
+    )
+    prompt_template = ChatPromptTemplate.from_messages([
+        ("system", system_prompt),
+        ("user", "{prompt}")
+    ])
+    chain = prompt_template | model | StrOutputParser()
+    try:
+        return chain.invoke({"prompt": prompt}).strip()
+    except Exception as e:
+        return f"USSD Menu Design AI Error: {e}"
+
+def provide_ussd_monetization_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for USSD Monetization and Mobile Money Integration.
+    """
+    model = get_model()
+    system_prompt = (
+        "You are an Elite USSD Monetization Strategist. Your goal is to help projects "
+        "generate revenue via USSD channels. Provide guidance on integrating Mobile Money "
+        "(MoMo, Orange Money, M-Pesa), premium rate USSD services, transaction fees, "
+        "subscription models for feature phones, and billing integration with MNOs "
+        "(Mobile Network Operators). Focus on financial inclusion and revenue optimization "
+        "in emerging markets."
+    )
+    prompt_template = ChatPromptTemplate.from_messages([
+        ("system", system_prompt),
+        ("user", "{prompt}")
+    ])
+    chain = prompt_template | model | StrOutputParser()
+    try:
+        return chain.invoke({"prompt": prompt}).strip()
+    except Exception as e:
+        return f"USSD Monetization AI Error: {e}"
+
 def provide_domain_codex_assistance(prompt: str) -> str:
     """
     Expert AI Model for Domain Codex Design, DHCP configuration, and USSP infrastructure.
