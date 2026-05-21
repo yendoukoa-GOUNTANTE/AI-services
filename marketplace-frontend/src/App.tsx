@@ -115,7 +115,10 @@ const AI_SERVICES: AIService[] = [
   { id: 'claude-coder', name: 'Claude Coder', category: 'Development', icon: Code2, description: 'Elite code generation and architectural advice powered by Anthropic Claude.' },
   { id: 'malware-defense', name: 'Malware Defender', category: 'Security', icon: ShieldX, description: 'Elite specialist for detecting, preventing, and removing all types of malware.' },
   { id: 'ussd-blockchain', name: 'USSD Blockchain Expert', category: 'Development', icon: Smartphone, description: 'Design and create USSD applications integrated with blockchain technology.' },
-  { id: 'visual-intel', name: 'Visual Intelligence', category: 'Advanced', icon: Camera, description: 'Analyze images and videos captured from your camera to provide insights and descriptions.' }
+  { id: 'visual-intel', name: 'Visual Intelligence', category: 'Advanced', icon: Camera, description: 'Analyze images and videos captured from your camera to provide insights and descriptions.' },
+  { id: 'zapier', name: 'Zapier Automation', category: 'Advanced', icon: Zap, description: 'Expert Zapier automation specialized for French-speaking markets.' },
+  { id: 'odoo', name: 'Odoo ERP Specialist', category: 'Professional', icon: Layout, description: 'Elite Odoo implementation and customization for Francophone regions.' },
+  { id: 'sage', name: 'Sage Software Expert', category: 'Professional', icon: Database, description: 'Expert guidance on Sage accounting and payroll for French businesses.' }
 ];
 
 const App: React.FC = () => {
@@ -244,6 +247,15 @@ const App: React.FC = () => {
           break;
         case 'ussd-blockchain':
           response = await aiService.getUSSDBlockchainAssistance(servicePrompt);
+          break;
+        case 'zapier':
+          response = await aiService.getZapierAssistance(servicePrompt);
+          break;
+        case 'odoo':
+          response = await aiService.getOdooAssistance(servicePrompt);
+          break;
+        case 'sage':
+          response = await aiService.getSageAssistance(servicePrompt);
           break;
         case 'gov-admin':
           response = await aiService.getGovernmentAssistance(servicePrompt);
