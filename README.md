@@ -24,6 +24,16 @@ We are excited to announce that Yendoukoa AI is now accessible across all your d
 
 Stay productive everywhere with Yendoukoa AI!
 
+## 📲 USSD & Mobile Monetization
+
+Yendoukoa AI is now a pioneer in bringing advanced AI services to feature phones via USSD technology. This is crucial for financial inclusion and accessibility in emerging markets.
+
+### USSD Features:
+- **USSD Menu Designer:** AI-powered tool to create intuitive and efficient USSD navigation flows.
+- **Monetization Strategist:** Specialized guidance on integrating Mobile Money (MoMo, M-Pesa, Orange Money) and premium USSD billing.
+- **USSD Blockchain Expert:** Bridging feature phones with decentralized finance and blockchain applications.
+- **USSD Menu Builder (Tool):** A Python utility in `ussd_tools/` to programmatically generate USSD menu structures.
+
 ## GitHub Site Web View & Split Architecture
 
 Yendoukoa AI now uses a split architecture to optimize deployment and performance:
