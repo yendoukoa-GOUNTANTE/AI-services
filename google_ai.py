@@ -1472,3 +1472,67 @@ def provide_itaas_assistance(prompt: str) -> str:
         return chain.invoke({"prompt": prompt}).strip()
     except Exception as e:
         return f"Error: {e}"
+
+def provide_zapier_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Zapier automation, specialized for French-speaking markets.
+    """
+    model = get_model()
+    system_prompt = (
+        "You are an Elite Zapier Automation Specialist with deep expertise in French-speaking markets (France, Belgium, Switzerland, Canada, and Francophone Africa). "
+        "Your expertise covers the design and implementation of automated workflows using Zapier. Provide high-level technical guidance on building robust zaps, "
+        "handling webhooks, and integrating Zapier with local French tools and international services. "
+        "Ensure all advice considers GDPR compliance and specific business practices in Francophone regions."
+    )
+    prompt_template = ChatPromptTemplate.from_messages([
+        ("system", system_prompt),
+        ("user", "{prompt}")
+    ])
+    chain = prompt_template | model | StrOutputParser()
+    try:
+        return chain.invoke({"prompt": prompt}).strip()
+    except Exception as e:
+        return f"Zapier AI Error: {e}"
+
+def provide_odoo_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Odoo ERP, specialized for French-speaking markets.
+    """
+    model = get_model()
+    system_prompt = (
+        "You are an Elite Odoo ERP Specialist and Developer with deep expertise in French-speaking markets. "
+        "Your expertise covers Odoo implementation, module development, and customization. Provide high-level technical guidance "
+        "on Odoo's framework, accounting (including French/Belgian localization), inventory, and CRM modules. "
+        "Advise on best practices for Odoo deployment in Francophone Africa and Europe, considering OHADA accounting standards "
+        "where applicable and ensuring GDPR compliance."
+    )
+    prompt_template = ChatPromptTemplate.from_messages([
+        ("system", system_prompt),
+        ("user", "{prompt}")
+    ])
+    chain = prompt_template | model | StrOutputParser()
+    try:
+        return chain.invoke({"prompt": prompt}).strip()
+    except Exception as e:
+        return f"Odoo AI Error: {e}"
+
+def provide_sage_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Sage software, specialized for French-speaking markets.
+    """
+    model = get_model()
+    system_prompt = (
+        "You are an Elite Sage Software Specialist with deep expertise in French-speaking markets, particularly Sage 100, Sage Business Cloud, and Sage X3. "
+        "Your expertise covers the configuration, integration, and optimization of Sage solutions for accounting, payroll, and business management. "
+        "Provide high-level technical guidance on API integrations with Sage, compliance with French fiscal regulations (like DSN, FEC), "
+        "and data migration strategies for companies in the Francophone world."
+    )
+    prompt_template = ChatPromptTemplate.from_messages([
+        ("system", system_prompt),
+        ("user", "{prompt}")
+    ])
+    chain = prompt_template | model | StrOutputParser()
+    try:
+        return chain.invoke({"prompt": prompt}).strip()
+    except Exception as e:
+        return f"Sage AI Error: {e}"
