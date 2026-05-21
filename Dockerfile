@@ -6,7 +6,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 ENV FLASK_APP app.py
 ENV FLASK_RUN_HOST 0.0.0.0
-ENV FLASK_RUN_PORT 5000
+ENV PORT 8080
 
 # Set the working directory in the container
 WORKDIR /app
@@ -25,7 +25,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Expose the port the app runs on
-EXPOSE 5000
+EXPOSE 8080
 
 # Initialize the database and start the app
-CMD ["sh", "-c", "python -m flask init-db && gunicorn --bind 0.0.0.0:5000 app:app"]
+CMD ["sh", "-c", "python -m flask init-db && gunicorn --bind 0.0.0.0:${PORT:-8080} app:app"]

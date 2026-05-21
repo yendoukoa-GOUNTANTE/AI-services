@@ -1,11 +1,13 @@
 steps:
   # Build the container image
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/ai-agent', '.']
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/ai-agent:latest', '-t', 'gcr.io/$PROJECT_ID/ai-agent:$SHORT_SHA', '.']
 
   # Push the container image to Container Registry
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/$PROJECT_ID/ai-agent']
+    args: ['push', 'gcr.io/$PROJECT_ID/ai-agent:latest']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/ai-agent:$SHORT_SHA']
 
   # Deploy container image to Cloud Run
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
@@ -15,7 +17,7 @@ steps:
     - 'deploy'
     - 'ai-agent'
     - '--image'
-    - 'gcr.io/$PROJECT_ID/ai-agent'
+    - 'gcr.io/$PROJECT_ID/ai-agent:$SHORT_SHA'
     - '--region'
     - 'us-central1'
     - '--allow-unauthenticated'
@@ -23,7 +25,8 @@ steps:
     - 'managed'
 
 images:
-  - 'gcr.io/$PROJECT_ID/ai-agent'
+  - 'gcr.io/$PROJECT_ID/ai-agent:latest'
+  - 'gcr.io/$PROJECT_ID/ai-agent:$SHORT_SHA'
 
 options:
   logging: CLOUD_LOGGING_ONLY

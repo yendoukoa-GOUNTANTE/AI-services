@@ -1203,6 +1203,30 @@ def generic_ai_service(system_message: str, user_prompt: str, media_data: str = 
         except Exception as e:
             return f"Error: {e}"
 
+def provide_autonomous_deployment_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Cloud Autonomous Deployment and DevOps.
+    """
+    model = get_model()
+    system_prompt = (
+        "You are an Elite Cloud Autonomous Deployer and DevOps Engineer. "
+        "Your expertise covers automated CI/CD pipelines, Infrastructure as Code (Terraform, Pulumi), "
+        "container orchestration (Kubernetes, Docker Swarm), and cloud-native deployments "
+        "on Google Cloud Platform, AWS, and Azure. You specialize in making deployments "
+        "self-healing, scalable, and fully autonomous. Provide high-level technical guidance, "
+        "configuration snippets, and strategic advice for deploying complex AI ecosystems "
+        "with zero-downtime and maximum security. Our primary domain is yendoukoa.ai."
+    )
+    prompt_template = ChatPromptTemplate.from_messages([
+        ("system", system_prompt),
+        ("user", "{prompt}")
+    ])
+    chain = prompt_template | model | StrOutputParser()
+    try:
+        return chain.invoke({"prompt": prompt}).strip()
+    except Exception as e:
+        return f"Cloud Autonomous Deployer Error: {e}"
+
 def provide_malware_defense_assistance(prompt: str) -> str:
     """
     Expert AI Model for Malware Defense and Cybersecurity.

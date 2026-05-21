@@ -112,7 +112,8 @@ const AI_SERVICES: AIService[] = [
   { id: 'claude-coder', name: 'Claude Coder', category: 'Development', icon: Code2, description: 'Elite code generation and architectural advice powered by Anthropic Claude.' },
   { id: 'malware-defense', name: 'Malware Defender', category: 'Security', icon: ShieldX, description: 'Elite specialist for detecting, preventing, and removing all types of malware.' },
   { id: 'ussd-blockchain', name: 'USSD Blockchain Expert', category: 'Development', icon: Smartphone, description: 'Design and create USSD applications integrated with blockchain technology.' },
-  { id: 'visual-intel', name: 'Visual Intelligence', category: 'Advanced', icon: Camera, description: 'Analyze images and videos captured from your camera to provide insights and descriptions.' }
+  { id: 'visual-intel', name: 'Visual Intelligence', category: 'Advanced', icon: Camera, description: 'Analyze images and videos captured from your camera to provide insights and descriptions.' },
+  { id: 'cloud-deploy', name: 'Cloud Deployer', category: 'Infrastructure', icon: Zap, description: 'Elite autonomous deployment and DevOps specialist for cloud ecosystems.' }
 ];
 
 const App: React.FC = () => {
@@ -183,6 +184,9 @@ const App: React.FC = () => {
       switch (selectedService.id) {
         case 'visual-intel':
           response = await aiService.getVisualAnalysis(servicePrompt, mediaData, mimeType);
+          break;
+        case 'cloud-deploy':
+          response = await aiService.getAutonomousDeployment(servicePrompt);
           break;
         case 'website':
           response = await aiService.generateWebsite(servicePrompt);
