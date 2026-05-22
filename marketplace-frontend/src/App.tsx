@@ -121,6 +121,7 @@ const AI_SERVICES: AIService[] = [
   { id: 'fine-tuner', name: 'Fine-Tuning Specialist', category: 'Development', icon: Settings, description: 'Expert guidance on dataset preparation and fine-tuning Large Language Models.' },
   { id: 'router-capacity', name: 'Router Capacity Architect', category: 'Advanced', icon: Route, description: 'Intelligent LLM routing and automated capacity management.' },
   { id: 'visual-intel', name: 'Visual Intelligence', category: 'Advanced', icon: Camera, description: 'Analyze images and videos captured from your camera to provide insights and descriptions.' },
+  { id: 'gemini-omni', name: 'Gemini Omni Agent', category: 'Advanced', icon: Zap, description: 'Elite multimodal agent with real-time tools for time and weather information.' },
   { id: 'video-producer', name: 'Video Producer', category: 'Arts', icon: Video, description: 'Expert guidance on scriptwriting, filming, and post-production for professional videos.' },
   { id: 'podcast', name: 'Podcast Specialist', category: 'Arts', icon: Mic, description: 'Elite podcast production, design, and business strategy guidance.' },
   { id: 'zapier', name: 'Zapier Automation', category: 'Advanced', icon: Zap, description: 'Expert Zapier automation specialized for French-speaking markets.' },
@@ -197,6 +198,9 @@ const App: React.FC = () => {
       switch (selectedService.id) {
         case 'visual-intel':
           response = await aiService.getVisualAnalysis(servicePrompt, mediaData, mimeType);
+          break;
+        case 'gemini-omni':
+          response = await aiService.getGeminiOmniAssistance(servicePrompt, mediaData, mimeType);
           break;
         case 'website':
           response = await aiService.generateWebsite(servicePrompt);

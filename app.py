@@ -1731,6 +1731,19 @@ def video_production_endpoint():
     return jsonify({"status": "success", "message": message})
 
 
+@app.route('/api/v1/gemini-omni/assistance', methods=['POST'])
+@require_api_key
+def gemini_omni_assistance_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    media_data = data.get('media_data')
+    mime_type = data.get('mime_type')
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+    message = google_ai.provide_gemini_omni_assistance(prompt, media_data, mime_type)
+    return jsonify({"status": "success", "message": message})
+
+
 @app.route('/api/v1/domain-codex/assistance', methods=['POST'])
 @require_api_key
 def domain_codex_assistance_endpoint():

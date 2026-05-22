@@ -90,6 +90,7 @@ export const aiService = {
   getClaudeIntelligence: (prompt: string) => apiClient.post('/anthropic/intelligence', { prompt }),
   getClaudeCoding: (prompt: string) => apiClient.post('/anthropic/coding', { prompt }),
   getVisualAnalysis: (prompt: string, mediaData?: string, mimeType?: string) => apiClient.post('/visual/analysis', { prompt, media_data: mediaData, mime_type: mimeType }),
+  getGeminiOmniAssistance: (prompt: string, mediaData?: string, mimeType?: string) => apiClient.post('/gemini-omni/assistance', { prompt, media_data: mediaData, mime_type: mimeType }),
   genericAssistance: (systemMessage: string, prompt: string, mediaData?: string, mimeType?: string) => apiClient.post('/generic/assistance', { system_message: systemMessage, prompt, media_data: mediaData, mime_type: mimeType }),
 };
 
