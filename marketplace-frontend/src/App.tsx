@@ -43,7 +43,11 @@ import {
   Video,
   Settings,
   Route,
-  Mic
+  Mic,
+  FileText,
+  Upload,
+  Download,
+  FilePlus
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { userService, aiService, paymentService, setAuthToken, type User } from './api';
@@ -124,6 +128,7 @@ const AI_SERVICES: AIService[] = [
   { id: 'video-producer', name: 'Video Producer', category: 'Arts', icon: Video, description: 'Expert guidance on scriptwriting, filming, and post-production for professional videos.' },
   { id: 'deepmind-image', name: 'DeepMind Image Gen', category: 'Arts', icon: Camera, description: 'Generate stunning high-fidelity images using DeepMind Imagen technology.' },
   { id: 'deepmind-video', name: 'DeepMind Video Creator', category: 'Arts', icon: Video, description: 'Advanced cinematic content, scripts, and storyboards powered by DeepMind.' },
+  { id: 'file-storage', name: 'File Storage Specialist', category: 'Advanced', icon: Database, description: 'Expert guidance on cloud storage, file organization, and document management.' },
   { id: 'podcast', name: 'Podcast Specialist', category: 'Arts', icon: Mic, description: 'Elite podcast production, design, and business strategy guidance.' },
   { id: 'zapier', name: 'Zapier Automation', category: 'Advanced', icon: Zap, description: 'Expert Zapier automation specialized for French-speaking markets.' },
   { id: 'odoo', name: 'Odoo ERP Specialist', category: 'Professional', icon: Layout, description: 'Elite Odoo implementation and customization for Francophone regions.' },
@@ -148,6 +153,7 @@ const App: React.FC = () => {
   const [servicePrompt, setServicePrompt] = useState('');
   const [serviceResponse, setServiceResponse] = useState('');
   const [executionParams, setExecutionParams] = useState<any>({});
+  const [userFiles, setUserFiles] = useState<any[]>([]);
   const [isCameraActive, setIsCameraActive] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [capturedMedia, setCapturedMedia] = useState<{data: string, type: string} | null>(null);
@@ -170,12 +176,38 @@ const App: React.FC = () => {
       setUser(response.data);
       setCredits(1000);
       setError(null);
+      fetchUserFiles();
     } catch (err) {
       console.error('Failed to fetch user data', err);
       setError('Invalid API Key or Session Expired');
       localStorage.removeItem('globalApiKey');
       setAuthToken(null);
       setUser(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchUserFiles = async () => {
+    try {
+      const response = await aiService.listFiles();
+      setUserFiles(response.data);
+    } catch (err) {
+      console.error('Failed to fetch user files', err);
+    }
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setLoading(true);
+      await aiService.uploadFile(file);
+      await fetchUserFiles();
+      alert('File uploaded successfully!');
+    } catch (err: any) {
+      setError(err.response?.data?.error || 'Failed to upload file');
     } finally {
       setLoading(false);
     }
@@ -274,6 +306,9 @@ const App: React.FC = () => {
           break;
         case 'deepmind-video':
           response = await aiService.getDeepMindVideo(servicePrompt);
+          break;
+        case 'file-storage':
+          response = await aiService.getFileStorageAssistance(servicePrompt);
           break;
         case 'podcast':
           response = await aiService.getPodcastAssistance(servicePrompt);
@@ -972,6 +1007,76 @@ const App: React.FC = () => {
                   </div>
                 )}
              </div>
+
+             {user && (
+               <div className="bg-white p-8 rounded-xl shadow-sm border">
+                 <div className="flex justify-between items-center mb-6">
+                   <h3 className="text-xl font-bold">My Cloud Storage</h3>
+                   <div className="flex space-x-2">
+                     <label className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 cursor-pointer flex items-center">
+                       <Upload size={16} className="mr-2" />
+                       Upload File
+                       <input type="file" className="hidden" onChange={handleFileUpload} />
+                     </label>
+                     <button
+                       onClick={() => {
+                         const filename = prompt('Enter filename (e.g. note.txt):');
+                         const content = prompt('Enter content:');
+                         if (filename && content) {
+                           aiService.createDoc(filename, content).then(() => fetchUserFiles());
+                         }
+                       }}
+                       className="bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-black flex items-center"
+                     >
+                       <FilePlus size={16} className="mr-2" />
+                       New Doc
+                     </button>
+                   </div>
+                 </div>
+                 <div className="overflow-x-auto">
+                   <table className="min-w-full divide-y divide-gray-200">
+                     <thead className="bg-gray-50">
+                       <tr>
+                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
+                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                         <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                       </tr>
+                     </thead>
+                     <tbody className="bg-white divide-y divide-gray-200">
+                       {userFiles.length > 0 ? userFiles.map((file) => (
+                         <tr key={file.id}>
+                           <td className="px-6 py-4 whitespace-nowrap">
+                             <div className="flex items-center">
+                               <FileText size={16} className="text-gray-400 mr-2" />
+                               <span className="text-sm font-medium text-gray-900">{file.filename}</span>
+                             </div>
+                           </td>
+                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{file.type}</td>
+                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{new Date(file.created_at).toLocaleDateString()}</td>
+                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                             <button
+                               onClick={() => {
+                                 const apiKey = localStorage.getItem('globalApiKey');
+                                 const baseUrl = import.meta.env.VITE_API_BASE_URL || '/api/v1';
+                                 window.location.href = `${baseUrl}/files/${file.id}?X-API-Key=${apiKey}`;
+                               }}
+                               className="text-blue-600 hover:text-blue-900"
+                             >
+                               <Download size={16} />
+                             </button>
+                           </td>
+                         </tr>
+                       )) : (
+                         <tr>
+                           <td colSpan={4} className="px-6 py-10 text-center text-sm text-gray-500">No files stored yet.</td>
+                         </tr>
+                       )}
+                     </tbody>
+                   </table>
+                 </div>
+               </div>
+             )}
 
              {user && (
                <div className="bg-white p-8 rounded-xl shadow-sm border">
