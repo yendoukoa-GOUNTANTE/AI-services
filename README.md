@@ -82,6 +82,8 @@ Our platform connects to multiple AI services to provide a suite of tools for de
 - **System Analyzer:** Scans a website URL for broken links and suggests search queries to find solutions.
 - **Fine-Tuning Specialist:** Provides expert guidance on LLM fine-tuning, dataset preparation, and performance optimization.
 - **Router Capacity Architect:** Optimizes AI infrastructure with intelligent routing and automated capacity management.
+- **DeepMind Image Gen:** Generates high-fidelity images using Google's DeepMind Imagen 3 technology.
+- **DeepMind Video Creator:** Produces cinematic scripts, storyboards, and advanced video creative directions powered by DeepMind's flagship Gemini 1.5 Pro.
 
 ## How to Use
 

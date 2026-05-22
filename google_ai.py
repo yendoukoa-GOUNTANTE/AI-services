@@ -2,6 +2,8 @@ import os
 import re
 import vertexai
 from vertexai.generative_models import GenerativeModel, Part
+from vertexai.preview.vision_models import ImageGenerationModel
+import base64
 from langchain_google_vertexai import ChatVertexAI
 from langchain_openai import ChatOpenAI
 from langchain_anthropic import ChatAnthropic
@@ -1604,3 +1606,40 @@ def provide_video_production_assistance(prompt: str) -> str:
         return chain.invoke({"prompt": prompt}).strip()
     except Exception as e:
         return f"Video Production AI Error: {e}"
+
+def generate_deepmind_image(prompt: str) -> str:
+    """
+    Generates an image using DeepMind's Imagen model via Vertex AI.
+    Returns the base64 encoded image.
+    """
+    try:
+        model = ImageGenerationModel.from_pretrained("imagen-3.0-generate-001")
+        images = model.generate_images(
+            prompt=prompt,
+            number_of_images=1,
+            language="en",
+            aspect_ratio="1:1"
+        )
+        if images:
+            # Return base64 of the first image
+            return base64.b64encode(images[0]._image_bytes).decode("utf-8")
+        return "Error: No image generated."
+    except Exception as e:
+        return f"DeepMind Image Error: {e}"
+
+def generate_deepmind_video_content(prompt: str) -> str:
+    """
+    Generates advanced video content (scripts, storyboards, creative directions)
+    using Gemini 1.5 Pro (DeepMind's flagship).
+    """
+    try:
+        model = GenerativeModel("gemini-1.5-pro")
+        system_instructions = (
+            "You are a DeepMind-powered Creative Video Director. "
+            "Your goal is to transform user ideas into high-end cinematic content. "
+            "Provide detailed scripts, storyboards, camera angles, and AI-driven video production advice."
+        )
+        response = model.generate_content([system_instructions, prompt])
+        return response.text.strip()
+    except Exception as e:
+        return f"DeepMind Video Content Error: {e}"

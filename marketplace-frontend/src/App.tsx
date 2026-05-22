@@ -122,6 +122,8 @@ const AI_SERVICES: AIService[] = [
   { id: 'router-capacity', name: 'Router Capacity Architect', category: 'Advanced', icon: Route, description: 'Intelligent LLM routing and automated capacity management.' },
   { id: 'visual-intel', name: 'Visual Intelligence', category: 'Advanced', icon: Camera, description: 'Analyze images and videos captured from your camera to provide insights and descriptions.' },
   { id: 'video-producer', name: 'Video Producer', category: 'Arts', icon: Video, description: 'Expert guidance on scriptwriting, filming, and post-production for professional videos.' },
+  { id: 'deepmind-image', name: 'DeepMind Image Gen', category: 'Arts', icon: Camera, description: 'Generate stunning high-fidelity images using DeepMind Imagen technology.' },
+  { id: 'deepmind-video', name: 'DeepMind Video Creator', category: 'Arts', icon: Video, description: 'Advanced cinematic content, scripts, and storyboards powered by DeepMind.' },
   { id: 'podcast', name: 'Podcast Specialist', category: 'Arts', icon: Mic, description: 'Elite podcast production, design, and business strategy guidance.' },
   { id: 'zapier', name: 'Zapier Automation', category: 'Advanced', icon: Zap, description: 'Expert Zapier automation specialized for French-speaking markets.' },
   { id: 'odoo', name: 'Odoo ERP Specialist', category: 'Professional', icon: Layout, description: 'Elite Odoo implementation and customization for Francophone regions.' },
@@ -263,6 +265,15 @@ const App: React.FC = () => {
           break;
         case 'video-producer':
           response = await aiService.getVideoProductionAssistance(servicePrompt);
+          break;
+        case 'deepmind-image':
+          response = await aiService.getDeepMindImage(servicePrompt);
+          if (response.data.image_data) {
+             setCapturedMedia({ data: `data:image/jpeg;base64,${response.data.image_data}`, type: 'image/jpeg' });
+          }
+          break;
+        case 'deepmind-video':
+          response = await aiService.getDeepMindVideo(servicePrompt);
           break;
         case 'podcast':
           response = await aiService.getPodcastAssistance(servicePrompt);
