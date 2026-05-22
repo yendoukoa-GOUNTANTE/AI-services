@@ -219,5 +219,15 @@ This project is configured for easy use across multiple platforms.
 - **Project Story:** (Add your project's inspiration and goals here for your submission).
 - **One-Click Setup:** Use the provided Docker and Cloud configurations to get your demo live in minutes.
 
+### GitHub Copilot Integration
+Yendoukoa AI is optimized for AI-assisted development using GitHub Copilot.
+- **Custom Instructions:** We provide tailored Copilot instructions in `.github/copilot-instructions.md` to help Copilot understand our architecture and coding standards.
+- **VS Code Support:** Recommended extensions (including Copilot and Copilot Chat) are defined in `.vscode/extensions.json`.
+- **Copilot SDK:** We have integrated the GitHub Copilot SDK for programmatic agentic workflows.
+  - Install the SDK: `pip install -r requirements-dev.txt`
+  - Example helper: `python tools/copilot_helper.py` (Requires `GITHUB_TOKEN`)
+- **GitHub Models:** Access top-tier models (GPT-4o, Llama 3.1) directly within the Yendoukoa AI platform via the GitHub Models API.
+- **Copilot Chat API:** Integration with the Copilot Chat API for deep codebase intelligence.
+
 ---
 *© 2024 Yendoukoa AI. Empowering the future of autonomous intelligence.*

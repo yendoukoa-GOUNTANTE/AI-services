@@ -3,4 +3,3 @@ pytest-flask
 flake8
 black
 python-dotenv
-asgiref

@@ -1836,6 +1836,29 @@ def anthropic_coding_endpoint():
     return jsonify({"status": "success", "message": message})
 
 
+@app.route('/api/v1/github-models/assistance', methods=['POST'])
+@require_api_key
+def github_models_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    model_name = data.get('model_name', 'gpt-4o')
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+    message = google_ai.provide_github_model_intelligence(prompt, model_name)
+    return jsonify({"status": "success", "message": message})
+
+
+@app.route('/api/v1/copilot-chat/assistance', methods=['POST'])
+@require_api_key
+def copilot_chat_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+    message = google_ai.provide_github_copilot_chat(prompt)
+    return jsonify({"status": "success", "message": message})
+
+
 @app.route('/api/v1/langflow/execute', methods=['POST'])
 @require_api_key
 def execute_langflow_endpoint():

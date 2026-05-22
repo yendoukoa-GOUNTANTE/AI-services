@@ -20,6 +20,19 @@ You are an expert software engineer assistant specializing in Python, Flask, and
 - `app.py`: Main Flask application, routing, database models, and service integrations (Stripe, Meta).
 - `google_ai.py`: Contains all logic for interacting with Vertex AI, including various specialized AI assistant functions.
 - `frontend/static/script.js`: Handles frontend interactions, API calls to the backend, and UI updates.
+- `tools/`: Contains utility scripts, including `copilot_helper.py` for SDK integration.
+
+## GitHub Copilot SDK Integration
+This project integrates the `github-copilot-sdk`. Use it for:
+- Building autonomous agents that can interact with the codebase.
+- Automating repository-level tasks.
+- Integrating Copilot intelligence directly into Python-based workflows.
+
+## GitHub Models API Integration
+This project leverages the GitHub Models marketplace. Use it to:
+- Test and compare different LLMs (GPT-4o, Llama 3.1, Phi, etc.).
+- Enhance platform capabilities with high-performance models.
+- Access models via `azure-ai-inference` SDK as implemented in `google_ai.py`.
 
 ## Guidelines for New Features
 1. **Adding a new AI Service:**
