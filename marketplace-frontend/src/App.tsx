@@ -42,7 +42,8 @@ import {
   Camera,
   Video,
   Settings,
-  Route
+  Route,
+  Scissors
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { userService, aiService, paymentService, setAuthToken, type User } from './api';
@@ -119,6 +120,7 @@ const AI_SERVICES: AIService[] = [
   { id: 'ussd-blockchain', name: 'USSD Blockchain Expert', category: 'Development', icon: Smartphone, description: 'Design and create USSD applications integrated with blockchain technology.' },
   { id: 'fine-tuner', name: 'Fine-Tuning Specialist', category: 'Development', icon: Settings, description: 'Expert guidance on dataset preparation and fine-tuning Large Language Models.' },
   { id: 'router-capacity', name: 'Router Capacity Architect', category: 'Advanced', icon: Route, description: 'Intelligent LLM routing and automated capacity management.' },
+  { id: 'video-editor', name: 'Video Editor Specialist', category: 'Professional', icon: Scissors, description: 'Elite AI assistance for video editing, post-production, and VFX.' },
   { id: 'visual-intel', name: 'Visual Intelligence', category: 'Advanced', icon: Camera, description: 'Analyze images and videos captured from your camera to provide insights and descriptions.' },
   { id: 'zapier', name: 'Zapier Automation', category: 'Advanced', icon: Zap, description: 'Expert Zapier automation specialized for French-speaking markets.' },
   { id: 'odoo', name: 'Odoo ERP Specialist', category: 'Professional', icon: Layout, description: 'Elite Odoo implementation and customization for Francophone regions.' },
@@ -257,6 +259,9 @@ const App: React.FC = () => {
           break;
         case 'router-capacity':
           response = await aiService.getRouterCapacityAssistance(servicePrompt);
+          break;
+        case 'video-editor':
+          response = await aiService.getVideoEditingAssistance(servicePrompt);
           break;
         case 'zapier':
           response = await aiService.getZapierAssistance(servicePrompt);

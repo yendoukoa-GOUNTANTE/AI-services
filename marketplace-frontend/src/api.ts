@@ -57,6 +57,7 @@ export const aiService = {
   getUSSDBlockchainAssistance: (prompt: string) => apiClient.post('/ussd-blockchain/assistance', { prompt }),
   getFineTuningAssistance: (prompt: string) => apiClient.post('/fine-tuner/assistance', { prompt }),
   getRouterCapacityAssistance: (prompt: string) => apiClient.post('/router/assistance', { prompt }),
+  getVideoEditingAssistance: (prompt: string) => apiClient.post('/video-editing/assistance', { prompt }),
   getZapierAssistance: (prompt: string) => apiClient.post('/zapier/assistance', { prompt }),
   getOdooAssistance: (prompt: string) => apiClient.post('/odoo/assistance', { prompt }),
   getSageAssistance: (prompt: string) => apiClient.post('/sage/assistance', { prompt }),
