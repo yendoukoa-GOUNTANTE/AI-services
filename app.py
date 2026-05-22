@@ -1731,6 +1731,34 @@ def video_production_endpoint():
     return jsonify({"status": "success", "message": message})
 
 
+@app.route('/api/v1/deepmind/image', methods=['POST'])
+@require_api_key
+def deepmind_image_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+    image_base64 = google_ai.generate_deepmind_image(prompt)
+    if image_base64.startswith("Error"):
+        return jsonify({"status": "error", "message": image_base64}), 500
+    return jsonify({
+        "status": "success",
+        "message": "Image generated successfully using DeepMind Imagen.",
+        "image_data": image_base64
+    })
+
+
+@app.route('/api/v1/deepmind/video', methods=['POST'])
+@require_api_key
+def deepmind_video_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+    message = google_ai.generate_deepmind_video_content(prompt)
+    return jsonify({"status": "success", "message": message})
+
+
 @app.route('/api/v1/domain-codex/assistance', methods=['POST'])
 @require_api_key
 def domain_codex_assistance_endpoint():
