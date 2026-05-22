@@ -40,7 +40,9 @@ import {
   PiggyBank,
   Brain,
   Camera,
-  Video
+  Video,
+  Settings,
+  Route
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { userService, aiService, paymentService, setAuthToken, type User } from './api';
@@ -115,6 +117,8 @@ const AI_SERVICES: AIService[] = [
   { id: 'claude-coder', name: 'Claude Coder', category: 'Development', icon: Code2, description: 'Elite code generation and architectural advice powered by Anthropic Claude.' },
   { id: 'malware-defense', name: 'Malware Defender', category: 'Security', icon: ShieldX, description: 'Elite specialist for detecting, preventing, and removing all types of malware.' },
   { id: 'ussd-blockchain', name: 'USSD Blockchain Expert', category: 'Development', icon: Smartphone, description: 'Design and create USSD applications integrated with blockchain technology.' },
+  { id: 'fine-tuner', name: 'Fine-Tuning Specialist', category: 'Development', icon: Settings, description: 'Expert guidance on dataset preparation and fine-tuning Large Language Models.' },
+  { id: 'router-capacity', name: 'Router Capacity Architect', category: 'Advanced', icon: Route, description: 'Intelligent LLM routing and automated capacity management.' },
   { id: 'visual-intel', name: 'Visual Intelligence', category: 'Advanced', icon: Camera, description: 'Analyze images and videos captured from your camera to provide insights and descriptions.' },
   { id: 'zapier', name: 'Zapier Automation', category: 'Advanced', icon: Zap, description: 'Expert Zapier automation specialized for French-speaking markets.' },
   { id: 'odoo', name: 'Odoo ERP Specialist', category: 'Professional', icon: Layout, description: 'Elite Odoo implementation and customization for Francophone regions.' },
@@ -247,6 +251,12 @@ const App: React.FC = () => {
           break;
         case 'ussd-blockchain':
           response = await aiService.getUSSDBlockchainAssistance(servicePrompt);
+          break;
+        case 'fine-tuner':
+          response = await aiService.getFineTuningAssistance(servicePrompt);
+          break;
+        case 'router-capacity':
+          response = await aiService.getRouterCapacityAssistance(servicePrompt);
           break;
         case 'zapier':
           response = await aiService.getZapierAssistance(servicePrompt);

@@ -1698,6 +1698,28 @@ def sage_assistance_endpoint():
     return jsonify({"status": "success", "message": message})
 
 
+@app.route('/api/v1/fine-tuner/assistance', methods=['POST'])
+@require_api_key
+def fine_tuner_assistance_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+    message = google_ai.provide_fine_tuning_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+
+@app.route('/api/v1/router/assistance', methods=['POST'])
+@require_api_key
+def router_assistance_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+    message = google_ai.provide_router_capacity_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+
 @app.route('/api/v1/domain-codex/assistance', methods=['POST'])
 @require_api_key
 def domain_codex_assistance_endpoint():
