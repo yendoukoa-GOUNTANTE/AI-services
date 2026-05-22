@@ -1,7 +1,15 @@
 import os
 import re
+import datetime
+import base64
 import vertexai
-from vertexai.generative_models import GenerativeModel, Part
+from vertexai.generative_models import (
+    GenerativeModel,
+    Part,
+    Tool,
+    FunctionDeclaration,
+    Content,
+)
 from langchain_google_vertexai import ChatVertexAI
 from langchain_openai import ChatOpenAI
 from langchain_anthropic import ChatAnthropic
@@ -1604,3 +1612,105 @@ def provide_video_production_assistance(prompt: str) -> str:
         return chain.invoke({"prompt": prompt}).strip()
     except Exception as e:
         return f"Video Production AI Error: {e}"
+
+# --- Gemini Omni Tools ---
+
+def get_current_time():
+    """Returns the current date and time."""
+    return datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+def get_weather_info(location: str):
+    """Fetches real-time weather information for a given location."""
+    api_key = os.environ.get("WEATHER_API_KEY")
+    if not api_key:
+        return "Weather API key not configured."
+    try:
+        url = f"http://api.weatherapi.com/v1/current.json?key={api_key}&q={location}"
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+        data = response.json()
+        if "error" in data:
+            return f"Error: {data['error']['message']}"
+        current = data.get('current', {})
+        return f"The weather in {location} is {current.get('condition', {}).get('text')} with a temperature of {current.get('temp_c')}°C."
+    except Exception as e:
+        return f"Error fetching weather: {e}"
+
+# Tool Definitions
+time_tool = FunctionDeclaration(
+    name="get_current_time",
+    description="Get the current date and time",
+    parameters={
+        "type": "object",
+        "properties": {}
+    }
+)
+
+weather_tool = FunctionDeclaration(
+    name="get_weather_info",
+    description="Get the current weather for a specific location",
+    parameters={
+        "type": "object",
+        "properties": {
+            "location": {
+                "type": "string",
+                "description": "The city and country, e.g., Paris, France"
+            }
+        },
+        "required": ["location"]
+    }
+)
+
+omni_tools = Tool(
+    function_declarations=[time_tool, weather_tool]
+)
+
+def provide_gemini_omni_assistance(prompt: str, media_data: str = None, mime_type: str = None) -> str:
+    """
+    Elite Gemini Omni Agent with tool-use and multimodal capabilities.
+    """
+    try:
+        model = GenerativeModel(
+            model_name="gemini-1.5-flash",
+            tools=[omni_tools],
+            system_instruction="You are an Elite Gemini Omni Agent. You have access to real-time tools for time and weather. If a tool call is needed, use it."
+        )
+        chat = model.start_chat()
+
+        contents = []
+        if media_data and mime_type:
+            media_part = Part.from_data(data=base64.b64decode(media_data), mime_type=mime_type)
+            contents.append(media_part)
+
+        contents.append(prompt)
+
+        response = chat.send_message(contents)
+
+        # Handle tool calls in a loop for robustness
+        for _ in range(5):  # Limit tool call iterations
+            part = response.candidates[0].content.parts[0]
+            if not part.function_call:
+                break
+
+            function_call = part.function_call
+            function_name = function_call.name
+            args = function_call.args
+
+            if function_name == "get_current_time":
+                api_response = get_current_time()
+            elif function_name == "get_weather_info":
+                api_response = get_weather_info(args["location"])
+            else:
+                api_response = "Unknown tool call"
+
+            # Send the tool output back to the model
+            response = chat.send_message(
+                Part.from_function_response(
+                    name=function_name,
+                    response={"content": api_response}
+                )
+            )
+
+        return response.text.strip()
+    except Exception as e:
+        return f"Gemini Omni AI Error: {e}"
