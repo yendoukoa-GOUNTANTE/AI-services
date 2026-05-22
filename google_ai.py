@@ -1536,3 +1536,48 @@ def provide_sage_assistance(prompt: str) -> str:
         return chain.invoke({"prompt": prompt}).strip()
     except Exception as e:
         return f"Sage AI Error: {e}"
+
+def provide_fine_tuning_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Fine-Tuning LLMs and dataset preparation.
+    """
+    model = get_model()
+    system_prompt = (
+        "You are an Elite AI Fine-Tuning Specialist. "
+        "Your expertise covers dataset preparation, formatting (JSONL), "
+        "hyperparameter selection, and the end-to-end process of fine-tuning "
+        "Large Language Models like Gemini, GPT, and Llama. Provide high-level "
+        "technical guidance on improving model performance for specific domains "
+        "and tasks through supervised fine-tuning."
+    )
+    prompt_template = ChatPromptTemplate.from_messages([
+        ("system", system_prompt),
+        ("user", "{prompt}")
+    ])
+    chain = prompt_template | model | StrOutputParser()
+    try:
+        return chain.invoke({"prompt": prompt}).strip()
+    except Exception as e:
+        return f"Fine-Tuning AI Error: {e}"
+
+def provide_router_capacity_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for LLM Routing and Automated Capacity Management.
+    """
+    model = get_model()
+    system_prompt = (
+        "You are an Elite AI Router and Capacity Architect. "
+        "Your expertise covers intelligent LLM routing, load balancing between different "
+        "AI models, and automated capacity management. Provide guidance on "
+        "optimizing cost, latency, and reliability by dynamically routing requests "
+        "to the most suitable model based on complexity and current infrastructure load."
+    )
+    prompt_template = ChatPromptTemplate.from_messages([
+        ("system", system_prompt),
+        ("user", "{prompt}")
+    ])
+    chain = prompt_template | model | StrOutputParser()
+    try:
+        return chain.invoke({"prompt": prompt}).strip()
+    except Exception as e:
+        return f"Router Capacity AI Error: {e}"
