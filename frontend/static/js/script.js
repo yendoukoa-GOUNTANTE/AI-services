@@ -218,6 +218,44 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- Video Production Assistance ---
+    const videoProductionBtn = document.getElementById('video-production-btn');
+    if (videoProductionBtn) {
+        videoProductionBtn.addEventListener('click', async () => {
+            const input = document.getElementById('video-production-input');
+            const responseContainer = document.getElementById('video-production-response');
+            const apiKey = getApiKey("Please enter your API key to use the Video Producer:");
+
+            if (!apiKey) {
+                responseContainer.textContent = 'API key is required.';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/v1/video/assistance', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-API-Key': apiKey
+                    },
+                    body: JSON.stringify({
+                        prompt: input.value
+                    })
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Failed to get a response from the video producer');
+                }
+
+                const result = await response.json();
+                responseContainer.textContent = result.message;
+            } catch (error) {
+                responseContainer.textContent = `Error: ${error.message}`;
+            }
+        });
+    }
+
     // --- Create Project ---
     const createProjectBtn = document.getElementById('create-project-btn');
     if (createProjectBtn) {

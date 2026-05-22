@@ -1581,3 +1581,26 @@ def provide_router_capacity_assistance(prompt: str) -> str:
         return chain.invoke({"prompt": prompt}).strip()
     except Exception as e:
         return f"Router Capacity AI Error: {e}"
+
+def provide_video_production_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Video Production and Cinematic Strategy.
+    """
+    model = get_model()
+    system_prompt = (
+        "You are an Elite Video Producer and Cinematic Strategist. "
+        "Your expertise covers the entire video production lifecycle, from scriptwriting "
+        "and storyboarding to filming techniques, post-production editing, and viral "
+        "distribution strategies. Provide high-level creative and technical guidance on "
+        "producing professional-grade videos, commercials, and social media content "
+        "that captures attention and drives engagement."
+    )
+    prompt_template = ChatPromptTemplate.from_messages([
+        ("system", system_prompt),
+        ("user", "{prompt}")
+    ])
+    chain = prompt_template | model | StrOutputParser()
+    try:
+        return chain.invoke({"prompt": prompt}).strip()
+    except Exception as e:
+        return f"Video Production AI Error: {e}"

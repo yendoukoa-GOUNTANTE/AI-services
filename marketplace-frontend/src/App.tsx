@@ -42,7 +42,8 @@ import {
   Camera,
   Video,
   Settings,
-  Route
+  Route,
+  Mic
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import { userService, aiService, paymentService, setAuthToken, type User } from './api';
@@ -120,6 +121,8 @@ const AI_SERVICES: AIService[] = [
   { id: 'fine-tuner', name: 'Fine-Tuning Specialist', category: 'Development', icon: Settings, description: 'Expert guidance on dataset preparation and fine-tuning Large Language Models.' },
   { id: 'router-capacity', name: 'Router Capacity Architect', category: 'Advanced', icon: Route, description: 'Intelligent LLM routing and automated capacity management.' },
   { id: 'visual-intel', name: 'Visual Intelligence', category: 'Advanced', icon: Camera, description: 'Analyze images and videos captured from your camera to provide insights and descriptions.' },
+  { id: 'video-producer', name: 'Video Producer', category: 'Arts', icon: Video, description: 'Expert guidance on scriptwriting, filming, and post-production for professional videos.' },
+  { id: 'podcast', name: 'Podcast Specialist', category: 'Arts', icon: Mic, description: 'Elite podcast production, design, and business strategy guidance.' },
   { id: 'zapier', name: 'Zapier Automation', category: 'Advanced', icon: Zap, description: 'Expert Zapier automation specialized for French-speaking markets.' },
   { id: 'odoo', name: 'Odoo ERP Specialist', category: 'Professional', icon: Layout, description: 'Elite Odoo implementation and customization for Francophone regions.' },
   { id: 'sage', name: 'Sage Software Expert', category: 'Professional', icon: Database, description: 'Expert guidance on Sage accounting and payroll for French businesses.' }
@@ -257,6 +260,12 @@ const App: React.FC = () => {
           break;
         case 'router-capacity':
           response = await aiService.getRouterCapacityAssistance(servicePrompt);
+          break;
+        case 'video-producer':
+          response = await aiService.getVideoProductionAssistance(servicePrompt);
+          break;
+        case 'podcast':
+          response = await aiService.getPodcastAssistance(servicePrompt);
           break;
         case 'zapier':
           response = await aiService.getZapierAssistance(servicePrompt);

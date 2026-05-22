@@ -1720,6 +1720,17 @@ def router_assistance_endpoint():
     return jsonify({"status": "success", "message": message})
 
 
+@app.route('/api/v1/video/assistance', methods=['POST'])
+@require_api_key
+def video_production_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+    message = google_ai.provide_video_production_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+
 @app.route('/api/v1/domain-codex/assistance', methods=['POST'])
 @require_api_key
 def domain_codex_assistance_endpoint():
