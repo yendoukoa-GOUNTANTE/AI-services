@@ -93,6 +93,17 @@ export const aiService = {
   genericAssistance: (systemMessage: string, prompt: string, mediaData?: string, mimeType?: string) => apiClient.post('/generic/assistance', { system_message: systemMessage, prompt, media_data: mediaData, mime_type: mimeType }),
   getDeepMindImage: (prompt: string) => apiClient.post('/deepmind/image', { prompt }),
   getDeepMindVideo: (prompt: string) => apiClient.post('/deepmind/video', { prompt }),
+  getFileStorageAssistance: (prompt: string) => apiClient.post('/files/assistance', { prompt }),
+  uploadFile: (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    return apiClient.post('/files/upload', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    });
+  },
+  listFiles: () => apiClient.get('/files'),
+  createDoc: (filename: string, content: string) => apiClient.post('/files/create-doc', { filename, content }),
+  getFile: (fileId: number) => apiClient.get(`/files/${fileId}`),
 };
 
 export const userService = {

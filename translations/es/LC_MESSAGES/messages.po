@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-05-16 18:32+0000\n"
+"POT-Creation-Date: 2026-05-22 23:00+0000\n"
 "PO-Revision-Date: 2025-08-18 14:21+0000\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: es\n"
@@ -18,116 +18,116 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
 
-#: app.py:119
+#: app.py:135
 msgid "Error: WEATHER_API_KEY environment variable not set."
 msgstr "Error: La variable de entorno WEATHER_API_KEY no está configurada."
 
-#: app.py:122
+#: app.py:138
 msgid "Please provide a location."
 msgstr "Por favor, proporcione una ubicación."
 
-#: app.py:129
+#: app.py:145
 #, python-format
 msgid "Error: %(message)s"
 msgstr "Error: %(message)s"
 
-#: app.py:141
+#: app.py:157
 #, python-format
 msgid "Weather in %(city)s, %(region)s, %(country)s:\n"
 msgstr "El tiempo en %(city)s, %(region)s, %(country)s:\n"
 
-#: app.py:142
+#: app.py:158
 #, python-format
 msgid "Temperature: %(temp_c)s°C / %(temp_f)s°F\n"
 msgstr "Temperatura: %(temp_c)s°C / %(temp_f)s°F\n"
 
-#: app.py:143
+#: app.py:159
 #, python-format
 msgid "Condition: %(condition)s\n"
 msgstr "Condición: %(condition)s\n"
 
-#: app.py:144
+#: app.py:160
 #, python-format
 msgid "Wind: %(wind_mph)s mph\n"
 msgstr "Viento: %(wind_mph)s mph\n"
 
-#: app.py:145
+#: app.py:161
 #, python-format
 msgid "Humidity: %(humidity)s%%"
 msgstr "Humedad: %(humidity)s%%"
 
-#: app.py:149
+#: app.py:165
 #, python-format
 msgid "Error fetching weather data: %(error)s"
 msgstr "Error al obtener los datos del tiempo: %(error)s"
 
-#: app.py:151 app.py:601 app.py:1852
+#: app.py:167 app.py:617 app.py:2153
 #, python-format
 msgid "An unexpected error occurred: %(error)s"
 msgstr "Ocurrió un error inesperado: %(error)s"
 
-#: app.py:154
+#: app.py:170
 msgid "Guess the Number"
 msgstr "Adivina el número"
 
-#: app.py:155
+#: app.py:171
 msgid "A simple number guessing game."
 msgstr "Un sencillo juego de adivinar el número."
 
-#: app.py:176
+#: app.py:192
 msgid "I'm thinking of a number between 1 and 100."
 msgstr "Estoy pensando en un número entre 1 y 100."
 
-#: app.py:178
+#: app.py:194
 msgid "Guess"
 msgstr "Adivinar"
 
-#: app.py:202
+#: app.py:218
 msgid "Please enter a valid number between 1 and 100."
 msgstr "Por favor, introduce un número válido entre 1 y 100."
 
-#: app.py:206
+#: app.py:222
 #, python-format
 msgid "Congratulations! You guessed the number in %(attempts)s attempts."
 msgstr "¡Felicidades! Adivinaste el número en %(attempts)s intentos."
 
-#: app.py:210
+#: app.py:226
 msgid "Too low! Try again."
 msgstr "¡Demasiado bajo! Inténtalo de nuevo."
 
-#: app.py:213
+#: app.py:229
 msgid "Too high! Try again."
 msgstr "¡Demasiado alto! Inténtalo de nuevo."
 
-#: app.py:220
+#: app.py:236
 msgid "Here is the generated code for your game."
 msgstr "Aquí tienes el código generado para tu juego."
 
-#: app.py:237
+#: app.py:253
 msgid "To-Do App"
 msgstr "Aplicación de tareas"
 
-#: app.py:238
+#: app.py:254
 msgid "A simple to-do list application."
 msgstr "Una sencilla aplicación de lista de tareas."
 
-#: app.py:258
+#: app.py:274
 msgid "Add a new task..."
 msgstr "Añadir una nueva tarea..."
 
-#: app.py:259
+#: app.py:275
 msgid "Add Task"
 msgstr "Añadir tarea"
 
-#: app.py:290
+#: app.py:306
 msgid "Delete"
 msgstr "Eliminar"
 
-#: app.py:300
+#: app.py:316
 msgid "Here is the generated code for your app."
 msgstr "Aquí tienes el código generado para tu aplicación."
 
-#: app.py:330
+#: app.py:346
 #, python-format
 msgid ""
 "Error on line %(line_number)s: Invalid format. Each line must be in 'key:"
@@ -136,7 +136,7 @@ msgstr ""
 "Error en la línea %(line_number)s: Formato no válido. Cada línea debe "
 "tener el formato 'clave: valor'."
 
-#: app.py:342
+#: app.py:358
 #, python-format
 msgid ""
 "Error on line %(line_number)s: Indentation error or item outside of a "
@@ -145,32 +145,32 @@ msgstr ""
 "Error en la línea %(line_number)s: Error de sangría o elemento fuera de "
 "una sección."
 
-#: app.py:344
+#: app.py:360
 msgid "My Website"
 msgstr "Mi sitio web"
 
-#: app.py:357
+#: app.py:373
 msgid "Error: Number of images must be between 0 and 10."
 msgstr "Error: El número de imágenes debe estar entre 0 y 10."
 
-#: app.py:359
+#: app.py:375
 #, python-format
 msgid "placeholder image %(number)s"
 msgstr "imagen de marcador de posición %(number)s"
 
-#: app.py:361
+#: app.py:377
 msgid "Error: Invalid number for images. Please use an integer."
 msgstr "Error: Número de imágenes no válido. Por favor, use un número entero."
 
-#: app.py:396 app.py:641
+#: app.py:412 app.py:657
 msgid "Here is the generated code for your website."
 msgstr "Aquí tienes el código generado para tu sitio web."
 
-#: app.py:432
+#: app.py:448
 msgid "Here is the generated code for your Python backend."
 msgstr "Aquí está el código generado para su backend de Python."
 
-#: app.py:441
+#: app.py:457
 #, python-format
 msgid ""
 "This is a placeholder for an art criticism based on your prompt: "
@@ -179,65 +179,65 @@ msgstr ""
 "Este es un marcador de posición para una crítica de arte basada en su "
 "indicación: %(prompt)s"
 
-#: app.py:459
+#: app.py:475
 msgid "Here is the generated automation script for your task."
 msgstr "Aquí está el script de automatización generado para su tarea."
 
-#: app.py:478
+#: app.py:494
 msgid "Missing <!DOCTYPE html> declaration at the beginning."
 msgstr "Falta la declaración <!DOCTYPE html> al principio."
 
-#: app.py:480
+#: app.py:496
 msgid "Mismatched <html> tags."
 msgstr "Etiquetas <html> no coincidentes."
 
-#: app.py:482
+#: app.py:498
 msgid "Mismatched <head> tags."
 msgstr "Etiquetas <head> no coincidentes."
 
-#: app.py:484
+#: app.py:500
 msgid "Mismatched <body> tags."
 msgstr "Etiquetas <body> no coincidentes."
 
-#: app.py:488
+#: app.py:504
 #, python-brace-format
 msgid "Mismatched curly braces {}."
 msgstr "Llaves {} no coincidentes."
 
-#: app.py:498
+#: app.py:514
 #, python-format
 msgid "Line %(line_number)s: Missing semicolon ';'."
 msgstr "Línea %(line_number)s: Falta el punto y coma ';'."
 
-#: app.py:500 app.py:698
+#: app.py:516 app.py:714
 #, python-format
 msgid "No obvious issues found in your %(lang)s code."
 msgstr "No se han encontrado problemas evidentes en tu código %(lang)s."
 
-#: app.py:502 app.py:700
+#: app.py:518 app.py:716
 #, python-format
 msgid "Found potential issues in your %(lang)s code:\n"
 msgstr "Se han encontrado posibles problemas en tu código %(lang)s:\n"
 
-#: app.py:507
+#: app.py:523
 #, python-format
 msgid "We're excited to announce %(prompt)s!"
 msgstr "¡Estamos encantados de anunciar %(prompt)s!"
 
-#: app.py:508
+#: app.py:524
 msgid "Come and check us out! You won't be disappointed."
 msgstr "¡Ven a visitarnos! No te decepcionará."
 
-#: app.py:563 app.py:1850
+#: app.py:579 app.py:2151
 #, python-format
 msgid "Error fetching URL: %(error)s"
 msgstr "Error al obtener la URL: %(error)s"
 
-#: app.py:587
+#: app.py:603
 msgid "Error: Not a valid GitHub URL."
 msgstr "Error: No es una URL de GitHub válida."
 
-#: app.py:590
+#: app.py:606
 msgid ""
 "Error: URL does not appear to be a valid GitHub file URL (e.g., "
 ".../user/repo/blob/branch/file)."
@@ -245,93 +245,137 @@ msgstr ""
 "Error: La URL no parece ser una URL de archivo de GitHub válida (por "
 "ejemplo, .../usuario/repositorio/blob/rama/archivo)."
 
-#: app.py:599
+#: app.py:615
 #, python-format
 msgid "Error fetching file from GitHub: %(error)s"
 msgstr "Error al obtener el archivo de GitHub: %(error)s"
 
-#: app.py:609
+#: app.py:625
 msgid "API key is missing"
 msgstr "Falta la clave de la API"
 
-#: app.py:612 app.py:1736
+#: app.py:628 app.py:2037
 msgid "Invalid API key"
 msgstr "Clave de API no válida"
 
-#: app.py:638 app.py:659 app.py:669 app.py:679 app.py:689 app.py:710 app.py:720
-#: app.py:750 app.py:760 app.py:771 app.py:782 app.py:793 app.py:804 app.py:815
-#: app.py:826 app.py:837 app.py:848 app.py:859 app.py:870 app.py:881 app.py:892
-#: app.py:903 app.py:914 app.py:925 app.py:936 app.py:947 app.py:958 app.py:969
-#: app.py:980 app.py:991 app.py:1002 app.py:1013 app.py:1024 app.py:1035
-#: app.py:1046 app.py:1057 app.py:1068 app.py:1079 app.py:1090 app.py:1101
-#: app.py:1112 app.py:1122 app.py:1132 app.py:1142 app.py:1152 app.py:1162
-#: app.py:1173 app.py:1184 app.py:1195 app.py:1206 app.py:1217 app.py:1228
-#: app.py:1239 app.py:1250 app.py:1261 app.py:1272 app.py:1283 app.py:1294
-#: app.py:1305 app.py:1316 app.py:1327 app.py:1338 app.py:1349 app.py:1360
-#: app.py:1371 app.py:1382 app.py:1393 app.py:1404 app.py:1415 app.py:1426
-#: app.py:1437 app.py:1448 app.py:1471 app.py:1482 app.py:1493 app.py:1504
-#: app.py:1515 app.py:1526 app.py:1537 app.py:1548 app.py:1559 app.py:1570
-#: app.py:1581 app.py:1592 app.py:1603 app.py:1614 app.py:1625 app.py:1636
-#: app.py:1647 app.py:1658 app.py:1670
+#: app.py:654 app.py:675 app.py:685 app.py:695 app.py:705 app.py:726 app.py:736
+#: app.py:766 app.py:776 app.py:787 app.py:798 app.py:809 app.py:820 app.py:831
+#: app.py:842 app.py:853 app.py:864 app.py:875 app.py:886 app.py:897 app.py:908
+#: app.py:919 app.py:930 app.py:941 app.py:952 app.py:963 app.py:974 app.py:985
+#: app.py:996 app.py:1007 app.py:1018 app.py:1029 app.py:1040 app.py:1051
+#: app.py:1062 app.py:1073 app.py:1084 app.py:1095 app.py:1106 app.py:1117
+#: app.py:1128 app.py:1138 app.py:1148 app.py:1158 app.py:1168 app.py:1178
+#: app.py:1189 app.py:1200 app.py:1211 app.py:1222 app.py:1233 app.py:1244
+#: app.py:1255 app.py:1266 app.py:1277 app.py:1288 app.py:1299 app.py:1310
+#: app.py:1321 app.py:1332 app.py:1343 app.py:1354 app.py:1365 app.py:1376
+#: app.py:1387 app.py:1398 app.py:1409 app.py:1420 app.py:1431 app.py:1442
+#: app.py:1453 app.py:1466 app.py:1479 app.py:1504 app.py:1515 app.py:1526
+#: app.py:1537 app.py:1548 app.py:1559 app.py:1570 app.py:1581 app.py:1592
+#: app.py:1666 app.py:1677 app.py:1688 app.py:1699 app.py:1710 app.py:1721
+#: app.py:1732 app.py:1743 app.py:1754 app.py:1771 app.py:1782 app.py:1793
+#: app.py:1804 app.py:1815 app.py:1826 app.py:1837 app.py:1848 app.py:1859
+#: app.py:1871
 msgid "Prompt is required"
 msgstr "El prompt es obligatorio"
 
-#: app.py:730 app.py:1836
+#: app.py:746 app.py:2137
 msgid "URL is required"
 msgstr "La URL es obligatoria"
 
-#: app.py:740
+#: app.py:756
 msgid "Location is required"
 msgstr "La ubicación es obligatoria"
 
-#: app.py:1460
+#: app.py:1493
 #, fuzzy
 msgid "system_message and prompt are required"
 msgstr "El título y la descripción son obligatorios"
 
-#: app.py:1677
+#: app.py:1607 app.py:1629 app.py:1648
+#, fuzzy
+msgid "Prompt or execute flag is required"
+msgstr "El prompt es obligatorio"
+
+#: app.py:1611
+msgid "Pipeline ID is required for execution"
+msgstr ""
+
+#: app.py:1652
+msgid "Workflow ID is required for execution"
+msgstr ""
+
+#: app.py:1878
 msgid "Flow not found"
 msgstr ""
 
-#: app.py:1703
+#: app.py:1904
 msgid "Text is required"
 msgstr "El texto es obligatorio"
 
-#: app.py:1713 app.py:1759
+#: app.py:1913
+msgid "No file part"
+msgstr ""
+
+#: app.py:1916
+msgid "No selected file"
+msgstr ""
+
+#: app.py:1937
+msgid "File uploaded successfully"
+msgstr ""
+
+#: app.py:1965
+#, fuzzy
+msgid "Filename and content are required"
+msgstr "El título y la descripción son obligatorios"
+
+#: app.py:1978
+msgid "Document created successfully"
+msgstr ""
+
+#: app.py:1991
+msgid "File not found"
+msgstr ""
+
+#: app.py:2006
+msgid "File data unavailable"
+msgstr ""
+
+#: app.py:2014 app.py:2060
 msgid "Username is required"
 msgstr "El nombre de usuario es obligatorio"
 
-#: app.py:1715 app.py:1761
+#: app.py:2016 app.py:2062
 msgid "Username already exists"
 msgstr "El nombre de usuario ya existe"
 
-#: app.py:1733
+#: app.py:2034
 #, fuzzy
 msgid "API key is required"
 msgstr "El texto es obligatorio"
 
-#: app.py:1800
+#: app.py:2101
 msgid "Title and description are required"
 msgstr "El título y la descripción son obligatorios"
 
-#: app.py:1824
+#: app.py:2125
 msgid "Description is required"
 msgstr "La descripción es obligatoria"
 
-#: app.py:1845
+#: app.py:2146
 msgid "Could not extract meaningful content from the URL."
 msgstr "No se pudo extraer contenido significativo de la URL."
 
-#: app.py:1861
+#: app.py:2162
 #, fuzzy
 msgid "Invalid plan"
 msgstr "Cantidad no válida"
 
-#: app.py:1904
+#: app.py:2205
 msgid "Amount and currency are required"
 msgstr "La cantidad y la moneda son obligatorias"
 
-#: app.py:1909
+#: app.py:2210
 msgid "Invalid amount"
 msgstr "Cantidad no válida"
 
@@ -352,93 +396,97 @@ msgid "IT Ops"
 msgstr ""
 
 #: frontend/templates/index.html:21
-msgid "Cloud Infra"
+msgid "Video Producer"
 msgstr ""
 
 #: frontend/templates/index.html:22
-msgid "Domain Codex"
+msgid "Cloud Infra"
 msgstr ""
 
 #: frontend/templates/index.html:23
+msgid "Domain Codex"
+msgstr ""
+
+#: frontend/templates/index.html:24
 msgid "eSports"
 msgstr "eSports"
 
-#: frontend/templates/index.html:24
+#: frontend/templates/index.html:25
 msgid "Verification"
 msgstr "Verificación"
 
-#: frontend/templates/index.html:25 frontend/templates/index.html:181
-#: frontend/templates/index.html:706
+#: frontend/templates/index.html:26 frontend/templates/index.html:186
+#: frontend/templates/index.html:727
 msgid "Malware Defender"
 msgstr ""
 
-#: frontend/templates/index.html:26
+#: frontend/templates/index.html:27
 msgid "Military"
 msgstr "Militar"
 
-#: frontend/templates/index.html:27
+#: frontend/templates/index.html:28
 msgid "Marketing"
 msgstr ""
 
-#: frontend/templates/index.html:28
+#: frontend/templates/index.html:29
 msgid "Investment"
 msgstr ""
 
-#: frontend/templates/index.html:29
+#: frontend/templates/index.html:30
 msgid "AutoGPT"
 msgstr ""
 
-#: frontend/templates/index.html:30
+#: frontend/templates/index.html:31
 msgid "Llama Intel"
 msgstr ""
 
-#: frontend/templates/index.html:31
+#: frontend/templates/index.html:32
 msgid "Nemotron"
 msgstr ""
 
-#: frontend/templates/index.html:32
+#: frontend/templates/index.html:33
 msgid "Mixtral"
 msgstr ""
 
-#: frontend/templates/index.html:33
+#: frontend/templates/index.html:34
 msgid "Claude Intel"
 msgstr ""
 
-#: frontend/templates/index.html:34
+#: frontend/templates/index.html:35
 msgid "Claude Coder"
 msgstr ""
 
-#: frontend/templates/index.html:35
+#: frontend/templates/index.html:36
 msgid "Purchase"
 msgstr "Compra"
 
-#: frontend/templates/index.html:36
+#: frontend/templates/index.html:37
 msgid "Portfolio"
 msgstr "Portafolio"
 
-#: frontend/templates/index.html:37
+#: frontend/templates/index.html:38
 msgid "Contact"
 msgstr "Contacto"
 
-#: frontend/templates/index.html:38
+#: frontend/templates/index.html:39
 msgid "Sponsor"
 msgstr "Patrocinar"
 
-#: frontend/templates/index.html:93
+#: frontend/templates/index.html:94
 msgid "Automation Capacity"
 msgstr "Capacidad de automatización"
 
-#: frontend/templates/index.html:94
+#: frontend/templates/index.html:95
 msgid "We can generate automation scripts to handle your repetitive tasks."
 msgstr ""
 "Podemos generar scripts de automatización para manejar sus tareas "
 "repetitivas."
 
-#: frontend/templates/index.html:97 frontend/templates/index.html:1123
+#: frontend/templates/index.html:98 frontend/templates/index.html:1144
 msgid "Sciences Educator"
 msgstr "Educador de Ciencias"
 
-#: frontend/templates/index.html:98
+#: frontend/templates/index.html:99
 msgid ""
 "Our AI can provide science education and resolve exercises in "
 "mathematics, physics-chemistry, biology, geography, and astronomy."
@@ -446,11 +494,11 @@ msgstr ""
 "Nuestra IA puede proporcionar educación científica y resolver ejercicios "
 "de matemáticas, física-química, biología, geografía y astronomía."
 
-#: frontend/templates/index.html:101 frontend/templates/index.html:1107
+#: frontend/templates/index.html:102 frontend/templates/index.html:1128
 msgid "Music Instrumentalist Player"
 msgstr "Músico Instrumentalista"
 
-#: frontend/templates/index.html:102
+#: frontend/templates/index.html:103
 msgid ""
 "Our AI can provide musical suggestions, help with learning an instrument,"
 " and compose short musical pieces."
@@ -458,11 +506,11 @@ msgstr ""
 "Nuestra IA puede proporcionar sugerencias musicales, ayudar a aprender un"
 " instrumento y componer piezas musicales cortas."
 
-#: frontend/templates/index.html:105 frontend/templates/index.html:1027
+#: frontend/templates/index.html:106 frontend/templates/index.html:1048
 msgid "Investigation Role"
 msgstr "Rol de Investigación"
 
-#: frontend/templates/index.html:106
+#: frontend/templates/index.html:107
 msgid ""
 "Expert cybersecurity and global security investigator for FBI, CIA, and "
 "IA, focusing on data protection."
@@ -470,11 +518,11 @@ msgstr ""
 "Investigador experto en ciberseguridad y seguridad global para el FBI, la"
 " CIA y la IA, centrado en la protección de datos."
 
-#: frontend/templates/index.html:109 frontend/templates/index.html:1011
+#: frontend/templates/index.html:110 frontend/templates/index.html:1032
 msgid "Military Services Assistance"
 msgstr "Asistencia de Servicios Militares"
 
-#: frontend/templates/index.html:110
+#: frontend/templates/index.html:111
 msgid ""
 "Strategic assistance for armies and security services, including tactical"
 " planning and risk assessment."
@@ -482,11 +530,11 @@ msgstr ""
 "Asistencia estratégica para ejércitos y servicios de seguridad, "
 "incluyendo planificación táctica y evaluación de riesgos."
 
-#: frontend/templates/index.html:113 frontend/templates/index.html:995
+#: frontend/templates/index.html:114 frontend/templates/index.html:1016
 msgid "Podcast & Business Podcast Role"
 msgstr "Rol de Podcast y Podcast de Negocios"
 
-#: frontend/templates/index.html:114
+#: frontend/templates/index.html:115
 msgid ""
 "Expert podcast producer, creator, and designer for high-quality podcasts,"
 " specializing in business."
@@ -494,11 +542,11 @@ msgstr ""
 "Productor, creador y diseñador experto de podcasts de alta calidad, "
 "especializado en negocios."
 
-#: frontend/templates/index.html:117 frontend/templates/index.html:882
+#: frontend/templates/index.html:118 frontend/templates/index.html:903
 msgid "Supply Chain Consultant"
 msgstr "Consultor de Cadena de Suministro"
 
-#: frontend/templates/index.html:118
+#: frontend/templates/index.html:119
 msgid ""
 "Expert consultant for optimizing supply chain strategy, inventory "
 "management, and sourcing."
@@ -506,11 +554,11 @@ msgstr ""
 "Consultor experto para la optimización de la estrategia de la cadena de "
 "suministro, la gestión de inventarios y el abastecimiento."
 
-#: frontend/templates/index.html:121 frontend/templates/index.html:898
+#: frontend/templates/index.html:122 frontend/templates/index.html:919
 msgid "Logistics & Transportation Specialist"
 msgstr "Especialista en Logística y Transporte"
 
-#: frontend/templates/index.html:122
+#: frontend/templates/index.html:123
 msgid ""
 "Professional specialist for managing goods movement, route optimization, "
 "and international logistics."
@@ -518,11 +566,11 @@ msgstr ""
 "Especialista profesional para la gestión del movimiento de mercancías, la"
 " optimización de rutas y la logística internacional."
 
-#: frontend/templates/index.html:125 frontend/templates/index.html:914
+#: frontend/templates/index.html:126 frontend/templates/index.html:935
 msgid "Data Engineering Expert"
 msgstr "Experto en Ingeniería de Datos"
 
-#: frontend/templates/index.html:126
+#: frontend/templates/index.html:127
 msgid ""
 "Expert data engineer for designing, building, and maintaining robust data"
 " pipelines and architectures."
@@ -530,33 +578,33 @@ msgstr ""
 "Ingeniero de datos experto para el diseño, construcción y mantenimiento "
 "de tuberías de datos y arquitecturas robustas."
 
-#: frontend/templates/index.html:129 frontend/templates/index.html:930
+#: frontend/templates/index.html:130 frontend/templates/index.html:951
 #, fuzzy
 msgid "IA & Data Engineering Expert"
 msgstr "Experto en Ingeniería de Datos"
 
-#: frontend/templates/index.html:130
+#: frontend/templates/index.html:131
 msgid ""
 "Specialized assistant for AI-driven data engineering, automated "
 "pipelines, and data architectures for ML."
 msgstr ""
 
-#: frontend/templates/index.html:133 frontend/templates/index.html:946
+#: frontend/templates/index.html:134 frontend/templates/index.html:967
 #, fuzzy
 msgid "Data Lab & Data Center Specialist"
 msgstr "Especialista en Documentos"
 
-#: frontend/templates/index.html:134
+#: frontend/templates/index.html:135
 msgid ""
 "Expert assistance for data lab development, data center infrastructure, "
 "scalability, and energy efficiency."
 msgstr ""
 
-#: frontend/templates/index.html:137 frontend/templates/index.html:962
+#: frontend/templates/index.html:138 frontend/templates/index.html:983
 msgid "Incoterms Expert"
 msgstr "Experto en Incoterms"
 
-#: frontend/templates/index.html:138
+#: frontend/templates/index.html:139
 msgid ""
 "Professional expert for guidance and clarification on international "
 "commercial terms (Incoterms)."
@@ -564,51 +612,51 @@ msgstr ""
 "Experto profesional para el asesoramiento y aclaración sobre términos "
 "comerciales internacionales (Incoterms)."
 
-#: frontend/templates/index.html:141 frontend/templates/index.html:850
+#: frontend/templates/index.html:142 frontend/templates/index.html:871
 msgid "E-commerce & Website Manager"
 msgstr ""
 
-#: frontend/templates/index.html:142
+#: frontend/templates/index.html:143
 msgid ""
 "Expert e-commerce assistant for platform management, product listings, "
 "and website maintenance."
 msgstr ""
 
-#: frontend/templates/index.html:145 frontend/templates/index.html:866
+#: frontend/templates/index.html:146 frontend/templates/index.html:887
 msgid "Government Public Administrator"
 msgstr ""
 
-#: frontend/templates/index.html:146
+#: frontend/templates/index.html:147
 msgid ""
 "Assistance with government services, document providing, and navigating "
 "public administration."
 msgstr ""
 
-#: frontend/templates/index.html:149 frontend/templates/index.html:834
+#: frontend/templates/index.html:150 frontend/templates/index.html:855
 msgid "Biotech Development Role"
 msgstr ""
 
-#: frontend/templates/index.html:150
+#: frontend/templates/index.html:151
 msgid ""
 "Expert specialist for biotech development, molecular biology research, "
 "and regulatory guidance."
 msgstr ""
 
-#: frontend/templates/index.html:153 frontend/templates/index.html:818
+#: frontend/templates/index.html:154 frontend/templates/index.html:839
 msgid "Legal & Human Rights Assistant"
 msgstr ""
 
-#: frontend/templates/index.html:154
+#: frontend/templates/index.html:155
 msgid ""
 "Professional assistance for lawyers, courts, parliaments, and legal "
 "students, promoting human rights."
 msgstr ""
 
-#: frontend/templates/index.html:157 frontend/templates/index.html:802
+#: frontend/templates/index.html:158 frontend/templates/index.html:823
 msgid "Fintech & Banking Strategist"
 msgstr "Estratega de Fintech y Banca"
 
-#: frontend/templates/index.html:158
+#: frontend/templates/index.html:159
 msgid ""
 "Expert assistance for banks, fintechs, and VC firms, focusing on data "
 "development, scale, and security."
@@ -616,78 +664,88 @@ msgstr ""
 "Asistencia experta para bancos, fintechs y firmas de VC, con un enfoque "
 "en el desarrollo de datos, escala y seguridad."
 
-#: frontend/templates/index.html:161 frontend/templates/index.html:786
+#: frontend/templates/index.html:162 frontend/templates/index.html:807
 msgid "Music Production & Promotion"
 msgstr ""
 
-#: frontend/templates/index.html:162
+#: frontend/templates/index.html:163
 msgid ""
 "Expert assistance with beats, song structures, rhythms, and singer "
 "promotion/marketing strategies."
 msgstr ""
 
-#: frontend/templates/index.html:165 frontend/templates/index.html:770
+#: frontend/templates/index.html:166 frontend/templates/index.html:791
 #, fuzzy
 msgid "Aerospace & Automotive Specialist"
 msgstr "Especialista en Documentos"
 
-#: frontend/templates/index.html:166
+#: frontend/templates/index.html:167
 msgid ""
 "Expert specialist for automotive, aeronautics, and astronomy sectors, "
 "providing technical and strategic guidance."
 msgstr ""
 
-#: frontend/templates/index.html:169 frontend/templates/index.html:754
+#: frontend/templates/index.html:170 frontend/templates/index.html:775
 msgid "Data Science, Steward & DPO Assistant"
 msgstr ""
 
-#: frontend/templates/index.html:170
+#: frontend/templates/index.html:171
 msgid ""
 "Expert assistant for data science projects, data stewardship/governance, "
 "and data protection (DPO) compliance."
 msgstr ""
 
-#: frontend/templates/index.html:173 frontend/templates/index.html:738
+#: frontend/templates/index.html:174 frontend/templates/index.html:759
 msgid "Logo & Thumbnail Creator"
 msgstr ""
 
-#: frontend/templates/index.html:174
+#: frontend/templates/index.html:175
 msgid ""
 "Expert graphic designer for creating professional logos and eye-catching "
 "thumbnails for your brand."
 msgstr ""
 
-#: frontend/templates/index.html:177 frontend/templates/index.html:722
+#: frontend/templates/index.html:178 frontend/templates/index.html:743
 msgid "AI Content & Fake News Verifier"
 msgstr ""
 
-#: frontend/templates/index.html:178
+#: frontend/templates/index.html:179
 msgid ""
 "Expert in digital forensics for AI content detection, fact-checking, and "
 "identifying fake news or misinformation."
 msgstr ""
 
-#: frontend/templates/index.html:182
+#: frontend/templates/index.html:182 frontend/templates/index.html:298
+msgid "Video Producer & Cinematic Strategist"
+msgstr ""
+
+#: frontend/templates/index.html:183
+msgid ""
+"Expert guidance on scriptwriting, filming, post-production editing, and "
+"viral distribution strategies for professional videos."
+msgstr ""
+
+#: frontend/templates/index.html:187
 msgid ""
 "Elite specialist for detecting, preventing, and removing all types of "
 "malware, providing advanced cybersecurity guidance."
 msgstr ""
 
-#: frontend/templates/index.html:185 frontend/templates/index.html:658
+#: frontend/templates/index.html:190 frontend/templates/index.html:679
 msgid "Automatic Learning Role"
 msgstr ""
 
-#: frontend/templates/index.html:186
+#: frontend/templates/index.html:191
 msgid ""
 "Expert in machine learning and AI development, providing guidance on "
 "algorithm selection, model optimization, and deployment."
 msgstr ""
 
-#: frontend/templates/index.html:189 frontend/templates/index.html:674
+#: frontend/templates/index.html:194 frontend/templates/index.html:695
 msgid "Computer Vision Specialist"
 msgstr "Especialista en Visión Artificial"
 
-#: frontend/templates/index.html:190
+#: frontend/templates/index.html:195
 msgid ""
 "Expert in image and video analysis, deep learning for vision, and real-"
 "world vision applications."
@@ -695,11 +753,11 @@ msgstr ""
 "Experto en análisis de imagen y vídeo, aprendizaje profundo para visión y"
 " aplicaciones de visión en el mundo real."
 
-#: frontend/templates/index.html:193 frontend/templates/index.html:690
+#: frontend/templates/index.html:198 frontend/templates/index.html:711
 msgid "IA Researcher"
 msgstr "Investigador de IA"
 
-#: frontend/templates/index.html:194
+#: frontend/templates/index.html:199
 msgid ""
 "Expert AI researcher providing insights into state-of-the-art research, "
 "methodology, and future directions."
@@ -707,11 +765,11 @@ msgstr ""
 "Investigador experto en IA que ofrece información sobre investigación de "
 "vanguardia, metodología y direcciones futuras."
 
-#: frontend/templates/index.html:197 frontend/templates/index.html:642
+#: frontend/templates/index.html:202 frontend/templates/index.html:663
 msgid "eSports Development & Assistance"
 msgstr "Desarrollo y Asistencia de eSports"
 
-#: frontend/templates/index.html:198
+#: frontend/templates/index.html:203
 msgid ""
 "Expert assistance for eSports development, team management, tournament "
 "organization, and performance optimization."
@@ -719,11 +777,11 @@ msgstr ""
 "Asistencia experta para el desarrollo de eSports, gestión de equipos, "
 "organización de torneos y optimización del rendimiento."
 
-#: frontend/templates/index.html:201 frontend/templates/index.html:626
+#: frontend/templates/index.html:206 frontend/templates/index.html:647
 msgid "AI Dermatology Specialist"
 msgstr "Especialista en Dermatología IA"
 
-#: frontend/templates/index.html:202
+#: frontend/templates/index.html:207
 msgid ""
 "Expert assistance for skin conditions, treatments, and dermatological "
 "procedures, providing professional guidance."
@@ -731,32 +789,32 @@ msgstr ""
 "Asistencia experta para afecciones de la piel, tratamientos y "
 "procedimientos dermatológicos, proporcionando orientación profesional."
 
-#: frontend/templates/index.html:205 frontend/templates/index.html:610
+#: frontend/templates/index.html:210 frontend/templates/index.html:631
 msgid "Microsoft Ignite & Azure AI Expert"
 msgstr ""
 
-#: frontend/templates/index.html:206
+#: frontend/templates/index.html:211
 msgid ""
 "Expert guidance on Microsoft Ignite announcements, Azure AI Foundry, and "
 "building Agentic AI solutions."
 msgstr ""
 
-#: frontend/templates/index.html:209 frontend/templates/index.html:594
+#: frontend/templates/index.html:214 frontend/templates/index.html:615
 #, fuzzy
 msgid "AI Diagnostic Specialist"
 msgstr "Especialista en Dermatología IA"
 
-#: frontend/templates/index.html:210
+#: frontend/templates/index.html:215
 msgid ""
 "Expert diagnostic assistance for all diseases, with specialized focus on "
 "cancer and heart disease."
 msgstr ""
 
-#: frontend/templates/index.html:213 frontend/templates/index.html:578
+#: frontend/templates/index.html:218 frontend/templates/index.html:599
 msgid "E-shop Specialist"
 msgstr "Especialista en E-shop"
 
-#: frontend/templates/index.html:214
+#: frontend/templates/index.html:219
 msgid ""
 "Expert assistance for creating and managing e-shops and e-commerce sites,"
 " providing strategic and technical guidance."
@@ -764,32 +822,32 @@ msgstr ""
 "Asistencia experta para crear y gestionar e-shops y sitios de comercio "
 "electrónico, proporcionando orientación estratégica y técnica."
 
-#: frontend/templates/index.html:217 frontend/templates/index.html:562
+#: frontend/templates/index.html:222 frontend/templates/index.html:583
 #, fuzzy
 msgid "IT Operations Specialist"
 msgstr "Especialista en Dermatología IA"
 
-#: frontend/templates/index.html:218
+#: frontend/templates/index.html:223
 msgid ""
 "Expert assistance for server management, network administration, "
 "infrastructure as code, and monitoring strategies."
 msgstr ""
 
-#: frontend/templates/index.html:221
+#: frontend/templates/index.html:226
 msgid "Software & Hardware Maintenance"
 msgstr ""
 
-#: frontend/templates/index.html:222
+#: frontend/templates/index.html:227
 msgid ""
 "Expert assistance for software updates, computer hardware "
 "troubleshooting, and mobile phone maintenance."
 msgstr ""
 
-#: frontend/templates/index.html:225 frontend/templates/index.html:530
+#: frontend/templates/index.html:230 frontend/templates/index.html:551
 msgid "Digital Marketing & Bot Specialist"
 msgstr ""
 
-#: frontend/templates/index.html:226
+#: frontend/templates/index.html:231
 #, fuzzy
 msgid ""
 "Expert assistance for e-mail, SMS, and bot marketing & management, "
@@ -798,162 +856,206 @@ msgstr ""
 "Asistencia experta para crear y gestionar e-shops y sitios de comercio "
 "electrónico, proporcionando orientación estratégica y técnica."
 
-#: frontend/templates/index.html:229
+#: frontend/templates/index.html:234
 msgid "Digital Repair & Troubleshooting"
 msgstr ""
 
-#: frontend/templates/index.html:230
+#: frontend/templates/index.html:235
 msgid ""
 "Expert assistance for digital repair and troubleshooting of media, apps, "
 "websites, and software."
 msgstr ""
 
-#: frontend/templates/index.html:233 frontend/templates/index.html:482
+#: frontend/templates/index.html:238 frontend/templates/index.html:503
 #, fuzzy
 msgid "Investment & Trading Specialist"
 msgstr "Especialista en Logística y Transporte"
 
-#: frontend/templates/index.html:234
+#: frontend/templates/index.html:239
 msgid ""
 "Expert assistance for investment optimization, trading strategies, and "
 "market analysis insights."
 msgstr ""
 
-#: frontend/templates/index.html:237 frontend/templates/index.html:498
+#: frontend/templates/index.html:242 frontend/templates/index.html:519
 msgid "AutoGPT Agent"
 msgstr ""
 
-#: frontend/templates/index.html:238
+#: frontend/templates/index.html:243
 msgid ""
 "Autonomous AI agent specialized in multi-step task planning, strategy "
 "development, and goal execution."
 msgstr ""
 
-#: frontend/templates/index.html:241 frontend/templates/index.html:421
+#: frontend/templates/index.html:246 frontend/templates/index.html:442
 msgid "AutoML Feature Engineering"
 msgstr ""
 
-#: frontend/templates/index.html:242
+#: frontend/templates/index.html:247
 msgid ""
 "Expert assistance for automated feature engineering and data preparation "
 "for machine learning models."
 msgstr ""
 
-#: frontend/templates/index.html:245 frontend/templates/index.html:436
+#: frontend/templates/index.html:250 frontend/templates/index.html:457
 msgid "AutoML Hyperparameter Tuner"
 msgstr ""
 
-#: frontend/templates/index.html:246
+#: frontend/templates/index.html:251
 msgid ""
 "Expert assistance for automated hyperparameter optimization and model "
 "tuning."
 msgstr ""
 
-#: frontend/templates/index.html:249 frontend/templates/index.html:451
+#: frontend/templates/index.html:254 frontend/templates/index.html:472
 msgid "AutoML Model Selector"
 msgstr ""
 
-#: frontend/templates/index.html:250
+#: frontend/templates/index.html:255
 msgid ""
 "Expert assistance for automated model selection and performance "
 "evaluation."
 msgstr ""
 
-#: frontend/templates/index.html:253 frontend/templates/index.html:466
+#: frontend/templates/index.html:258 frontend/templates/index.html:487
 msgid "AutoML MLOps Expert"
 msgstr ""
 
-#: frontend/templates/index.html:254
+#: frontend/templates/index.html:259
 msgid ""
 "Expert assistance for automated ML pipelines and MLOps deployment "
 "strategies."
 msgstr ""
 
-#: frontend/templates/index.html:257 frontend/templates/index.html:405
+#: frontend/templates/index.html:262 frontend/templates/index.html:426
 msgid "Cloud Infrastructure Architect"
 msgstr ""
 
-#: frontend/templates/index.html:258
+#: frontend/templates/index.html:263
 msgid ""
 "Expert assistance for creating secure IP addresses, DNS configuration, "
 "and cloud server creation."
 msgstr ""
 
-#: frontend/templates/index.html:261 frontend/templates/index.html:293
+#: frontend/templates/index.html:266 frontend/templates/index.html:314
 msgid "Domain Codex Designer"
 msgstr ""
 
-#: frontend/templates/index.html:262
+#: frontend/templates/index.html:267
 msgid ""
 "Elite custom domain design and USSP (U-space Service Provider) "
 "infrastructure architect."
 msgstr ""
 
-#: frontend/templates/index.html:265 frontend/templates/index.html:309
+#: frontend/templates/index.html:270 frontend/templates/index.html:330
 #, fuzzy
 msgid "Llama Intelligence Specialist"
 msgstr "Especialista en Dermatología IA"
 
-#: frontend/templates/index.html:266
+#: frontend/templates/index.html:271
 msgid ""
 "Deep reasoning and data-driven insights powered by Llama 3.1 405B for "
 "complex problem solving."
 msgstr ""
 
-#: frontend/templates/index.html:269 frontend/templates/index.html:325
+#: frontend/templates/index.html:274 frontend/templates/index.html:346
 #, fuzzy
 msgid "Llama Guard Safety Specialist"
 msgstr "Especialista en Dermatología IA"
 
-#: frontend/templates/index.html:270
+#: frontend/templates/index.html:275
 msgid ""
 "Expert AI safety and content moderation using Llama Guard for secure AI "
 "interactions."
 msgstr ""
 
-#: frontend/templates/index.html:273 frontend/templates/index.html:341
+#: frontend/templates/index.html:278 frontend/templates/index.html:362
 #, fuzzy
 msgid "Nemotron Reasoning Specialist"
 msgstr "Especialista en Logística y Transporte"
 
-#: frontend/templates/index.html:274
+#: frontend/templates/index.html:279
 msgid "Elite reasoning and complex problem solving powered by NVIDIA Nemotron."
 msgstr ""
 
-#: frontend/templates/index.html:277 frontend/templates/index.html:357
+#: frontend/templates/index.html:282 frontend/templates/index.html:378
 #, fuzzy
 msgid "Mixtral Multilingual Specialist"
 msgstr "Especialista en Dermatología IA"
 
-#: frontend/templates/index.html:278
+#: frontend/templates/index.html:283
 msgid "High-quality multilingual assistance powered by Mixtral 8x7B."
 msgstr ""
 
-#: frontend/templates/index.html:281 frontend/templates/index.html:373
+#: frontend/templates/index.html:286 frontend/templates/index.html:394
 #, fuzzy
 msgid "Claude Intelligence Specialist"
 msgstr "Especialista en Dermatología IA"
 
-#: frontend/templates/index.html:282
+#: frontend/templates/index.html:287
 msgid "Deep reasoning and strategic analysis powered by Anthropic Claude."
 msgstr ""
 
-#: frontend/templates/index.html:285 frontend/templates/index.html:389
+#: frontend/templates/index.html:290 frontend/templates/index.html:410
 #, fuzzy
 msgid "Claude Coding Specialist"
 msgstr "Especialista en Dermatología IA"
 
-#: frontend/templates/index.html:286
+#: frontend/templates/index.html:291
 msgid ""
 "Elite code generation and architectural advice powered by Anthropic "
 "Claude."
 msgstr ""
 
-#: frontend/templates/index.html:296
+#: frontend/templates/index.html:301
+msgid "Video Production Support"
+msgstr ""
+
+#: frontend/templates/index.html:302
+#, fuzzy
+msgid ""
+"Enter your request for scriptwriting, filming techniques, or post-"
+"production guidance below."
+msgstr "Introduce tu solicitud para ebooks, artículos, PDFs o DOCs a continuación."
+
+#: frontend/templates/index.html:303
+#, fuzzy
+msgid "Your video production request"
+msgstr "Su solicitud de ingeniería de datos"
+
+#: frontend/templates/index.html:304 frontend/templates/index.html:320
+#: frontend/templates/index.html:336 frontend/templates/index.html:368
+#: frontend/templates/index.html:384 frontend/templates/index.html:400
+#: frontend/templates/index.html:416 frontend/templates/index.html:432
+#: frontend/templates/index.html:448 frontend/templates/index.html:463
+#: frontend/templates/index.html:478 frontend/templates/index.html:493
+#: frontend/templates/index.html:509 frontend/templates/index.html:541
+#: frontend/templates/index.html:557 frontend/templates/index.html:573
+#: frontend/templates/index.html:589 frontend/templates/index.html:605
+#: frontend/templates/index.html:621 frontend/templates/index.html:637
+#: frontend/templates/index.html:653 frontend/templates/index.html:669
+#: frontend/templates/index.html:685 frontend/templates/index.html:701
+#: frontend/templates/index.html:717 frontend/templates/index.html:733
+#: frontend/templates/index.html:765 frontend/templates/index.html:781
+#: frontend/templates/index.html:797 frontend/templates/index.html:813
+#: frontend/templates/index.html:829 frontend/templates/index.html:845
+#: frontend/templates/index.html:861 frontend/templates/index.html:877
+#: frontend/templates/index.html:893 frontend/templates/index.html:909
+#: frontend/templates/index.html:925 frontend/templates/index.html:941
+#: frontend/templates/index.html:957 frontend/templates/index.html:973
+#: frontend/templates/index.html:989 frontend/templates/index.html:1022
+#: frontend/templates/index.html:1038 frontend/templates/index.html:1054
+#: frontend/templates/index.html:1070 frontend/templates/index.html:1086
+#: frontend/templates/index.html:1102 frontend/templates/index.html:1118
+#: frontend/templates/index.html:1134 frontend/templates/index.html:1150
+msgid "Submit"
+msgstr "Enviar"
+
+#: frontend/templates/index.html:317
 msgid "DHCP, Codex Domain & USSP Support"
 msgstr ""
 
-#: frontend/templates/index.html:297
+#: frontend/templates/index.html:318
 #, fuzzy
 msgid ""
 "Enter your request for custom domain design, DHCP configuration, or USSP "
@@ -962,87 +1064,59 @@ msgstr ""
 "Ingrese su solicitud de gestión de equipos de eSports, planificación de "
 "torneos o análisis de rendimiento a continuación."
 
-#: frontend/templates/index.html:298
+#: frontend/templates/index.html:319
 #, fuzzy
 msgid "Your domain codex request"
 msgstr "Su solicitud de Incoterms"
 
-#: frontend/templates/index.html:299 frontend/templates/index.html:315
-#: frontend/templates/index.html:347 frontend/templates/index.html:363
-#: frontend/templates/index.html:379 frontend/templates/index.html:395
-#: frontend/templates/index.html:411 frontend/templates/index.html:427
-#: frontend/templates/index.html:442 frontend/templates/index.html:457
-#: frontend/templates/index.html:472 frontend/templates/index.html:488
-#: frontend/templates/index.html:520 frontend/templates/index.html:536
-#: frontend/templates/index.html:552 frontend/templates/index.html:568
-#: frontend/templates/index.html:584 frontend/templates/index.html:600
-#: frontend/templates/index.html:616 frontend/templates/index.html:632
-#: frontend/templates/index.html:648 frontend/templates/index.html:664
-#: frontend/templates/index.html:680 frontend/templates/index.html:696
-#: frontend/templates/index.html:712 frontend/templates/index.html:744
-#: frontend/templates/index.html:760 frontend/templates/index.html:776
-#: frontend/templates/index.html:792 frontend/templates/index.html:808
-#: frontend/templates/index.html:824 frontend/templates/index.html:840
-#: frontend/templates/index.html:856 frontend/templates/index.html:872
-#: frontend/templates/index.html:888 frontend/templates/index.html:904
-#: frontend/templates/index.html:920 frontend/templates/index.html:936
-#: frontend/templates/index.html:952 frontend/templates/index.html:968
-#: frontend/templates/index.html:1001 frontend/templates/index.html:1017
-#: frontend/templates/index.html:1033 frontend/templates/index.html:1049
-#: frontend/templates/index.html:1065 frontend/templates/index.html:1081
-#: frontend/templates/index.html:1097 frontend/templates/index.html:1113
-#: frontend/templates/index.html:1129
-msgid "Submit"
-msgstr "Enviar"
-
-#: frontend/templates/index.html:312
+#: frontend/templates/index.html:333
 msgid "Llama 3.1 405B Reasoning Support"
 msgstr ""
 
-#: frontend/templates/index.html:313
+#: frontend/templates/index.html:334
 msgid ""
 "Enter your complex problem or strategic inquiry for deep Llama-powered "
 "reasoning."
 msgstr ""
 
-#: frontend/templates/index.html:314 frontend/templates/index.html:346
+#: frontend/templates/index.html:335 frontend/templates/index.html:367
 #, fuzzy
 msgid "Your complex reasoning request"
 msgstr "Su solicitud de visión artificial"
 
-#: frontend/templates/index.html:328
+#: frontend/templates/index.html:349
 msgid "Llama Guard Safety Assessment"
 msgstr ""
 
-#: frontend/templates/index.html:329
+#: frontend/templates/index.html:350
 msgid ""
 "Enter a prompt or content to analyze for safety violations using Llama "
 "Guard."
 msgstr ""
 
-#: frontend/templates/index.html:330
+#: frontend/templates/index.html:351
 msgid "Content to assess for safety"
 msgstr ""
 
-#: frontend/templates/index.html:331
+#: frontend/templates/index.html:352
 msgid "Assess Safety"
 msgstr ""
 
-#: frontend/templates/index.html:344
+#: frontend/templates/index.html:365
 #, fuzzy
 msgid "Advanced Reasoning Support"
 msgstr "Experto en Ingeniería de Datos"
 
-#: frontend/templates/index.html:345
+#: frontend/templates/index.html:366
 msgid "Enter your complex problem for elite NVIDIA Nemotron-powered reasoning."
 msgstr ""
 
-#: frontend/templates/index.html:360
+#: frontend/templates/index.html:381
 #, fuzzy
 msgid "Multilingual Assistance Support"
 msgstr "Tu solicitud de asistencia militar"
 
-#: frontend/templates/index.html:361
+#: frontend/templates/index.html:382
 #, fuzzy
 msgid ""
 "Enter your request for high-quality multilingual assistance powered by "
@@ -1051,17 +1125,17 @@ msgstr ""
 "Introduce tu solicitud de asistencia para el plan de negocio a "
 "continuación."
 
-#: frontend/templates/index.html:362
+#: frontend/templates/index.html:383
 #, fuzzy
 msgid "Your multilingual request"
 msgstr "Tu solicitud musical"
 
-#: frontend/templates/index.html:376
+#: frontend/templates/index.html:397
 #, fuzzy
 msgid "Deep Reasoning & Analysis Support"
 msgstr "Soporte de Dermatología y Cuidado de la Piel"
 
-#: frontend/templates/index.html:377
+#: frontend/templates/index.html:398
 #, fuzzy
 msgid ""
 "Enter your request for deep reasoning and strategic analysis powered by "
@@ -1070,31 +1144,31 @@ msgstr ""
 "Ingrese su solicitud de consultoría fintech, estrategia de VC, escalado "
 "de datos o guía de seguridad."
 
-#: frontend/templates/index.html:378
+#: frontend/templates/index.html:399
 #, fuzzy
 msgid "Your reasoning or analysis request"
 msgstr "Tu solicitud musical"
 
-#: frontend/templates/index.html:392
+#: frontend/templates/index.html:413
 msgid "Elite Coding & Architecture Support"
 msgstr ""
 
-#: frontend/templates/index.html:393
+#: frontend/templates/index.html:414
 msgid ""
 "Enter your request for elite code generation or architectural advice "
 "powered by Anthropic Claude."
 msgstr ""
 
-#: frontend/templates/index.html:394
+#: frontend/templates/index.html:415
 #, fuzzy
 msgid "Your coding or architecture request"
 msgstr "Su solicitud de logística"
 
-#: frontend/templates/index.html:408
+#: frontend/templates/index.html:429
 msgid "Secure IPs, DNS & Cloud Server Support"
 msgstr ""
 
-#: frontend/templates/index.html:409
+#: frontend/templates/index.html:430
 #, fuzzy
 msgid ""
 "Enter your request for secure IP creation, DNS configuration, or cloud "
@@ -1103,17 +1177,17 @@ msgstr ""
 "Ingrese su solicitud para la creación de e-shops, selección de "
 "plataformas o estrategia de comercio electrónico a continuación."
 
-#: frontend/templates/index.html:410
+#: frontend/templates/index.html:431
 #, fuzzy
 msgid "Your cloud infrastructure request"
 msgstr "Su solicitud de logística"
 
-#: frontend/templates/index.html:424
+#: frontend/templates/index.html:445
 #, fuzzy
 msgid "Automated Feature Engineering Support"
 msgstr "Experto en Ingeniería de Datos"
 
-#: frontend/templates/index.html:425
+#: frontend/templates/index.html:446
 #, fuzzy
 msgid ""
 "Enter your request for automated feature engineering or data preparation "
@@ -1122,65 +1196,65 @@ msgstr ""
 "Introduce tu solicitud de asistencia para el plan de negocio a "
 "continuación."
 
-#: frontend/templates/index.html:426
+#: frontend/templates/index.html:447
 #, fuzzy
 msgid "Your feature engineering request"
 msgstr "Su solicitud de ingeniería de datos"
 
-#: frontend/templates/index.html:439
+#: frontend/templates/index.html:460
 msgid "Hyperparameter Optimization Support"
 msgstr ""
 
-#: frontend/templates/index.html:440
+#: frontend/templates/index.html:461
 #, fuzzy
 msgid "Enter your request for hyperparameter tuning or model optimization below."
 msgstr ""
 "Ingrese su solicitud de conocimientos de investigación de IA, metodología"
 " o discusión sobre el impacto ético a continuación."
 
-#: frontend/templates/index.html:441
+#: frontend/templates/index.html:462
 #, fuzzy
 msgid "Your tuning request"
 msgstr "Tu solicitud musical"
 
-#: frontend/templates/index.html:454
+#: frontend/templates/index.html:475
 msgid "Model Selection & Evaluation Support"
 msgstr ""
 
-#: frontend/templates/index.html:455
+#: frontend/templates/index.html:476
 #, fuzzy
 msgid "Enter your request for model selection or performance evaluation below."
 msgstr ""
 "Ingrese su solicitud para la creación de e-shops, selección de "
 "plataformas o estrategia de comercio electrónico a continuación."
 
-#: frontend/templates/index.html:456
+#: frontend/templates/index.html:477
 #, fuzzy
 msgid "Your model selection request"
 msgstr "Tu solicitud de podcast"
 
-#: frontend/templates/index.html:469
+#: frontend/templates/index.html:490
 msgid "MLOps & Pipeline Automation Support"
 msgstr ""
 
-#: frontend/templates/index.html:470
+#: frontend/templates/index.html:491
 #, fuzzy
 msgid "Enter your request for ML pipeline automation or MLOps strategy below."
 msgstr ""
 "Ingrese su solicitud para la creación de e-shops, selección de "
 "plataformas o estrategia de comercio electrónico a continuación."
 
-#: frontend/templates/index.html:471
+#: frontend/templates/index.html:492
 #, fuzzy
 msgid "Your MLOps request"
 msgstr "Tu solicitud musical"
 
-#: frontend/templates/index.html:485
+#: frontend/templates/index.html:506
 #, fuzzy
 msgid "Investment & Trading Support"
 msgstr "Soporte Estratégico de eSports"
 
-#: frontend/templates/index.html:486
+#: frontend/templates/index.html:507
 #, fuzzy
 msgid ""
 "Enter your request for investment optimization, trading strategies, or "
@@ -1190,76 +1264,76 @@ msgstr ""
 "tratamiento o análisis de productos para el cuidado de la piel a "
 "continuación."
 
-#: frontend/templates/index.html:487
+#: frontend/templates/index.html:508
 #, fuzzy
 msgid "Your investment or trading request"
 msgstr "Su solicitud de investigación"
 
-#: frontend/templates/index.html:501
+#: frontend/templates/index.html:522
 #, fuzzy
 msgid "Autonomous Planning & Strategy"
 msgstr "Planificación Táctica y Estrategia de Seguridad"
 
-#: frontend/templates/index.html:502
+#: frontend/templates/index.html:523
 msgid ""
 "Enter your complex task or goal below to generate an autonomous execution"
 " plan."
 msgstr ""
 
-#: frontend/templates/index.html:503
+#: frontend/templates/index.html:524
 msgid "Describe your complex goal or task"
 msgstr ""
 
-#: frontend/templates/index.html:504
+#: frontend/templates/index.html:525
 #, fuzzy
 msgid "Generate Plan"
 msgstr "Generar Promoción"
 
-#: frontend/templates/index.html:514
+#: frontend/templates/index.html:535
 #, fuzzy
 msgid "Digital Repair & Troubleshooting Specialist"
 msgstr "Especialista en Logística y Transporte"
 
-#: frontend/templates/index.html:517
+#: frontend/templates/index.html:538
 msgid "Digital Repair & Troubleshooting Support"
 msgstr ""
 
-#: frontend/templates/index.html:518
+#: frontend/templates/index.html:539
 msgid ""
 "Enter your request for media repair, app troubleshooting, website fixes, "
 "or software maintenance below."
 msgstr ""
 
-#: frontend/templates/index.html:519
+#: frontend/templates/index.html:540
 #, fuzzy
 msgid "Your digital repair request"
 msgstr "Su solicitud de investigación de IA"
 
-#: frontend/templates/index.html:533
+#: frontend/templates/index.html:554
 msgid "Marketing & Bot Support"
 msgstr ""
 
-#: frontend/templates/index.html:534
+#: frontend/templates/index.html:555
 #, fuzzy
 msgid ""
 "Enter your request for e-mail marketing, SMS campaigns, or bot management"
 " below."
 msgstr "Introduce tu solicitud para ebooks, artículos, PDFs o DOCs a continuación."
 
-#: frontend/templates/index.html:535
+#: frontend/templates/index.html:556
 #, fuzzy
 msgid "Your marketing or bot request"
 msgstr "Su solicitud de eSports"
 
-#: frontend/templates/index.html:546
+#: frontend/templates/index.html:567
 msgid "Software & Hardware Maintenance Specialist"
 msgstr ""
 
-#: frontend/templates/index.html:549
+#: frontend/templates/index.html:570
 msgid "Software, Computer & Phone Support"
 msgstr ""
 
-#: frontend/templates/index.html:550
+#: frontend/templates/index.html:571
 #, fuzzy
 msgid ""
 "Enter your request for software updates, hardware repairs, or device "
@@ -1268,16 +1342,16 @@ msgstr ""
 "Introduce tu solicitud de asistencia para servicios militares o de "
 "seguridad a continuación."
 
-#: frontend/templates/index.html:551
+#: frontend/templates/index.html:572
 #, fuzzy
 msgid "Your maintenance request"
 msgstr "Su solicitud de fintech"
 
-#: frontend/templates/index.html:565
+#: frontend/templates/index.html:586
 msgid "IT Ops & Infrastructure Support"
 msgstr ""
 
-#: frontend/templates/index.html:566
+#: frontend/templates/index.html:587
 #, fuzzy
 msgid ""
 "Enter your request for server management, network administration, or "
@@ -1286,16 +1360,16 @@ msgstr ""
 "Ingrese su solicitud de gestión de equipos de eSports, planificación de "
 "torneos o análisis de rendimiento a continuación."
 
-#: frontend/templates/index.html:567
+#: frontend/templates/index.html:588
 #, fuzzy
 msgid "Your IT operations request"
 msgstr "Su solicitud de investigación"
 
-#: frontend/templates/index.html:581
+#: frontend/templates/index.html:602
 msgid "E-shop & E-commerce Support"
 msgstr "Soporte de E-shop y Comercio Electrónico"
 
-#: frontend/templates/index.html:582
+#: frontend/templates/index.html:603
 msgid ""
 "Enter your request for e-shop creation, platform selection, or e-commerce"
 " strategy below."
@@ -1303,16 +1377,16 @@ msgstr ""
 "Ingrese su solicitud para la creación de e-shops, selección de "
 "plataformas o estrategia de comercio electrónico a continuación."
 
-#: frontend/templates/index.html:583
+#: frontend/templates/index.html:604
 msgid "Your e-shop request"
 msgstr "Su solicitud de e-shop"
 
-#: frontend/templates/index.html:597
+#: frontend/templates/index.html:618
 #, fuzzy
 msgid "Global Diagnostic & Medical Support"
 msgstr "Especialista en Dermatología IA"
 
-#: frontend/templates/index.html:598
+#: frontend/templates/index.html:619
 #, fuzzy
 msgid ""
 "Enter your request for diagnostic assistance regarding any disease, "
@@ -1322,31 +1396,31 @@ msgstr ""
 "tratamiento o análisis de productos para el cuidado de la piel a "
 "continuación."
 
-#: frontend/templates/index.html:599
+#: frontend/templates/index.html:620
 #, fuzzy
 msgid "Your diagnostic request"
 msgstr "Su solicitud de logística"
 
-#: frontend/templates/index.html:613
+#: frontend/templates/index.html:634
 msgid "Microsoft Ignite & Azure Support"
 msgstr ""
 
-#: frontend/templates/index.html:614
+#: frontend/templates/index.html:635
 msgid ""
 "Enter your request for information on Microsoft Ignite tools, Azure AI "
 "Foundry, or building AI agents below."
 msgstr ""
 
-#: frontend/templates/index.html:615
+#: frontend/templates/index.html:636
 #, fuzzy
 msgid "Your Microsoft Ignite or Azure request"
 msgstr "Tu solicitud de documento"
 
-#: frontend/templates/index.html:629
+#: frontend/templates/index.html:650
 msgid "Dermatology & Skincare Support"
 msgstr "Soporte de Dermatología y Cuidado de la Piel"
 
-#: frontend/templates/index.html:630
+#: frontend/templates/index.html:651
 msgid ""
 "Enter your request for skin condition information, treatment guidance, or"
 " skincare product analysis below."
@@ -1355,15 +1429,15 @@ msgstr ""
 "tratamiento o análisis de productos para el cuidado de la piel a "
 "continuación."
 
-#: frontend/templates/index.html:631
+#: frontend/templates/index.html:652
 msgid "Your dermatology request"
 msgstr "Su solicitud de dermatología"
 
-#: frontend/templates/index.html:645
+#: frontend/templates/index.html:666
 msgid "eSports Strategic Support"
 msgstr "Soporte Estratégico de eSports"
 
-#: frontend/templates/index.html:646
+#: frontend/templates/index.html:667
 msgid ""
 "Enter your request for eSports team management, tournament planning, or "
 "performance analysis below."
@@ -1371,30 +1445,30 @@ msgstr ""
 "Ingrese su solicitud de gestión de equipos de eSports, planificación de "
 "torneos o análisis de rendimiento a continuación."
 
-#: frontend/templates/index.html:647
+#: frontend/templates/index.html:668
 msgid "Your eSports request"
 msgstr "Su solicitud de eSports"
 
-#: frontend/templates/index.html:661
+#: frontend/templates/index.html:682
 msgid "Machine Learning & AI Guidance"
 msgstr ""
 
-#: frontend/templates/index.html:662
+#: frontend/templates/index.html:683
 msgid ""
 "Enter your request for machine learning algorithm selection, model "
 "optimization, or AI development strategy below."
 msgstr ""
 
-#: frontend/templates/index.html:663
+#: frontend/templates/index.html:684
 #, fuzzy
 msgid "Your machine learning request"
 msgstr "Su solicitud de ingeniería de datos"
 
-#: frontend/templates/index.html:677
+#: frontend/templates/index.html:698
 msgid "Computer Vision Guidance"
 msgstr "Guía de Visión Artificial"
 
-#: frontend/templates/index.html:678
+#: frontend/templates/index.html:699
 msgid ""
 "Enter your request for image analysis, object detection, or vision model "
 "deployment below."
@@ -1402,15 +1476,15 @@ msgstr ""
 "Ingrese su solicitud de análisis de imágenes, detección de objetos o "
 "implementación de modelos de visión a continuación."
 
-#: frontend/templates/index.html:679
+#: frontend/templates/index.html:700
 msgid "Your computer vision request"
 msgstr "Su solicitud de visión artificial"
 
-#: frontend/templates/index.html:693
+#: frontend/templates/index.html:714
 msgid "AI Research Support"
 msgstr "Soporte de Investigación de IA"
 
-#: frontend/templates/index.html:694
+#: frontend/templates/index.html:715
 msgid ""
 "Enter your request for AI research insights, methodology, or ethical "
 "impact discussion below."
@@ -1418,15 +1492,15 @@ msgstr ""
 "Ingrese su solicitud de conocimientos de investigación de IA, metodología"
 " o discusión sobre el impacto ético a continuación."
 
-#: frontend/templates/index.html:695
+#: frontend/templates/index.html:716
 msgid "Your AI research request"
 msgstr "Su solicitud de investigación de IA"
 
-#: frontend/templates/index.html:709
+#: frontend/templates/index.html:730
 msgid "Advanced Malware Defense & Cybersecurity"
 msgstr ""
 
-#: frontend/templates/index.html:710
+#: frontend/templates/index.html:731
 #, fuzzy
 msgid ""
 "Enter your request for malware detection, prevention, or cybersecurity "
@@ -1435,65 +1509,65 @@ msgstr ""
 "Ingrese su solicitud para la creación de e-shops, selección de "
 "plataformas o estrategia de comercio electrónico a continuación."
 
-#: frontend/templates/index.html:711
+#: frontend/templates/index.html:732
 #, fuzzy
 msgid "Your malware defense request"
 msgstr "Tu solicitud musical"
 
-#: frontend/templates/index.html:725
+#: frontend/templates/index.html:746
 msgid "Verify Your Content"
 msgstr ""
 
-#: frontend/templates/index.html:726
+#: frontend/templates/index.html:747
 msgid ""
 "Enter the text or content you want to verify for AI generation or fake "
 "information below."
 msgstr ""
 
-#: frontend/templates/index.html:727
+#: frontend/templates/index.html:748
 msgid "Your content to verify"
 msgstr ""
 
-#: frontend/templates/index.html:728
+#: frontend/templates/index.html:749
 msgid "Verify Content"
 msgstr ""
 
-#: frontend/templates/index.html:741
+#: frontend/templates/index.html:762
 msgid "Design Your Logo or Thumbnail"
 msgstr ""
 
-#: frontend/templates/index.html:742
+#: frontend/templates/index.html:763
 #, fuzzy
 msgid ""
 "Enter your request for logo concepts, color palettes, or thumbnail design"
 " ideas below."
 msgstr "Introduce tu solicitud para ebooks, artículos, PDFs o DOCs a continuación."
 
-#: frontend/templates/index.html:743
+#: frontend/templates/index.html:764
 #, fuzzy
 msgid "Your logo or thumbnail request"
 msgstr "Tu solicitud musical"
 
-#: frontend/templates/index.html:757
+#: frontend/templates/index.html:778
 msgid "Data Insights, Governance & Privacy"
 msgstr ""
 
-#: frontend/templates/index.html:758
+#: frontend/templates/index.html:779
 msgid ""
 "Enter your request for data science analysis, data stewardship guidance, "
 "or DPO/privacy compliance assistance."
 msgstr ""
 
-#: frontend/templates/index.html:759
+#: frontend/templates/index.html:780
 #, fuzzy
 msgid "Your data science or protection request"
 msgstr "Su solicitud de ingeniería de datos"
 
-#: frontend/templates/index.html:773
+#: frontend/templates/index.html:794
 msgid "Aerospace, Automotive & Astronomy Support"
 msgstr ""
 
-#: frontend/templates/index.html:774
+#: frontend/templates/index.html:795
 #, fuzzy
 msgid ""
 "Enter your request for automotive engineering, aerospace technology, or "
@@ -1502,31 +1576,31 @@ msgstr ""
 "Introduce tu solicitud de asistencia para el plan de negocio a "
 "continuación."
 
-#: frontend/templates/index.html:775
+#: frontend/templates/index.html:796
 #, fuzzy
 msgid "Your aerospace or automotive request"
 msgstr "Tu solicitud de documento"
 
-#: frontend/templates/index.html:789
+#: frontend/templates/index.html:810
 msgid "Beats, Songs & Artist Promotion"
 msgstr ""
 
-#: frontend/templates/index.html:790
+#: frontend/templates/index.html:811
 msgid ""
 "Enter your request for music production, beats, rhythms, or singer "
 "promotion strategies."
 msgstr ""
 
-#: frontend/templates/index.html:791
+#: frontend/templates/index.html:812
 #, fuzzy
 msgid "Your music request"
 msgstr "Tu solicitud musical"
 
-#: frontend/templates/index.html:805
+#: frontend/templates/index.html:826
 msgid "Fintech, VC & Data Security Support"
 msgstr "Soporte para Fintech, VC y Seguridad de Datos"
 
-#: frontend/templates/index.html:806
+#: frontend/templates/index.html:827
 msgid ""
 "Enter your request for fintech consulting, VC strategy, data scaling, or "
 "security guidance."
@@ -1534,44 +1608,44 @@ msgstr ""
 "Ingrese su solicitud de consultoría fintech, estrategia de VC, escalado "
 "de datos o guía de seguridad."
 
-#: frontend/templates/index.html:807
+#: frontend/templates/index.html:828
 msgid "Your fintech request"
 msgstr "Su solicitud de fintech"
 
-#: frontend/templates/index.html:821
+#: frontend/templates/index.html:842
 msgid "Legal & Human Rights Support"
 msgstr ""
 
-#: frontend/templates/index.html:822
+#: frontend/templates/index.html:843
 msgid ""
 "Enter your request for legal advice, court/parliament assistance, student"
 " exercises, or human rights advocacy."
 msgstr ""
 
-#: frontend/templates/index.html:823
+#: frontend/templates/index.html:844
 #, fuzzy
 msgid "Your legal request"
 msgstr "Tu solicitud musical"
 
-#: frontend/templates/index.html:837
+#: frontend/templates/index.html:858
 msgid "Biotech Research & Development"
 msgstr ""
 
-#: frontend/templates/index.html:838
+#: frontend/templates/index.html:859
 #, fuzzy
 msgid "Enter your biotechnology project, research, or regulatory request below."
 msgstr "Ingrese su solicitud de Incoterms o comercio internacional a continuación."
 
-#: frontend/templates/index.html:839
+#: frontend/templates/index.html:860
 #, fuzzy
 msgid "Your biotech request"
 msgstr "Su solicitud de Incoterms"
 
-#: frontend/templates/index.html:853
+#: frontend/templates/index.html:874
 msgid "Manage Your E-commerce Site"
 msgstr ""
 
-#: frontend/templates/index.html:854
+#: frontend/templates/index.html:875
 #, fuzzy
 msgid ""
 "Enter your e-commerce platform, product listing, or website management "
@@ -1580,59 +1654,59 @@ msgstr ""
 "Ingrese su solicitud de creación, perfeccionamiento o diseño de podcast a"
 " continuación."
 
-#: frontend/templates/index.html:855
+#: frontend/templates/index.html:876
 #, fuzzy
 msgid "Your e-commerce request"
 msgstr "Su solicitud de Incoterms"
 
-#: frontend/templates/index.html:869
+#: frontend/templates/index.html:890
 msgid "Navigate Government Services"
 msgstr ""
 
-#: frontend/templates/index.html:870
+#: frontend/templates/index.html:891
 msgid ""
 "Enter your request for government services, document assistance, or "
 "public administration guidance."
 msgstr ""
 
-#: frontend/templates/index.html:871
+#: frontend/templates/index.html:892
 #, fuzzy
 msgid "Your government services request"
 msgstr "Tu solicitud de documento"
 
-#: frontend/templates/index.html:885
+#: frontend/templates/index.html:906
 msgid "Optimize Your Supply Chain"
 msgstr "Optimice su Cadena de Suministro"
 
-#: frontend/templates/index.html:886
+#: frontend/templates/index.html:907
 msgid "Enter your supply chain strategy, inventory, or sourcing request below."
 msgstr ""
 "Ingrese su estrategia de cadena de suministro, inventario o solicitud de "
 "abastecimiento a continuación."
 
-#: frontend/templates/index.html:887
+#: frontend/templates/index.html:908
 msgid "Your supply chain request"
 msgstr "Su solicitud de cadena de suministro"
 
-#: frontend/templates/index.html:901
+#: frontend/templates/index.html:922
 msgid "Manage Logistics & Transportation"
 msgstr "Gestionar Logística y Transporte"
 
-#: frontend/templates/index.html:902
+#: frontend/templates/index.html:923
 msgid "Enter your logistics, route optimization, or shipping request below."
 msgstr ""
 "Ingrese su solicitud de logística, optimización de rutas o envío a "
 "continuación."
 
-#: frontend/templates/index.html:903
+#: frontend/templates/index.html:924
 msgid "Your logistics request"
 msgstr "Su solicitud de logística"
 
-#: frontend/templates/index.html:917
+#: frontend/templates/index.html:938
 msgid "Design & Build Data Pipelines"
 msgstr "Diseñar y Construir Tuberías de Datos"
 
-#: frontend/templates/index.html:918
+#: frontend/templates/index.html:939
 msgid ""
 "Enter your data engineering, pipeline design, or architecture request "
 "below."
@@ -1640,258 +1714,258 @@ msgstr ""
 "Ingrese su solicitud de ingeniería de datos, diseño de tuberías o "
 "arquitectura a continuación."
 
-#: frontend/templates/index.html:919
+#: frontend/templates/index.html:940
 msgid "Your data engineering request"
 msgstr "Su solicitud de ingeniería de datos"
 
-#: frontend/templates/index.html:933
+#: frontend/templates/index.html:954
 #, fuzzy
 msgid "AI-Driven Data Pipelines"
 msgstr "Diseñar y Construir Tuberías de Datos"
 
-#: frontend/templates/index.html:934
+#: frontend/templates/index.html:955
 msgid ""
 "Enter your request for AI-optimized data pipelines, feature stores, or "
 "data preparation for LLMs."
 msgstr ""
 
-#: frontend/templates/index.html:935
+#: frontend/templates/index.html:956
 #, fuzzy
 msgid "Your AI data engineering request"
 msgstr "Su solicitud de ingeniería de datos"
 
-#: frontend/templates/index.html:949
+#: frontend/templates/index.html:970
 msgid "Data Lab & Infrastructure Support"
 msgstr ""
 
-#: frontend/templates/index.html:950
+#: frontend/templates/index.html:971
 msgid ""
 "Enter your request for data lab development, data center infrastructure, "
 "or energy efficiency strategies."
 msgstr ""
 
-#: frontend/templates/index.html:951
+#: frontend/templates/index.html:972
 #, fuzzy
 msgid "Your data lab or data center request"
 msgstr "Su solicitud de ingeniería de datos"
 
-#: frontend/templates/index.html:965
+#: frontend/templates/index.html:986
 msgid "Get Guidance on Incoterms"
 msgstr "Obtenga Asesoramiento sobre Incoterms"
 
-#: frontend/templates/index.html:966
+#: frontend/templates/index.html:987
 msgid "Enter your Incoterms or international trade request below."
 msgstr "Ingrese su solicitud de Incoterms o comercio internacional a continuación."
 
-#: frontend/templates/index.html:967
+#: frontend/templates/index.html:988
 msgid "Your Incoterms request"
 msgstr "Su solicitud de Incoterms"
 
-#: frontend/templates/index.html:978
+#: frontend/templates/index.html:999
 msgid "Global Translator"
 msgstr "Traductor Global"
 
-#: frontend/templates/index.html:981
+#: frontend/templates/index.html:1002
 msgid "Translate Text to Any Language"
 msgstr "Traducir texto a cualquier idioma"
 
-#: frontend/templates/index.html:982
+#: frontend/templates/index.html:1003
 msgid "Enter the text you want to translate and the target language."
 msgstr "Introduce el texto que quieres traducir y el idioma de destino."
 
-#: frontend/templates/index.html:983
+#: frontend/templates/index.html:1004
 msgid "Text to translate"
 msgstr "Texto a traducir"
 
-#: frontend/templates/index.html:984
+#: frontend/templates/index.html:1005
 msgid "Target Language (e.g., Spanish, French, Japanese)"
 msgstr "Idioma de destino (por ejemplo, español, francés, japonés)"
 
-#: frontend/templates/index.html:985
+#: frontend/templates/index.html:1006
 msgid "Translate"
 msgstr "Traducir"
 
-#: frontend/templates/index.html:998
+#: frontend/templates/index.html:1019
 msgid "Create, Perfect & Design Your Podcast"
 msgstr "Crea, Perfecciona y Diseña Tu Podcast"
 
-#: frontend/templates/index.html:999
+#: frontend/templates/index.html:1020
 msgid "Enter your podcast creation, perfection, or design request below."
 msgstr ""
 "Ingrese su solicitud de creación, perfeccionamiento o diseño de podcast a"
 " continuación."
 
-#: frontend/templates/index.html:1000
+#: frontend/templates/index.html:1021
 msgid "Your podcast request"
 msgstr "Tu solicitud de podcast"
 
-#: frontend/templates/index.html:1014
+#: frontend/templates/index.html:1035
 msgid "Tactical Planning & Security Strategy"
 msgstr "Planificación Táctica y Estrategia de Seguridad"
 
-#: frontend/templates/index.html:1015
+#: frontend/templates/index.html:1036
 msgid "Enter your request for military or security services assistance below."
 msgstr ""
 "Introduce tu solicitud de asistencia para servicios militares o de "
 "seguridad a continuación."
 
-#: frontend/templates/index.html:1016
+#: frontend/templates/index.html:1037
 msgid "Your military assistance request"
 msgstr "Tu solicitud de asistencia militar"
 
-#: frontend/templates/index.html:1030
+#: frontend/templates/index.html:1051
 msgid "Cybersecurity & Global Security Investigation"
 msgstr "Investigación de Ciberseguridad y Seguridad Global"
 
-#: frontend/templates/index.html:1031
+#: frontend/templates/index.html:1052
 msgid "Enter your security investigation or data protection request below."
 msgstr ""
 "Introduzca su solicitud de investigación de seguridad o protección de "
 "datos a continuación."
 
-#: frontend/templates/index.html:1032
+#: frontend/templates/index.html:1053
 msgid "Your investigation request"
 msgstr "Su solicitud de investigación"
 
-#: frontend/templates/index.html:1043
+#: frontend/templates/index.html:1064
 msgid "Business Plan Creator"
 msgstr "Creador de Planes de Negocio"
 
-#: frontend/templates/index.html:1046
+#: frontend/templates/index.html:1067
 msgid "Create, perfect, and develop your business plan"
 msgstr "Crea, perfecciona y desarrolla tu plan de negocio"
 
-#: frontend/templates/index.html:1047
+#: frontend/templates/index.html:1068
 msgid "Enter your request for business plan assistance below."
 msgstr ""
 "Introduce tu solicitud de asistencia para el plan de negocio a "
 "continuación."
 
-#: frontend/templates/index.html:1048
+#: frontend/templates/index.html:1069
 msgid "Your business plan request"
 msgstr "Tu solicitud de plan de negocio"
 
-#: frontend/templates/index.html:1059
+#: frontend/templates/index.html:1080
 msgid "Document Specialist"
 msgstr "Especialista en Documentos"
 
-#: frontend/templates/index.html:1062
+#: frontend/templates/index.html:1083
 msgid "Write, scan, and build documents"
 msgstr "Escribir, escanear y crear documentos"
 
-#: frontend/templates/index.html:1063
+#: frontend/templates/index.html:1084
 msgid "Enter your request for ebooks, articles, PDFs, or DOCs below."
 msgstr "Introduce tu solicitud para ebooks, artículos, PDFs o DOCs a continuación."
 
-#: frontend/templates/index.html:1064
+#: frontend/templates/index.html:1085
 msgid "Your document request"
 msgstr "Tu solicitud de documento"
 
-#: frontend/templates/index.html:1075
+#: frontend/templates/index.html:1096
 msgid "Geometry Assistant"
 msgstr "Asistente de Geometría"
 
-#: frontend/templates/index.html:1078
+#: frontend/templates/index.html:1099
 msgid "Get help with geometry problems"
 msgstr "Obtén ayuda con problemas de geometría"
 
-#: frontend/templates/index.html:1079
+#: frontend/templates/index.html:1100
 msgid "Enter your geometry question or problem below."
 msgstr "Introduce tu pregunta o problema de geometría a continuación."
 
-#: frontend/templates/index.html:1080
+#: frontend/templates/index.html:1101
 msgid "Your geometry question"
 msgstr "Tu pregunta de geometría"
 
-#: frontend/templates/index.html:1091
+#: frontend/templates/index.html:1112
 msgid "Cartography Assistant"
 msgstr "Asistente de Cartografía"
 
-#: frontend/templates/index.html:1094
+#: frontend/templates/index.html:1115
 msgid "Get help with maps and cartography"
 msgstr "Obtén ayuda con mapas y cartografía"
 
-#: frontend/templates/index.html:1095
+#: frontend/templates/index.html:1116
 msgid "Enter your cartography or GIS question below."
 msgstr "Introduce tu pregunta de cartografía o SIG a continuación."
 
-#: frontend/templates/index.html:1096
+#: frontend/templates/index.html:1117
 msgid "Your cartography question"
 msgstr "Tu pregunta de cartografía"
 
-#: frontend/templates/index.html:1110
+#: frontend/templates/index.html:1131
 msgid "Get musical assistance or compositions"
 msgstr "Obtén asistencia musical o composiciones"
 
-#: frontend/templates/index.html:1111
+#: frontend/templates/index.html:1132
 msgid "Enter your musical request below."
 msgstr "Introduce tu solicitud musical a continuación."
 
-#: frontend/templates/index.html:1112
+#: frontend/templates/index.html:1133
 msgid "Your musical request"
 msgstr "Tu solicitud musical"
 
-#: frontend/templates/index.html:1126
+#: frontend/templates/index.html:1147
 msgid "Ask a question or submit an exercise"
 msgstr "Haz una pregunta o envía un ejercicio"
 
-#: frontend/templates/index.html:1127
+#: frontend/templates/index.html:1148
 msgid "Enter your question or exercise below."
 msgstr "Introduce tu pregunta o ejercicio a continuación."
 
-#: frontend/templates/index.html:1128
+#: frontend/templates/index.html:1149
 msgid "Your question or exercise"
 msgstr "Tu pregunta o ejercicio"
 
-#: frontend/templates/index.html:1155
+#: frontend/templates/index.html:1176
 msgid "Create a New Project"
 msgstr "Crear un Nuevo Proyecto"
 
-#: frontend/templates/index.html:1158
+#: frontend/templates/index.html:1179
 msgid "Project Details"
 msgstr "Detalles del Proyecto"
 
-#: frontend/templates/index.html:1159
+#: frontend/templates/index.html:1180
 msgid "Enter the title and description for your new project."
 msgstr "Introduce el título y la descripción de tu nuevo proyecto."
 
-#: frontend/templates/index.html:1160
+#: frontend/templates/index.html:1181
 msgid "Project Title"
 msgstr "Título del Proyecto"
 
-#: frontend/templates/index.html:1161
+#: frontend/templates/index.html:1182
 msgid "Project Description"
 msgstr "Descripción del Proyecto"
 
-#: frontend/templates/index.html:1162
+#: frontend/templates/index.html:1183
 msgid "Create Project"
 msgstr "Crear Proyecto"
 
-#: frontend/templates/index.html:1172
+#: frontend/templates/index.html:1193
 msgid "Promote Your Startup"
 msgstr "Promociona tu Startup"
 
-#: frontend/templates/index.html:1175
+#: frontend/templates/index.html:1196
 msgid "Startup Details"
 msgstr "Detalles de la Startup"
 
-#: frontend/templates/index.html:1176
+#: frontend/templates/index.html:1197
 msgid "Enter a description of your startup to generate a promotion."
 msgstr "Introduce una descripción de tu startup para generar una promoción."
 
-#: frontend/templates/index.html:1177
+#: frontend/templates/index.html:1198
 msgid "Startup Description"
 msgstr "Descripción de la Startup"
 
-#: frontend/templates/index.html:1178
+#: frontend/templates/index.html:1199
 msgid "Generate Promotion"
 msgstr "Generar Promoción"
 
-#: frontend/templates/index.html:1189
+#: frontend/templates/index.html:1210
 msgid "Sponsor us on GitHub"
 msgstr "Patrocínanos en GitHub"
 
-#: frontend/templates/index.html:1189
+#: frontend/templates/index.html:1210
 msgid "Sponsor us via Stripe"
 msgstr "Patrocínanos vía Stripe"
 

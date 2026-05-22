@@ -1643,3 +1643,26 @@ def generate_deepmind_video_content(prompt: str) -> str:
         return response.text.strip()
     except Exception as e:
         return f"DeepMind Video Content Error: {e}"
+
+def provide_file_storage_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for File Storage, organization, and document management.
+    """
+    model = get_model()
+    system_prompt = (
+        "You are an Elite File Storage Specialist and Document Architect. "
+        "Your expertise covers cloud storage optimization, file organization systems, "
+        "document versioning, and secure data management. Provide high-level guidance "
+        "on managing digital assets, creating efficient folder structures, and using "
+        "metadata for easy file retrieval. You can also help users draft and format "
+        "documents that can be saved directly to their Yendoukoa AI storage."
+    )
+    prompt_template = ChatPromptTemplate.from_messages([
+        ("system", system_prompt),
+        ("user", "{prompt}")
+    ])
+    chain = prompt_template | model | StrOutputParser()
+    try:
+        return chain.invoke({"prompt": prompt})
+    except Exception as e:
+        return f"File Storage AI Error: {e}"

@@ -7,8 +7,9 @@ import httpx
 import asyncio
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin, urlparse
-from flask import Flask, jsonify, render_template, request, g, session, redirect, url_for
+from flask import Flask, jsonify, render_template, request, g, session, redirect, url_for, send_from_directory
 from flask_cors import CORS
+from werkzeug.utils import secure_filename
 import secrets
 from functools import wraps
 from flask_sqlalchemy import SQLAlchemy
@@ -52,6 +53,19 @@ class Project(db.Model):
 
     def __repr__(self):
         return f'<Project {self.title}>'
+
+class File(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    filename = db.Column(db.String(200), nullable=False)
+    file_type = db.Column(db.String(50), nullable=False)
+    content = db.Column(db.Text, nullable=True) # For docs/text files
+    file_path = db.Column(db.String(500), nullable=True) # For physical file storage
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    user = db.relationship('User', backref=db.backref('files', lazy=True))
+
+    def __repr__(self):
+        return f'<File {self.filename}>'
 
 class Payment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -606,7 +620,7 @@ def fetch_github_file(url):
 def require_api_key(f):
     @wraps(f)
     async def decorated_function(*args, **kwargs):
-        api_key = request.headers.get('X-API-Key')
+        api_key = request.headers.get('X-API-Key') or request.args.get('X-API-Key')
         if not api_key:
             return jsonify({"error": _("API key is missing")}), 401
         user = User.query.filter_by(api_key=api_key).first()
@@ -1759,6 +1773,17 @@ def deepmind_video_endpoint():
     return jsonify({"status": "success", "message": message})
 
 
+@app.route('/api/v1/files/assistance', methods=['POST'])
+@require_api_key
+def file_storage_assistance_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+    message = google_ai.provide_file_storage_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+
 @app.route('/api/v1/domain-codex/assistance', methods=['POST'])
 @require_api_key
 def domain_codex_assistance_endpoint():
@@ -1879,6 +1904,105 @@ def translate_endpoint():
         return jsonify({"error": _("Text is required")}), 400
     message = google_ai.translate_text(text, target_language)
     return jsonify({"status": "success", "message": message})
+
+
+@app.route('/api/v1/files/upload', methods=['POST'])
+@require_api_key
+def upload_file_endpoint():
+    if 'file' not in request.files:
+        return jsonify({"error": _("No file part")}), 400
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({"error": _("No selected file")}), 400
+
+    upload_folder = 'uploads'
+    if not os.path.exists(upload_folder):
+        os.makedirs(upload_folder)
+
+    filename = secure_filename(file.filename)
+    file_path = os.path.join(upload_folder, f"{g.user.id}_{filename}")
+    file.save(file_path)
+
+    new_file = File(
+        user_id=g.user.id,
+        filename=filename,
+        file_type=file.content_type or 'application/octet-stream',
+        file_path=file_path
+    )
+    db.session.add(new_file)
+    db.session.commit()
+
+    return jsonify({
+        "status": "success",
+        "message": _("File uploaded successfully"),
+        "file": {
+            "id": new_file.id,
+            "filename": new_file.filename,
+            "type": new_file.file_type
+        }
+    }), 201
+
+@app.route('/api/v1/files', methods=['GET'])
+@require_api_key
+def list_files_endpoint():
+    files = File.query.filter_by(user_id=g.user.id).all()
+    return jsonify([
+        {
+            "id": f.id,
+            "filename": f.filename,
+            "type": f.file_type,
+            "created_at": f.created_at.isoformat() if f.created_at else None
+        } for f in files
+    ])
+
+@app.route('/api/v1/files/create-doc', methods=['POST'])
+@require_api_key
+def create_doc_endpoint():
+    data = request.get_json()
+    filename = data.get('filename')
+    content = data.get('content')
+    if not all([filename, content]):
+        return jsonify({"error": _("Filename and content are required")}), 400
+
+    new_doc = File(
+        user_id=g.user.id,
+        filename=filename,
+        file_type='text/plain',
+        content=content
+    )
+    db.session.add(new_doc)
+    db.session.commit()
+
+    return jsonify({
+        "status": "success",
+        "message": _("Document created successfully"),
+        "file": {
+            "id": new_doc.id,
+            "filename": new_doc.filename,
+            "type": new_doc.file_type
+        }
+    }), 201
+
+@app.route('/api/v1/files/<int:file_id>', methods=['GET'])
+@require_api_key
+def get_file_endpoint(file_id):
+    file_record = db.session.get(File, file_id)
+    if not file_record or file_record.user_id != g.user.id:
+        return jsonify({"error": _("File not found")}), 404
+
+    if file_record.content:
+        from flask import Response
+        return Response(
+            file_record.content,
+            mimetype=file_record.file_type,
+            headers={"Content-disposition": f"attachment; filename={file_record.filename}"}
+        )
+    elif file_record.file_path:
+        directory = os.path.abspath(os.path.dirname(file_record.file_path))
+        filename = os.path.basename(file_record.file_path)
+        return send_from_directory(directory, filename, as_attachment=True)
+
+    return jsonify({"error": _("File data unavailable")}), 500
 
 
 @app.route('/api/v1/register_public', methods=['POST'])
