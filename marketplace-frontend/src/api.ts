@@ -64,6 +64,7 @@ export const aiService = {
   getMalwareDefenseAssistance: (prompt: string) => apiClient.post('/malware-defense/assistance', { prompt }),
   getUSSDBlockchainAssistance: (prompt: string) => apiClient.post('/ussd-blockchain/assistance', { prompt }),
   getFineTuningAssistance: (prompt: string) => apiClient.post('/fine-tuner/assistance', { prompt }),
+  getRAGTuningAssistance: (prompt: string) => apiClient.post('/rag-tuning/assistance', { prompt }),
   getRouterCapacityAssistance: (prompt: string) => apiClient.post('/router/assistance', { prompt }),
   getOpenCollectiveAssistance: (prompt: string) => apiClient.post('/sponsorship/open-collective', { prompt }),
   getPatreonAssistance: (prompt: string) => apiClient.post('/sponsorship/patreon', { prompt }),

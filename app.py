@@ -1723,6 +1723,31 @@ def fine_tuner_assistance_endpoint():
     return jsonify({"status": "success", "message": message})
 
 
+@app.route('/api/v1/rag-tuning/assistance', methods=['POST'])
+@require_api_key
+async def rag_tuning_assistance_endpoint():
+    # Use current_user from require_api_key (it sets g.user)
+    user = g.user
+    data = request.get_json()
+    prompt = data.get('prompt')
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+
+    # Retrieve user documents for RAG context - only selecting needed fields
+    user_files = File.query.with_entities(File.filename, File.content).filter_by(user_id=user.id, file_type='document').all()
+    context_files = []
+    for f in user_files:
+        if f.content:
+            context_files.append({
+                "filename": f.filename,
+                "content": f.content
+            })
+
+    # Run the blocking AI call in a thread to keep the event loop free
+    message = await asyncio.to_thread(google_ai.provide_rag_tuning_assistance, prompt, context_files)
+    return jsonify({"status": "success", "message": message})
+
+
 @app.route('/api/v1/router/assistance', methods=['POST'])
 @require_api_key
 def router_assistance_endpoint():
