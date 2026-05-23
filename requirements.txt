@@ -21,3 +21,6 @@ langflow
 llama-index
 llama-index-llms-nvidia
 flask-cors>=6.0.2
+langchain-mistralai
+github-copilot-sdk
+asgiref

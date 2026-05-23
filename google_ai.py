@@ -4,10 +4,15 @@ import vertexai
 from vertexai.generative_models import GenerativeModel, Part
 from vertexai.preview.vision_models import ImageGenerationModel
 import base64
+import asyncio
+from azure.ai.inference.aio import ChatCompletionsClient
+from azure.core.credentials import AzureKeyCredential
+from azure.ai.inference.models import SystemMessage, UserMessage
 from langchain_google_vertexai import ChatVertexAI
 from langchain_openai import ChatOpenAI
 from langchain_anthropic import ChatAnthropic
 from langchain_nvidia_ai_endpoints import ChatNVIDIA
+from langchain_mistralai import ChatMistralAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from llama_index.llms.nvidia import NVIDIA as LlamaIndexNVIDIA
@@ -36,6 +41,9 @@ def get_claude_model(model_name="claude-3-5-sonnet-20240620"):
 
 def get_nvidia_model(model_name="nvidia/llama-3.1-405b-instruct"):
     return ChatNVIDIA(model_name=model_name)
+
+def get_mistral_model(model_name="mistral-large-latest"):
+    return ChatMistralAI(model=model_name)
 
 def generate_website(prompt: str) -> tuple[str, str]:
     """
@@ -452,6 +460,52 @@ def provide_mixtral_multilingual_assistance(prompt: str) -> str:
         return chain.invoke({"prompt": prompt}).strip()
     except Exception as e:
         return f"Mixtral Multilingual Error: {e}"
+
+def provide_mistral_intelligence(prompt: str) -> str:
+    """
+    Uses Mistral AI for high-performance reasoning and multilingual assistance.
+    """
+    try:
+        model = get_mistral_model()
+        system_prompt = "You are an Elite Intelligence Agent powered by Mistral AI. Provide high-performance reasoning and accurate insights."
+        prompt_template = ChatPromptTemplate.from_messages([
+            ("system", system_prompt),
+            ("user", "{prompt}")
+        ])
+        chain = prompt_template | model | StrOutputParser()
+        return chain.invoke({"prompt": prompt}).strip()
+    except Exception as e:
+        return f"Mistral Intelligence Error: {e}"
+
+async def provide_copilot_coding_assistance(prompt: str) -> str:
+    """
+    Uses GitHub Models (powered by GPT-4o) for high-performance agentic coding assistance.
+    Integrates via the official Azure AI Inference SDK for GitHub Models.
+    """
+    token = os.environ.get("GITHUB_TOKEN")
+    if not token:
+        return "Error: GITHUB_TOKEN not found in environment."
+
+    endpoint = "https://models.inference.ai.azure.com"
+    model_name = "gpt-4o"
+
+    try:
+        async with ChatCompletionsClient(
+            endpoint=endpoint,
+            credential=AzureKeyCredential(token)
+        ) as client:
+            response = await client.complete(
+                messages=[
+                    SystemMessage(content="You are an Elite Software Engineer and Copilot Coding Assistant. Provide high-quality code generation, robust debugging, and expert architectural advice."),
+                    UserMessage(content=prompt),
+                ],
+                model=model_name,
+                temperature=0.1,
+                max_tokens=4096,
+            )
+            return response.choices[0].message.content.strip()
+    except Exception as e:
+        return f"GitHub Models (Copilot) Error: {e}"
 
 def provide_monetization_advice(prompt: str) -> str:
     model = get_model()

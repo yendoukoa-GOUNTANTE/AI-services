@@ -33,6 +33,8 @@
                 <li><a href="#nvidia-mixtral">{{ _('Mixtral') }}</a></li>
                 <li><a href="#anthropic-intelligence">{{ _('Claude Intel') }}</a></li>
                 <li><a href="#anthropic-coding">{{ _('Claude Coder') }}</a></li>
+                <li><a href="#mistral-intelligence">{{ _('Mistral Intel') }}</a></li>
+                <li><a href="#copilot-coding">{{ _('GitHub Copilot') }}</a></li>
                 <li><a href="#purchase">{{ _('Purchase') }}</a></li>
                 <li><a href="#portfolio">{{ _('Portfolio') }}</a></li>
                 <li><a href="#contact">{{ _('Contact') }}</a></li>
@@ -289,6 +291,46 @@
                 <div class="card">
                     <h3>{{ _('Claude Coding Specialist') }}</h3>
                     <p>{{ _('Elite code generation and architectural advice powered by Anthropic Claude.') }}</p>
+                </div>
+                <div class="card">
+                    <h3>{{ _('Mistral Intelligence Specialist') }}</h3>
+                    <p>{{ _('High-performance reasoning and multilingual assistance powered by Mistral AI.') }}</p>
+                </div>
+                <div class="card">
+                    <h3>{{ _('GitHub Copilot Specialist') }}</h3>
+                    <p>{{ _('Elite agentic coding assistance and autonomous task execution powered by GitHub Copilot SDK.') }}</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Mistral Intelligence Section -->
+        <section id="mistral-intelligence" class="services">
+            <h2>{{ _('Mistral Intelligence Specialist') }}</h2>
+            <div class="service-cards">
+                <div class="card">
+                    <h3>{{ _('Mistral AI Reasoning Support') }}</h3>
+                    <p>{{ _('Enter your request for high-performance reasoning or multilingual assistance powered by Mistral AI.') }}</p>
+                    <textarea id="mistral-intelligence-input" placeholder="{{ _('Your reasoning or multilingual request') }}" class="styled-textarea" rows="4"></textarea>
+                    <button id="mistral-intelligence-btn" class="btn">{{ _('Submit') }}</button>
+                    <div class="response-container" id="mistral-intelligence-response-container">
+                        <pre id="mistral-intelligence-response"></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GitHub Copilot Coding Section -->
+        <section id="copilot-coding" class="services">
+            <h2>{{ _('GitHub Copilot Specialist') }}</h2>
+            <div class="service-cards">
+                <div class="card">
+                    <h3>{{ _('Agentic Coding & Autonomous Support') }}</h3>
+                    <p>{{ _('Enter your request for agentic coding assistance or autonomous task execution powered by GitHub Copilot SDK.') }}</p>
+                    <textarea id="copilot-coding-input" placeholder="{{ _('Your agentic coding request') }}" class="styled-textarea" rows="4"></textarea>
+                    <button id="copilot-coding-btn" class="btn">{{ _('Submit') }}</button>
+                    <div class="response-container" id="copilot-coding-response-container">
+                        <pre id="copilot-coding-response"></pre>
+                    </div>
                 </div>
             </div>
         </section>

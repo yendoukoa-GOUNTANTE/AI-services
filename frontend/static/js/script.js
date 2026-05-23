@@ -256,6 +256,82 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- Mistral Intelligence ---
+    const mistralIntelligenceBtn = document.getElementById('mistral-intelligence-btn');
+    if (mistralIntelligenceBtn) {
+        mistralIntelligenceBtn.addEventListener('click', async () => {
+            const input = document.getElementById('mistral-intelligence-input');
+            const responseContainer = document.getElementById('mistral-intelligence-response');
+            const apiKey = getApiKey("Please enter your API key to use the Mistral Intelligence Specialist:");
+
+            if (!apiKey) {
+                responseContainer.textContent = 'API key is required.';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/v1/mistral/intelligence', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-API-Key': apiKey
+                    },
+                    body: JSON.stringify({
+                        prompt: input.value
+                    })
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Failed to get a response from Mistral AI');
+                }
+
+                const result = await response.json();
+                responseContainer.textContent = result.message;
+            } catch (error) {
+                responseContainer.textContent = `Error: ${error.message}`;
+            }
+        });
+    }
+
+    // --- GitHub Copilot Coding ---
+    const copilotCodingBtn = document.getElementById('copilot-coding-btn');
+    if (copilotCodingBtn) {
+        copilotCodingBtn.addEventListener('click', async () => {
+            const input = document.getElementById('copilot-coding-input');
+            const responseContainer = document.getElementById('copilot-coding-response');
+            const apiKey = getApiKey("Please enter your API key to use the GitHub Copilot Specialist:");
+
+            if (!apiKey) {
+                responseContainer.textContent = 'API key is required.';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/v1/copilot/coding', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-API-Key': apiKey
+                    },
+                    body: JSON.stringify({
+                        prompt: input.value
+                    })
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Failed to get a response from GitHub Copilot');
+                }
+
+                const result = await response.json();
+                responseContainer.textContent = result.message;
+            } catch (error) {
+                responseContainer.textContent = `Error: ${error.message}`;
+            }
+        });
+    }
+
     // --- Create Project ---
     const createProjectBtn = document.getElementById('create-project-btn');
     if (createProjectBtn) {

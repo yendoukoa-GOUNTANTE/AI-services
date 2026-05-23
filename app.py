@@ -1836,6 +1836,28 @@ def anthropic_coding_endpoint():
     return jsonify({"status": "success", "message": message})
 
 
+@app.route('/api/v1/mistral/intelligence', methods=['POST'])
+@require_api_key
+def mistral_intelligence_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+    message = google_ai.provide_mistral_intelligence(prompt)
+    return jsonify({"status": "success", "message": message})
+
+
+@app.route('/api/v1/copilot/coding', methods=['POST'])
+@require_api_key
+async def copilot_coding_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+    message = await google_ai.provide_copilot_coding_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+
 @app.route('/api/v1/langflow/execute', methods=['POST'])
 @require_api_key
 def execute_langflow_endpoint():

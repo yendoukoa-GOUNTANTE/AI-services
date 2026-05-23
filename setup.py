@@ -39,6 +39,9 @@ setup(
         "llama-index",
         "llama-index-llms-nvidia",
         "flask-cors>=5.0.0",
+        "langchain-mistralai",
+        "github-copilot-sdk",
+        "asgiref",
     ],
     classifiers=[
         "Programming Language :: Python :: 3",

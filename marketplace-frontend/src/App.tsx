@@ -116,6 +116,8 @@ const AI_SERVICES: AIService[] = [
   { id: 'mixtral', name: 'Mixtral Multilingual', category: 'Advanced', icon: Globe, description: 'High-quality multilingual assistance powered by Mixtral 8x7B.' },
   { id: 'claude-intel', name: 'Claude Intelligence', category: 'Advanced', icon: Brain, description: 'Deep reasoning and strategic analysis powered by Anthropic Claude.' },
   { id: 'claude-coder', name: 'Claude Coder', category: 'Development', icon: Code2, description: 'Elite code generation and architectural advice powered by Anthropic Claude.' },
+  { id: 'mistral-intel', name: 'Mistral Intelligence', category: 'Advanced', icon: Brain, description: 'High-performance reasoning and multilingual assistance powered by Mistral AI.' },
+  { id: 'copilot-coder', name: 'GitHub Copilot', category: 'Development', icon: Code2, description: 'Elite agentic coding assistance and autonomous task execution powered by GitHub Copilot SDK.' },
   { id: 'malware-defense', name: 'Malware Defender', category: 'Security', icon: ShieldX, description: 'Elite specialist for detecting, preventing, and removing all types of malware.' },
   { id: 'ussd-blockchain', name: 'USSD Blockchain Expert', category: 'Development', icon: Smartphone, description: 'Design and create USSD applications integrated with blockchain technology.' },
   { id: 'fine-tuner', name: 'Fine-Tuning Specialist', category: 'Development', icon: Settings, description: 'Expert guidance on dataset preparation and fine-tuning Large Language Models.' },
@@ -361,6 +363,12 @@ const App: React.FC = () => {
           break;
         case 'claude-coder':
           response = await aiService.getClaudeCoding(servicePrompt);
+          break;
+        case 'mistral-intel':
+          response = await aiService.getMistralIntelligence(servicePrompt);
+          break;
+        case 'copilot-coder':
+          response = await aiService.getCopilotCoding(servicePrompt);
           break;
         default:
           // Fallback for demo purposes if specific endpoint isn't mapped in aiService yet
