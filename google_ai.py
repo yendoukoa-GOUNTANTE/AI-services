@@ -4,6 +4,7 @@ import vertexai
 from vertexai.generative_models import GenerativeModel, Part
 from vertexai.preview.vision_models import ImageGenerationModel
 import base64
+import json
 from langchain_google_vertexai import ChatVertexAI
 from langchain_openai import ChatOpenAI
 from langchain_anthropic import ChatAnthropic
@@ -1643,3 +1644,93 @@ def generate_deepmind_video_content(prompt: str) -> str:
         return response.text.strip()
     except Exception as e:
         return f"DeepMind Video Content Error: {e}"
+
+def provide_github_model_intelligence(prompt: str, model_name: str = "gpt-4o") -> str:
+    """
+    Uses GitHub Models API (via Azure AI Inference) to provide intelligence from top models.
+    """
+    try:
+        from azure.ai.inference import ChatCompletionsClient
+        from azure.core.credentials import AzureKeyCredential
+
+        token = os.environ.get("GITHUB_TOKEN")
+        if not token:
+            return "Error: GITHUB_TOKEN not found in environment."
+
+        endpoint = "https://models.inference.ai.azure.com"
+        client = ChatCompletionsClient(
+            endpoint=endpoint,
+            credential=AzureKeyCredential(token),
+        )
+
+        from azure.ai.inference.models import SystemMessage, UserMessage
+
+        response = client.complete(
+            messages=[
+                SystemMessage(content="You are a GitHub Models Intelligence Agent. Provide expert insights based on the user's request."),
+                UserMessage(content=prompt),
+            ],
+            model=model_name,
+            temperature=0.8,
+            max_tokens=2048,
+        )
+
+        return response.choices[0].message.content.strip()
+    except ImportError:
+        return "Error: azure-ai-inference is not installed."
+    except Exception as e:
+        return f"GitHub Models Error: {e}"
+
+def provide_github_copilot_chat(prompt: str) -> str:
+    """
+    Uses the GitHub Copilot SDK to interact with Copilot Chat.
+    """
+    # Since the SDK is async, we use asgiref.sync.async_to_sync if available or run manually
+    try:
+        from copilot import CopilotClient
+        from copilot.generated.session_events import AssistantMessageData, SessionIdleData
+        from copilot.session import PermissionHandler
+        import asyncio
+
+        token = os.environ.get("GITHUB_TOKEN")
+        if not token:
+            return "Error: GITHUB_TOKEN not found in environment."
+
+        async def _call_copilot():
+            async with CopilotClient() as client:
+                async with await client.create_session(
+                    on_permission_request=PermissionHandler.approve_all,
+                    model="gpt-4o",
+                ) as session:
+                    done = asyncio.Event()
+                    result = []
+
+                    def on_event(event):
+                        if hasattr(event, 'data'):
+                            if isinstance(event.data, AssistantMessageData):
+                                result.append(event.data.content)
+                            elif isinstance(event.data, SessionIdleData):
+                                done.set()
+
+                    session.on(on_event)
+                    await session.send(prompt)
+                    await done.wait()
+                    return "".join(result)
+
+        # Use a new event loop for this call if one isn't running
+        try:
+            loop = asyncio.get_event_loop()
+            if loop.is_running():
+                # In a web server (Flask with async support might have a loop)
+                # This is tricky in Flask, but let's try a simple approach
+                from asgiref.sync import async_to_sync
+                return async_to_sync(_call_copilot)()
+            else:
+                return loop.run_until_complete(_call_copilot())
+        except RuntimeError:
+            return asyncio.run(_call_copilot())
+
+    except ImportError:
+        return "Error: github-copilot-sdk is not installed."
+    except Exception as e:
+        return f"GitHub Copilot Chat Error: {e}"

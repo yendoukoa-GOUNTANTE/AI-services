@@ -122,6 +122,8 @@ const AI_SERVICES: AIService[] = [
   { id: 'router-capacity', name: 'Router Capacity Architect', category: 'Advanced', icon: Route, description: 'Intelligent LLM routing and automated capacity management.' },
   { id: 'visual-intel', name: 'Visual Intelligence', category: 'Advanced', icon: Camera, description: 'Analyze images and videos captured from your camera to provide insights and descriptions.' },
   { id: 'video-producer', name: 'Video Producer', category: 'Arts', icon: Video, description: 'Expert guidance on scriptwriting, filming, and post-production for professional videos.' },
+  { id: 'github-models', name: 'GitHub Models', category: 'Advanced', icon: Cpu, description: 'Access top AI models (GPT-4o, Llama 3, Phi) via the GitHub Models marketplace.' },
+  { id: 'copilot-chat', name: 'Copilot Chat API', category: 'Development', icon: Code2, description: 'Direct programmatic access to GitHub Copilot Chat intelligence.' },
   { id: 'deepmind-image', name: 'DeepMind Image Gen', category: 'Arts', icon: Camera, description: 'Generate stunning high-fidelity images using DeepMind Imagen technology.' },
   { id: 'deepmind-video', name: 'DeepMind Video Creator', category: 'Arts', icon: Video, description: 'Advanced cinematic content, scripts, and storyboards powered by DeepMind.' },
   { id: 'podcast', name: 'Podcast Specialist', category: 'Arts', icon: Mic, description: 'Elite podcast production, design, and business strategy guidance.' },
@@ -361,6 +363,12 @@ const App: React.FC = () => {
           break;
         case 'claude-coder':
           response = await aiService.getClaudeCoding(servicePrompt);
+          break;
+        case 'github-models':
+          response = await aiService.getGitHubModelsAssistance(servicePrompt, executionParams.model_name);
+          break;
+        case 'copilot-chat':
+          response = await aiService.getGitHubCopilotChat(servicePrompt);
           break;
         default:
           // Fallback for demo purposes if specific endpoint isn't mapped in aiService yet
@@ -687,6 +695,21 @@ const App: React.FC = () => {
                                         value={executionParams.webhook_url || ''}
                                         onChange={(e) => setExecutionParams({ ...executionParams, webhook_url: e.target.value })}
                                       />
+                                    </div>
+                                  )}
+                                  {selectedService.id === 'github-models' && (
+                                    <div>
+                                      <label className="block text-sm font-medium text-gray-700">Model Name</label>
+                                      <select
+                                        className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
+                                        value={executionParams.model_name || 'gpt-4o'}
+                                        onChange={(e) => setExecutionParams({ ...executionParams, model_name: e.target.value })}
+                                      >
+                                        <option value="gpt-4o">GPT-4o</option>
+                                        <option value="Llama-3.1-405b-Instruct">Llama 3.1 405B</option>
+                                        <option value="Phi-3.5-moe-instruct">Phi 3.5 MoE</option>
+                                        <option value="Mistral-Large-2407">Mistral Large</option>
+                                      </select>
                                     </div>
                                   )}
                                   {selectedService.id === 'lamatic' && (
