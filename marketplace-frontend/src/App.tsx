@@ -124,6 +124,7 @@ const AI_SERVICES: AIService[] = [
   { id: 'malware-defense', name: 'Malware Defender', category: 'Security', icon: ShieldX, description: 'Elite specialist for detecting, preventing, and removing all types of malware.' },
   { id: 'ussd-blockchain', name: 'USSD Blockchain Expert', category: 'Development', icon: Smartphone, description: 'Design and create USSD applications integrated with blockchain technology.' },
   { id: 'fine-tuner', name: 'Fine-Tuning Specialist', category: 'Development', icon: Settings, description: 'Expert guidance on dataset preparation and fine-tuning Large Language Models.' },
+  { id: 'rag-tuning', name: 'RAG & Fine-Tuning Hub', category: 'Advanced', icon: Database, description: 'Elite hybrid AI architectures combining retrieval-augmented generation and specialized fine-tuning.' },
   { id: 'router-capacity', name: 'Router Capacity Architect', category: 'Advanced', icon: Route, description: 'Intelligent LLM routing and automated capacity management.' },
   { id: 'visual-intel', name: 'Visual Intelligence', category: 'Advanced', icon: Camera, description: 'Analyze images and videos captured from your camera to provide insights and descriptions.' },
   { id: 'video-producer', name: 'Video Producer', category: 'Arts', icon: Video, description: 'Expert guidance on scriptwriting, filming, and post-production for professional videos.' },
@@ -321,6 +322,9 @@ const App: React.FC = () => {
           break;
         case 'fine-tuner':
           response = await aiService.getFineTuningAssistance(servicePrompt);
+          break;
+        case 'rag-tuning':
+          response = await aiService.getRAGTuningAssistance(servicePrompt);
           break;
         case 'router-capacity':
           response = await aiService.getRouterCapacityAssistance(servicePrompt);

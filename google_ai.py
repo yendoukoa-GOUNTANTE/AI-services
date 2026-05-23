@@ -1778,3 +1778,40 @@ def provide_github_copilot_chat(prompt: str) -> str:
         return "Error: github-copilot-sdk is not installed."
     except Exception as e:
         return f"GitHub Copilot Chat Error: {e}"
+
+def provide_rag_tuning_assistance(prompt: str, context_files: list = None) -> str:
+    """
+    Combines RAG (Retrieval-Augmented Generation) with Fine-Tuning expertise.
+    Uses provided context from user files to give specific fine-tuning advice.
+    """
+    model = get_model()
+
+    context_text = ""
+    if context_files:
+        context_text = "\n--- USER DATA CONTEXT ---\n"
+        for file in context_files:
+            context_text += f"\nFILE: {file['filename']}\nCONTENT PREVIEW: {file['content'][:1500]}\n"
+        context_text += "\n--- END OF CONTEXT ---\n"
+
+    system_prompt = (
+        "You are an Elite RAG & Fine-Tuning Architect. Your mission is to design superior hybrid AI systems. "
+        "Analyze the provided user context to deliver tailored architectural decisions. "
+        "Specifically: \n"
+        "1. Recommend when to use RAG (for dynamic/large context) vs. Fine-Tuning (for style/format/static knowledge).\n"
+        "2. Provide JSONL data formatting examples based on the user's specific content.\n"
+        "3. Suggest embedding models and vector database strategies for the retrieval component.\n"
+        "4. Detail a supervised fine-tuning strategy for the reasoning component using the provided examples."
+    )
+
+    full_prompt = f"{context_text}\n\nUSER REQUEST: {prompt}"
+
+    prompt_template = ChatPromptTemplate.from_messages([
+        ("system", system_prompt),
+        ("user", "{prompt}")
+    ])
+
+    chain = prompt_template | model | StrOutputParser()
+    try:
+        return chain.invoke({"prompt": full_prompt}).strip()
+    except Exception as e:
+        return f"RAG & Fine-Tuning Error: {e}"
