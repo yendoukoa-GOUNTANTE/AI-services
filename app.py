@@ -7,7 +7,8 @@ import httpx
 import asyncio
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin, urlparse
-from flask import Flask, jsonify, render_template, request, g, session, redirect, url_for
+from flask import Flask, jsonify, render_template, request, g, session, redirect, url_for, send_file
+from werkzeug.utils import secure_filename
 from flask_cors import CORS
 import secrets
 from functools import wraps
@@ -64,6 +65,19 @@ class Payment(db.Model):
     user = db.relationship('User', backref=db.backref('payments', lazy=True))
     def __repr__(self):
         return f'<Payment {self.id}>'
+
+class File(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    filename = db.Column(db.String(200), nullable=False)
+    file_type = db.Column(db.String(50), nullable=False) # 'document', 'image', 'video', etc.
+    content = db.Column(db.Text, nullable=True) # For AI-generated documents
+    filepath = db.Column(db.String(500), nullable=True) # For uploaded files
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    user = db.relationship('User', backref=db.backref('files', lazy=True))
+
+    def __repr__(self):
+        return f'<File {self.filename}>'
 
 # --- Flask App Setup ---
 app = Flask(__name__, template_folder='frontend/templates', static_folder='frontend/static')
@@ -606,7 +620,7 @@ def fetch_github_file(url):
 def require_api_key(f):
     @wraps(f)
     async def decorated_function(*args, **kwargs):
-        api_key = request.headers.get('X-API-Key')
+        api_key = request.headers.get('X-API-Key') or request.args.get('api_key')
         if not api_key:
             return jsonify({"error": _("API key is missing")}), 401
         user = User.query.filter_by(api_key=api_key).first()
@@ -2210,6 +2224,115 @@ def payment_webhook():
     return jsonify(status='success')
 
 
+@app.route('/api/v1/files/upload', methods=['POST'])
+@require_api_key
+async def upload_file():
+    if 'file' not in request.files:
+        return jsonify({"error": _("No file part")}), 400
+    file = request.files['file']
+    if file.filename == '':
+        return jsonify({"error": _("No selected file")}), 400
+
+    upload_folder = 'uploads'
+    if not os.path.exists(upload_folder):
+        os.makedirs(upload_folder)
+
+    safe_filename = secure_filename(file.filename)
+    filename = secrets.token_hex(8) + "_" + safe_filename
+    filepath = os.path.join(upload_folder, filename)
+    file.save(filepath)
+
+    new_file = File(
+        user_id=g.user.id,
+        filename=file.filename,
+        file_type='upload',
+        filepath=filepath
+    )
+    db.session.add(new_file)
+    db.session.commit()
+
+    return jsonify({
+        "id": new_file.id,
+        "filename": new_file.filename,
+        "status": "success"
+    }), 201
+
+@app.route('/api/v1/files/create-doc', methods=['POST'])
+@require_api_key
+async def create_doc_file():
+    data = request.get_json()
+    filename = data.get('filename')
+    content = data.get('content')
+    file_type = data.get('file_type', 'document')
+
+    if not all([filename, content]):
+        return jsonify({"error": _("Filename and content are required")}), 400
+
+    new_file = File(
+        user_id=g.user.id,
+        filename=filename,
+        file_type=file_type,
+        content=content
+    )
+    db.session.add(new_file)
+    db.session.commit()
+
+    return jsonify({
+        "id": new_file.id,
+        "filename": new_file.filename,
+        "status": "success"
+    }), 201
+
+@app.route('/api/v1/files', methods=['GET'])
+@require_api_key
+async def list_files():
+    files = File.query.filter_by(user_id=g.user.id).all()
+    return jsonify([{
+        "id": f.id,
+        "filename": f.filename,
+        "file_type": f.file_type,
+        "created_at": f.created_at.isoformat() if f.created_at else None
+    } for f in files])
+
+@app.route('/api/v1/files/<int:file_id>', methods=['GET'])
+@require_api_key
+async def get_file(file_id):
+    file_record = File.query.filter_by(id=file_id, user_id=g.user.id).first()
+    if not file_record:
+        return jsonify({"error": _("File not found")}), 404
+
+    if file_record.content:
+        # If content exists, we can return it as JSON if requested or as a text file
+        if request.args.get('download') == 'true':
+            import io
+            buf = io.BytesIO(file_record.content.encode('utf-8'))
+            return send_file(buf, as_attachment=True, download_name=file_record.filename, mimetype='text/plain')
+        return jsonify({
+            "id": file_record.id,
+            "filename": file_record.filename,
+            "content": file_record.content,
+            "file_type": file_record.file_type
+        })
+    elif file_record.filepath:
+        return send_file(file_record.filepath, as_attachment=True, download_name=file_record.filename)
+
+    return jsonify({"error": _("File data not available")}), 400
+
+@app.route('/api/v1/files/<int:file_id>', methods=['DELETE'])
+@require_api_key
+async def delete_file(file_id):
+    file_record = File.query.filter_by(id=file_id, user_id=g.user.id).first()
+    if not file_record:
+        return jsonify({"error": _("File not found")}), 404
+
+    if file_record.filepath and os.path.exists(file_record.filepath):
+        os.remove(file_record.filepath)
+
+    db.session.delete(file_record)
+    db.session.commit()
+
+    return jsonify({"status": "success", "message": _("File deleted successfully")})
+
 @app.route('/api/v1/meta/campaigns', methods=['GET'])
 @require_api_key
 def get_meta_campaigns():
@@ -2252,6 +2375,22 @@ def update_db_schema():
             cursor.execute("ALTER TABLE user ADD COLUMN subscription_plan VARCHAR(20) DEFAULT 'free'")
         if 'stripe_customer_id' not in columns:
             cursor.execute("ALTER TABLE user ADD COLUMN stripe_customer_id VARCHAR(120)")
+
+        # Create file table if it doesn't exist
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='file'")
+        if not cursor.fetchone():
+            cursor.execute("""
+                CREATE TABLE file (
+                    id INTEGER PRIMARY KEY,
+                    user_id INTEGER NOT NULL,
+                    filename VARCHAR(200) NOT NULL,
+                    file_type VARCHAR(50) NOT NULL,
+                    content TEXT,
+                    filepath VARCHAR(500),
+                    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY(user_id) REFERENCES user(id)
+                )
+            """)
 
         conn.commit()
         conn.close()
