@@ -134,7 +134,9 @@ const AI_SERVICES: AIService[] = [
   { id: 'podcast', name: 'Podcast Specialist', category: 'Arts', icon: Mic, description: 'Elite podcast production, design, and business strategy guidance.' },
   { id: 'zapier', name: 'Zapier Automation', category: 'Advanced', icon: Zap, description: 'Expert Zapier automation specialized for French-speaking markets.' },
   { id: 'odoo', name: 'Odoo ERP Specialist', category: 'Professional', icon: Layout, description: 'Elite Odoo implementation and customization for Francophone regions.' },
-  { id: 'sage', name: 'Sage Software Expert', category: 'Professional', icon: Database, description: 'Expert guidance on Sage accounting and payroll for French businesses.' }
+  { id: 'sage', name: 'Sage Software Expert', category: 'Professional', icon: Database, description: 'Expert guidance on Sage accounting and payroll for French businesses.' },
+  { id: 'open-collective', name: 'Open Collective Specialist', category: 'Business', icon: DollarSign, description: 'Elite guidance on transparent project funding and community-led financial management.' },
+  { id: 'patreon', name: 'Patreon Strategist', category: 'Business', icon: DollarSign, description: 'Expert creator monetization, membership tiers, and audience engagement strategies.' }
 ];
 
 const App: React.FC = () => {
@@ -322,6 +324,12 @@ const App: React.FC = () => {
           break;
         case 'router-capacity':
           response = await aiService.getRouterCapacityAssistance(servicePrompt);
+          break;
+        case 'open-collective':
+          response = await aiService.getOpenCollectiveAssistance(servicePrompt);
+          break;
+        case 'patreon':
+          response = await aiService.getPatreonAssistance(servicePrompt);
           break;
         case 'video-producer':
           response = await aiService.getVideoProductionAssistance(servicePrompt);
