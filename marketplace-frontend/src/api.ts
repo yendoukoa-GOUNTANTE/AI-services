@@ -24,6 +24,14 @@ export interface User {
   subscription_plan?: string;
 }
 
+export interface File {
+  id: number;
+  filename: string;
+  file_type: string;
+  content?: string;
+  created_at: string;
+}
+
 export interface Project {
   id: number;
   title: string;
@@ -103,6 +111,23 @@ export const userService = {
   getMe: () => apiClient.get<User>('/me_api'),
   getProjects: () => apiClient.get<Project[]>('/portfolio/projects'),
   createProject: (title: string, description: string) => apiClient.post<Project>('/projects', { title, description }),
+};
+
+export const fileService = {
+  getFiles: () => apiClient.get<File[]>('/files'),
+  uploadFile: (file: File | any) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    return apiClient.post('/files/upload', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  },
+  createDoc: (filename: string, content: string, file_type = 'document') =>
+    apiClient.post('/files/create-doc', { filename, content, file_type }),
+  getFile: (fileId: number) => apiClient.get<File>(`/files/${fileId}`),
+  deleteFile: (fileId: number) => apiClient.delete(`/files/${fileId}`),
 };
 
 export const paymentService = {

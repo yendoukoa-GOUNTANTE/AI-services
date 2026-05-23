@@ -43,10 +43,15 @@ import {
   Video,
   Settings,
   Route,
-  Mic
+  Mic,
+  FileText,
+  Download,
+  Trash2,
+  Save,
+  Plus
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
-import { userService, aiService, paymentService, setAuthToken, type User } from './api';
+import { userService, aiService, paymentService, fileService, setAuthToken, type User, type File } from './api';
 import axios from 'axios';
 
 interface AIService {
@@ -145,6 +150,7 @@ const App: React.FC = () => {
   const [modalMode, setModalMode] = useState<'login' | 'register'>('register');
   const [username, setUsername] = useState('');
   const [apiKey, setApiKey] = useState('');
+  const [userFiles, setUserFiles] = useState<File[]>([]);
   const [selectedService, setSelectedService] = useState<AIService | null>(null);
   const [showServiceModal, setShowServiceModal] = useState(false);
   const [servicePrompt, setServicePrompt] = useState('');
@@ -172,12 +178,64 @@ const App: React.FC = () => {
       setUser(response.data);
       setCredits(1000);
       setError(null);
+      fetchUserFiles();
     } catch (err) {
       console.error('Failed to fetch user data', err);
       setError('Invalid API Key or Session Expired');
       localStorage.removeItem('globalApiKey');
       setAuthToken(null);
       setUser(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchUserFiles = async () => {
+    try {
+      const res = await fileService.getFiles();
+      setUserFiles(res.data);
+    } catch (err) {
+      console.error('Failed to fetch files', err);
+    }
+  };
+
+  const handleSaveToStorage = async () => {
+    if (!serviceResponse || !selectedService) return;
+    try {
+      setLoading(true);
+      const filename = `${selectedService.name.replace(/\s+/g, '_')}_${Date.now()}.txt`;
+      await fileService.createDoc(filename, serviceResponse);
+      alert('Saved to storage successfully!');
+      fetchUserFiles();
+    } catch (err) {
+      setError('Failed to save to storage');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      setLoading(true);
+      await fileService.uploadFile(file);
+      fetchUserFiles();
+    } catch (err) {
+      setError('Failed to upload file');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteFile = async (id: number) => {
+    if (!confirm('Are you sure you want to delete this file?')) return;
+    try {
+      setLoading(true);
+      await fileService.deleteFile(id);
+      fetchUserFiles();
+    } catch (err) {
+      setError('Failed to delete file');
     } finally {
       setLoading(false);
     }
@@ -773,6 +831,14 @@ const App: React.FC = () => {
                                Try Again
                              </button>
                              <button
+                               onClick={handleSaveToStorage}
+                               disabled={loading}
+                               className="mr-3 inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-green-600 text-base font-medium text-white hover:bg-green-700 text-sm"
+                             >
+                               <Save size={16} className="mr-2" />
+                               {loading ? 'Saving...' : 'Save to Storage'}
+                             </button>
+                             <button
                                onClick={() => setShowServiceModal(false)}
                                className="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 text-sm"
                              >
@@ -909,7 +975,7 @@ const App: React.FC = () => {
         {activeTab === 'marketplace' ? (
           <div>
             <div className="flex justify-between items-center mb-8">
-              <h2 className="text-2xl font-bold text-gray-900">Featured Services</h2>
+              <h2 className="text-2xl font-bold text-gray-900">AI Specialist Marketplace</h2>
               <div className="flex space-x-2 overflow-x-auto pb-2">
                 {['All', 'Development', 'Business', 'Public', 'Support', 'Security', 'Advanced', 'Infrastructure', 'Science'].map(cat => (
                   <button
@@ -1055,6 +1121,58 @@ const App: React.FC = () => {
 
              {user && (
                <>
+                 <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
+                    <div className="px-6 py-4 border-b flex justify-between items-center">
+                      <h3 className="text-lg font-bold">File Storage Specialist</h3>
+                      <label className="cursor-pointer bg-blue-600 text-white px-3 py-1 rounded-lg text-sm font-semibold hover:bg-blue-700">
+                        <Plus size={16} className="inline mr-1" />
+                        Upload File
+                        <input type="file" className="hidden" onChange={handleFileUpload} />
+                      </label>
+                    </div>
+                    <div className="p-6">
+                      {userFiles.length === 0 ? (
+                        <div className="text-center py-10 text-gray-500">
+                          <Database size={48} className="mx-auto mb-4 opacity-20" />
+                          <p>No files in storage yet. Generate content from AI services or upload files.</p>
+                        </div>
+                      ) : (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                          {userFiles.map((file) => (
+                            <div key={file.id} className="p-4 border rounded-lg bg-gray-50 flex items-start justify-between">
+                              <div className="flex items-start">
+                                <FileText className="h-8 w-8 text-blue-600 mr-3 flex-shrink-0" />
+                                <div className="min-w-0">
+                                  <p className="font-bold text-sm truncate" title={file.filename}>{file.filename}</p>
+                                  <p className="text-xs text-gray-500">{file.file_type}</p>
+                                  <p className="text-[10px] text-gray-400 mt-1">{new Date(file.created_at).toLocaleDateString()}</p>
+                                </div>
+                              </div>
+                              <div className="flex space-x-1">
+                                <a
+                                  href={`${import.meta.env.VITE_API_BASE_URL || '/api/v1'}/files/${file.id}?api_key=${localStorage.getItem('globalApiKey')}&download=true`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="p-1 text-gray-400 hover:text-blue-600"
+                                  title="Download"
+                                >
+                                  <Download size={16} />
+                                </a>
+                                <button
+                                  onClick={() => handleDeleteFile(file.id)}
+                                  className="p-1 text-gray-400 hover:text-red-600"
+                                  title="Delete"
+                                >
+                                  <Trash2 size={16} />
+                                </button>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                 </div>
+
                  <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
                     <div className="px-6 py-4 border-b">
                       <h3 className="text-lg font-bold">Integrated Tools</h3>
