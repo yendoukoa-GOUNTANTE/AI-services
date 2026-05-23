@@ -1585,6 +1585,50 @@ def provide_router_capacity_assistance(prompt: str) -> str:
     except Exception as e:
         return f"Router Capacity AI Error: {e}"
 
+def provide_open_collective_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Open Collective and transparent project funding.
+    """
+    model = get_model()
+    system_prompt = (
+        "You are an Elite Open Collective Specialist. "
+        "Your expertise covers transparent project funding, fiscal sponsorship, "
+        "and community-led financial management using Open Collective. Provide "
+        "high-level guidance on setting up collectives, managing expenses, "
+        "and attracting sponsors for open-source and community projects."
+    )
+    prompt_template = ChatPromptTemplate.from_messages([
+        ("system", system_prompt),
+        ("user", "{prompt}")
+    ])
+    chain = prompt_template | model | StrOutputParser()
+    try:
+        return chain.invoke({"prompt": prompt}).strip()
+    except Exception as e:
+        return f"Open Collective AI Error: {e}"
+
+def provide_patreon_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Patreon and creator monetization strategies.
+    """
+    model = get_model()
+    system_prompt = (
+        "You are an Elite Patreon Strategist. "
+        "Your expertise covers creator monetization, membership tiers, "
+        "exclusive content strategies, and audience engagement on Patreon. "
+        "Provide guidance on building a sustainable subscription model, "
+        "defining value propositions for patrons, and growing a loyal community."
+    )
+    prompt_template = ChatPromptTemplate.from_messages([
+        ("system", system_prompt),
+        ("user", "{prompt}")
+    ])
+    chain = prompt_template | model | StrOutputParser()
+    try:
+        return chain.invoke({"prompt": prompt}).strip()
+    except Exception as e:
+        return f"Patreon AI Error: {e}"
+
 def provide_video_production_assistance(prompt: str) -> str:
     """
     Expert AI Model for Video Production and Cinematic Strategy.

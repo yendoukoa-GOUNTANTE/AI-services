@@ -68,6 +68,8 @@ This project is a submission for the **[Name of Devpost Challenge]**.
 If you find this project useful, please consider sponsoring us!
 
 [![Sponsor](https://img.shields.io/badge/Sponsor-GitHub-ea4aaa?style=for-the-badge&logo=github-sponsors)](https://github.com/sponsors/GYFX35)
+[![Sponsor](https://img.shields.io/badge/Sponsor-Open%20Collective-7f9bff?style=for-the-badge&logo=open-collective)](https://opencollective.com/yendoukoa)
+[![Sponsor](https://img.shields.io/badge/Sponsor-Patreon-f96854?style=for-the-badge&logo=patreon)](https://patreon.com/yendoukoa)
 [![Sponsor](https://img.shields.io/badge/Sponsor-Stripe-626cd9?style=for-the-badge&logo=stripe)](https://buy.stripe.com/example)
 
 ### How It Works
@@ -84,6 +86,8 @@ Our platform connects to multiple AI services to provide a suite of tools for de
 - **Router Capacity Architect:** Optimizes AI infrastructure with intelligent routing and automated capacity management.
 - **DeepMind Image Gen:** Generates high-fidelity images using Google's DeepMind Imagen 3 technology.
 - **DeepMind Video Creator:** Produces cinematic scripts, storyboards, and advanced video creative directions powered by DeepMind's flagship Gemini 1.5 Pro.
+- **Open Collective Specialist:** Provides elite guidance on transparent project funding and community-led financial management using Open Collective.
+- **Patreon Strategist:** Offers expert advice on creator monetization, membership tiers, and audience engagement strategies for Patreon.
 
 ## How to Use
 
