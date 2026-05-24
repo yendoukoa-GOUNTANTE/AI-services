@@ -30,20 +30,25 @@ from app import app, db, User
 
 class AIIntegrationsTestCase(unittest.TestCase):
     def setUp(self):
-        self.app = app.test_client()
-        app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
-        app.config['TESTING'] = True
-        with app.app_context():
-            db.create_all()
-            self.test_user = User(username='testuser', api_key='testkey')
-            db.session.add(self.test_user)
-            db.session.commit()
-            self.api_key = 'testkey'
+        # Create a fresh app for each test to ensure isolation
+        from app import app as original_app, db as original_db, User as original_User
+        self.app_obj = original_app
+        self.app_obj.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
+        self.app_obj.config['TESTING'] = True
+        self.app = self.app_obj.test_client()
+        self.ctx = self.app_obj.app_context()
+        self.ctx.push()
+        original_db.create_all()
+        self.test_user = original_User(username='testuser', api_key='testkey')
+        original_db.session.add(self.test_user)
+        original_db.session.commit()
+        self.api_key = 'testkey'
 
     def tearDown(self):
-        with app.app_context():
-            db.session.remove()
-            db.drop_all()
+        from app import db as original_db
+        original_db.session.remove()
+        original_db.drop_all()
+        self.ctx.pop()
 
     @patch('google_ai.provide_antigravity_agent_assistance')
     def test_antigravity_agent_endpoint(self, mock_assistance):

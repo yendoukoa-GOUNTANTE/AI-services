@@ -631,6 +631,7 @@ def require_api_key(f):
     return decorated_function
 
 @app.route('/api/config')
+@app.route('/api/v1/config')
 def get_config():
     return jsonify({
         'stripePublicKey': os.environ.get('STRIPE_PUBLIC_KEY'),
@@ -2034,6 +2035,7 @@ def me_api():
     })
 
 @app.route('/api/register', methods=['POST'])
+@app.route('/api/v1/register', methods=['POST'])
 def register():
     data = request.get_json()
     username = data.get('username')
@@ -2052,6 +2054,7 @@ def register():
     }), 201
 
 @app.route('/api/me', methods=['GET'])
+@app.route('/api/v1/me', methods=['GET'])
 @require_api_key
 def me():
     return jsonify({

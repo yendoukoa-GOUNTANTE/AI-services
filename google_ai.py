@@ -38,6 +38,19 @@ def get_claude_model(model_name="claude-3-5-sonnet-20240620"):
 def get_nvidia_model(model_name="nvidia/llama-3.1-405b-instruct"):
     return ChatNVIDIA(model_name=model_name)
 
+def _provide_gemini_assistance(prompt: str, system_prompt: str, error_prefix: str, model_name: str = "gemini-1.5-flash") -> str:
+    """Internal helper for Gemini-based assistance calls."""
+    try:
+        model = get_model(model_name=model_name)
+        prompt_template = ChatPromptTemplate.from_messages([
+            ("system", system_prompt),
+            ("user", "{prompt}")
+        ])
+        chain = prompt_template | model | StrOutputParser()
+        return chain.invoke({"prompt": prompt}).strip()
+    except Exception as e:
+        return f"{error_prefix}: {e}"
+
 def generate_website(prompt: str) -> tuple[str, str]:
     """
     Generates HTML and CSS code from a natural language prompt using LangChain and Vertex AI.
@@ -1820,28 +1833,18 @@ def provide_antigravity_agent_assistance(prompt: str) -> str:
     """
     Expert AI Model for Antigravity Agent and agentic development.
     """
-    model = get_model(model_name="gemini-1.5-flash") # Using 1.5 Flash as proxy for 3.5 Flash availability
     system_prompt = (
         "You are an Elite Antigravity Agent Specialist. Your expertise covers agentic development, "
         "leveraging secure Linux sandboxes for code execution, file management, and web browsing. "
         "Provide high-level technical guidance on building autonomous agents that reason, "
         "execute tasks in isolated environments, and integrate with the Antigravity harness."
     )
-    prompt_template = ChatPromptTemplate.from_messages([
-        ("system", system_prompt),
-        ("user", "{prompt}")
-    ])
-    chain = prompt_template | model | StrOutputParser()
-    try:
-        return chain.invoke({"prompt": prompt}).strip()
-    except Exception as e:
-        return f"Antigravity Agent AI Error: {e}"
+    return _provide_gemini_assistance(prompt, system_prompt, "Antigravity Agent AI Error")
 
 def provide_gemini_spark_assistance(prompt: str) -> str:
     """
     Expert AI Model for Gemini Spark and personal AI productivity.
     """
-    model = get_model(model_name="gemini-1.5-flash") # Using 1.5 Flash as proxy
     system_prompt = (
         "You are an Elite Gemini Spark Strategist. Your expertise covers 24/7 personal AI agents "
         "that work autonomously across Google Workspace and other ecosystems. "
@@ -1849,12 +1852,4 @@ def provide_gemini_spark_assistance(prompt: str) -> str:
         "synthesizing information from Gmail/Docs/Drive, and managing life/work chores "
         "using the Gemini Spark framework."
     )
-    prompt_template = ChatPromptTemplate.from_messages([
-        ("system", system_prompt),
-        ("user", "{prompt}")
-    ])
-    chain = prompt_template | model | StrOutputParser()
-    try:
-        return chain.invoke({"prompt": prompt}).strip()
-    except Exception as e:
-        return f"Gemini Spark AI Error: {e}"
+    return _provide_gemini_assistance(prompt, system_prompt, "Gemini Spark AI Error")
