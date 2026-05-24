@@ -137,7 +137,9 @@ const AI_SERVICES: AIService[] = [
   { id: 'odoo', name: 'Odoo ERP Specialist', category: 'Professional', icon: Layout, description: 'Elite Odoo implementation and customization for Francophone regions.' },
   { id: 'sage', name: 'Sage Software Expert', category: 'Professional', icon: Database, description: 'Expert guidance on Sage accounting and payroll for French businesses.' },
   { id: 'open-collective', name: 'Open Collective Specialist', category: 'Business', icon: DollarSign, description: 'Elite guidance on transparent project funding and community-led financial management.' },
-  { id: 'patreon', name: 'Patreon Strategist', category: 'Business', icon: DollarSign, description: 'Expert creator monetization, membership tiers, and audience engagement strategies.' }
+  { id: 'patreon', name: 'Patreon Strategist', category: 'Business', icon: DollarSign, description: 'Expert creator monetization, membership tiers, and audience engagement strategies.' },
+  { id: 'antigravity', name: 'Antigravity Agent', category: 'Advanced', icon: Bot, description: 'Elite agentic development with secure Linux sandbox execution and reasoning.' },
+  { id: 'gemini-spark', name: 'Gemini Spark', category: 'Advanced', icon: Zap, description: '24/7 personal AI agent for autonomous multi-step tasks and workspace intelligence.' }
 ];
 
 const App: React.FC = () => {
@@ -328,6 +330,12 @@ const App: React.FC = () => {
           break;
         case 'router-capacity':
           response = await aiService.getRouterCapacityAssistance(servicePrompt);
+          break;
+        case 'antigravity':
+          response = await aiService.getAntigravityAgentAssistance(servicePrompt);
+          break;
+        case 'gemini-spark':
+          response = await aiService.getGeminiSparkAssistance(servicePrompt);
           break;
         case 'open-collective':
           response = await aiService.getOpenCollectiveAssistance(servicePrompt);

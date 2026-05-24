@@ -106,6 +106,8 @@ export const aiService = {
   genericAssistance: (systemMessage: string, prompt: string, mediaData?: string, mimeType?: string) => apiClient.post('/generic/assistance', { system_message: systemMessage, prompt, media_data: mediaData, mime_type: mimeType }),
   getDeepMindImage: (prompt: string) => apiClient.post('/deepmind/image', { prompt }),
   getDeepMindVideo: (prompt: string) => apiClient.post('/deepmind/video', { prompt }),
+  getAntigravityAgentAssistance: (prompt: string) => apiClient.post('/antigravity/agent', { prompt }),
+  getGeminiSparkAssistance: (prompt: string) => apiClient.post('/gemini/spark', { prompt }),
 };
 
 export const userService = {

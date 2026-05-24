@@ -1759,6 +1759,28 @@ def router_assistance_endpoint():
     return jsonify({"status": "success", "message": message})
 
 
+@app.route('/api/v1/antigravity/agent', methods=['POST'])
+@require_api_key
+def antigravity_agent_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+    message = google_ai.provide_antigravity_agent_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+
+@app.route('/api/v1/gemini/spark', methods=['POST'])
+@require_api_key
+def gemini_spark_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+    message = google_ai.provide_gemini_spark_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+
 @app.route('/api/v1/sponsorship/open-collective', methods=['POST'])
 @require_api_key
 def open_collective_assistance_endpoint():
