@@ -1815,3 +1815,46 @@ def provide_rag_tuning_assistance(prompt: str, context_files: list = None) -> st
         return chain.invoke({"prompt": full_prompt}).strip()
     except Exception as e:
         return f"RAG & Fine-Tuning Error: {e}"
+
+def provide_antigravity_agent_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Antigravity Agent and agentic development.
+    """
+    model = get_model(model_name="gemini-1.5-flash") # Using 1.5 Flash as proxy for 3.5 Flash availability
+    system_prompt = (
+        "You are an Elite Antigravity Agent Specialist. Your expertise covers agentic development, "
+        "leveraging secure Linux sandboxes for code execution, file management, and web browsing. "
+        "Provide high-level technical guidance on building autonomous agents that reason, "
+        "execute tasks in isolated environments, and integrate with the Antigravity harness."
+    )
+    prompt_template = ChatPromptTemplate.from_messages([
+        ("system", system_prompt),
+        ("user", "{prompt}")
+    ])
+    chain = prompt_template | model | StrOutputParser()
+    try:
+        return chain.invoke({"prompt": prompt}).strip()
+    except Exception as e:
+        return f"Antigravity Agent AI Error: {e}"
+
+def provide_gemini_spark_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Gemini Spark and personal AI productivity.
+    """
+    model = get_model(model_name="gemini-1.5-flash") # Using 1.5 Flash as proxy
+    system_prompt = (
+        "You are an Elite Gemini Spark Strategist. Your expertise covers 24/7 personal AI agents "
+        "that work autonomously across Google Workspace and other ecosystems. "
+        "Provide guidance on multi-step task automation, persistent cloud execution, "
+        "synthesizing information from Gmail/Docs/Drive, and managing life/work chores "
+        "using the Gemini Spark framework."
+    )
+    prompt_template = ChatPromptTemplate.from_messages([
+        ("system", system_prompt),
+        ("user", "{prompt}")
+    ])
+    chain = prompt_template | model | StrOutputParser()
+    try:
+        return chain.invoke({"prompt": prompt}).strip()
+    except Exception as e:
+        return f"Gemini Spark AI Error: {e}"
