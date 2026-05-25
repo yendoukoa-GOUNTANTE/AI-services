@@ -1268,6 +1268,7 @@ const App: React.FC = () => {
             <div>
               <h4 className="font-bold mb-4 text-gray-900">Resources</h4>
               <ul className="space-y-2 text-sm text-gray-500">
+                <li><a href="./CHANGELOG.md" target="_blank" className="hover:text-blue-600">Changelog</a></li>
                 <li><a href="#" className="hover:text-blue-600">Documentation</a></li>
                 <li><a href="#" className="hover:text-blue-600">API Reference</a></li>
                 <li><a href="#" className="hover:text-blue-600">Community</a></li>
