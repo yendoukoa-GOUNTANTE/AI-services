@@ -115,12 +115,12 @@ const AI_SERVICES: AIService[] = [
   { id: 'monetization', name: 'Monetization Expert', category: 'Business', icon: DollarSign, description: 'Strategic advice on revenue generation and subscriptions.' },
   { id: 'partnership', name: 'Partnership Specialist', category: 'Business', icon: Handshake, description: 'Identify and nurture strategic business alliances.' },
   { id: 'fundraising', name: 'Fundraising Strategist', category: 'Business', icon: PiggyBank, description: 'Comprehensive plans for securing project funding.' },
-  { id: 'llama-intel', name: 'Llama Intelligence', category: 'Advanced', icon: Brain, description: 'Deep reasoning and data-driven insights powered by Llama 3.1.' },
-  { id: 'llama-guard', name: 'Llama Guard', category: 'Security', icon: ShieldCheck, description: 'AI safety and content moderation using Llama Guard.' },
-  { id: 'nemotron', name: 'Nemotron Reasoner', category: 'Advanced', icon: Zap, description: 'Elite reasoning and complex problem solving powered by NVIDIA Nemotron.' },
+  { id: 'llama-intel', name: 'Llama 3.1 Intelligence', category: 'Advanced', icon: Brain, description: 'Deep reasoning and data-driven insights powered by Meta Llama 3.1 405B.' },
+  { id: 'llama-guard', name: 'Llama Guard', category: 'Security', icon: ShieldCheck, description: 'AI safety and content moderation using Meta Llama Guard 3.' },
+  { id: 'nemotron', name: 'Nemotron-4 Reasoner', category: 'Advanced', icon: Zap, description: 'Elite reasoning and complex problem solving powered by NVIDIA Nemotron-4 340B.' },
   { id: 'mixtral', name: 'Mixtral Multilingual', category: 'Advanced', icon: Globe, description: 'High-quality multilingual assistance powered by Mixtral 8x7B.' },
-  { id: 'claude-intel', name: 'Claude Intelligence', category: 'Advanced', icon: Brain, description: 'Deep reasoning and strategic analysis powered by Anthropic Claude.' },
-  { id: 'claude-coder', name: 'Claude Coder', category: 'Development', icon: Code2, description: 'Elite code generation and architectural advice powered by Anthropic Claude.' },
+  { id: 'claude-intel', name: 'Claude 3.5 Intelligence', category: 'Advanced', icon: Brain, description: 'Deep reasoning and strategic analysis powered by Anthropic Claude 3.5 Sonnet.' },
+  { id: 'claude-coder', name: 'Claude 3.5 Coder', category: 'Development', icon: Code2, description: 'Elite code generation and architectural advice powered by Anthropic Claude 3.5 Sonnet.' },
   { id: 'malware-defense', name: 'Malware Defender', category: 'Security', icon: ShieldX, description: 'Elite specialist for detecting, preventing, and removing all types of malware.' },
   { id: 'ussd-blockchain', name: 'USSD Blockchain Expert', category: 'Development', icon: Smartphone, description: 'Design and create USSD applications integrated with blockchain technology.' },
   { id: 'fine-tuner', name: 'Fine-Tuning Specialist', category: 'Development', icon: Settings, description: 'Expert guidance on dataset preparation and fine-tuning Large Language Models.' },
@@ -796,7 +796,7 @@ const App: React.FC = () => {
                                       <input
                                         type="text"
                                         className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
-                                        placeholder="Enter Lamatic Workflow ID"
+                                        placeholder="Enter Lamatic.ai Workflow ID"
                                         value={executionParams.workflow_id || ''}
                                         onChange={(e) => setExecutionParams({ ...executionParams, workflow_id: e.target.value })}
                                         required

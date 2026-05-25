@@ -9,7 +9,7 @@ We are proud to announce the first major production release of Yendoukoa AI.
 ### Key Highlights:
 - **Official Startup Status:** Transitioned from a project to a full-scale AI service platform.
 - **Unified API Ecosystem:** Our own production-ready API (`/api/v1`) powering multiple frontends.
-- **Multi-Model Intelligence:** Integrated Gemini, GPT-4o, Claude 3.5, and Llama 3.1 405B.
+- **Multi-Model Intelligence:** Integrated Gemini 1.5 Pro, GPT-4o, Claude 3.5 Sonnet, and Llama 3.1 405B.
 - **Enterprise Security:** Specialized AI roles for Malware Defense, Military Strategy, and Public Security.
 - **Global Accessibility:** Browser extensions, PWA support, and cross-platform desktop applications.
 - **Monetization Ready:** Fully integrated Stripe subscription system.
@@ -29,15 +29,15 @@ Stay productive everywhere with Yendoukoa AI!
 Yendoukoa AI targets a high-growth intersection of Generative AI, Developer Tools, and Financial Inclusion in emerging markets.
 
 ### 🌎 TAM (Total Addressable Market) - $500B+
-The global AI software and services market is projected to exceed **$500 Billion** by 2030. This includes the entire landscape of generative AI, automated business workflows, and enterprise-grade intelligence across all sectors.
+The global AI software and services market is projected to exceed **$500 Billion** by 2030 (Source: [Gartner](https://www.gartner.com), [PwC](https://www.pwc.com)). This includes the entire landscape of generative AI, automated business workflows, and enterprise-grade intelligence across all sectors.
 
 ### 🎯 SAM (Serviceable Addressable Market) - $50B
-Our serviceable market focuses on the **Specialized AI Agent & Emerging Market FinTech** sectors. This includes developers seeking agentic workflows, SMEs in need of localized ERP/AI tools (Odoo, Sage), and the massive mobile-first populations in Francophone Africa requiring USSD-based financial and AI services.
+Our serviceable market focuses on the **Specialized AI Agent & Emerging Market FinTech** sectors. The AI Agents market alone is projected to reach **$50B+** by 2030 (Source: [MarketsandMarkets](https://www.marketsandmarkets.com)). This includes developers seeking agentic workflows, SMEs in need of localized ERP/AI tools (Odoo, Sage), and the massive mobile-first populations in Francophone Africa requiring USSD-based financial and AI services.
 
 ### 🚀 SOM (Serviceable Obtainable Market) - 500k Active Users
 Our immediate target is to capture **500,000 active users** within the first 3 years. We are uniquely positioned to win this share by:
 -   Dominating the **Francophone African** USSD-AI niche.
--   Providing the go-to marketplace for specialized **Agentic Workflows** (n8n, Gumloop, Lamatic).
+-   Providing the go-to marketplace for specialized **Agentic Workflows** (n8n, Gumloop, Lamatic.ai).
 -   Serving the **Developer Community** with elite model access (Llama 3.1 405B, GPT-4o) and GitHub Copilot integrations.
 
 ## 💰 Monetization & Business Model
@@ -47,8 +47,8 @@ Yendoukoa AI is built on a sustainable business model designed to provide high-q
 ### 1. Subscription-Based Access (SaaS)
 We offer tiered subscription plans powered by **Stripe** to cater to different user needs:
 -   **Free Tier:** Basic access to standard AI agents with a limited monthly credit allowance.
--   **Premium Plan ($19/mo):** Enhanced access to advanced models (Claude 3.5, GPT-4o), priority support, and a higher credit quota.
--   **Pro Plan ($49/mo):** Full access to elite models (Llama 3.1 405B, Nemotron 340B), custom workflow execution (n8n, Gumloop), and API access for developers.
+-   **Premium Plan ($19/mo):** Enhanced access to advanced models (Claude 3.5 Sonnet, GPT-4o), priority support, and a higher credit quota.
+-   **Pro Plan ($49/mo):** Full access to elite models (Llama 3.1 405B, Nemotron-4 340B), custom workflow execution (n8n, Gumloop), and API access for developers.
 
 ### 2. Pay-Per-User / Credit System
 Our platform utilizes a flexible **Credit System** for high-compute tasks. This ensures fair usage and allows users to pay only for what they consume:
