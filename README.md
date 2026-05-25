@@ -24,6 +24,22 @@ We are excited to announce that Yendoukoa AI is now accessible across all your d
 
 Stay productive everywhere with Yendoukoa AI!
 
+## 📊 Market Analysis (TAM, SAM, SOM)
+
+Yendoukoa AI targets a high-growth intersection of Generative AI, Developer Tools, and Financial Inclusion in emerging markets.
+
+### 🌎 TAM (Total Addressable Market) - $500B+
+The global AI software and services market is projected to exceed **$500 Billion** by 2030. This includes the entire landscape of generative AI, automated business workflows, and enterprise-grade intelligence across all sectors.
+
+### 🎯 SAM (Serviceable Addressable Market) - $50B
+Our serviceable market focuses on the **Specialized AI Agent & Emerging Market FinTech** sectors. This includes developers seeking agentic workflows, SMEs in need of localized ERP/AI tools (Odoo, Sage), and the massive mobile-first populations in Francophone Africa requiring USSD-based financial and AI services.
+
+### 🚀 SOM (Serviceable Obtainable Market) - 500k Active Users
+Our immediate target is to capture **500,000 active users** within the first 3 years. We are uniquely positioned to win this share by:
+-   Dominating the **Francophone African** USSD-AI niche.
+-   Providing the go-to marketplace for specialized **Agentic Workflows** (n8n, Gumloop, Lamatic).
+-   Serving the **Developer Community** with elite model access (Llama 3.1 405B, GPT-4o) and GitHub Copilot integrations.
+
 ## 💰 Monetization & Business Model
 
 Yendoukoa AI is built on a sustainable business model designed to provide high-quality AI services while ensuring continuous innovation and infrastructure stability. Our monetization strategy is three-fold:
