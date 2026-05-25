@@ -31,12 +31,19 @@ Yendoukoa AI targets a high-growth intersection of Generative AI, Developer Tool
 ### 🌎 TAM (Total Addressable Market) - $500B+
 The global AI software and services market is projected to exceed **$500 Billion** by 2030. This includes the entire landscape of generative AI, automated business workflows, and enterprise-grade intelligence across all sectors.
 
-### 🎯 SAM (Serviceable Addressable Market) - $50B
-Our serviceable market focuses on the **Specialized AI Agent & Emerging Market FinTech** sectors. This includes developers seeking agentic workflows, SMEs in need of localized ERP/AI tools (Odoo, Sage), and the massive mobile-first populations in Francophone Africa requiring USSD-based financial and AI services.
+**Our Specific TAM = $12B:** The market for solo developer AI tools and USSD FinTech services in Francophone Africa.
+
+### 🎯 SAM (Serviceable Addressable Market)
+We have identified two distinct serviceable markets to address different acquisition channels and price points:
+
+-   **SAM Devs ($1.2B):** Targeting 500,000 global pre-seed/seed startups paying **$19-$49/month** for agentic workflows and elite model access.
+-   **SAM USSD Afrique ($800M):** Targeting 150 million mobile money users in West and Central Africa requiring localized AI-driven financial services.
 
 ### 🚀 SOM (Serviceable Obtainable Market) - 500k Active Users
-Our immediate target is to capture **500,000 active users** within the first 3 years. We are uniquely positioned to win this share by:
--   Dominating the **Francophone African** USSD-AI niche.
+Our objective is to reach **500,000 active users** within 3 years. To achieve this realistically, we are focusing our first 12 months on our unique competitive advantage: the **USSD Afrique** market.
+
+We are uniquely positioned to win this share by:
+-   **Strategic Focus (First 12 Months):** Dominating the **Francophone African USSD-AI** niche.
 -   Providing the go-to marketplace for specialized **Agentic Workflows** (n8n, Gumloop, Lamatic).
 -   Serving the **Developer Community** with elite model access (Llama 3.1 405B, GPT-4o) and GitHub Copilot integrations.
 
