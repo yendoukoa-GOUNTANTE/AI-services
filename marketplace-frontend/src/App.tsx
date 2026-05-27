@@ -127,6 +127,7 @@ const AI_SERVICES: AIService[] = [
   { id: 'rag-tuning', name: 'RAG & Fine-Tuning Hub', category: 'Advanced', icon: Database, description: 'Elite hybrid AI architectures combining retrieval-augmented generation and specialized fine-tuning.' },
   { id: 'router-capacity', name: 'Router Capacity Architect', category: 'Advanced', icon: Route, description: 'Intelligent LLM routing and automated capacity management.' },
   { id: 'visual-intel', name: 'Visual Intelligence', category: 'Advanced', icon: Camera, description: 'Analyze images and videos captured from your camera to provide insights and descriptions.' },
+  { id: 'cyber-sentinel', name: 'Cybersecurity Sentinel', category: 'Security', icon: ShieldCheck, description: 'Elite security audits, penetration testing guidance, and real-time threat intelligence.' },
   { id: 'video-producer', name: 'Video Producer', category: 'Arts', icon: Video, description: 'Expert guidance on scriptwriting, filming, and post-production for professional videos.' },
   { id: 'github-models', name: 'GitHub Models', category: 'Advanced', icon: Cpu, description: 'Access top AI models (GPT-4o, Llama 3, Phi) via the GitHub Models marketplace.' },
   { id: 'copilot-chat', name: 'Copilot Chat API', category: 'Development', icon: Code2, description: 'Direct programmatic access to GitHub Copilot Chat intelligence.' },
@@ -400,6 +401,9 @@ const App: React.FC = () => {
           break;
         case 'security-opt':
           response = await aiService.getSecurityOptimization(servicePrompt);
+          break;
+        case 'cyber-sentinel':
+          response = await aiService.getCybersecuritySentinel(servicePrompt);
           break;
         case 'conflict-debug':
           response = await aiService.getConflictDebugAssistance(servicePrompt, mediaData, mimeType);

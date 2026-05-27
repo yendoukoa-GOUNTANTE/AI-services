@@ -757,6 +757,28 @@ def provide_security_optimization_assistance(prompt: str) -> str:
     except Exception as e:
         return f"Error: {e}"
 
+def provide_cybersecurity_sentinel_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Cybersecurity Sentinel, focused on audits, pen-testing, and threat intelligence.
+    """
+    model = get_model()
+    system_prompt = (
+        "You are the Elite Cybersecurity Sentinel. Your mission is to provide comprehensive security audits, "
+        "advanced penetration testing guidance, and real-time threat intelligence analysis. "
+        "Provide high-level technical strategies for securing cloud infrastructure, defending against "
+        "zero-day exploits, and implementing zero-trust architectures. Your goal is to empower users "
+        "with powerful security tools and knowledge to defend against even the most sophisticated cyber threats."
+    )
+    prompt_template = ChatPromptTemplate.from_messages([
+        ("system", system_prompt),
+        ("user", "{prompt}")
+    ])
+    chain = prompt_template | model | StrOutputParser()
+    try:
+        return chain.invoke({"prompt": prompt}).strip()
+    except Exception as e:
+        return f"Cybersecurity Sentinel AI Error: {e}"
+
 def provide_podcast_assistance(prompt: str) -> str:
     model = get_model()
     prompt_template = ChatPromptTemplate.from_messages([
