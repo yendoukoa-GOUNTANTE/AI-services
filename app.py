@@ -1054,6 +1054,17 @@ def security_optimization_endpoint():
     return jsonify({"status": "success", "message": message})
 
 
+@app.route('/api/v1/security/sentinel', methods=['POST'])
+@require_api_key
+def cybersecurity_sentinel_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+    message = google_ai.provide_cybersecurity_sentinel_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+
 @app.route('/api/v1/podcast/assistance', methods=['POST'])
 @require_api_key
 def podcast_assistance_endpoint():
@@ -2415,6 +2426,14 @@ async def delete_file(file_id):
     db.session.commit()
 
     return jsonify({"status": "success", "message": _("File deleted successfully")})
+
+@app.after_request
+def add_security_headers(response):
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
+    response.headers['X-XSS-Protection'] = '1; mode=block'
+    response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
+    return response
 
 @app.route('/api/v1/meta/campaigns', methods=['GET'])
 @require_api_key

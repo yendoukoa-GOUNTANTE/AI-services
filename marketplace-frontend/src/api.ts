@@ -84,6 +84,7 @@ export const aiService = {
   getGendarmerieAssistance: (prompt: string) => apiClient.post('/gendarmerie/assistance', { prompt }),
   getPoliceAssistance: (prompt: string) => apiClient.post('/police/assistance', { prompt }),
   getSecurityOptimization: (prompt: string) => apiClient.post('/security/optimization', { prompt }),
+  getCybersecuritySentinel: (prompt: string) => apiClient.post('/security/sentinel', { prompt }),
   getConflictDebugAssistance: (prompt: string, mediaData?: string, mimeType?: string) => apiClient.post('/conflict-debug/assistance', { prompt, media_data: mediaData, mime_type: mimeType }),
   executeLangflow: (prompt: string) => apiClient.post('/langflow/execute', { prompt }),
   getAutoMLFeatureEngineering: (prompt: string) => apiClient.post('/automl/feature-engineering', { prompt }),

@@ -104,6 +104,7 @@ Our platform connects to multiple AI services to provide a suite of tools for de
 - **DeepMind Video Creator:** Produces cinematic scripts, storyboards, and advanced video creative directions powered by DeepMind's flagship Gemini 1.5 Pro.
 - **Open Collective Specialist:** Provides elite guidance on transparent project funding and community-led financial management using Open Collective.
 - **Patreon Strategist:** Offers expert advice on creator monetization, membership tiers, and audience engagement strategies for Patreon.
+- **Cybersecurity Sentinel:** Provides elite security audits, penetration testing guidance, and real-time threat intelligence to protect your digital ecosystem.
 
 ## How to Use
 
