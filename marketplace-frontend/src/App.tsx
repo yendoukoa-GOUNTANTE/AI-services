@@ -576,7 +576,10 @@ const App: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center">
-              <span className="text-2xl font-bold text-blue-600">Yendoukoa AI</span>
+              <div className="flex items-center space-x-2">
+                <img src="/logo.svg" alt="Yendoukoa AI Logo" className="h-10 w-10" />
+                <span className="text-2xl font-bold text-blue-600">Yendoukoa AI</span>
+              </div>
               <div className="hidden md:ml-6 md:flex md:space-x-8">
                 <button
                   onClick={() => setActiveTab('marketplace')}
@@ -1251,7 +1254,10 @@ const App: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="md:col-span-2">
-              <span className="text-2xl font-bold text-blue-600">Yendoukoa AI</span>
+              <div className="flex items-center space-x-2">
+                <img src="/logo.svg" alt="Yendoukoa AI Logo" className="h-8 w-8" />
+                <span className="text-2xl font-bold text-blue-600">Yendoukoa AI</span>
+              </div>
               <p className="mt-4 text-gray-500 max-w-xs">
                 Empowering businesses with professional-grade AI services and custom solutions.
               </p>
