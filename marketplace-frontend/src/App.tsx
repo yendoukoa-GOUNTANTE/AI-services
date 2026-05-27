@@ -95,7 +95,7 @@ const AI_SERVICES: AIService[] = [
   { id: 'digital-repair', name: 'Digital Repair', category: 'Support', icon: Wrench, description: 'Troubleshooting media, apps, and websites.' },
   { id: 'researcher', name: 'AI Researcher', category: 'Science', icon: Microscope, description: 'State-of-the-art AI methodology research.' },
   { id: 'google-sites', name: 'Google Sites Specialist', category: 'Infrastructure', icon: Layout, description: 'Google Sites & DNS configuration expert.' },
-  { id: 'marketing', name: 'Marketing & Bot Specialist', category: 'Business', icon: Mail, description: 'Expert e-mail, SMS, and bot marketing & management.' },
+  { id: 'marketing', name: 'Marketing & Bot Specialist', category: 'Business', icon: Mail, description: 'Expert marketing bot management and Google Veo 3.1 video generation.' },
   { id: 'investment', name: 'Investment Specialist', category: 'Business', icon: TrendingUp, description: 'Investment optimization and trading assistance.' },
   { id: 'autogpt', name: 'AutoGPT Agent', category: 'Advanced', icon: Bot, description: 'Autonomous agent for multi-step task planning and strategy.' },
   { id: 'cloud-infra', name: 'Cloud Infra Architect', category: 'Infrastructure', icon: Server, description: 'Expert in secure IPs, DNS, and cloud server creation.' },
@@ -278,7 +278,11 @@ const App: React.FC = () => {
           response = await aiService.getDiagnosticAssistance(servicePrompt);
           break;
         case 'marketing':
-          response = await aiService.getMarketingAssistance(servicePrompt);
+          if (executionParams.type === 'video') {
+            response = await aiService.generateMarketingVideo(servicePrompt);
+          } else {
+            response = await aiService.getMarketingAssistance(servicePrompt);
+          }
           break;
         case 'digital-repair':
           response = await aiService.getDigitalRepairAssistance(servicePrompt);
@@ -662,6 +666,35 @@ const App: React.FC = () => {
                     <div className="mt-4">
                       {!serviceResponse ? (
                         <form onSubmit={handleServiceExecution}>
+                          {selectedService.id === 'marketing' && (
+                            <div className="mb-4 bg-gray-50 p-4 rounded-lg border">
+                              <label className="block text-sm font-medium text-gray-700 mb-2">Select Marketing Service</label>
+                              <div className="flex space-x-4">
+                                <label className="inline-flex items-center">
+                                  <input
+                                    type="radio"
+                                    className="form-radio"
+                                    name="marketingType"
+                                    value="bot"
+                                    checked={executionParams.type !== 'video'}
+                                    onChange={() => setExecutionParams({ ...executionParams, type: 'bot' })}
+                                  />
+                                  <span className="ml-2 text-sm">Bot & Strategy</span>
+                                </label>
+                                <label className="inline-flex items-center">
+                                  <input
+                                    type="radio"
+                                    className="form-radio"
+                                    name="marketingType"
+                                    value="video"
+                                    checked={executionParams.type === 'video'}
+                                    onChange={() => setExecutionParams({ ...executionParams, type: 'video' })}
+                                  />
+                                  <span className="ml-2 text-sm">Veo Video Gen</span>
+                                </label>
+                              </div>
+                            </div>
+                          )}
                           {(selectedService.id === 'visual-intel' || selectedService.category === 'Advanced') && (
                             <div className="mb-4">
                               <label className="block text-sm font-medium text-gray-700 mb-2">Multimodal Input (Optional for Advanced Agents)</label>

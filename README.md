@@ -96,7 +96,7 @@ Our platform connects to multiple AI services to provide a suite of tools for de
 
 - **Software Engineer:** Generates multi-section HTML and CSS for a static website based on a structured text prompt.
 - **Debugger:** Lints HTML and CSS code to find basic errors. Can analyze pasted code or fetch a file directly from a GitHub URL.
-- **Marketer:** Creates promotional social media posts from a business description.
+- **Marketer:** Creates promotional social media posts and high-fidelity cinematic videos using Google Veo 3.1.
 - **System Analyzer:** Scans a website URL for broken links and suggests search queries to find solutions.
 - **Fine-Tuning Specialist:** Provides expert guidance on LLM fine-tuning, dataset preparation, and performance optimization.
 - **Router Capacity Architect:** Optimizes AI infrastructure with intelligent routing and automated capacity management.

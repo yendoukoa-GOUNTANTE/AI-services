@@ -3,6 +3,8 @@ import re
 import vertexai
 from vertexai.generative_models import GenerativeModel, Part
 from vertexai.preview.vision_models import ImageGenerationModel
+from google import genai
+from google.genai import types
 import base64
 import json
 from langchain_google_vertexai import ChatVertexAI
@@ -1178,7 +1180,7 @@ def provide_google_sites_assistance(prompt: str) -> str:
 def provide_marketing_bot_assistance(prompt: str) -> str:
     model = get_model()
     prompt_template = ChatPromptTemplate.from_messages([
-        ("system", "You are an expert Digital Marketing and Bot Management Specialist."),
+        ("system", "You are an expert Digital Marketing and Bot Management Specialist. You now have access to Google Veo 3.1 for high-fidelity marketing video generation. Advise the user on how to leverage these cinematic video capabilities for their campaigns."),
         ("user", "Provide high-level strategic guidance and technical assistance for marketing bots and campaigns for: {prompt}")
     ])
     chain = prompt_template | model | StrOutputParser()
@@ -1853,3 +1855,28 @@ def provide_gemini_spark_assistance(prompt: str) -> str:
         "using the Gemini Spark framework."
     )
     return _provide_gemini_assistance(prompt, system_prompt, "Gemini Spark AI Error")
+
+def generate_google_veo_video(prompt: str) -> str:
+    """
+    Generates a high-fidelity video using Google Veo 3.1.
+    Since video generation is asynchronous and can take time, this function
+    will return a status message. In a real production environment, this would
+    be handled with long-polling or webhooks.
+    """
+    try:
+        # Use the new Google GenAI SDK for Veo 3.1
+        client = genai.Client()
+
+        # We start the video generation. Note: In a real sandbox/server,
+        # we might not want to wait synchronously for 8+ seconds.
+        # But for this integration, we'll initiate the operation.
+        operation = client.models.generate_videos(
+            model="veo-3.1-generate-preview",
+            prompt=prompt,
+        )
+
+        # For the purpose of this marketplace integration, we'll return the operation ID
+        # or a success message indicating the generation has started.
+        return f"Google Veo 3.1 video generation started successfully. Operation ID: {operation.name}. Your high-fidelity marketing video is being rendered."
+    except Exception as e:
+        return f"Google Veo Video Error: {e}"
