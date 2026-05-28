@@ -42,6 +42,7 @@ export interface Project {
 export const aiService = {
   generateWebsite: (prompt: string) => apiClient.post('/develop/website', { prompt }),
   debugCode: (prompt: string) => apiClient.post('/debug', { prompt }),
+  analyzeWebsite: (url: string) => apiClient.post('/analyze/website', { url }),
   generateSocialPost: (prompt: string) => apiClient.post('/market/post', { prompt }),
   getWeather: (location: string) => apiClient.post('/weather', { location }),
   getFinancialAdvice: (prompt: string) => apiClient.post('/finance/advice', { prompt }),
