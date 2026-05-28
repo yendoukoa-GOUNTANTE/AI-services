@@ -51,7 +51,7 @@ import {
   Plus
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
-import { userService, aiService, paymentService, fileService, setAuthToken, type User, type File } from './api';
+import { userService, aiService, paymentService, fileService, setAuthToken, type User, type File, type Agent, type Design } from './api';
 import axios from 'axios';
 
 interface AIService {
@@ -152,6 +152,10 @@ const App: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [user, setUser] = useState<User | null>(null);
   const [credits, setCredits] = useState(0);
+  const [earnings, setEarnings] = useState(0);
+  const [marketplaceTab, setMarketplaceTab] = useState<'official' | 'community' | 'designs'>('official');
+  const [communityAgents, setCommunityAgents] = useState<Agent[]>([]);
+  const [storeDesigns, setStoreDesigns] = useState<Design[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -160,6 +164,9 @@ const App: React.FC = () => {
   const [username, setUsername] = useState('');
   const [apiKey, setApiKey] = useState('');
   const [userFiles, setUserFiles] = useState<File[]>([]);
+  const [showDevModal, setShowDevModal] = useState(false);
+  const [devModalMode, setDevModalMode] = useState<'agent' | 'design'>('agent');
+  const [devFormData, setDevFormData] = useState<any>({});
   const [selectedService, setSelectedService] = useState<AIService | null>(null);
   const [showServiceModal, setShowServiceModal] = useState(false);
   const [servicePrompt, setServicePrompt] = useState('');
@@ -185,9 +192,11 @@ const App: React.FC = () => {
       setLoading(true);
       const response = await userService.getMe();
       setUser(response.data);
-      setCredits(1000);
+      setCredits(response.data.credits || 0);
+      setEarnings(response.data.earnings || 0);
       setError(null);
       fetchUserFiles();
+      fetchMarketplaceData();
     } catch (err) {
       console.error('Failed to fetch user data', err);
       setError('Invalid API Key or Session Expired');
@@ -199,12 +208,45 @@ const App: React.FC = () => {
     }
   };
 
+  const handleDevSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      if (devModalMode === 'agent') {
+        await aiService.createAgent(devFormData);
+      } else {
+        await aiService.createDesign(devFormData);
+      }
+      alert(`${devModalMode === 'agent' ? 'Agent' : 'Design'} published successfully!`);
+      setShowDevModal(false);
+      setDevFormData({});
+      fetchMarketplaceData();
+    } catch (err: any) {
+      setError(err.response?.data?.error || 'Failed to publish');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const fetchUserFiles = async () => {
     try {
       const res = await fileService.getFiles();
       setUserFiles(res.data);
     } catch (err) {
       console.error('Failed to fetch files', err);
+    }
+  };
+
+  const fetchMarketplaceData = async () => {
+    try {
+      const [agentsRes, designsRes] = await Promise.all([
+        aiService.getAgents(),
+        aiService.getDesigns()
+      ]);
+      setCommunityAgents(agentsRes.data);
+      setStoreDesigns(designsRes.data);
+    } catch (err) {
+      console.error('Failed to fetch marketplace data', err);
     }
   };
 
@@ -264,6 +306,14 @@ const App: React.FC = () => {
       let response;
       const mediaData = capturedMedia?.data.split(',')[1];
       const mimeType = capturedMedia?.type;
+
+      // Handle community agents
+      if (typeof selectedService.id === 'number') {
+        response = await aiService.executeAgent(selectedService.id, servicePrompt);
+        setServiceResponse(response.data.message || "Executed community agent.");
+        fetchUserData(); // Update credits
+        return;
+      }
 
       switch (selectedService.id) {
         case 'visual-intel':
@@ -602,7 +652,7 @@ const App: React.FC = () => {
                   onClick={() => setActiveTab('marketplace')}
                   className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${activeTab === 'marketplace' ? 'border-blue-500 text-gray-900' : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'}`}
                 >
-                  Marketplace
+                  App Store
                 </button>
                 <button
                   onClick={() => setActiveTab('dashboard')}
@@ -925,6 +975,116 @@ const App: React.FC = () => {
         </div>
       )}
 
+      {/* Developer Modal */}
+      {showDevModal && (
+        <div className="fixed inset-0 z-[60] overflow-y-auto">
+          <div className="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+            <div className="fixed inset-0 transition-opacity" aria-hidden="true" onClick={() => setShowDevModal(false)}>
+              <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+            </div>
+            <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div className="relative inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full z-[70]">
+              <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <div className="sm:flex sm:items-start">
+                  <div className="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-indigo-100 sm:mx-0 sm:h-10 sm:w-10">
+                    {devModalMode === 'agent' ? <Bot className="h-6 w-6 text-indigo-600" /> : <Layout className="h-6 w-6 text-indigo-600" />}
+                  </div>
+                  <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                    <h3 className="text-lg leading-6 font-medium text-gray-900">
+                      Publish New {devModalMode === 'agent' ? 'AI Agent' : 'Design'}
+                    </h3>
+                    <div className="mt-4">
+                      <form onSubmit={handleDevSubmit} className="space-y-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700">Name</label>
+                          <input
+                            type="text"
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
+                            value={devFormData.name || ''}
+                            onChange={(e) => setDevFormData({...devFormData, name: e.target.value})}
+                            required
+                          />
+                        </div>
+                        {devModalMode === 'agent' && (
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700">Category</label>
+                            <input
+                              type="text"
+                              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
+                              placeholder="e.g. Development, Writing"
+                              value={devFormData.category || ''}
+                              onChange={(e) => setDevFormData({...devFormData, category: e.target.value})}
+                              required
+                            />
+                          </div>
+                        )}
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700">Description</label>
+                          <textarea
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
+                            value={devFormData.description || ''}
+                            onChange={(e) => setDevFormData({...devFormData, description: e.target.value})}
+                            required
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700">{devModalMode === 'agent' ? 'Endpoint URL' : 'Image URL'}</label>
+                          <input
+                            type="text"
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
+                            value={devModalMode === 'agent' ? devFormData.endpoint_url || '' : devFormData.image_url || ''}
+                            onChange={(e) => setDevFormData(devModalMode === 'agent' ? {...devFormData, endpoint_url: e.target.value} : {...devFormData, image_url: e.target.value})}
+                            required
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700">Price (Credits)</label>
+                          <input
+                            type="number"
+                            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
+                            value={devModalMode === 'agent' ? devFormData.price_per_use || 50 : devFormData.price || 500}
+                            onChange={(e) => setDevFormData(devModalMode === 'agent' ? {...devFormData, price_per_use: parseInt(e.target.value)} : {...devFormData, price: parseInt(e.target.value)})}
+                            required
+                          />
+                        </div>
+                        {devModalMode === 'design' && (
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700">Download URL</label>
+                            <input
+                              type="text"
+                              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
+                              value={devFormData.download_url || ''}
+                              onChange={(e) => setDevFormData({...devFormData, download_url: e.target.value})}
+                              required
+                            />
+                          </div>
+                        )}
+                        <div className="mt-5 sm:mt-4 sm:flex sm:flex-row-reverse">
+                          <button
+                            type="submit"
+                            disabled={loading}
+                            className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 sm:ml-3 sm:w-auto sm:text-sm"
+                          >
+                            {loading ? 'Publishing...' : 'Publish to Store'}
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setShowDevModal(false)}
+                            className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 sm:mt-0 sm:w-auto sm:text-sm"
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Login Modal */}
       {showLoginModal && (
         <div className="fixed inset-0 z-[60] overflow-y-auto">
@@ -1019,10 +1179,10 @@ const App: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
             <h1 className="text-5xl font-black tracking-tighter sm:text-6xl lg:text-7xl">
-              Explore the Future of <span className="text-blue-200">Intelligence</span>
+              AI Agent & Design <span className="text-blue-200">App Store</span>
             </h1>
             <p className="mt-8 text-xl text-blue-100 max-w-2xl mx-auto font-medium leading-relaxed">
-              Yendoukoa AI provides an elite marketplace of specialized agents. Explore our ecosystem to find the perfect autonomous partner for your project.
+              Integrate, monetize, and explore the world's most advanced AI agents and digital designs.
             </p>
             <div className="mt-12 max-w-2xl mx-auto">
               <div className="relative group">
@@ -1066,6 +1226,32 @@ const App: React.FC = () => {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {activeTab === 'marketplace' ? (
           <div>
+            {/* Store Navigation Tabs */}
+            <div className="flex justify-center mb-12">
+               <div className="bg-white p-1.5 rounded-2xl shadow-md border flex space-x-1">
+                 <button
+                   onClick={() => setMarketplaceTab('official')}
+                   className={`px-6 py-3 rounded-xl text-sm font-bold transition-all ${marketplaceTab === 'official' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-500 hover:bg-gray-50'}`}
+                 >
+                   Official Services
+                 </button>
+                 <button
+                   onClick={() => setMarketplaceTab('community')}
+                   className={`px-6 py-3 rounded-xl text-sm font-bold transition-all ${marketplaceTab === 'community' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-500 hover:bg-gray-50'}`}
+                 >
+                   AI Agents Store
+                 </button>
+                 <button
+                   onClick={() => setMarketplaceTab('designs')}
+                   className={`px-6 py-3 rounded-xl text-sm font-bold transition-all ${marketplaceTab === 'designs' ? 'bg-blue-600 text-white shadow-lg' : 'text-gray-500 hover:bg-gray-50'}`}
+                 >
+                   Design & API Store
+                 </button>
+               </div>
+            </div>
+
+            {marketplaceTab === 'official' ? (
+              <>
             {/* Featured Agents Section */}
             {selectedCategory === 'All' && !searchQuery && (
               <div className="mb-16">
@@ -1215,6 +1401,111 @@ const App: React.FC = () => {
                 </div>
               ))}
             </div>
+            </>
+            ) : marketplaceTab === 'community' ? (
+              <div>
+                <div className="grid grid-cols-1 gap-y-8 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
+                  {communityAgents.map((agent) => (
+                    <div key={agent.id} className="group bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                      <div className="p-8">
+                        <div className="flex items-center justify-between mb-6">
+                          <div className="p-3 bg-indigo-50 rounded-xl text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-300">
+                            <Bot size={24} />
+                          </div>
+                          <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest bg-gray-50 px-2 py-1 rounded">
+                            {agent.category}
+                          </span>
+                        </div>
+                        <h3 className="text-lg font-black text-gray-900 group-hover:text-indigo-600 transition-colors">
+                          {agent.name}
+                        </h3>
+                        <p className="text-xs text-gray-400 mb-2">by {agent.developer}</p>
+                        <p className="mt-3 text-sm text-gray-500 line-clamp-2 leading-relaxed">
+                          {agent.description}
+                        </p>
+                        <div className="mt-8 pt-6 border-t border-gray-50 flex items-center justify-between">
+                          <div className="flex items-center text-indigo-600">
+                             <CreditCard size={14} className="mr-1.5" />
+                             <span className="text-sm font-black">{agent.price_per_use} Credits</span>
+                          </div>
+                          <button
+                            onClick={() => {
+                              setSelectedService({
+                                id: agent.id as any,
+                                name: agent.name,
+                                category: agent.category,
+                                icon: Bot,
+                                description: agent.description
+                              });
+                              setShowServiceModal(true);
+                              setServicePrompt('');
+                              setServiceResponse('');
+                              setExecutionParams({});
+                            }}
+                            className="bg-indigo-600 text-white px-5 py-2.5 rounded-xl text-xs font-black hover:bg-indigo-700 transition-all shadow-md active:scale-95"
+                          >
+                            Execute Agent
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  {communityAgents.length === 0 && (
+                    <div className="col-span-full text-center py-20 text-gray-500">
+                      <Bot size={48} className="mx-auto mb-4 opacity-20" />
+                      <p>No community agents available yet. Be the first to publish one!</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div>
+                <div className="grid grid-cols-1 gap-y-8 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
+                  {storeDesigns.map((design) => (
+                    <div key={design.id} className="group bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
+                      <div className="aspect-video bg-gray-100 relative overflow-hidden">
+                        <img src={design.image_url} alt={design.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                      </div>
+                      <div className="p-6">
+                        <h3 className="text-lg font-black text-gray-900">{design.name}</h3>
+                        <p className="text-xs text-gray-400 mb-2">by {design.developer}</p>
+                        <p className="mt-2 text-sm text-gray-500 line-clamp-2">{design.description}</p>
+                        <div className="mt-6 pt-4 border-t flex items-center justify-between">
+                          <div className="flex items-center text-green-600">
+                             <DollarSign size={14} className="mr-1.5" />
+                             <span className="text-sm font-black">{design.price} Credits</span>
+                          </div>
+                          <button
+                            onClick={async () => {
+                              if (!user) { setShowLoginModal(true); return; }
+                              try {
+                                setLoading(true);
+                                const res = await aiService.purchaseDesign(design.id);
+                                alert(`Success! Download URL: ${res.data.download_url}`);
+                                fetchUserData();
+                              } catch (err: any) {
+                                setError(err.response?.data?.error || 'Failed to purchase');
+                              } finally {
+                                setLoading(false);
+                              }
+                            }}
+                            className="bg-green-600 text-white px-5 py-2.5 rounded-xl text-xs font-black hover:bg-green-700 transition-all"
+                          >
+                            Purchase
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  {storeDesigns.length === 0 && (
+                    <div className="col-span-full text-center py-20 text-gray-500">
+                      <ShoppingBag size={48} className="mx-auto mb-4 opacity-20" />
+                      <p>No designs in the store yet. Join as a developer to start selling!</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         ) : (
           <div className="space-y-8">
@@ -1230,15 +1521,14 @@ const App: React.FC = () => {
                     <div className="bg-blue-50 p-6 rounded-lg border border-blue-100">
                       <p className="text-blue-600 text-sm font-medium uppercase">Total Balance</p>
                       <p className="text-3xl font-bold mt-1 text-blue-900">{credits} Credits</p>
-                    <p className="text-xs text-blue-400 mt-2 italic">* Balance is currently estimated</p>
                     </div>
                     <div className="bg-green-50 p-6 rounded-lg border border-green-100">
-                      <p className="text-green-600 text-sm font-medium uppercase">Active Projects</p>
-                      <p className="text-3xl font-bold mt-1 text-green-900">3</p>
+                      <p className="text-green-600 text-sm font-medium uppercase">Developer Earnings</p>
+                      <p className="text-3xl font-bold mt-1 text-green-900">{earnings} Credits</p>
                     </div>
                     <div className="bg-purple-50 p-6 rounded-lg border border-purple-100">
-                      <p className="text-purple-600 text-sm font-medium uppercase">Completed Tasks</p>
-                      <p className="text-3xl font-bold mt-1 text-purple-900">12</p>
+                      <p className="text-purple-600 text-sm font-medium uppercase">Your API Key</p>
+                      <p className="text-xs font-mono mt-2 break-all bg-white p-2 rounded border">{user.api_key}</p>
                     </div>
                   </div>
                 )}
@@ -1356,23 +1646,47 @@ const App: React.FC = () => {
                  </div>
 
                  <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
-                    <div className="px-6 py-4 border-b">
-                      <h3 className="text-lg font-bold">Integrated Tools</h3>
+                    <div className="px-6 py-4 border-b flex justify-between items-center">
+                      <h3 className="text-lg font-bold text-indigo-600">Developer Console</h3>
+                      <div className="flex space-x-2">
+                        <button
+                          onClick={() => { setDevModalMode('agent'); setDevFormData({}); setShowDevModal(true); }}
+                          className="bg-indigo-600 text-white px-3 py-1 rounded-lg text-xs font-bold hover:bg-indigo-700"
+                        >
+                          Register Agent
+                        </button>
+                        <button
+                          onClick={() => { setDevModalMode('design'); setDevFormData({}); setShowDevModal(true); }}
+                          className="bg-green-600 text-white px-3 py-1 rounded-lg text-xs font-bold hover:bg-green-700"
+                        >
+                          Submit Design
+                        </button>
+                      </div>
                     </div>
                     <div className="p-6">
+                      <p className="text-sm text-gray-500 mb-6">Manage your products in the Yendoukoa AI App Store. You earn 80% of all credit sales from your agents and designs.</p>
                       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                        {AI_SERVICES.slice(0, 3).map((tool) => (
-                           <div key={tool.id} className="flex items-center p-4 border rounded-lg bg-gray-50">
-                              <tool.icon className="h-8 w-8 text-blue-600 mr-3" />
-                              <div>
-                                <p className="font-bold text-sm">{tool.name}</p>
-                                <p className="text-xs text-green-600 font-medium">Integrated</p>
-                              </div>
-                           </div>
-                        ))}
-                        <button className="flex items-center justify-center p-4 border-2 border-dashed rounded-lg text-gray-400 hover:text-blue-600 hover:border-blue-600 transition-colors">
-                           <span className="text-sm font-bold">+ Add New Tool</span>
-                        </button>
+                         <div className="flex items-center p-4 border rounded-lg bg-indigo-50">
+                            <Bot className="h-8 w-8 text-indigo-600 mr-3" />
+                            <div>
+                              <p className="font-bold text-sm">Your Agents</p>
+                              <p className="text-xs text-gray-600">{communityAgents.filter(a => a.developer === user.username).length} Live</p>
+                            </div>
+                         </div>
+                         <div className="flex items-center p-4 border rounded-lg bg-green-50">
+                            <Layout className="h-8 w-8 text-green-600 mr-3" />
+                            <div>
+                              <p className="font-bold text-sm">Your Designs</p>
+                              <p className="text-xs text-gray-600">{storeDesigns.filter(d => d.developer === user.username).length} Published</p>
+                            </div>
+                         </div>
+                         <div className="flex items-center p-4 border rounded-lg bg-amber-50">
+                            <TrendingUp className="h-8 w-8 text-amber-600 mr-3" />
+                            <div>
+                              <p className="font-bold text-sm">Revenue Share</p>
+                              <p className="text-xs text-gray-600">80% Developer / 20% Fee</p>
+                            </div>
+                         </div>
                       </div>
                     </div>
                  </div>

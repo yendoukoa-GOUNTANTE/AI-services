@@ -22,6 +22,9 @@ export interface User {
   username: string;
   subscription_status?: string;
   subscription_plan?: string;
+  credits?: number;
+  earnings?: number;
+  api_key?: string;
 }
 
 export interface File {
@@ -37,6 +40,26 @@ export interface Project {
   title: string;
   description: string;
   image_url: string;
+}
+
+export interface Agent {
+  id: number;
+  name: string;
+  category: string;
+  description: string;
+  price_per_use: number;
+  developer: string;
+  endpoint_url?: string;
+}
+
+export interface Design {
+  id: number;
+  name: string;
+  description: string;
+  image_url: string;
+  price: number;
+  developer: string;
+  download_url?: string;
 }
 
 export const aiService = {
@@ -112,6 +135,12 @@ export const aiService = {
   getAntigravityAgentAssistance: (prompt: string) => apiClient.post('/v1/antigravity/agent', { prompt }),
   getGeminiSparkAssistance: (prompt: string) => apiClient.post('/v1/gemini/spark', { prompt }),
   getGitHubCopilotCoding: (prompt: string) => apiClient.post('/v1/copilot/coding', { prompt }),
+  getAgents: () => apiClient.get<Agent[]>('/agents'),
+  createAgent: (agentData: Partial<Agent>) => apiClient.post('/agents', agentData),
+  executeAgent: (agentId: number, prompt: string) => apiClient.post(`/agents/execute/${agentId}`, { prompt }),
+  getDesigns: () => apiClient.get<Design[]>('/designs'),
+  createDesign: (designData: Partial<Design>) => apiClient.post('/designs', designData),
+  purchaseDesign: (designId: number) => apiClient.post(`/designs/purchase/${designId}`),
 };
 
 export const userService = {

@@ -41,6 +41,8 @@ class User(db.Model):
     subscription_status = db.Column(db.String(20), default='inactive')
     subscription_plan = db.Column(db.String(20), default='free')
     stripe_customer_id = db.Column(db.String(120), unique=True, nullable=True)
+    credits = db.Column(db.Integer, default=1000)
+    earnings = db.Column(db.Float, default=0.0)
 
     def __repr__(self):
         return f'<User {self.username}>'
@@ -78,6 +80,35 @@ class File(db.Model):
 
     def __repr__(self):
         return f'<File {self.filename}>'
+
+class Agent(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    developer_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+    category = db.Column(db.String(50), nullable=False)
+    description = db.Column(db.String(500), nullable=False)
+    endpoint_url = db.Column(db.String(200), nullable=False)
+    price_per_use = db.Column(db.Integer, default=50) # In credits
+    is_active = db.Column(db.Boolean, default=True)
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    developer = db.relationship('User', backref=db.backref('agents', lazy=True))
+
+    def __repr__(self):
+        return f'<Agent {self.name}>'
+
+class Design(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    developer_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String(500), nullable=False)
+    image_url = db.Column(db.String(200), nullable=False)
+    price = db.Column(db.Integer, nullable=False) # In credits
+    download_url = db.Column(db.String(200), nullable=False)
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    developer = db.relationship('User', backref=db.backref('designs', lazy=True))
+
+    def __repr__(self):
+        return f'<Design {self.name}>'
 
 # --- Flask App Setup ---
 app = Flask(__name__, template_folder='frontend/templates', static_folder='frontend/static')
@@ -2010,6 +2041,163 @@ def execute_langflow_endpoint():
         return jsonify({"error": str(e)}), 500
 
 
+def is_safe_url(url):
+    """Simple check to prevent SSRF by blocking localhost and internal IP ranges."""
+    parsed = urlparse(url)
+    if parsed.hostname in ['localhost', '127.0.0.1', '0.0.0.0']:
+        return False
+    # Block internal IP ranges (simplified)
+    if parsed.hostname and (parsed.hostname.startswith('10.') or parsed.hostname.startswith('192.168.')):
+        return False
+    # Block cloud metadata services
+    if parsed.hostname == '169.254.169.254':
+        return False
+    return True
+
+@app.route('/api/v1/agents', methods=['GET'])
+def list_agents():
+    agents = Agent.query.filter_by(is_active=True).all()
+    return jsonify([{
+        "id": a.id,
+        "name": a.name,
+        "category": a.category,
+        "description": a.description,
+        "price_per_use": a.price_per_use,
+        "developer": a.developer.username
+    } for a in agents])
+
+@app.route('/api/v1/agents', methods=['POST'])
+@require_api_key
+def create_agent():
+    data = request.get_json()
+    name = data.get('name')
+    category = data.get('category')
+    description = data.get('description')
+    endpoint_url = data.get('endpoint_url')
+    price_per_use = data.get('price_per_use', 50)
+
+    if not all([name, category, description, endpoint_url]):
+        return jsonify({"error": _("All fields are required")}), 400
+
+    new_agent = Agent(
+        developer_id=g.user.id,
+        name=name,
+        category=category,
+        description=description,
+        endpoint_url=endpoint_url,
+        price_per_use=price_per_use
+    )
+    db.session.add(new_agent)
+    db.session.commit()
+
+    return jsonify({"status": "success", "agent_id": new_agent.id}), 201
+
+@app.route('/api/v1/agents/execute/<int:agent_id>', methods=['POST'])
+@require_api_key
+async def execute_agent(agent_id):
+    agent = Agent.query.get_or_404(agent_id)
+    if not agent.is_active:
+        return jsonify({"error": _("Agent is not active")}), 403
+
+    if g.user.credits < agent.price_per_use:
+        return jsonify({"error": _("Insufficient credits")}), 402
+
+    if not is_safe_url(agent.endpoint_url):
+        return jsonify({"error": _("Invalid agent endpoint")}), 400
+
+    data = request.get_json()
+    prompt = data.get('prompt')
+
+    try:
+        # Deduct credits from user
+        g.user.credits -= agent.price_per_use
+
+        # Calculate developer earnings (80% of price)
+        developer_earnings = agent.price_per_use * 0.8
+        agent.developer.earnings += developer_earnings
+
+        # Forward request to developer's endpoint
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                agent.endpoint_url,
+                json={"prompt": prompt},
+                headers={"X-API-Key": agent.developer.api_key}, # Optional: developer might need their own key
+                timeout=30
+            )
+            response.raise_for_status()
+            result = response.json()
+
+        db.session.commit()
+        return jsonify({"status": "success", "message": result.get('message', 'No message returned'), "agent_id": agent.id})
+
+    except httpx.RequestError as e:
+        db.session.rollback()
+        return jsonify({"error": _("Error communicating with agent: %(error)s", error=str(e))}), 502
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/v1/designs', methods=['GET'])
+def list_designs():
+    designs = Design.query.all()
+    return jsonify([{
+        "id": d.id,
+        "name": d.name,
+        "description": d.description,
+        "image_url": d.image_url,
+        "price": d.price,
+        "developer": d.developer.username
+    } for d in designs])
+
+@app.route('/api/v1/designs', methods=['POST'])
+@require_api_key
+def create_design():
+    data = request.get_json()
+    name = data.get('name')
+    description = data.get('description')
+    image_url = data.get('image_url')
+    price = data.get('price')
+    download_url = data.get('download_url')
+
+    if not all([name, description, image_url, price, download_url]):
+        return jsonify({"error": _("All fields are required")}), 400
+
+    new_design = Design(
+        developer_id=g.user.id,
+        name=name,
+        description=description,
+        image_url=image_url,
+        price=price,
+        download_url=download_url
+    )
+    db.session.add(new_design)
+    db.session.commit()
+
+    return jsonify({"status": "success", "design_id": new_design.id}), 201
+
+@app.route('/api/v1/designs/purchase/<int:design_id>', methods=['POST'])
+@require_api_key
+def purchase_design(design_id):
+    design = Design.query.get_or_404(design_id)
+
+    if g.user.credits < design.price:
+        return jsonify({"error": _("Insufficient credits")}), 402
+
+    # Deduct credits from user
+    g.user.credits -= design.price
+
+    # Calculate developer earnings (80% of price)
+    developer_earnings = design.price * 0.8
+    design.developer.earnings += developer_earnings
+
+    db.session.commit()
+
+    return jsonify({
+        "status": "success",
+        "message": _("Design purchased successfully"),
+        "download_url": design.download_url
+    })
+
 @app.route('/api/v1/translate', methods=['POST'])
 @require_api_key
 def translate_endpoint():
@@ -2065,7 +2253,10 @@ def me_api():
         "id": g.user.id,
         "username": g.user.username,
         "subscription_status": g.user.subscription_status,
-        "subscription_plan": g.user.subscription_plan
+        "subscription_plan": g.user.subscription_plan,
+        "credits": g.user.credits,
+        "earnings": g.user.earnings,
+        "api_key": g.user.api_key
     })
 
 @app.route('/api/register', methods=['POST'])
@@ -2489,6 +2680,10 @@ def update_db_schema():
             cursor.execute("ALTER TABLE user ADD COLUMN subscription_plan VARCHAR(20) DEFAULT 'free'")
         if 'stripe_customer_id' not in columns:
             cursor.execute("ALTER TABLE user ADD COLUMN stripe_customer_id VARCHAR(120)")
+        if 'credits' not in columns:
+            cursor.execute("ALTER TABLE user ADD COLUMN credits INTEGER DEFAULT 1000")
+        if 'earnings' not in columns:
+            cursor.execute("ALTER TABLE user ADD COLUMN earnings FLOAT DEFAULT 0.0")
 
         # Create file table if it doesn't exist
         cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='file'")
@@ -2503,6 +2698,41 @@ def update_db_schema():
                     filepath VARCHAR(500),
                     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                     FOREIGN KEY(user_id) REFERENCES user(id)
+                )
+            """)
+
+        # Create agent table if it doesn't exist
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='agent'")
+        if not cursor.fetchone():
+            cursor.execute("""
+                CREATE TABLE agent (
+                    id INTEGER PRIMARY KEY,
+                    developer_id INTEGER NOT NULL,
+                    name VARCHAR(100) NOT NULL,
+                    category VARCHAR(50) NOT NULL,
+                    description VARCHAR(500) NOT NULL,
+                    endpoint_url VARCHAR(200) NOT NULL,
+                    price_per_use INTEGER DEFAULT 50,
+                    is_active BOOLEAN DEFAULT 1,
+                    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY(developer_id) REFERENCES user(id)
+                )
+            """)
+
+        # Create design table if it doesn't exist
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='design'")
+        if not cursor.fetchone():
+            cursor.execute("""
+                CREATE TABLE design (
+                    id INTEGER PRIMARY KEY,
+                    developer_id INTEGER NOT NULL,
+                    name VARCHAR(100) NOT NULL,
+                    description VARCHAR(500) NOT NULL,
+                    image_url VARCHAR(200) NOT NULL,
+                    price INTEGER NOT NULL,
+                    download_url VARCHAR(200) NOT NULL,
+                    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY(developer_id) REFERENCES user(id)
                 )
             """)
 
