@@ -51,11 +51,11 @@ import {
   Plus
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
-import { userService, aiService, paymentService, fileService, setAuthToken, type User, type File } from './api';
+import { userService, aiService, paymentService, fileService, agentService, designService, setAuthToken, type User, type File, type Agent, type Design } from './api';
 import axios from 'axios';
 
 interface AIService {
-  id: string;
+  id: string | number;
   name: string;
   category: string;
   icon: LucideIcon;
@@ -147,9 +147,13 @@ const AI_SERVICES: AIService[] = [
 const App: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('marketplace');
+  const [activeMarketplaceTab, setActiveMarketplaceTab] = useState<'services' | 'agents' | 'designs'>('services');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [user, setUser] = useState<User | null>(null);
   const [credits, setCredits] = useState(0);
+  const [earnings, setEarnings] = useState(0);
+  const [dynamicAgents, setDynamicAgents] = useState<Agent[]>([]);
+  const [dynamicDesigns, setDynamicDesigns] = useState<Design[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -176,14 +180,29 @@ const App: React.FC = () => {
       setAuthToken(savedApiKey);
       fetchUserData();
     }
+    fetchDynamicMarketplace();
   }, []);
+
+  const fetchDynamicMarketplace = async () => {
+    try {
+      const [agentsRes, designsRes] = await Promise.all([
+        agentService.getAgents(),
+        designService.getDesigns()
+      ]);
+      setDynamicAgents(agentsRes.data);
+      setDynamicDesigns(designsRes.data);
+    } catch (err) {
+      console.error('Failed to fetch dynamic marketplace', err);
+    }
+  };
 
   const fetchUserData = async () => {
     try {
       setLoading(true);
       const response = await userService.getMe();
       setUser(response.data);
-      setCredits(1000);
+      setCredits(response.data.credits || 0);
+      setEarnings(response.data.earnings || 0);
       setError(null);
       fetchUserFiles();
     } catch (err) {
@@ -262,6 +281,14 @@ const App: React.FC = () => {
       let response;
       const mediaData = capturedMedia?.data.split(',')[1];
       const mimeType = capturedMedia?.type;
+
+      // Check if it's a dynamic agent (numeric ID)
+      if (typeof selectedService.id === 'number') {
+        response = await agentService.executeAgent(selectedService.id, servicePrompt);
+        setServiceResponse(response.data.message || "Executed successfully.");
+        await fetchUserData(); // Refresh credits
+        return;
+      }
 
       switch (selectedService.id) {
         case 'visual-intel':
@@ -573,11 +600,42 @@ const App: React.FC = () => {
     }
   };
 
+  const handleDesignPurchase = async (design: Design) => {
+    if (!user) {
+      setShowLoginModal(true);
+      return;
+    }
+    if (credits < design.price) {
+      setError('Insufficient credits to purchase this design');
+      return;
+    }
+    if (!confirm(`Purchase "${design.name}" for ${design.price} credits?`)) return;
+
+    try {
+      setLoading(true);
+      const res = await designService.purchaseDesign(design.id);
+      alert(`${res.data.message}. Download link: ${res.data.file_url}`);
+      await fetchUserData();
+    } catch (err: any) {
+      setError(err.response?.data?.error || 'Purchase failed');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const filteredServices = AI_SERVICES.filter(service => {
     const matchesSearch = service.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          service.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          service.description.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory = selectedCategory === 'All' || service.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
+
+  const filteredDynamicAgents = dynamicAgents.filter(agent => {
+    const matchesSearch = agent.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         agent.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                         agent.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = selectedCategory === 'All' || agent.category === selectedCategory;
     return matchesSearch && matchesCategory;
   });
 
@@ -1012,10 +1070,10 @@ const App: React.FC = () => {
       <div className="bg-blue-600 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl text-center">
-            AI Service Marketplace
+            AI Agent & Design App Store
           </h1>
           <p className="mt-6 text-xl text-blue-100 max-w-3xl mx-auto text-center">
-            Discover and utilize professional AI services for your business, development, and personal projects.
+            Discover professional AI agents and designs, or integrate and monetize your own AI tools.
           </p>
           <div className="mt-10 max-w-xl mx-auto">
             <div className="relative">
@@ -1038,8 +1096,33 @@ const App: React.FC = () => {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {activeTab === 'marketplace' ? (
           <div>
+            <div className="flex border-b mb-8">
+              <button
+                onClick={() => setActiveMarketplaceTab('services')}
+                className={`px-6 py-3 font-bold text-sm transition-colors ${activeMarketplaceTab === 'services' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+              >
+                Official Services
+              </button>
+              <button
+                onClick={() => setActiveMarketplaceTab('agents')}
+                className={`px-6 py-3 font-bold text-sm transition-colors ${activeMarketplaceTab === 'agents' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+              >
+                AI Agents Store
+              </button>
+              <button
+                onClick={() => setActiveMarketplaceTab('designs')}
+                className={`px-6 py-3 font-bold text-sm transition-colors ${activeMarketplaceTab === 'designs' ? 'border-b-2 border-blue-600 text-blue-600' : 'text-gray-500 hover:text-gray-700'}`}
+              >
+                Design & API Store
+              </button>
+            </div>
+
             <div className="flex justify-between items-center mb-8">
-              <h2 className="text-2xl font-bold text-gray-900">AI Specialist Marketplace</h2>
+              <h2 className="text-2xl font-bold text-gray-900">
+                {activeMarketplaceTab === 'services' && 'Official AI Specialists'}
+                {activeMarketplaceTab === 'agents' && 'Community AI Agents'}
+                {activeMarketplaceTab === 'designs' && 'Community Designs & APIs'}
+              </h2>
               <div className="flex space-x-2 overflow-x-auto pb-2">
                 {['All', 'Development', 'Business', 'Public', 'Support', 'Security', 'Advanced', 'Infrastructure', 'Science'].map(cat => (
                   <button
@@ -1058,7 +1141,7 @@ const App: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
-              {filteredServices.map((service) => (
+              {activeMarketplaceTab === 'services' && filteredServices.map((service) => (
                 <div key={service.id} className="group relative bg-white border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                   <div className="p-6">
                     <div className="flex items-center justify-between mb-4">
@@ -1070,10 +1153,7 @@ const App: React.FC = () => {
                       </span>
                     </div>
                     <h3 className="text-lg font-bold text-gray-900">
-                      <a href={`#${service.id}`}>
-                        <span aria-hidden="true" className="absolute inset-0" />
-                        {service.name}
-                      </a>
+                      {service.name}
                     </h3>
                     <p className="mt-2 text-sm text-gray-500 line-clamp-2">
                       {service.description}
@@ -1091,6 +1171,79 @@ const App: React.FC = () => {
                         className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 z-10"
                       >
                         Use Now
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+              {activeMarketplaceTab === 'agents' && filteredDynamicAgents.map((agent) => (
+                <div key={agent.id} className="group relative bg-white border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                  <div className="p-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="p-3 bg-purple-50 rounded-lg text-purple-600">
+                        <Bot size={24} />
+                      </div>
+                      <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                        {agent.category}
+                      </span>
+                    </div>
+                    <h3 className="text-lg font-bold text-gray-900">
+                      {agent.name}
+                    </h3>
+                    <p className="text-xs text-gray-400 mt-1">by {agent.developer}</p>
+                    <p className="mt-2 text-sm text-gray-500 line-clamp-2">
+                      {agent.description}
+                    </p>
+                    <div className="mt-6 flex items-center justify-between">
+                      <span className="text-blue-600 font-bold">{agent.price} Credits</span>
+                      <button
+                        onClick={() => {
+                          setSelectedService({
+                            id: agent.id as any,
+                            name: agent.name,
+                            category: agent.category,
+                            icon: Bot,
+                            description: agent.description
+                          });
+                          setShowServiceModal(true);
+                          setServicePrompt('');
+                          setServiceResponse('');
+                          setExecutionParams({});
+                        }}
+                        className="bg-purple-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-purple-700 z-10"
+                      >
+                        Run Agent
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+
+              {activeMarketplaceTab === 'designs' && dynamicDesigns.map((design) => (
+                <div key={design.id} className="group relative bg-white border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                  {design.preview_url ? (
+                    <img src={design.preview_url} alt={design.name} className="w-full h-48 object-cover" />
+                  ) : (
+                    <div className="w-full h-48 bg-gray-100 flex items-center justify-center text-gray-400">
+                       <Layout size={48} />
+                    </div>
+                  )}
+                  <div className="p-6">
+                    <h3 className="text-lg font-bold text-gray-900">
+                      {design.name}
+                    </h3>
+                    <p className="text-xs text-gray-400 mt-1">by {design.developer}</p>
+                    <p className="mt-2 text-sm text-gray-500 line-clamp-2">
+                      {design.description}
+                    </p>
+                    <div className="mt-6 flex items-center justify-between">
+                      <span className="text-blue-600 font-bold">{design.price} Credits</span>
+                      <button
+                        onClick={() => handleDesignPurchase(design)}
+                        className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-green-700 z-10"
+                      >
+                        Purchase
                       </button>
                     </div>
                   </div>
@@ -1185,7 +1338,98 @@ const App: React.FC = () => {
 
              {user && (
                <>
-                 <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
+                 <div className="bg-white p-8 rounded-xl shadow-sm border">
+                   <h3 className="text-xl font-bold mb-6 text-purple-600">Developer Portal</h3>
+                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                     <div className="bg-purple-50 p-6 rounded-xl border border-purple-100">
+                        <div className="flex items-center mb-4">
+                           <Bot className="text-purple-600 mr-2" />
+                           <h4 className="font-bold">Register Your AI Agent</h4>
+                        </div>
+                        <p className="text-sm text-gray-600 mb-4">Integrate your AI via API and earn 80% of the credits spent by users.</p>
+                        <form onSubmit={async (e) => {
+                          e.preventDefault();
+                          const formData = new FormData(e.currentTarget);
+                          try {
+                            setLoading(true);
+                            await agentService.createAgent({
+                              name: formData.get('name') as string,
+                              category: formData.get('category') as string,
+                              description: formData.get('description') as string,
+                              api_endpoint: formData.get('api_endpoint') as string,
+                              api_key: formData.get('api_key') as string,
+                              price: parseInt(formData.get('price') as string)
+                            });
+                            alert('Agent registered successfully!');
+                            fetchDynamicMarketplace();
+                            (e.target as HTMLFormElement).reset();
+                          } catch (err) {
+                            setError('Failed to register agent');
+                          } finally {
+                            setLoading(false);
+                          }
+                        }} className="space-y-3">
+                          <input name="name" placeholder="Agent Name" className="w-full p-2 border rounded text-sm" required />
+                          <select name="category" className="w-full p-2 border rounded text-sm">
+                            {['Development', 'Business', 'Public', 'Support', 'Security', 'Advanced', 'Science'].map(c => <option key={c} value={c}>{c}</option>)}
+                          </select>
+                          <textarea name="description" placeholder="Description" className="w-full p-2 border rounded text-sm" required />
+                          <input name="api_endpoint" placeholder="API Endpoint URL" className="w-full p-2 border rounded text-sm" required />
+                          <input name="api_key" placeholder="API Key (Optional)" className="w-full p-2 border rounded text-sm" />
+                          <input name="price" type="number" defaultValue="50" className="w-full p-2 border rounded text-sm" />
+                          <button type="submit" disabled={loading} className="w-full bg-purple-600 text-white p-2 rounded font-bold hover:bg-purple-700">Register Agent</button>
+                        </form>
+                     </div>
+
+                     <div className="bg-green-50 p-6 rounded-xl border border-green-100">
+                        <div className="flex items-center mb-4">
+                           <Layout className="text-green-600 mr-2" />
+                           <h4 className="font-bold">Sell Your Design / API</h4>
+                        </div>
+                        <p className="text-sm text-gray-600 mb-4">Upload your UI designs or API documentation and monetize them.</p>
+                        <form onSubmit={async (e) => {
+                          e.preventDefault();
+                          const formData = new FormData(e.currentTarget);
+                          try {
+                            setLoading(true);
+                            await designService.createDesign({
+                              name: formData.get('name') as string,
+                              description: formData.get('description') as string,
+                              file_url: formData.get('file_url') as string,
+                              preview_url: formData.get('preview_url') as string,
+                              price: parseInt(formData.get('price') as string)
+                            });
+                            alert('Design submitted successfully!');
+                            fetchDynamicMarketplace();
+                            (e.target as HTMLFormElement).reset();
+                          } catch (err) {
+                            setError('Failed to submit design');
+                          } finally {
+                            setLoading(false);
+                          }
+                        }} className="space-y-3">
+                          <input name="name" placeholder="Design Name" className="w-full p-2 border rounded text-sm" required />
+                          <textarea name="description" placeholder="Description" className="w-full p-2 border rounded text-sm" required />
+                          <input name="file_url" placeholder="Download Link (e.g. Google Drive/Dropbox)" className="w-full p-2 border rounded text-sm" required />
+                          <input name="preview_url" placeholder="Preview Image URL" className="w-full p-2 border rounded text-sm" />
+                          <input name="price" type="number" defaultValue="100" className="w-full p-2 border rounded text-sm" />
+                          <button type="submit" disabled={loading} className="w-full bg-green-600 text-white p-2 rounded font-bold hover:bg-green-700">Submit Design</button>
+                        </form>
+                     </div>
+                  </div>
+                  <div className="mt-8 p-4 bg-yellow-50 border border-yellow-100 rounded-lg">
+                    <div className="flex items-center justify-between">
+                       <div className="flex items-center">
+                          <DollarSign className="text-yellow-600 mr-2" />
+                          <h4 className="font-bold text-yellow-800">Your Developer Earnings</h4>
+                       </div>
+                       <p className="text-2xl font-extrabold text-yellow-900">{earnings} Credits</p>
+                    </div>
+                    <p className="text-xs text-yellow-700 mt-2">Earnings are updated in real-time as users consume your tools. You can convert credits to fiat via our payout portal (coming soon).</p>
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
                     <div className="px-6 py-4 border-b flex justify-between items-center">
                       <h3 className="text-lg font-bold">File Storage Specialist</h3>
                       <label className="cursor-pointer bg-blue-600 text-white px-3 py-1 rounded-lg text-sm font-semibold hover:bg-blue-700">

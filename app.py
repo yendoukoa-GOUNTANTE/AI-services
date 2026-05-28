@@ -41,9 +41,41 @@ class User(db.Model):
     subscription_status = db.Column(db.String(20), default='inactive')
     subscription_plan = db.Column(db.String(20), default='free')
     stripe_customer_id = db.Column(db.String(120), unique=True, nullable=True)
+    credits = db.Column(db.Integer, default=1000)
+    earnings = db.Column(db.Integer, default=0)
 
     def __repr__(self):
         return f'<User {self.username}>'
+
+class Agent(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    developer_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+    category = db.Column(db.String(50), nullable=False)
+    description = db.Column(db.String(500), nullable=False)
+    api_endpoint = db.Column(db.String(200), nullable=False)
+    api_key = db.Column(db.String(120), nullable=True)
+    price = db.Column(db.Integer, default=50)
+    icon = db.Column(db.String(50), default='Bot')
+    is_approved = db.Column(db.Boolean, default=False)
+    developer = db.relationship('User', backref=db.backref('agents', lazy=True))
+
+    def __repr__(self):
+        return f'<Agent {self.name}>'
+
+class Design(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    developer_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String(500), nullable=False)
+    preview_url = db.Column(db.String(200), nullable=True)
+    file_url = db.Column(db.String(200), nullable=True)
+    price = db.Column(db.Integer, default=100)
+    is_approved = db.Column(db.Boolean, default=False)
+    developer = db.relationship('User', backref=db.backref('designs', lazy=True))
+
+    def __repr__(self):
+        return f'<Design {self.name}>'
 
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -2022,6 +2054,163 @@ def translate_endpoint():
     return jsonify({"status": "success", "message": message})
 
 
+@app.route('/api/v1/agents', methods=['POST'])
+@require_api_key
+def create_agent():
+    data = request.get_json()
+    name = data.get('name')
+    category = data.get('category')
+    description = data.get('description')
+    api_endpoint = data.get('api_endpoint')
+    api_key = data.get('api_key')
+    price = data.get('price', 50)
+    icon = data.get('icon', 'Bot')
+
+    if not all([name, category, description, api_endpoint]):
+        return jsonify({"error": _("Missing required fields")}), 400
+
+    new_agent = Agent(
+        developer_id=g.user.id,
+        name=name,
+        category=category,
+        description=description,
+        api_endpoint=api_endpoint,
+        api_key=api_key,
+        price=price,
+        icon=icon,
+        is_approved=True # Auto-approving for demo purposes
+    )
+    db.session.add(new_agent)
+    db.session.commit()
+    return jsonify({"status": "success", "agent": {"id": new_agent.id, "name": new_agent.name}})
+
+@app.route('/api/v1/agents', methods=['GET'])
+def list_agents():
+    agents = Agent.query.filter_by(is_approved=True).all()
+    return jsonify([{
+        "id": a.id,
+        "name": a.name,
+        "category": a.category,
+        "description": a.description,
+        "price": a.price,
+        "icon": a.icon,
+        "developer": a.developer.username
+    } for a in agents])
+
+def is_safe_url(url):
+    """Basic SSRF protection for developer-provided endpoints."""
+    try:
+        parsed = urlparse(url)
+        if parsed.scheme not in ['http', 'https']:
+            return False
+        hostname = parsed.hostname.lower()
+        if hostname in ['localhost', '127.0.0.1', '0.0.0.0', '::1']:
+            return False
+        # Prevent access to cloud metadata services
+        if hostname == '169.254.169.254':
+            return False
+        return True
+    except:
+        return False
+
+@app.route('/api/v1/agents/<int:agent_id>/execute', methods=['POST'])
+@require_api_key
+async def execute_agent(agent_id):
+    agent = Agent.query.get_or_404(agent_id)
+    if not agent.is_approved:
+         return jsonify({"error": _("Agent not approved")}), 403
+
+    if not is_safe_url(agent.api_endpoint):
+        return jsonify({"error": _("Invalid or unsafe API endpoint")}), 400
+
+    if g.user.credits < agent.price:
+        return jsonify({"error": _("Insufficient credits")}), 402
+
+    data = request.get_json()
+    prompt = data.get('prompt')
+
+    try:
+        headers = {}
+        if agent.api_key:
+            headers['Authorization'] = f'Bearer {agent.api_key}'
+            headers['X-API-Key'] = agent.api_key
+
+        async with httpx.AsyncClient() as client:
+            response = await client.post(agent.api_endpoint, json={"prompt": prompt}, headers=headers, timeout=60)
+            response.raise_for_status()
+            agent_response = response.json()
+
+            g.user.credits -= agent.price
+            developer = User.query.get(agent.developer_id)
+            developer.earnings += int(agent.price * 0.8)
+            db.session.commit()
+
+            return jsonify({
+                "status": "success",
+                "message": agent_response.get('message') or agent_response.get('response') or str(agent_response)
+            })
+    except Exception as e:
+        return jsonify({"error": f"Agent Execution Error: {str(e)}"}), 500
+
+@app.route('/api/v1/designs', methods=['POST'])
+@require_api_key
+def create_design():
+    data = request.get_json()
+    name = data.get('name')
+    description = data.get('description')
+    preview_url = data.get('preview_url')
+    file_url = data.get('file_url')
+    price = data.get('price', 100)
+
+    if not all([name, description, file_url]):
+        return jsonify({"error": _("Missing required fields")}), 400
+
+    new_design = Design(
+        developer_id=g.user.id,
+        name=name,
+        description=description,
+        preview_url=preview_url,
+        file_url=file_url,
+        price=price,
+        is_approved=True # Auto-approving for demo purposes
+    )
+    db.session.add(new_design)
+    db.session.commit()
+    return jsonify({"status": "success", "design": {"id": new_design.id, "name": new_design.name}})
+
+@app.route('/api/v1/designs', methods=['GET'])
+def list_designs():
+    designs = Design.query.filter_by(is_approved=True).all()
+    return jsonify([{
+        "id": d.id,
+        "name": d.name,
+        "description": d.description,
+        "price": d.price,
+        "preview_url": d.preview_url,
+        "developer": d.developer.username
+    } for d in designs])
+
+@app.route('/api/v1/designs/<int:design_id>/purchase', methods=['POST'])
+@require_api_key
+def purchase_design(design_id):
+    design = Design.query.get_or_404(design_id)
+    if not design.is_approved:
+         return jsonify({"error": _("Design not approved")}), 403
+
+    if g.user.credits < design.price:
+        return jsonify({"error": _("Insufficient credits")}), 402
+
+    g.user.credits -= design.price
+    developer = User.query.get(design.developer_id)
+    developer.earnings += int(design.price * 0.8)
+    db.session.commit()
+
+    return jsonify({
+        "status": "success",
+        "message": _("Design purchased successfully"),
+        "file_url": design.file_url
+    })
+
 @app.route('/api/v1/register_public', methods=['POST'])
 def register_public():
     data = request.get_json()
@@ -2065,7 +2254,9 @@ def me_api():
         "id": g.user.id,
         "username": g.user.username,
         "subscription_status": g.user.subscription_status,
-        "subscription_plan": g.user.subscription_plan
+        "subscription_plan": g.user.subscription_plan,
+        "credits": g.user.credits,
+        "earnings": g.user.earnings
     })
 
 @app.route('/api/register', methods=['POST'])
@@ -2489,6 +2680,46 @@ def update_db_schema():
             cursor.execute("ALTER TABLE user ADD COLUMN subscription_plan VARCHAR(20) DEFAULT 'free'")
         if 'stripe_customer_id' not in columns:
             cursor.execute("ALTER TABLE user ADD COLUMN stripe_customer_id VARCHAR(120)")
+        if 'credits' not in columns:
+            cursor.execute("ALTER TABLE user ADD COLUMN credits INTEGER DEFAULT 1000")
+        if 'earnings' not in columns:
+            cursor.execute("ALTER TABLE user ADD COLUMN earnings INTEGER DEFAULT 0")
+
+        # Create agent table if it doesn't exist
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='agent'")
+        if not cursor.fetchone():
+            cursor.execute("""
+                CREATE TABLE agent (
+                    id INTEGER PRIMARY KEY,
+                    developer_id INTEGER NOT NULL,
+                    name VARCHAR(100) NOT NULL,
+                    category VARCHAR(50) NOT NULL,
+                    description VARCHAR(500) NOT NULL,
+                    api_endpoint VARCHAR(200) NOT NULL,
+                    api_key VARCHAR(120),
+                    price INTEGER DEFAULT 50,
+                    icon VARCHAR(50) DEFAULT 'Bot',
+                    is_approved BOOLEAN DEFAULT 0,
+                    FOREIGN KEY(developer_id) REFERENCES user(id)
+                )
+            """)
+
+        # Create design table if it doesn't exist
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='design'")
+        if not cursor.fetchone():
+            cursor.execute("""
+                CREATE TABLE design (
+                    id INTEGER PRIMARY KEY,
+                    developer_id INTEGER NOT NULL,
+                    name VARCHAR(100) NOT NULL,
+                    description VARCHAR(500) NOT NULL,
+                    preview_url VARCHAR(200),
+                    file_url VARCHAR(200),
+                    price INTEGER DEFAULT 100,
+                    is_approved BOOLEAN DEFAULT 0,
+                    FOREIGN KEY(developer_id) REFERENCES user(id)
+                )
+            """)
 
         # Create file table if it doesn't exist
         cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='file'")

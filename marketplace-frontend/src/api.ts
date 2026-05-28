@@ -22,6 +22,27 @@ export interface User {
   username: string;
   subscription_status?: string;
   subscription_plan?: string;
+  credits?: number;
+  earnings?: number;
+}
+
+export interface Agent {
+  id: number;
+  name: string;
+  category: string;
+  description: string;
+  price: number;
+  icon: string;
+  developer: string;
+}
+
+export interface Design {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  preview_url?: string;
+  developer: string;
 }
 
 export interface File {
@@ -38,6 +59,18 @@ export interface Project {
   description: string;
   image_url: string;
 }
+
+export const agentService = {
+  createAgent: (data: Partial<Agent> & { api_endpoint: string, api_key?: string }) => apiClient.post('/agents', data),
+  getAgents: () => apiClient.get<Agent[]>('/agents'),
+  executeAgent: (agentId: number, prompt: string) => apiClient.post(`/agents/${agentId}/execute`, { prompt }),
+};
+
+export const designService = {
+  createDesign: (data: Partial<Design> & { file_url: string }) => apiClient.post('/designs', data),
+  getDesigns: () => apiClient.get<Design[]>('/designs'),
+  purchaseDesign: (designId: number) => apiClient.post(`/designs/${designId}/purchase`),
+};
 
 export const aiService = {
   generateWebsite: (prompt: string) => apiClient.post('/develop/website', { prompt }),
