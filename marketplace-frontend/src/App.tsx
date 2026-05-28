@@ -1271,11 +1271,28 @@ const App: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center">
             <h1 className="text-5xl font-black tracking-tighter sm:text-6xl lg:text-7xl">
-              Explore the Future of <span className="text-blue-200">Intelligence</span>
+              Get your <span className="text-blue-200">AI Software Engineer</span> in 5 min
             </h1>
             <p className="mt-8 text-xl text-blue-100 max-w-2xl mx-auto font-medium leading-relaxed">
-              Yendoukoa AI provides an elite marketplace of specialized agents. Explore our ecosystem to find the perfect autonomous partner for your project.
+              Writes code, fixes bugs, ships to prod. Pay only when it works.
             </p>
+            <div className="mt-10 flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
+              <button
+                onClick={() => {
+                  const softwareEngineer = AI_SERVICES.find(s => s.id === 'website');
+                  if (softwareEngineer) {
+                    setSelectedService(softwareEngineer);
+                    setShowServiceModal(true);
+                    setServicePrompt('');
+                    setServiceResponse('');
+                    setExecutionParams({});
+                  }
+                }}
+                className="bg-white text-blue-600 px-8 py-4 rounded-2xl font-black text-lg hover:bg-blue-50 transition-all shadow-2xl"
+              >
+                Try AI Engineer Free
+              </button>
+            </div>
             <div className="mt-12 max-w-2xl mx-auto">
               <div className="relative group">
                 <div className="absolute -inset-1 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
@@ -1479,17 +1496,34 @@ const App: React.FC = () => {
                     Developers earn 80% revenue on every execution.
                   </p>
                 </div>
-                <button
-                  onClick={() => {
-                    if (!user) setShowLoginModal(true);
-                    else {
-                      setShowAgentRegModal(true);
-                    }
-                  }}
-                  className="mt-6 md:mt-0 bg-white text-blue-900 px-8 py-4 rounded-2xl font-black text-sm hover:bg-blue-50 transition-colors shadow-2xl"
-                >
-                  Submit Your Agent
-                </button>
+                <div className="mt-6 md:mt-0 flex flex-col items-center">
+                  <button
+                    onClick={() => {
+                      const softwareEngineer = AI_SERVICES.find(s => s.id === 'website');
+                      if (softwareEngineer) {
+                        setSelectedService(softwareEngineer);
+                        setShowServiceModal(true);
+                        setServicePrompt('');
+                        setServiceResponse('');
+                        setExecutionParams({});
+                      }
+                    }}
+                    className="bg-white text-blue-900 px-8 py-4 rounded-2xl font-black text-sm hover:bg-blue-50 transition-colors shadow-2xl mb-4"
+                  >
+                    Try AI Engineer Free
+                  </button>
+                  <button
+                    onClick={() => {
+                      if (!user) setShowLoginModal(true);
+                      else {
+                        setShowAgentRegModal(true);
+                      }
+                    }}
+                    className="text-blue-200 text-xs font-bold hover:text-white transition-colors underline"
+                  >
+                    Submit Your Agent
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -1559,17 +1593,34 @@ const App: React.FC = () => {
                     Instant download and ownership of high-quality digital assets.
                   </p>
                 </div>
-                <button
-                  onClick={() => {
-                    if (!user) setShowLoginModal(true);
-                    else {
-                      setShowDesignRegModal(true);
-                    }
-                  }}
-                  className="mt-6 md:mt-0 bg-white text-purple-900 px-8 py-4 rounded-2xl font-black text-sm hover:bg-blue-50 transition-colors shadow-2xl"
-                >
-                  List Your Design
-                </button>
+                <div className="mt-6 md:mt-0 flex flex-col items-center">
+                  <button
+                    onClick={() => {
+                      const softwareEngineer = AI_SERVICES.find(s => s.id === 'website');
+                      if (softwareEngineer) {
+                        setSelectedService(softwareEngineer);
+                        setShowServiceModal(true);
+                        setServicePrompt('');
+                        setServiceResponse('');
+                        setExecutionParams({});
+                      }
+                    }}
+                    className="bg-white text-purple-900 px-8 py-4 rounded-2xl font-black text-sm hover:bg-blue-50 transition-colors shadow-2xl mb-4"
+                  >
+                    Try AI Engineer Free
+                  </button>
+                  <button
+                    onClick={() => {
+                      if (!user) setShowLoginModal(true);
+                      else {
+                        setShowDesignRegModal(true);
+                      }
+                    }}
+                    className="text-blue-100 text-xs font-bold hover:text-white transition-colors underline"
+                  >
+                    List Your Design
+                  </button>
+                </div>
               </div>
             </div>
 
