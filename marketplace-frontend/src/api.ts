@@ -22,6 +22,30 @@ export interface User {
   username: string;
   subscription_status?: string;
   subscription_plan?: string;
+  credits?: number;
+}
+
+export interface StoreAgent {
+  id: number;
+  developer_id: number;
+  developer_name: string;
+  name: string;
+  description: string;
+  price_per_use: number;
+  category: string;
+  created_at: string;
+}
+
+export interface StoreDesign {
+  id: number;
+  developer_id: number;
+  developer_name: string;
+  name: string;
+  description: string;
+  preview_url?: string;
+  price: number;
+  category: string;
+  created_at: string;
 }
 
 export interface File {
@@ -120,6 +144,15 @@ export const userService = {
   getMe: () => apiClient.get<User>('/me_api'),
   getProjects: () => apiClient.get<Project[]>('/portfolio/projects'),
   createProject: (title: string, description: string) => apiClient.post<Project>('/projects', { title, description }),
+};
+
+export const storeService = {
+  getAgents: (category?: string) => apiClient.get<StoreAgent[]>('/store/agents', { params: { category } }),
+  registerAgent: (agent: Partial<StoreAgent> & { endpoint_url: string }) => apiClient.post('/store/agents', agent),
+  getDesigns: (category?: string) => apiClient.get<StoreDesign[]>('/store/designs', { params: { category } }),
+  registerDesign: (design: Partial<StoreDesign> & { content?: string }) => apiClient.post('/store/designs', design),
+  executeAgent: (agentId: number, prompt: string) => apiClient.post('/store/execute', { agent_id: agentId, prompt }),
+  purchaseDesign: (designId: number) => apiClient.post('/store/purchase', { design_id: designId }),
 };
 
 export const fileService = {

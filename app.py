@@ -41,9 +41,43 @@ class User(db.Model):
     subscription_status = db.Column(db.String(20), default='inactive')
     subscription_plan = db.Column(db.String(20), default='free')
     stripe_customer_id = db.Column(db.String(120), unique=True, nullable=True)
+    credits = db.Column(db.Integer, default=1000)
 
     def __repr__(self):
         return f'<User {self.username}>'
+
+class Agent(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    developer_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String(500), nullable=False)
+    endpoint_url = db.Column(db.String(200), nullable=False)
+    price_per_use = db.Column(db.Integer, default=50)
+    category = db.Column(db.String(50), default='General')
+    is_active = db.Column(db.Boolean, default=True)
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    developer = db.relationship('User', backref=db.backref('developed_agents', lazy=True))
+
+class Design(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    developer_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String(500), nullable=False)
+    preview_url = db.Column(db.String(200), nullable=True)
+    price = db.Column(db.Integer, default=500)
+    category = db.Column(db.String(50), default='Web')
+    content = db.Column(db.Text, nullable=True) # Could be code or JSON
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    developer = db.relationship('User', backref=db.backref('developed_designs', lazy=True))
+
+class Purchase(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    item_type = db.Column(db.String(20), nullable=False) # 'agent' or 'design'
+    item_id = db.Column(db.Integer, nullable=False)
+    amount = db.Column(db.Integer, nullable=False)
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    user = db.relationship('User', backref=db.backref('purchases', lazy=True))
 
 class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -2065,8 +2099,203 @@ def me_api():
         "id": g.user.id,
         "username": g.user.username,
         "subscription_status": g.user.subscription_status,
-        "subscription_plan": g.user.subscription_plan
+        "subscription_plan": g.user.subscription_plan,
+        "credits": g.user.credits
     })
+
+def is_safe_url(url):
+    """Basic SSRF protection."""
+    try:
+        parsed = urlparse(url)
+        if parsed.scheme not in ['http', 'https']:
+            return False
+        hostname = parsed.hostname
+        if not hostname or hostname in ['localhost', '127.0.0.1', '0.0.0.0']:
+            return False
+        # Block internal IP ranges (simple check)
+        if hostname.startswith('192.168.') or hostname.startswith('10.') or hostname.startswith('172.'):
+            return False
+        # Block cloud metadata service
+        if hostname == '169.254.169.254':
+            return False
+        return True
+    except:
+        return False
+
+@app.route('/api/v1/store/agents', methods=['GET'])
+def list_store_agents():
+    category = request.args.get('category')
+    query = Agent.query.filter_by(is_active=True)
+    if category and category != 'All':
+        query = query.filter_by(category=category)
+    agents = query.all()
+    return jsonify([{
+        "id": a.id,
+        "developer_id": a.developer_id,
+        "developer_name": a.developer.username,
+        "name": a.name,
+        "description": a.description,
+        "price_per_use": a.price_per_use,
+        "category": a.category,
+        "created_at": a.created_at.isoformat()
+    } for a in agents])
+
+@app.route('/api/v1/store/agents', methods=['POST'])
+@require_api_key
+def register_store_agent():
+    data = request.get_json()
+    name = data.get('name')
+    description = data.get('description')
+    endpoint_url = data.get('endpoint_url')
+    price_per_use = data.get('price_per_use', 50)
+    category = data.get('category', 'General')
+
+    if not all([name, description, endpoint_url]):
+        return jsonify({"error": _("Name, description, and endpoint_url are required")}), 400
+
+    if not is_safe_url(endpoint_url):
+        return jsonify({"error": _("Invalid or unsafe endpoint URL")}), 400
+
+    new_agent = Agent(
+        developer_id=g.user.id,
+        name=name,
+        description=description,
+        endpoint_url=endpoint_url,
+        price_per_use=price_per_use,
+        category=category
+    )
+    db.session.add(new_agent)
+    db.session.commit()
+    return jsonify({"status": "success", "id": new_agent.id}), 201
+
+@app.route('/api/v1/store/designs', methods=['GET'])
+def list_store_designs():
+    category = request.args.get('category')
+    query = Design.query
+    if category and category != 'All':
+        query = query.filter_by(category=category)
+    designs = query.all()
+    return jsonify([{
+        "id": d.id,
+        "developer_id": d.developer_id,
+        "developer_name": d.developer.username,
+        "name": d.name,
+        "description": d.description,
+        "preview_url": d.preview_url,
+        "price": d.price,
+        "category": d.category,
+        "created_at": d.created_at.isoformat()
+    } for d in designs])
+
+@app.route('/api/v1/store/designs', methods=['POST'])
+@require_api_key
+def register_store_design():
+    data = request.get_json()
+    name = data.get('name')
+    description = data.get('description')
+    price = data.get('price', 500)
+    category = data.get('category', 'Web')
+    content = data.get('content')
+    preview_url = data.get('preview_url')
+
+    if not all([name, description]):
+        return jsonify({"error": _("Name and description are required")}), 400
+
+    new_design = Design(
+        developer_id=g.user.id,
+        name=name,
+        description=description,
+        price=price,
+        category=category,
+        content=content,
+        preview_url=preview_url
+    )
+    db.session.add(new_design)
+    db.session.commit()
+    return jsonify({"status": "success", "id": new_design.id}), 201
+
+@app.route('/api/v1/store/execute', methods=['POST'])
+@require_api_key
+async def execute_agent():
+    data = request.get_json()
+    agent_id = data.get('agent_id')
+    prompt = data.get('prompt')
+
+    if not agent_id:
+        return jsonify({"error": _("Agent ID is required")}), 400
+
+    agent = Agent.query.get(agent_id)
+    if not agent or not agent.is_active:
+        return jsonify({"error": _("Agent not found or inactive")}), 404
+
+    if g.user.credits < agent.price_per_use:
+        return jsonify({"error": _("Insufficient credits")}), 403
+
+    # Call third-party agent FIRST
+    try:
+        async with httpx.AsyncClient() as client:
+            # Note: We pass a temporary token or just let the agent know who the user is
+            # In production, this would be a signed request
+            response = await client.post(agent.endpoint_url, json={"prompt": prompt, "user_id": g.user.id}, timeout=30)
+            response.raise_for_status()
+            agent_result = response.json()
+    except Exception as e:
+        return jsonify({"error": _("Error executing third-party agent: %(error)s", error=str(e))}), 500
+
+    # If successful, THEN deduct credits and pay developer
+    try:
+        g.user.credits -= agent.price_per_use
+        developer = User.query.get(agent.developer_id)
+        if developer:
+            developer.credits += int(agent.price_per_use * 0.8)
+
+        # Log purchase
+        purchase = Purchase(user_id=g.user.id, item_type='agent_execution', item_id=agent.id, amount=agent.price_per_use)
+        db.session.add(purchase)
+        db.session.commit()
+
+        return jsonify(agent_result)
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": _("Internal error during credit processing: %(error)s", error=str(e))}), 500
+
+@app.route('/api/v1/store/purchase', methods=['POST'])
+@require_api_key
+def purchase_design():
+    data = request.get_json()
+    design_id = data.get('design_id')
+
+    if not design_id:
+        return jsonify({"error": _("Design ID is required")}), 400
+
+    design = Design.query.get(design_id)
+    if not design:
+        return jsonify({"error": _("Design not found")}), 404
+
+    if g.user.credits < design.price:
+        return jsonify({"error": _("Insufficient credits")}), 403
+
+    try:
+        # Deduct credits
+        g.user.credits -= design.price
+        # Pay developer (80%)
+        developer = User.query.get(design.developer_id)
+        if developer:
+            developer.credits += int(design.price * 0.8)
+
+        # Log purchase
+        purchase = Purchase(user_id=g.user.id, item_type='design', item_id=design.id, amount=design.price)
+        db.session.add(purchase)
+        db.session.commit()
+
+        return jsonify({
+            "status": "success",
+            "message": _("Design purchased successfully"),
+            "content": design.content
+        })
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": _("Internal error during purchase: %(error)s", error=str(e))}), 500
 
 @app.route('/api/register', methods=['POST'])
 @app.route('/api/v1/register', methods=['POST'])
@@ -2489,6 +2718,59 @@ def update_db_schema():
             cursor.execute("ALTER TABLE user ADD COLUMN subscription_plan VARCHAR(20) DEFAULT 'free'")
         if 'stripe_customer_id' not in columns:
             cursor.execute("ALTER TABLE user ADD COLUMN stripe_customer_id VARCHAR(120)")
+        if 'credits' not in columns:
+            cursor.execute("ALTER TABLE user ADD COLUMN credits INTEGER DEFAULT 1000")
+
+        # Create agent table if it doesn't exist
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='agent'")
+        if not cursor.fetchone():
+            cursor.execute("""
+                CREATE TABLE agent (
+                    id INTEGER PRIMARY KEY,
+                    developer_id INTEGER NOT NULL,
+                    name VARCHAR(100) NOT NULL,
+                    description VARCHAR(500) NOT NULL,
+                    endpoint_url VARCHAR(200) NOT NULL,
+                    price_per_use INTEGER DEFAULT 50,
+                    category VARCHAR(50) DEFAULT 'General',
+                    is_active BOOLEAN DEFAULT 1,
+                    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY(developer_id) REFERENCES user(id)
+                )
+            """)
+
+        # Create design table if it doesn't exist
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='design'")
+        if not cursor.fetchone():
+            cursor.execute("""
+                CREATE TABLE design (
+                    id INTEGER PRIMARY KEY,
+                    developer_id INTEGER NOT NULL,
+                    name VARCHAR(100) NOT NULL,
+                    description VARCHAR(500) NOT NULL,
+                    preview_url VARCHAR(200),
+                    price INTEGER DEFAULT 500,
+                    category VARCHAR(50) DEFAULT 'Web',
+                    content TEXT,
+                    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY(developer_id) REFERENCES user(id)
+                )
+            """)
+
+        # Create purchase table if it doesn't exist
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='purchase'")
+        if not cursor.fetchone():
+            cursor.execute("""
+                CREATE TABLE purchase (
+                    id INTEGER PRIMARY KEY,
+                    user_id INTEGER NOT NULL,
+                    item_type VARCHAR(20) NOT NULL,
+                    item_id INTEGER NOT NULL,
+                    amount INTEGER NOT NULL,
+                    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY(user_id) REFERENCES user(id)
+                )
+            """)
 
         # Create file table if it doesn't exist
         cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='file'")
