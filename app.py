@@ -117,7 +117,11 @@ class File(db.Model):
 app = Flask(__name__, template_folder='frontend/templates', static_folder='frontend/static')
 CORS(app, resources={r"/api/*": {"origins": ["https://yendoukoa.ai", "http://localhost:5173", "http://localhost:3000"]}}, supports_credentials=True)
 app.config['SECRET_KEY'] = secrets.token_hex(16)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///project.db'
+# Ensure we use the absolute path for the database to avoid confusion between current working directory and app file location
+import os
+db_abs_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'project.db'))
+app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{db_abs_path}'
+print(f"Using database at: {app.config['SQLALCHEMY_DATABASE_URI']}")
 app.config['LANGUAGES'] = LANGUAGES
 app.config['BABEL_DEFAULT_LOCALE'] = 'en'
 babel = Babel()
@@ -2110,8 +2114,11 @@ def is_safe_url(url):
         if parsed.scheme not in ['http', 'https']:
             return False
         hostname = parsed.hostname
-        if not hostname or hostname in ['localhost', '127.0.0.1', '0.0.0.0']:
+        if not hostname:
             return False
+        # Allow internal calls for registered agents if explicitly allowed via environment variable
+        if hostname in ['localhost', '127.0.0.1', '0.0.0.0']:
+            return os.environ.get('ALLOW_INTERNAL_AGENTS') == 'true'
         # Block internal IP ranges (simple check)
         if hostname.startswith('192.168.') or hostname.startswith('10.') or hostname.startswith('172.'):
             return False
@@ -2129,15 +2136,17 @@ def list_store_agents():
     if category and category != 'All':
         query = query.filter_by(category=category)
     agents = query.all()
+    # Add debug logging
+    print(f"Found {len(agents)} agents in the store.")
     return jsonify([{
         "id": a.id,
         "developer_id": a.developer_id,
-        "developer_name": a.developer.username,
+        "developer_name": a.developer.username if a.developer else "Unknown",
         "name": a.name,
         "description": a.description,
         "price_per_use": a.price_per_use,
         "category": a.category,
-        "created_at": a.created_at.isoformat()
+        "created_at": a.created_at.isoformat() if a.created_at else None
     } for a in agents])
 
 @app.route('/api/v1/store/agents', methods=['POST'])
@@ -2236,7 +2245,8 @@ async def execute_agent():
         async with httpx.AsyncClient() as client:
             # Note: We pass a temporary token or just let the agent know who the user is
             # In production, this would be a signed request
-            response = await client.post(agent.endpoint_url, json={"prompt": prompt, "user_id": g.user.id}, timeout=30)
+            headers = {"X-API-Key": g.user.api_key}
+            response = await client.post(agent.endpoint_url, json={"prompt": prompt, "user_id": g.user.id}, headers=headers, timeout=30)
             response.raise_for_status()
             agent_result = response.json()
     except Exception as e:
