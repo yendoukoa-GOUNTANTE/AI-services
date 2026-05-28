@@ -1878,6 +1878,17 @@ def provide_gemini_spark_assistance(prompt: str) -> str:
     )
     return _provide_gemini_assistance(prompt, system_prompt, "Gemini Spark AI Error")
 
+def provide_github_copilot_coding(prompt: str) -> str:
+    """
+    Uses GitHub Models (GPT-4o) to provide expert coding assistance.
+    """
+    system_prompt = (
+        "You are an Elite GitHub Copilot Expert. Your mission is to provide high-quality code generation, "
+        "professional refactoring, and expert debugging insights. You have deep knowledge of modern "
+        "frameworks and best practices. Respond in a helpful, concise, and technically accurate manner."
+    )
+    return provide_github_model_intelligence(prompt, model_name="gpt-4o")
+
 def generate_google_veo_video(prompt: str) -> str:
     """
     Generates a high-fidelity video using Google Veo 3.1.

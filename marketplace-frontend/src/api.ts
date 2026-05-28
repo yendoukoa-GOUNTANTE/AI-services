@@ -110,6 +110,7 @@ export const aiService = {
   getDeepMindVideo: (prompt: string) => apiClient.post('/deepmind/video', { prompt }),
   getAntigravityAgentAssistance: (prompt: string) => apiClient.post('/v1/antigravity/agent', { prompt }),
   getGeminiSparkAssistance: (prompt: string) => apiClient.post('/v1/gemini/spark', { prompt }),
+  getGitHubCopilotCoding: (prompt: string) => apiClient.post('/v1/copilot/coding', { prompt }),
 };
 
 export const userService = {

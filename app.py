@@ -606,7 +606,7 @@ def fetch_github_file(url):
             return _("Error: URL does not appear to be a valid GitHub file URL (e.g., .../user/repo/blob/branch/file).")
         user, repo, _, branch = path_parts[:4]
         file_path = '/'.join(path_parts[4:])
-        raw_url = f"https.raw.githubusercontent.com/{user}/{repo}/{branch}/{file_path}"
+        raw_url = f"https://raw.githubusercontent.com/{user}/{repo}/{branch}/{file_path}"
         headers = {'User-Agent': 'AI-Agent-Checker/1.0'}
         response = requests.get(raw_url, headers=headers, timeout=10)
         response.raise_for_status()
@@ -1962,6 +1962,18 @@ def copilot_chat_endpoint():
     if not prompt:
         return jsonify({"error": _("Prompt is required")}), 400
     message = google_ai.provide_github_copilot_chat(prompt)
+    return jsonify({"status": "success", "message": message})
+
+
+@app.route('/api/v1/copilot/coding', methods=['POST'])
+@require_api_key
+async def copilot_coding_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+    # Use await asyncio.to_thread() to handle potential blocking call in thread
+    message = await asyncio.to_thread(google_ai.provide_github_copilot_coding, prompt)
     return jsonify({"status": "success", "message": message})
 
 

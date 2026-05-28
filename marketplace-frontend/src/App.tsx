@@ -131,6 +131,7 @@ const AI_SERVICES: AIService[] = [
   { id: 'video-producer', name: 'Video Producer', category: 'Arts', icon: Video, description: 'Expert guidance on scriptwriting, filming, and post-production for professional videos.' },
   { id: 'github-models', name: 'GitHub Models', category: 'Advanced', icon: Cpu, description: 'Access top AI models (GPT-4o, Llama 3, Phi) via the GitHub Models marketplace.' },
   { id: 'copilot-chat', name: 'Copilot Chat API', category: 'Development', icon: Code2, description: 'Direct programmatic access to GitHub Copilot Chat intelligence.' },
+  { id: 'copilot-coding', name: 'GitHub Copilot Expert', category: 'Development', icon: Code2, description: 'Elite code generation, refactoring, and debugging powered by GitHub Models.' },
   { id: 'deepmind-image', name: 'DeepMind Image Gen', category: 'Arts', icon: Camera, description: 'Generate stunning high-fidelity images using DeepMind Imagen technology.' },
   { id: 'deepmind-video', name: 'DeepMind Video Creator', category: 'Arts', icon: Video, description: 'Advanced cinematic content, scripts, and storyboards powered by DeepMind.' },
   { id: 'podcast', name: 'Podcast Specialist', category: 'Arts', icon: Mic, description: 'Elite podcast production, design, and business strategy guidance.' },
@@ -455,6 +456,9 @@ const App: React.FC = () => {
           break;
         case 'copilot-chat':
           response = await aiService.getGitHubCopilotChat(servicePrompt);
+          break;
+        case 'copilot-coding':
+          response = await aiService.getGitHubCopilotCoding(servicePrompt);
           break;
         default:
           // Fallback for demo purposes if specific endpoint isn't mapped in aiService yet
