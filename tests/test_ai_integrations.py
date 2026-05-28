@@ -20,6 +20,11 @@ sys.modules['facebook_business'] = MagicMock()
 sys.modules['facebook_business.api'] = MagicMock()
 sys.modules['facebook_business.adobjects.adaccount'] = MagicMock()
 sys.modules['facebook_business.exceptions'] = MagicMock()
+sys.modules['vertexai'] = MagicMock()
+sys.modules['vertexai.generative_models'] = MagicMock()
+sys.modules['vertexai.preview.vision_models'] = MagicMock()
+sys.modules['google'] = MagicMock()
+sys.modules['google.genai'] = MagicMock()
 
 # Set dummy environment variables for testing
 os.environ["STRIPE_SECRET_KEY"] = "test_stripe_key"
@@ -73,6 +78,18 @@ class AIIntegrationsTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(data['status'], 'success')
         self.assertEqual(data['message'], 'Spark insight')
+
+    @patch('google_ai.provide_language_specialist_assistance')
+    def test_language_specialist_endpoint(self, mock_assistance):
+        mock_assistance.return_value = "Language insight"
+        response = self.app.post('/api/v1/language/specialist',
+                                 data=json.dumps({'prompt': 'test prompt'}),
+                                 content_type='application/json',
+                                 headers={'X-API-Key': self.api_key})
+        data = json.loads(response.data)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data['status'], 'success')
+        self.assertEqual(data['message'], 'Language insight')
 
 if __name__ == '__main__':
     unittest.main()

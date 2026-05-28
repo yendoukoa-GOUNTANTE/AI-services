@@ -82,6 +82,7 @@ const AI_SERVICES: AIService[] = [
   { id: 'llama-guard', name: 'Llama Guard', category: 'Security', icon: ShieldCheck, description: 'AI safety and content moderation using Meta Llama Guard 3.' },
   { id: 'nemotron', name: 'Nemotron-4 Reasoner', category: 'Advanced', icon: Zap, description: 'Elite reasoning and complex problem solving powered by NVIDIA Nemotron-4 340B.' },
   { id: 'mixtral', name: 'Mixtral Multilingual', category: 'Advanced', icon: Globe, description: 'High-quality multilingual assistance powered by Mixtral 8x7B.' },
+  { id: 'language-specialist', name: 'Language Specialist', category: 'Academic', icon: Globe, description: 'Global languages learning and translation expert for phones, computers, apps, and printers.' },
   { id: 'claude-intel', name: 'Claude 3.5 Intelligence', category: 'Advanced', icon: Brain, description: 'Deep reasoning and strategic analysis powered by Anthropic Claude 3.5 Sonnet.' },
   { id: 'claude-coder', name: 'Claude 3.5 Coder', category: 'Development', icon: Code2, description: 'Elite code generation and architectural advice powered by Anthropic Claude 3.5 Sonnet.' },
   { id: 'malware-defense', name: 'Malware Defender', category: 'Security', icon: ShieldX, description: 'Elite specialist for detecting, preventing, and removing all types of malware.' },
@@ -512,6 +513,9 @@ const App: React.FC = () => {
           break;
         case 'copilot-coding':
           response = await aiService.getGitHubCopilotCoding(servicePrompt);
+          break;
+        case 'language-specialist':
+          response = await aiService.getLanguageSpecialist(servicePrompt);
           break;
         default:
           response = { data: { message: "This service is currently in demo mode. The full integration is coming soon!" } };
