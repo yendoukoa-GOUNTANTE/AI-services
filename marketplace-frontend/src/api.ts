@@ -129,6 +129,7 @@ export const aiService = {
   getClaudeCoding: (prompt: string) => apiClient.post('/anthropic/coding', { prompt }),
   getGitHubModelsAssistance: (prompt: string, modelName = 'gpt-4o') => apiClient.post('/github-models/assistance', { prompt, model_name: modelName }),
   getGitHubCopilotChat: (prompt: string) => apiClient.post('/copilot-chat/assistance', { prompt }),
+  getLanguageSpecialist: (prompt: string) => apiClient.post('/language/specialist', { prompt }),
   getVisualAnalysis: (prompt: string, mediaData?: string, mimeType?: string) => apiClient.post('/visual/analysis', { prompt, media_data: mediaData, mime_type: mimeType }),
   genericAssistance: (systemMessage: string, prompt: string, mediaData?: string, mimeType?: string) => apiClient.post('/generic/assistance', { system_message: systemMessage, prompt, media_data: mediaData, mime_type: mimeType }),
   getDeepMindImage: (prompt: string) => apiClient.post('/deepmind/image', { prompt }),
