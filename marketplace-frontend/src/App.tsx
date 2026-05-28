@@ -60,11 +60,23 @@ interface AIService {
   category: string;
   icon: LucideIcon;
   description: string;
+  featured?: boolean;
 }
 
 const AI_SERVICES: AIService[] = [
+  { id: 'website', name: 'Software Engineering', category: 'Development', icon: Globe, description: 'Professional software engineering and multi-section website generation.', featured: true },
+  { id: 'conflict-debug', name: 'Debugger', category: 'Development', icon: ShieldCheck, description: 'Elite code debugging and multi-model conflict resolution specialist.', featured: true },
+  { id: 'marketing', name: 'Marketer', category: 'Business', icon: Mail, description: 'Expert marketing bot management and high-fidelity video generation.', featured: true },
+  { id: 'system-analyzer', name: 'System Analyser', category: 'Infrastructure', icon: Search, description: 'Advanced system analysis, broken link detection, and infrastructure audits.', featured: true },
+  { id: 'antigravity', name: 'Antigravity Agent', category: 'Advanced', icon: Bot, description: 'Elite agentic development with secure Linux sandbox execution and reasoning.' },
+  { id: 'gemini-spark', name: 'Gemini Spark', category: 'Advanced', icon: Zap, description: '24/7 personal AI agent for autonomous multi-step tasks and workspace intelligence.' },
+  { id: 'copilot-coding', name: 'GitHub Copilot Expert', category: 'Development', icon: Code2, description: 'Elite code generation, refactoring, and debugging powered by GitHub Models.' },
+  { id: 'deepmind-image', name: 'DeepMind Image Gen', category: 'Arts', icon: Camera, description: 'Generate stunning high-fidelity images using DeepMind Imagen technology.' },
+  { id: 'deepmind-video', name: 'DeepMind Video Creator', category: 'Arts', icon: Video, description: 'Advanced cinematic content, scripts, and storyboards powered by DeepMind.' },
+  { id: 'cyber-sentinel', name: 'Cybersecurity Sentinel', category: 'Security', icon: ShieldCheck, description: 'Elite security audits, penetration testing guidance, and real-time threat intelligence.' },
+  { id: 'togo-gov', name: 'Togo Public Service', category: 'Public', icon: Building2, description: 'Elite AI for Togolese public services, government administration, and national security.' },
+  { id: 'llama-intel', name: 'Llama 3.1 Intelligence', category: 'Advanced', icon: Brain, description: 'Deep reasoning and data-driven insights powered by Meta Llama 3.1 405B.' },
   { id: 'langflow', name: 'Langflow Executor', category: 'Advanced', icon: Zap, description: 'Execute complex AI workflows using Langflow.' },
-  { id: 'website', name: 'Website Developer', category: 'Development', icon: Globe, description: 'Generate multi-section HTML/CSS websites.' },
   { id: 'game', name: 'Game Developer', category: 'Development', icon: Gamepad2, description: 'Create custom games using AI technologies.' },
   { id: 'backend', name: 'Backend Architect', category: 'Infrastructure', icon: Database, description: 'Generate robust Python/Flask backends.' },
   { id: 'blockchain', name: 'Blockchain Expert', category: 'Development', icon: Code2, description: 'Smart contract and blockchain solutions.' },
@@ -79,7 +91,6 @@ const AI_SERVICES: AIService[] = [
   { id: 'biotech', name: 'Biotech Specialist', category: 'Science', icon: FlaskConical, description: 'Molecular biology and regulatory research.' },
   { id: 'logistics', name: 'Logistics Manager', category: 'Business', icon: Truck, description: 'Route optimization and movement management.' },
   { id: 'it-ops', name: 'IT Operations', category: 'Infrastructure', icon: Cpu, description: 'Server and network administration.' },
-  { id: 'togo-gov', name: 'Togo Public Service', category: 'Public', icon: Building2, description: 'Elite AI for Togolese public services, government administration, and national security.' },
   { id: 'gov-admin', name: 'Gov Administrator', category: 'Public', icon: Building2, description: 'Navigating government services and documents.' },
   { id: 'gov-policy', name: 'Policy Advisor', category: 'Public', icon: Scale, description: 'Public policy analysis and strategic recommendations.' },
   { id: 'gov-engagement', name: 'Citizen Engagement', category: 'Public', icon: UserIcon, description: 'Strategies for civic participation and consultations.' },
@@ -95,7 +106,6 @@ const AI_SERVICES: AIService[] = [
   { id: 'digital-repair', name: 'Digital Repair', category: 'Support', icon: Wrench, description: 'Troubleshooting media, apps, and websites.' },
   { id: 'researcher', name: 'AI Researcher', category: 'Science', icon: Microscope, description: 'State-of-the-art AI methodology research.' },
   { id: 'google-sites', name: 'Google Sites Specialist', category: 'Infrastructure', icon: Layout, description: 'Google Sites & DNS configuration expert.' },
-  { id: 'marketing', name: 'Marketing & Bot Specialist', category: 'Business', icon: Mail, description: 'Expert marketing bot management and Google Veo 3.1 video generation.' },
   { id: 'investment', name: 'Investment Specialist', category: 'Business', icon: TrendingUp, description: 'Investment optimization and trading assistance.' },
   { id: 'autogpt', name: 'AutoGPT Agent', category: 'Advanced', icon: Bot, description: 'Autonomous agent for multi-step task planning and strategy.' },
   { id: 'cloud-infra', name: 'Cloud Infra Architect', category: 'Infrastructure', icon: Server, description: 'Expert in secure IPs, DNS, and cloud server creation.' },
@@ -107,7 +117,6 @@ const AI_SERVICES: AIService[] = [
   { id: 'gumloop', name: 'Gumloop Expert', category: 'Advanced', icon: Zap, description: 'Elite AI-powered browser automation and workflow specialist.' },
   { id: 'n8n', name: 'n8n Architect', category: 'Advanced', icon: Cpu, description: 'Elite fair-code workflow automation and node configuration specialist.' },
   { id: 'lamatic', name: 'Lamatic.ai Specialist', category: 'Advanced', icon: Bot, description: 'Elite Generative AI app platform and RAG pipeline specialist.' },
-  { id: 'conflict-debug', name: 'Multi-Model Debugger', category: 'Development', icon: ShieldCheck, description: 'Debug and resolve conflicts using Gemini, ChatGPT, Claude, and NVIDIA.' },
   { id: 'automl-feat', name: 'AutoML Feature Eng', category: 'Development', icon: Binary, description: 'Automated feature engineering and data preparation.' },
   { id: 'automl-tune', name: 'AutoML Tuner', category: 'Development', icon: TrendingUp, description: 'Automated hyperparameter optimization and tuning.' },
   { id: 'automl-select', name: 'AutoML Selector', category: 'Development', icon: Microscope, description: 'Automated model selection and evaluation.' },
@@ -115,7 +124,6 @@ const AI_SERVICES: AIService[] = [
   { id: 'monetization', name: 'Monetization Expert', category: 'Business', icon: DollarSign, description: 'Strategic advice on revenue generation and subscriptions.' },
   { id: 'partnership', name: 'Partnership Specialist', category: 'Business', icon: Handshake, description: 'Identify and nurture strategic business alliances.' },
   { id: 'fundraising', name: 'Fundraising Strategist', category: 'Business', icon: PiggyBank, description: 'Comprehensive plans for securing project funding.' },
-  { id: 'llama-intel', name: 'Llama 3.1 Intelligence', category: 'Advanced', icon: Brain, description: 'Deep reasoning and data-driven insights powered by Meta Llama 3.1 405B.' },
   { id: 'llama-guard', name: 'Llama Guard', category: 'Security', icon: ShieldCheck, description: 'AI safety and content moderation using Meta Llama Guard 3.' },
   { id: 'nemotron', name: 'Nemotron-4 Reasoner', category: 'Advanced', icon: Zap, description: 'Elite reasoning and complex problem solving powered by NVIDIA Nemotron-4 340B.' },
   { id: 'mixtral', name: 'Mixtral Multilingual', category: 'Advanced', icon: Globe, description: 'High-quality multilingual assistance powered by Mixtral 8x7B.' },
@@ -127,21 +135,15 @@ const AI_SERVICES: AIService[] = [
   { id: 'rag-tuning', name: 'RAG & Fine-Tuning Hub', category: 'Advanced', icon: Database, description: 'Elite hybrid AI architectures combining retrieval-augmented generation and specialized fine-tuning.' },
   { id: 'router-capacity', name: 'Router Capacity Architect', category: 'Advanced', icon: Route, description: 'Intelligent LLM routing and automated capacity management.' },
   { id: 'visual-intel', name: 'Visual Intelligence', category: 'Advanced', icon: Camera, description: 'Analyze images and videos captured from your camera to provide insights and descriptions.' },
-  { id: 'cyber-sentinel', name: 'Cybersecurity Sentinel', category: 'Security', icon: ShieldCheck, description: 'Elite security audits, penetration testing guidance, and real-time threat intelligence.' },
   { id: 'video-producer', name: 'Video Producer', category: 'Arts', icon: Video, description: 'Expert guidance on scriptwriting, filming, and post-production for professional videos.' },
   { id: 'github-models', name: 'GitHub Models', category: 'Advanced', icon: Cpu, description: 'Access top AI models (GPT-4o, Llama 3, Phi) via the GitHub Models marketplace.' },
   { id: 'copilot-chat', name: 'Copilot Chat API', category: 'Development', icon: Code2, description: 'Direct programmatic access to GitHub Copilot Chat intelligence.' },
-  { id: 'copilot-coding', name: 'GitHub Copilot Expert', category: 'Development', icon: Code2, description: 'Elite code generation, refactoring, and debugging powered by GitHub Models.' },
-  { id: 'deepmind-image', name: 'DeepMind Image Gen', category: 'Arts', icon: Camera, description: 'Generate stunning high-fidelity images using DeepMind Imagen technology.' },
-  { id: 'deepmind-video', name: 'DeepMind Video Creator', category: 'Arts', icon: Video, description: 'Advanced cinematic content, scripts, and storyboards powered by DeepMind.' },
   { id: 'podcast', name: 'Podcast Specialist', category: 'Arts', icon: Mic, description: 'Elite podcast production, design, and business strategy guidance.' },
   { id: 'zapier', name: 'Zapier Automation', category: 'Advanced', icon: Zap, description: 'Expert Zapier automation specialized for French-speaking markets.' },
   { id: 'odoo', name: 'Odoo ERP Specialist', category: 'Professional', icon: Layout, description: 'Elite Odoo implementation and customization for Francophone regions.' },
   { id: 'sage', name: 'Sage Software Expert', category: 'Professional', icon: Database, description: 'Expert guidance on Sage accounting and payroll for French businesses.' },
   { id: 'open-collective', name: 'Open Collective Specialist', category: 'Business', icon: DollarSign, description: 'Elite guidance on transparent project funding and community-led financial management.' },
-  { id: 'patreon', name: 'Patreon Strategist', category: 'Business', icon: DollarSign, description: 'Expert creator monetization, membership tiers, and audience engagement strategies.' },
-  { id: 'antigravity', name: 'Antigravity Agent', category: 'Advanced', icon: Bot, description: 'Elite agentic development with secure Linux sandbox execution and reasoning.' },
-  { id: 'gemini-spark', name: 'Gemini Spark', category: 'Advanced', icon: Zap, description: '24/7 personal AI agent for autonomous multi-step tasks and workspace intelligence.' }
+  { id: 'patreon', name: 'Patreon Strategist', category: 'Business', icon: DollarSign, description: 'Expert creator monetization, membership tiers, and audience engagement strategies.' }
 ];
 
 const App: React.FC = () => {
@@ -269,6 +271,9 @@ const App: React.FC = () => {
           break;
         case 'website':
           response = await aiService.generateWebsite(servicePrompt);
+          break;
+        case 'system-analyzer':
+          response = await aiService.analyzeWebsite(servicePrompt);
           break;
         case 'google-sites':
           response = await aiService.getGoogleSitesAssistance(servicePrompt);
@@ -407,7 +412,7 @@ const App: React.FC = () => {
           response = await aiService.getCybersecuritySentinel(servicePrompt);
           break;
         case 'conflict-debug':
-          response = await aiService.getConflictDebugAssistance(servicePrompt, mediaData, mimeType);
+          response = await aiService.debugCode(servicePrompt);
           break;
         case 'langflow':
           response = await aiService.executeLangflow(servicePrompt);
@@ -1009,26 +1014,49 @@ const App: React.FC = () => {
       </div>
 
       {/* Hero Section */}
-      <div className="bg-blue-600 text-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl text-center">
-            AI Service Marketplace
-          </h1>
-          <p className="mt-6 text-xl text-blue-100 max-w-3xl mx-auto text-center">
-            Discover and utilize professional AI services for your business, development, and personal projects.
-          </p>
-          <div className="mt-10 max-w-xl mx-auto">
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Search className="h-5 w-5 text-gray-400" />
+      <div className="bg-blue-600 text-white py-20 relative overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[1000px] bg-blue-500 rounded-full blur-[120px] opacity-20 -z-10"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center">
+            <h1 className="text-5xl font-black tracking-tighter sm:text-6xl lg:text-7xl">
+              Explore the Future of <span className="text-blue-200">Intelligence</span>
+            </h1>
+            <p className="mt-8 text-xl text-blue-100 max-w-2xl mx-auto font-medium leading-relaxed">
+              Yendoukoa AI provides an elite marketplace of specialized agents. Explore our ecosystem to find the perfect autonomous partner for your project.
+            </p>
+            <div className="mt-12 max-w-2xl mx-auto">
+              <div className="relative group">
+                <div className="absolute -inset-1 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                <div className="relative flex items-center">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <Search className="h-6 w-6 text-blue-600" />
+                  </div>
+                  <input
+                    type="text"
+                    className="block w-full pl-12 pr-4 py-5 border-none rounded-2xl leading-5 bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-blue-400/50 shadow-2xl text-lg font-bold"
+                    placeholder="Search for agents, roles, or domains..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                  <div className="absolute right-3">
+                    <button className="bg-blue-600 text-white px-6 py-3 rounded-xl font-black text-sm hover:bg-blue-700 transition-colors">
+                      Search
+                    </button>
+                  </div>
+                </div>
               </div>
-              <input
-                type="text"
-                className="block w-full pl-10 pr-3 py-4 border border-transparent rounded-lg leading-5 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white focus:border-white sm:text-sm"
-                placeholder="Search for AI services..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
+              <div className="mt-6 flex flex-wrap justify-center gap-3">
+                <span className="text-blue-200 text-sm font-bold self-center mr-2 uppercase tracking-widest">Trending:</span>
+                {['Security', 'Development', 'National Security', 'USSD'].map(tag => (
+                  <button
+                    key={tag}
+                    onClick={() => setSearchQuery(tag)}
+                    className="bg-blue-700/50 hover:bg-blue-500 text-white px-4 py-1.5 rounded-full text-xs font-black transition-all border border-blue-400/30"
+                  >
+                    #{tag}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -1038,17 +1066,107 @@ const App: React.FC = () => {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {activeTab === 'marketplace' ? (
           <div>
-            <div className="flex justify-between items-center mb-8">
-              <h2 className="text-2xl font-bold text-gray-900">AI Specialist Marketplace</h2>
-              <div className="flex space-x-2 overflow-x-auto pb-2">
-                {['All', 'Development', 'Business', 'Public', 'Support', 'Security', 'Advanced', 'Infrastructure', 'Science'].map(cat => (
+            {/* Featured Agents Section */}
+            {selectedCategory === 'All' && !searchQuery && (
+              <div className="mb-16">
+                <div className="flex items-center justify-between mb-8">
+                  <div>
+                    <h2 className="text-3xl font-extrabold text-gray-900 tracking-tight">Our Core AI Specialists</h2>
+                    <p className="mt-2 text-lg text-gray-500">Experience the primary intelligence pillars of the Yendoukoa ecosystem.</p>
+                  </div>
+                  <div className="hidden sm:flex items-center text-blue-600 font-semibold cursor-pointer hover:underline">
+                    Explore all <TrendingUp size={20} className="ml-1" />
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+                  {AI_SERVICES.filter(s => s.featured).map((service) => (
+                    <div key={service.id} className="group relative bg-white border-2 border-blue-600 rounded-2xl overflow-hidden shadow-xl transform transition-all hover:scale-105 hover:shadow-2xl">
+                      <div className="p-8">
+                        <div className="flex items-center justify-between mb-6">
+                          <div className="p-4 bg-blue-600 rounded-2xl text-white">
+                            <service.icon size={32} />
+                          </div>
+                          <div className="flex items-center bg-blue-100 text-blue-700 px-2 py-1 rounded-md text-[10px] font-black uppercase tracking-tighter">
+                            <Zap size={10} className="mr-1 fill-current" /> Main Role
+                          </div>
+                        </div>
+                        <h3 className="text-xl font-black text-gray-900 mb-2 tracking-tight">
+                          {service.name}
+                        </h3>
+                        <p className="text-gray-500 text-sm line-clamp-3 mb-8 font-medium leading-relaxed">
+                          {service.description}
+                        </p>
+                        <button
+                          onClick={() => {
+                            setSelectedService(service);
+                            setShowServiceModal(true);
+                            setServicePrompt('');
+                            setServiceResponse('');
+                            setExecutionParams({});
+                          }}
+                          className="w-full bg-blue-600 text-white py-3 rounded-xl text-sm font-black hover:bg-blue-700 transition-colors shadow-lg"
+                        >
+                          Launch Agent
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Explore Features Section */}
+            {selectedCategory === 'All' && !searchQuery && (
+              <div className="mb-16 bg-gray-900 rounded-3xl p-8 sm:p-12 text-white overflow-hidden relative">
+                <div className="absolute top-0 right-0 -mt-20 -mr-20 w-64 h-64 bg-blue-500 rounded-full blur-[100px] opacity-20"></div>
+                <div className="absolute bottom-0 left-0 -mb-20 -ml-20 w-64 h-64 bg-purple-500 rounded-full blur-[100px] opacity-20"></div>
+
+                <div className="relative z-10">
+                  <h2 className="text-3xl font-black mb-4">Explore our Ecosystem</h2>
+                  <p className="text-gray-400 text-lg mb-10 max-w-2xl">Discover specialized AI tools across every domain. From high-fidelity video generation to national security and blockchain infrastructure.</p>
+
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+                    {[
+                      { name: 'Public Services', icon: Building2, count: 8, color: 'bg-emerald-500/10 text-emerald-500' },
+                      { name: 'Development', icon: Code2, count: 12, color: 'bg-blue-500/10 text-blue-500' },
+                      { name: 'National Security', icon: ShieldCheck, count: 6, color: 'bg-red-500/10 text-red-500' },
+                      { name: 'Advanced AI', icon: Brain, count: 15, color: 'bg-purple-500/10 text-purple-500' },
+                    ].map((item) => (
+                      <div
+                        key={item.name}
+                        onClick={() => setSelectedCategory(item.name.includes('Dev') ? 'Development' : item.name.includes('Public') ? 'Public' : item.name.includes('Security') ? 'Security' : 'Advanced')}
+                        className="bg-white/5 border border-white/10 p-6 rounded-2xl hover:bg-white/10 transition-all cursor-pointer group"
+                      >
+                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${item.color}`}>
+                          <item.icon size={24} />
+                        </div>
+                        <h4 className="font-bold text-white group-hover:text-blue-400 transition-colors">{item.name}</h4>
+                        <p className="text-gray-500 text-sm mt-1">{item.count}+ specialists</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 space-y-4 md:space-y-0">
+              <div>
+                <h2 className="text-2xl font-black text-gray-900 uppercase tracking-widest flex items-center">
+                  <Layout className="mr-3 text-blue-600" /> Specialist Marketplace
+                </h2>
+                {selectedCategory !== 'All' && (
+                   <p className="text-blue-600 font-bold mt-1">Showing {selectedCategory} Specialists</p>
+                )}
+              </div>
+              <div className="flex space-x-2 overflow-x-auto pb-2 w-full md:w-auto no-scrollbar">
+                {['All', 'Development', 'Business', 'Public', 'Support', 'Security', 'Advanced', 'Infrastructure', 'Science', 'Arts'].map(cat => (
                   <button
                     key={cat}
                     onClick={() => setSelectedCategory(cat)}
-                    className={`whitespace-nowrap px-4 py-2 rounded-full border text-sm font-medium transition-colors ${
+                    className={`whitespace-nowrap px-6 py-2.5 rounded-xl border-2 text-sm font-black transition-all ${
                       selectedCategory === cat
-                        ? 'bg-blue-600 text-white border-blue-600'
-                        : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
+                        ? 'bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-200'
+                        : 'bg-white text-gray-500 border-gray-100 hover:border-blue-200 hover:text-blue-600'
                     }`}
                   >
                     {cat}
@@ -1057,40 +1175,40 @@ const App: React.FC = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
+            <div className="grid grid-cols-1 gap-y-8 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:gap-x-8">
               {filteredServices.map((service) => (
-                <div key={service.id} className="group relative bg-white border rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-                  <div className="p-6">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="p-3 bg-blue-50 rounded-lg text-blue-600">
+                <div key={service.id} className="group bg-white border border-gray-100 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                  <div className="p-8">
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="p-3 bg-gray-50 rounded-xl text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
                         <service.icon size={24} />
                       </div>
-                      <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider">
+                      <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest bg-gray-50 px-2 py-1 rounded">
                         {service.category}
                       </span>
                     </div>
-                    <h3 className="text-lg font-bold text-gray-900">
-                      <a href={`#${service.id}`}>
-                        <span aria-hidden="true" className="absolute inset-0" />
-                        {service.name}
-                      </a>
+                    <h3 className="text-lg font-black text-gray-900 group-hover:text-blue-600 transition-colors">
+                      {service.name}
                     </h3>
-                    <p className="mt-2 text-sm text-gray-500 line-clamp-2">
+                    <p className="mt-3 text-sm text-gray-500 line-clamp-2 leading-relaxed">
                       {service.description}
                     </p>
-                    <div className="mt-6 flex items-center justify-between">
-                      <span className="text-blue-600 font-bold">50 Credits</span>
+                    <div className="mt-8 pt-6 border-t border-gray-50 flex items-center justify-between">
+                      <div className="flex items-center text-blue-600">
+                         <CreditCard size={14} className="mr-1.5" />
+                         <span className="text-sm font-black">50 Credits</span>
+                      </div>
                       <button
                         onClick={() => {
                           setSelectedService(service);
                           setShowServiceModal(true);
                           setServicePrompt('');
                           setServiceResponse('');
-                              setExecutionParams({});
+                          setExecutionParams({});
                         }}
-                        className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 z-10"
+                        className="bg-gray-900 text-white px-5 py-2.5 rounded-xl text-xs font-black hover:bg-blue-600 transition-all shadow-md active:scale-95"
                       >
-                        Use Now
+                        Deploy Agent
                       </button>
                     </div>
                   </div>
