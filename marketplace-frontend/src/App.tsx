@@ -1067,26 +1067,48 @@ const App: React.FC = () => {
       </div>
 
       {/* Hero Section */}
-      <div className="bg-blue-600 text-white py-16">
+      <div className="bg-blue-600 text-white py-20 text-center">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-6xl text-center">
-            AI Agent & Design App Store
-          </h1>
-          <p className="mt-6 text-xl text-blue-100 max-w-3xl mx-auto text-center">
-            Discover professional AI agents and designs, or integrate and monetize your own AI tools.
-          </p>
-          <div className="mt-10 max-w-xl mx-auto">
-            <div className="relative">
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Search className="h-5 w-5 text-gray-400" />
+          <div className="max-w-4xl mx-auto">
+            <h1 className="text-5xl font-black tracking-tighter sm:text-6xl lg:text-7xl">
+              Explore the Future of <span className="text-blue-200">Intelligence</span>
+            </h1>
+            <p className="mt-8 text-xl text-blue-100 max-w-2xl mx-auto font-medium leading-relaxed">
+              Yendoukoa AI provides an elite AI Agent & Design App Store. Explore our ecosystem to find the perfect autonomous partner or monetize your own AI tools.
+            </p>
+            <div className="mt-12 max-w-2xl mx-auto">
+              <div className="relative group">
+                <div className="absolute -inset-1 bg-gradient-to-r from-blue-400 to-indigo-400 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+                <div className="relative flex items-center">
+                  <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                    <Search className="h-6 w-6 text-blue-600" />
+                  </div>
+                  <input
+                    type="text"
+                    className="block w-full pl-12 pr-4 py-5 border-none rounded-2xl leading-5 bg-white text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-blue-400/50 shadow-2xl text-lg font-bold"
+                    placeholder="Search for agents, roles, or domains..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                  <div className="absolute right-3">
+                    <button className="bg-blue-600 text-white px-6 py-3 rounded-xl font-black text-sm hover:bg-blue-700 transition-colors">
+                      Search
+                    </button>
+                  </div>
+                </div>
               </div>
-              <input
-                type="text"
-                className="block w-full pl-10 pr-3 py-4 border border-transparent rounded-lg leading-5 bg-white text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white focus:border-white sm:text-sm"
-                placeholder="Search for AI services..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
+              <div className="mt-6 flex flex-wrap justify-center gap-3">
+                <span className="text-blue-200 text-sm font-bold self-center mr-2 uppercase tracking-widest">Trending:</span>
+                {['Security', 'Development', 'National Security', 'USSD'].map(tag => (
+                  <button
+                    key={tag}
+                    onClick={() => setSearchQuery(tag)}
+                    className="bg-blue-700/50 hover:bg-blue-500 text-white px-4 py-1.5 rounded-full text-xs font-black transition-all border border-blue-400/30"
+                  >
+                    #{tag}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         </div>

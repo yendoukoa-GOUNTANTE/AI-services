@@ -56,7 +56,7 @@ def is_safe_url(url):
         return False
 
 # Models (moved from app.py to here)
-db = SQLAlchemy() # This is a placeholder, will use app's db in routes
+from database import db
 
 class Agent(db.Model):
     __bind_key__ = None # Use default
