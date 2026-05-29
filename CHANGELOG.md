@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Xero Specialist:** New specialized AI role for expert guidance on Xero accounting, invoicing, financial reporting, and API integrations.
 - **Cybersecurity Sentinel:** New specialized AI role for comprehensive security audits, penetration testing guidance, and threat intelligence.
 - **Enhanced Backend Security:** Implemented HSTS, X-Frame-Options, X-Content-Type-Options, and X-XSS-Protection security headers to harden the API.
 

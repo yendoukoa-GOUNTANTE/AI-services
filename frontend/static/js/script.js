@@ -2315,6 +2315,44 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- Xero Specialist ---
+    const xeroBtn = document.getElementById('xero-btn');
+    if (xeroBtn) {
+        xeroBtn.addEventListener('click', async () => {
+            const input = document.getElementById('xero-input');
+            const responseContainer = document.getElementById('xero-response');
+            const apiKey = getApiKey("Please enter your API key to use the Xero Specialist:");
+
+            if (!apiKey) {
+                responseContainer.textContent = 'API key is required.';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/v1/xero/assistance', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-API-Key': apiKey
+                    },
+                    body: JSON.stringify({
+                        prompt: input.value
+                    })
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Failed to get a response from the Xero Specialist');
+                }
+
+                const result = await response.json();
+                responseContainer.textContent = result.message;
+            } catch (error) {
+                responseContainer.textContent = `Error: ${error.message}`;
+            }
+        });
+    }
+
     // --- Anthropic Coding ---
     const anthropicCodingBtn = document.getElementById('anthropic-coding-btn');
     if (anthropicCodingBtn) {

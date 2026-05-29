@@ -26,6 +26,7 @@
                 <li><a href="#malware-defense">{{ _('Malware Defender') }}</a></li>
                 <li><a href="#military-assistance">{{ _('Military') }}</a></li>
                 <li><a href="#marketing-assistance">{{ _('Marketing') }}</a></li>
+                <li><a href="#xero-assistance">{{ _('Xero Specialist') }}</a></li>
                 <li><a href="#investment-trading-assistance">{{ _('Investment') }}</a></li>
                 <li><a href="#autogpt-assistance">{{ _('AutoGPT') }}</a></li>
                 <li><a href="#llama-intelligence">{{ _('Llama Intel') }}</a></li>
@@ -290,6 +291,10 @@
                     <h3>{{ _('Claude Coding Specialist') }}</h3>
                     <p>{{ _('Elite code generation and architectural advice powered by Anthropic Claude.') }}</p>
                 </div>
+                <div class="card">
+                    <h3>{{ _('Xero Specialist') }}</h3>
+                    <p>{{ _('Expert assistance for Xero accounting, invoicing, and financial reporting.') }}</p>
+                </div>
             </div>
         </section>
 
@@ -493,6 +498,22 @@
                     <button id="automl-mlops-btn" class="btn">{{ _('Submit') }}</button>
                     <div class="response-container" id="automl-mlops-response-container">
                         <pre id="automl-mlops-response"></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Xero Specialist Section -->
+        <section id="xero-assistance" class="services">
+            <h2>{{ _('Xero Specialist') }}</h2>
+            <div class="service-cards">
+                <div class="card">
+                    <h3>{{ _('Xero Accounting & Financial Support') }}</h3>
+                    <p>{{ _('Enter your request for Xero accounting assistance, invoicing, or financial reporting below.') }}</p>
+                    <textarea id="xero-input" placeholder="{{ _('Your Xero request') }}" class="styled-textarea" rows="4"></textarea>
+                    <button id="xero-btn" class="btn">{{ _('Submit') }}</button>
+                    <div class="response-container" id="xero-response-container">
+                        <pre id="xero-response"></pre>
                     </div>
                 </div>
             </div>

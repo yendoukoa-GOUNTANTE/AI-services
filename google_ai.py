@@ -1929,3 +1929,17 @@ def provide_language_specialist_assistance(prompt: str) -> str:
         "localization strategies to ensure a seamless linguistic experience on any device."
     )
     return _provide_gemini_assistance(prompt, system_prompt, "Language Specialist AI Error")
+
+def provide_xero_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Xero API, accounting workflows, and financial integrations.
+    """
+    system_prompt = (
+        "You are an Elite Xero API Specialist and Financial Architect. "
+        "Your expertise covers the Xero API, OAuth 2.0 authentication, "
+        "accounting workflows (invoices, bank transactions, contacts), and "
+        "integrating Xero with other business applications. Provide high-level "
+        "technical guidance on using the xero-python SDK, designing robust "
+        "financial integrations, and automating accounting tasks efficiently."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Xero AI Error")
