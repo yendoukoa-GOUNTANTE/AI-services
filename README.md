@@ -6,6 +6,11 @@ Yendoukoa AI is a robust, scalable, and autonomous AI ecosystem designed for dev
 
 We are proud to announce the first major production release of Yendoukoa AI.
 
+### 🏠 Local Project Portal
+For a unified experience, open the **Local Project Portal** in your browser:
+- **Location:** `yendoukoa-ai-site/index.html`
+- **Features:** One-click access to the Marketplace, API documentation, and a visual showcase of all AI agents.
+
 ### Key Highlights:
 - **Unified API Ecosystem:** Our production-ready API (`/api/v1`) powers multiple frontends.
 - **Multi-Model Intelligence:** Integrated Gemini 1.5 Pro, GPT-4o, Claude 3.5 Sonnet, and Llama 3.1 405B.
@@ -87,6 +92,8 @@ If you find this project useful, please consider sponsoring us!
 - **Open Collective Specialist:** Guidance on transparent project funding.
 - **Patreon Strategist:** Expert advice on creator monetization and audience engagement.
 - **Cybersecurity Sentinel:** Security audits, penetration testing guidance, and threat intelligence.
+- **Fintech Strategist:** Specialized AI for USSD-based mobile money and blockchain ecosystems.
+- **Togo Public Service:** Elite AI tailored for Togolese administration and public services.
 
 ## How to Use
 
