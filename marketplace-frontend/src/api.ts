@@ -101,6 +101,7 @@ export const aiService = {
   getSageAssistance: (prompt: string) => apiClient.post('/sage/assistance', { prompt }),
   getGovernmentAssistance: (prompt: string) => apiClient.post('/government/assistance', { prompt }),
   getTogoAssistance: (prompt: string) => apiClient.post('/togo/assistance', { prompt }),
+  getXeroAssistance: (prompt: string) => apiClient.post('/xero/assistance', { prompt }),
   getPublicPolicyAssistance: (prompt: string) => apiClient.post('/government/policy', { prompt }),
   getCitizenEngagementAssistance: (prompt: string) => apiClient.post('/government/engagement', { prompt }),
   getSmartCityAssistance: (prompt: string) => apiClient.post('/government/smart-city', { prompt }),

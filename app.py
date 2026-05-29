@@ -1189,6 +1189,16 @@ def togo_assistance_endpoint():
     message = google_ai.provide_togo_public_service_assistance(prompt)
     return jsonify({"status": "success", "message": message})
 
+@app.route('/api/v1/xero/assistance', methods=['POST'])
+@require_api_key
+def xero_assistance_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+    message = google_ai.provide_xero_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
 @app.route('/api/v1/government/policy', methods=['POST'])
 @require_api_key
 def public_policy_endpoint():

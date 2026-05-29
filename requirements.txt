@@ -25,3 +25,4 @@ azure-ai-inference
 github-copilot-sdk
 asgiref
 google-genai
+xero-python

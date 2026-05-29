@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+- **Xero Specialist:** New specialized AI role for expert guidance on Xero accounting, invoicing, financial reporting, and API integrations.
+- **Cybersecurity Sentinel:** New specialized AI role for comprehensive security audits, penetration testing guidance, and threat intelligence.
+- **Enhanced Backend Security:** Implemented HSTS, X-Frame-Options, X-Content-Type-Options, and X-XSS-Protection security headers to harden the API.
+
 ## [1.0.0] - 2024-05-20
 
 ### Added

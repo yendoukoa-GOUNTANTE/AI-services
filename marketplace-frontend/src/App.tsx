@@ -30,6 +30,7 @@ const AI_SERVICES: AIService[] = [
   { id: 'deepmind-video', name: 'DeepMind Video Creator', category: 'Arts', icon: Video, description: 'Advanced cinematic content, scripts, and storyboards powered by DeepMind.' },
   { id: 'cyber-sentinel', name: 'Cybersecurity Sentinel', category: 'Security', icon: ShieldCheck, description: 'Elite security audits, penetration testing guidance, and real-time threat intelligence.' },
   { id: 'togo-gov', name: 'Togo Public Service', category: 'Public', icon: Building2, description: 'Elite AI for Togolese public services, government administration, and national security.' },
+  { id: 'xero-specialist', name: 'Xero Specialist', category: 'Business', icon: CreditCard, description: 'Elite Xero API integration, accounting workflows, and financial automation expert.' },
   { id: 'llama-intel', name: 'Llama 3.1 Intelligence', category: 'Advanced', icon: Brain, description: 'Deep reasoning and data-driven insights powered by Meta Llama 3.1 405B.' },
   { id: 'langflow', name: 'Langflow Executor', category: 'Advanced', icon: Zap, description: 'Execute complex AI workflows using Langflow.' },
   { id: 'game', name: 'Game Developer', category: 'Development', icon: Gamepad2, description: 'Create custom games using AI technologies.' },
@@ -432,6 +433,9 @@ const App: React.FC = () => {
           break;
         case 'togo-gov':
           response = await aiService.getTogoAssistance(servicePrompt);
+          break;
+        case 'xero-specialist':
+          response = await aiService.getXeroAssistance(servicePrompt);
           break;
         case 'gov-policy':
           response = await aiService.getPublicPolicyAssistance(servicePrompt);
