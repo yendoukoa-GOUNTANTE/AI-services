@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Yendoukoa AI Extension",
+  "name": "Codex Domain",
   "version": "1.0.0",
-  "description": "Access Yendoukoa AI directly from your browser.",
+  "description": "The AI ecosystem for developers and entrepreneurs.",
   "action": {
     "default_popup": "index.html",
     "default_icon": "icon.svg"

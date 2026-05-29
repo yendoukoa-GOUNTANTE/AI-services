@@ -1,0 +1,137 @@
+:root {
+    --primary: #2563eb;
+    --secondary: #8b5cf6;
+    --bg-dark: #0A0A0A;
+    --bg-card: #121212;
+    --text-main: #f3f4f6;
+    --text-muted: #9ca3af;
+    --border: #262626;
+    --gradient: linear-gradient(135deg, #2563eb 0%, #8b5cf6 100%);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    width: 350px;
+    height: auto;
+}
+
+.popup-container {
+    padding: 1.5rem;
+}
+
+header {
+    margin-bottom: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.125rem;
+    font-weight: 800;
+}
+
+.hero h1 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.gradient-text {
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.links {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+}
+
+.link-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 1rem;
+    border-radius: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    text-decoration: none;
+    color: var(--text-main);
+    font-weight: 600;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+}
+
+.link-item:hover {
+    border-color: var(--primary);
+    transform: translateX(4px);
+}
+
+.link-item i {
+    color: var(--primary);
+    width: 20px;
+    height: 20px;
+}
+
+.link-item .small-icon {
+    margin-left: auto;
+    color: var(--text-muted);
+    width: 14px;
+    height: 14px;
+}
+
+.specialists h3 {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+}
+
+.spec-list {
+    display: flex;
+    justify-content: space-between;
+}
+
+.spec-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.625rem;
+    font-weight: 700;
+    color: var(--text-muted);
+}
+
+.spec-item i {
+    width: 24px;
+    height: 24px;
+    color: var(--secondary);
+}
+
+footer {
+    margin-top: 2rem;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    padding-top: 1rem;
+}
+
+footer p {
+    font-size: 0.625rem;
+    color: var(--text-muted);
+}
