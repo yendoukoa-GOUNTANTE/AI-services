@@ -1749,6 +1749,16 @@ def ussd_blockchain_assistance_endpoint():
     message = google_ai.provide_ussd_blockchain_assistance(prompt)
     return jsonify({"status": "success", "message": message})
 
+@app.route('/api/v1/blockchain/sponsoring', methods=['POST'])
+@require_api_key
+def blockchain_sponsoring_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+    message = google_ai.provide_blockchain_sponsoring_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
 
 @app.route('/api/v1/zapier/assistance', methods=['POST'])
 @require_api_key

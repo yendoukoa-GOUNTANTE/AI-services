@@ -3,6 +3,7 @@ import {
   Search, User as UserIcon, Zap, Wrench, ShieldCheck, Cpu, Globe, CreditCard,
   Menu, X, AlertCircle, Key, Gamepad2, Database, Code2, Scale, Stethoscope,
   Plane, Music, ShoppingBag, ShieldAlert, ShieldX, Binary, Bot, FlaskConical,
+  Coins,
   Truck, Building2, BookOpen, Microscope, Layout, Mail, TrendingUp, Smartphone,
   Cloud, Server, DollarSign, Handshake, PiggyBank, Brain, Camera, Video,
   Settings, Route, Mic, FileText, Download, Trash2, Save, Plus, ArrowRight,
@@ -88,6 +89,7 @@ const AI_SERVICES: AIService[] = [
   { id: 'claude-coder', name: 'Claude 3.5 Coder', category: 'Development', icon: Code2, description: 'Elite code generation and architectural advice powered by Anthropic Claude 3.5 Sonnet.' },
   { id: 'malware-defense', name: 'Malware Defender', category: 'Security', icon: ShieldX, description: 'Elite specialist for detecting, preventing, and removing all types of malware.' },
   { id: 'ussd-blockchain', name: 'USSD Blockchain Expert', category: 'Development', icon: Smartphone, description: 'Design and create USSD applications integrated with blockchain technology.' },
+  { id: 'blockchain-sponsoring', name: 'Blockchain Sponsoring', category: 'Business', icon: Coins, description: 'Global currency support and decentralized sponsorship systems.' },
   { id: 'fine-tuner', name: 'Fine-Tuning Specialist', category: 'Development', icon: Settings, description: 'Expert guidance on dataset preparation and fine-tuning Large Language Models.' },
   { id: 'rag-tuning', name: 'RAG & Fine-Tuning Hub', category: 'Advanced', icon: Database, description: 'Elite hybrid AI architectures combining retrieval-augmented generation and specialized fine-tuning.' },
   { id: 'router-capacity', name: 'Router Capacity Architect', category: 'Advanced', icon: Route, description: 'Intelligent LLM routing and automated capacity management.' },
@@ -382,6 +384,9 @@ const App: React.FC = () => {
           break;
         case 'ussd-blockchain':
           response = await aiService.getUSSDBlockchainAssistance(servicePrompt);
+          break;
+        case 'blockchain-sponsoring':
+          response = await aiService.getBlockchainSponsoring(servicePrompt);
           break;
         case 'fine-tuner':
           response = await aiService.getFineTuningAssistance(servicePrompt);

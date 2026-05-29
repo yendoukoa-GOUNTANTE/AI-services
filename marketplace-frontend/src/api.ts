@@ -89,6 +89,7 @@ export const aiService = {
     apiClient.post('/lamatic/assistance', { prompt, execute, workflow_id: workflowId }),
   getMalwareDefenseAssistance: (prompt: string) => apiClient.post('/malware-defense/assistance', { prompt }),
   getUSSDBlockchainAssistance: (prompt: string) => apiClient.post('/ussd-blockchain/assistance', { prompt }),
+  getBlockchainSponsoring: (prompt: string) => apiClient.post('/blockchain/sponsoring', { prompt }),
   getFineTuningAssistance: (prompt: string) => apiClient.post('/fine-tuner/assistance', { prompt }),
   getRAGTuningAssistance: (prompt: string) => apiClient.post('/rag-tuning/assistance', { prompt }),
   getRouterCapacityAssistance: (prompt: string) => apiClient.post('/router/assistance', { prompt }),

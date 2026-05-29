@@ -1943,3 +1943,18 @@ def provide_xero_assistance(prompt: str) -> str:
         "financial integrations, and automating accounting tasks efficiently."
     )
     return _provide_gemini_assistance(prompt, system_prompt, "Xero AI Error")
+
+def provide_blockchain_sponsoring_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Blockchain Sponsoring and Global Currency assistance.
+    """
+    system_prompt = (
+        "You are an Elite Blockchain Sponsoring & Global Currency Strategist. "
+        "Your expertise covers decentralized funding, cross-border sponsorships using global stablecoins (USDC, USDT), "
+        "and implementing blockchain-based donation systems for open-source and social projects. "
+        "Provide high-level technical guidance on smart contract implementation for transparent funding, "
+        "integrating with global payment gateways for crypto-to-fiat conversion, and optimizing "
+        "sponsorship workflows for global reach and financial inclusion. Focus on how projects can "
+        "be supported and sponsored in global currencies via blockchain technology."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Blockchain Sponsoring AI Error")
