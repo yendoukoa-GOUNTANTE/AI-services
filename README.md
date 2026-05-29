@@ -181,5 +181,15 @@ Yendoukoa AI is optimized for AI-assisted development.
 - **Copilot SDK:** Integrated for programmatic agentic workflows.
 - **GitHub Models:** Access top-tier models (GPT-4o, Llama 3.1) via the GitHub Models API.
 
+## 🏠 Local Project Portal
+
+We've created a dedicated **Local Project Portal** to help you manage and explore the Yendoukoa AI ecosystem in your development environment.
+
+- **Access the Portal:** Open `yendoukoa-ai-site/index.html` in your browser.
+- **Features:**
+    - **One-Click Service Launch:** Quick links to your local Flask API (Port 5001) and React Marketplace (Port 5173).
+    - **Ecosystem Overview:** Visual guide to core specialists and market strategy.
+    - **Developer Shortcuts:** Easy access to local documentation and GitHub resources.
+
 ---
 *© 2024 Yendoukoa AI. Empowering the future of autonomous intelligence.*
