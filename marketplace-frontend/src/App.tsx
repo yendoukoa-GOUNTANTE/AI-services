@@ -3,7 +3,7 @@ import {
   Search, User as UserIcon, Zap, Wrench, ShieldCheck, Cpu, Globe, CreditCard,
   Menu, X, AlertCircle, Key, Gamepad2, Database, Code2, Scale, Stethoscope,
   Plane, Music, ShoppingBag, ShieldAlert, ShieldX, Binary, Bot, FlaskConical,
-  Coins,
+  Coins, Palette,
   Truck, Building2, BookOpen, Microscope, Layout, Mail, TrendingUp, Smartphone,
   Cloud, Server, DollarSign, Handshake, PiggyBank, Brain, Camera, Video,
   Settings, Route, Mic, FileText, Download, Trash2, Save, Plus, ArrowRight,
@@ -102,7 +102,8 @@ const AI_SERVICES: AIService[] = [
   { id: 'odoo', name: 'Odoo ERP Specialist', category: 'Professional', icon: Layout, description: 'Elite Odoo implementation and customization for Francophone regions.' },
   { id: 'sage', name: 'Sage Software Expert', category: 'Professional', icon: Database, description: 'Expert guidance on Sage accounting and payroll for French businesses.' },
   { id: 'open-collective', name: 'Open Collective Specialist', category: 'Business', icon: DollarSign, description: 'Elite guidance on transparent project funding and community-led financial management.' },
-  { id: 'patreon', name: 'Patreon Strategist', category: 'Business', icon: DollarSign, description: 'Expert creator monetization, membership tiers, and audience engagement strategies.' }
+  { id: 'patreon', name: 'Patreon Strategist', category: 'Business', icon: DollarSign, description: 'Expert creator monetization, membership tiers, and audience engagement strategies.' },
+  { id: 'graphic-designer', name: 'AI Graphic Designer', category: 'Arts', icon: Palette, description: 'Expert brand identity, logo design, and high-impact thumbnail creation.' }
 ];
 
 const App: React.FC = () => {
@@ -522,6 +523,9 @@ const App: React.FC = () => {
           break;
         case 'copilot-coding':
           response = await aiService.getGitHubCopilotCoding(servicePrompt);
+          break;
+        case 'graphic-designer':
+          response = await aiService.getLogoThumbnailAssistance(servicePrompt);
           break;
         case 'language-specialist':
           response = await aiService.getLanguageSpecialist(servicePrompt);

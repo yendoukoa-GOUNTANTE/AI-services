@@ -91,5 +91,17 @@ class AIIntegrationsTestCase(unittest.TestCase):
         self.assertEqual(data['status'], 'success')
         self.assertEqual(data['message'], 'Language insight')
 
+    @patch('google_ai.provide_logo_thumbnail_assistance')
+    def test_logo_thumbnail_assistance_endpoint(self, mock_assistance):
+        mock_assistance.return_value = "Graphic design insight"
+        response = self.app.post('/api/v1/logo-thumbnail/assistance',
+                                 data=json.dumps({'prompt': 'test prompt'}),
+                                 content_type='application/json',
+                                 headers={'X-API-Key': self.api_key})
+        data = json.loads(response.data)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(data['status'], 'success')
+        self.assertEqual(data['message'], 'Graphic design insight')
+
 if __name__ == '__main__':
     unittest.main()
