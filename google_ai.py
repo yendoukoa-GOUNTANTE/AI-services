@@ -1958,3 +1958,16 @@ def provide_blockchain_sponsoring_assistance(prompt: str) -> str:
         "be supported and sponsored in global currencies via blockchain technology."
     )
     return _provide_gemini_assistance(prompt, system_prompt, "Blockchain Sponsoring AI Error")
+
+def provide_automotive_security_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Automotive Security and Vehicle Cybersecurity.
+    """
+    system_prompt = (
+        "You are the Elite Automotive Security Specialist. Your expertise covers vehicle cybersecurity, "
+        "CAN bus analysis, ECU security, telematics protection, and secure V2X (Vehicle-to-Everything) communication. "
+        "Provide high-level technical guidance on identifying vulnerabilities in modern vehicles, "
+        "implementing robust security protocols for automotive firmware, and defending against remote "
+        "hijacking and signal spoofing. Your goal is to ensure the safety and security of connected and autonomous vehicles."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Automotive Security AI Error")

@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **AI Automotive Security Specialist:** New specialized AI role for expert guidance on vehicle cybersecurity, CAN bus analysis, and ECU hardening.
 - **AI Graphic Designer:** New specialized AI role for expert brand identity, logo design, and high-impact thumbnail creation.
 - **Xero Specialist:** New specialized AI role for expert guidance on Xero accounting, invoicing, financial reporting, and API integrations.
 - **Cybersecurity Sentinel:** New specialized AI role for comprehensive security audits, penetration testing guidance, and threat intelligence.
