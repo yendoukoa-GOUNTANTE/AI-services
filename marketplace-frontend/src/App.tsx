@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import {
   Search, User as UserIcon, Zap, Wrench, ShieldCheck, Cpu, Globe, CreditCard,
   Menu, X, AlertCircle, Key, Gamepad2, Database, Code2, Scale, Stethoscope,
-  Plane, Music, ShoppingBag, ShieldAlert, ShieldX, Binary, Bot, FlaskConical,
+  Plane, Car, Music, ShoppingBag, ShieldAlert, ShieldX, Binary, Bot, FlaskConical,
   Coins, Palette,
   Truck, Building2, BookOpen, Microscope, Layout, Mail, TrendingUp, Smartphone,
   Cloud, Server, DollarSign, Handshake, PiggyBank, Brain, Camera, Video,
@@ -41,6 +41,7 @@ const AI_SERVICES: AIService[] = [
   { id: 'legal', name: 'Legal & Human Rights', category: 'Professional', icon: Scale, description: 'Expert legal research and advocacy support.' },
   { id: 'diagnostic', name: 'Medical Diagnostic', category: 'Health', icon: Stethoscope, description: 'Expert diagnostic assistance for all diseases, focusing on cancer and heart disease.' },
   { id: 'aerospace', name: 'Aerospace & Auto', category: 'Engineering', icon: Plane, description: 'Aeronautics and automotive technical guidance.' },
+  { id: 'auto-security', name: 'Automotive Security', category: 'Security', icon: Car, description: 'Elite vehicle cybersecurity, CAN bus analysis, and ECU protection specialist.' },
   { id: 'music', name: 'Music Producer', category: 'Arts', icon: Music, description: 'Beat production and artist marketing.' },
   { id: 'eshop', name: 'E-commerce Guru', category: 'Business', icon: ShoppingBag, description: 'Create and manage high-performing e-shops.' },
   { id: 'investigation', name: 'Cyber Investigator', category: 'Security', icon: ShieldAlert, description: 'Digital forensics and security investigation.' },
@@ -469,6 +470,9 @@ const App: React.FC = () => {
           break;
         case 'cyber-sentinel':
           response = await aiService.getCybersecuritySentinel(servicePrompt);
+          break;
+        case 'auto-security':
+          response = await aiService.getAutomotiveSecurityAssistance(servicePrompt);
           break;
         case 'conflict-debug':
           response = await aiService.debugCode(servicePrompt);

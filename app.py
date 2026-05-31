@@ -1103,6 +1103,17 @@ def cybersecurity_sentinel_endpoint():
     return jsonify({"status": "success", "message": message})
 
 
+@app.route('/api/v1/automotive/security', methods=['POST'])
+@require_api_key
+def automotive_security_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+    message = google_ai.provide_automotive_security_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+
 @app.route('/api/v1/podcast/assistance', methods=['POST'])
 @require_api_key
 def podcast_assistance_endpoint():
