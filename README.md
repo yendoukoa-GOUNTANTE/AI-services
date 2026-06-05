@@ -192,5 +192,9 @@ We've created a dedicated **Local Project Portal** to help you manage and explor
     - **Ecosystem Overview:** Visual guide to core specialists and market strategy.
     - **Developer Shortcuts:** Easy access to local documentation and GitHub resources.
 
+## 📂 Project Manifest
+
+For a detailed catalog of the Yendoukoa AI ecosystem, including architecture, specialized agents, and developer resources, please refer to our **[Project Artifacts Manifest](PROJECT_ARTIFACTS.md)**.
+
 ---
 *© 2024 Yendoukoa AI. Empowering the future of autonomous intelligence.*
