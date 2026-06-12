@@ -17,7 +17,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, onLaunch, isStoreIte
         <div className="p-8">
           <div className="flex items-center justify-between mb-8">
             <div className="p-5 bg-blue-600 rounded-2xl text-white shadow-lg shadow-blue-200 group-hover:scale-110 transition-transform">
-              <Icon size={32} />
+              <Icon size={32} aria-hidden="true" />
             </div>
             <div className="flex items-center bg-blue-100 text-blue-700 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest border border-blue-200">
               <Zap size={10} className="mr-1.5 fill-current" /> Core Agent
@@ -45,7 +45,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, onLaunch, isStoreIte
       <div className="p-8">
         <div className="flex items-center justify-between mb-6">
           <div className="p-4 bg-gray-50 rounded-2xl text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
-            <Icon size={24} />
+            <Icon size={24} aria-hidden="true" />
           </div>
           <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest bg-gray-50 px-3 py-1.5 rounded-lg group-hover:text-blue-400 transition-colors">
             {service.category}
@@ -62,7 +62,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, onLaunch, isStoreIte
         </p>
         <div className="mt-8 pt-8 border-t border-gray-50 flex items-center justify-between">
           <div className="flex items-center text-gray-900">
-             <CreditCard size={14} className="mr-2 text-blue-600" />
+             <CreditCard size={14} className="mr-2 text-blue-600" aria-hidden="true" />
              <span className="text-sm font-black">{service.price || 50} <span className="text-[10px] text-gray-400 uppercase ml-0.5">Credits</span></span>
           </div>
           <button

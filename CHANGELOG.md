@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [2.0.0] - 2025-02-24
 
 ### Added
 - **AI Automotive Security Specialist:** New specialized AI role for expert guidance on vehicle cybersecurity, CAN bus analysis, and ECU hardening.
@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Xero Specialist:** New specialized AI role for expert guidance on Xero accounting, invoicing, financial reporting, and API integrations.
 - **Cybersecurity Sentinel:** New specialized AI role for comprehensive security audits, penetration testing guidance, and threat intelligence.
 - **Enhanced Backend Security:** Implemented HSTS, X-Frame-Options, X-Content-Type-Options, and X-XSS-Protection security headers to harden the API.
+- **Professional & Accessible Version:** Significant UI/UX improvements for better accessibility and professional appearance.
 
 ## [1.0.0] - 2024-05-20
 
@@ -54,5 +55,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Basic Flask backend and HTML/CSS frontend.
 - Integration with Vertex AI for code generation.
 
+[2.0.0]: https://github.com/GYFX35/AI-services/releases/tag/v2.0.0
 [1.0.0]: https://github.com/GYFX35/AI-services/releases/tag/V10.0.0
 [0.1.0]: https://github.com/GYFX35/AI-services/commits/main
