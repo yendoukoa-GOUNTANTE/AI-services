@@ -63,9 +63,10 @@ const Navbar: React.FC<NavbarProps> = ({
             <button
               onClick={toggleDarkMode}
               className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all"
-              title="Toggle Theme"
+              title={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
+              aria-label={isDarkMode ? "Switch to light mode" : "Switch to dark mode"}
             >
-              {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+              {isDarkMode ? <Sun size={20} aria-hidden="true" /> : <Moon size={20} aria-hidden="true" />}
             </button>
 
             {user ? (
@@ -84,8 +85,9 @@ const Navbar: React.FC<NavbarProps> = ({
                   className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
                   onClick={handleLogout}
                   title="Logout"
+                  aria-label="Logout"
                 >
-                  <X size={20} />
+                  <X size={20} aria-hidden="true" />
                 </button>
               </div>
             ) : (
@@ -97,8 +99,13 @@ const Navbar: React.FC<NavbarProps> = ({
                 {loading ? 'Connecting...' : 'Login / Register'}
               </button>
             )}
-            <button className="md:hidden p-2 text-gray-500" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            <button
+              className="md:hidden p-2 text-gray-500"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isMenuOpen}
+            >
+              {isMenuOpen ? <X size={24} aria-hidden="true" /> : <Menu size={24} aria-hidden="true" />}
             </button>
           </div>
         </div>

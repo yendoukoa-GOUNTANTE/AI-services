@@ -2,9 +2,9 @@
 
 Yendoukoa AI is a robust, scalable, and autonomous AI ecosystem designed for developers, entrepreneurs, and government institutions. We provide a unified platform for specialized AI agents across various domains.
 
-## 🚀 Release 1.0.0: Production Launch
+## 🚀 Release 2.0.0: Professional & Accessible
 
-We are proud to announce the first major production release of Yendoukoa AI.
+We are proud to announce the second major release of Yendoukoa AI, focusing on professional grade tools and enhanced accessibility.
 
 ### Key Highlights:
 - **Unified API Ecosystem:** Our production-ready API (`/api/v1`) powers multiple frontends.
@@ -111,7 +111,7 @@ The Debugger agent can analyze code in two ways:
 2.  **Use a GitHub URL:** Paste the URL of a public file on GitHub into the URL input field.
 
 ### System Analyzer
-Enter a full website URL (e.g., `https://example.com`) to scan the page for broken links.
+Enter a full website URL to scan the page for broken links.
 
 ## Setup and Installation
 
