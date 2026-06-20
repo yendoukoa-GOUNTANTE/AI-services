@@ -9,6 +9,7 @@ from bs4 import BeautifulSoup
 from urllib.parse import urljoin, urlparse
 from flask import Flask, jsonify, render_template, request, g, session, redirect, url_for, send_file
 from werkzeug.utils import secure_filename
+from werkzeug.middleware.proxy_fix import ProxyFix
 from flask_cors import CORS
 import secrets
 from functools import wraps
@@ -113,8 +114,22 @@ class File(db.Model):
     def __repr__(self):
         return f'<File {self.filename}>'
 
+class ActivityLog(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)
+    action = db.Column(db.String(100), nullable=False)
+    details = db.Column(db.String(500), nullable=True)
+    ip_address = db.Column(db.String(45), nullable=True)
+    user_agent = db.Column(db.String(200), nullable=True)
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    user = db.relationship('User', backref=db.backref('activity_logs', lazy=True))
+
+    def __repr__(self):
+        return f'<ActivityLog {self.action} by {self.user_id}>'
+
 # --- Flask App Setup ---
 app = Flask(__name__, template_folder='frontend/templates', static_folder='frontend/static')
+app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
 CORS(app, resources={r"/api/*": {"origins": ["https://yendoukoa.ai", "http://localhost:5173", "http://localhost:3000"]}}, supports_credentials=True)
 app.config['SECRET_KEY'] = secrets.token_hex(16)
 # Ensure we use the absolute path for the database to avoid confusion between current working directory and app file location
@@ -653,6 +668,19 @@ def fetch_github_file(url):
         return _("Error fetching file from GitHub: %(error)s", error=e)
     except Exception as e:
         return _("An unexpected error occurred: %(error)s", error=e)
+
+# --- Helpers ---
+def log_activity(action, details=None):
+    user_id = g.user.id if hasattr(g, 'user') and g.user else None
+    log = ActivityLog(
+        user_id=user_id,
+        action=action,
+        details=details,
+        ip_address=request.remote_addr,
+        user_agent=request.headers.get('User-Agent')
+    )
+    db.session.add(log)
+    db.session.commit()
 
 # --- API Endpoints ---
 def require_api_key(f):
@@ -2116,6 +2144,9 @@ def register_public():
     db.session.add(new_user)
     db.session.commit()
 
+    g.user = new_user
+    log_activity("register", f"User {username} registered")
+
     return jsonify({
         "id": new_user.id,
         "username": new_user.username,
@@ -2131,6 +2162,9 @@ def login_api():
     user = User.query.filter_by(api_key=api_key).first()
     if not user:
         return jsonify({"error": _("Invalid API key")}), 401
+
+    g.user = user
+    log_activity("login", f"User {user.username} logged in")
 
     return jsonify({
         "id": user.id,
@@ -2296,6 +2330,7 @@ async def execute_agent():
 
     # If successful, THEN deduct credits and pay developer
     try:
+        log_activity("execute_agent", f"Executed agent {agent.name} (ID: {agent.id})")
         g.user.credits -= agent.price_per_use
         developer = User.query.get(agent.developer_id)
         if developer:
@@ -2328,6 +2363,7 @@ def purchase_design():
         return jsonify({"error": _("Insufficient credits")}), 403
 
     try:
+        log_activity("purchase_design", f"Purchased design {design.name} (ID: {design.id})")
         # Deduct credits
         g.user.credits -= design.price
         # Pay developer (80%)
@@ -2638,6 +2674,8 @@ async def upload_file():
     db.session.add(new_file)
     db.session.commit()
 
+    log_activity("upload_file", f"Uploaded file: {file.filename}")
+
     return jsonify({
         "id": new_file.id,
         "filename": new_file.filename,
@@ -2680,6 +2718,18 @@ async def list_files():
         "file_type": f.file_type,
         "created_at": f.created_at.isoformat() if f.created_at else None
     } for f in files])
+
+@app.route('/api/v1/activity', methods=['GET'])
+@require_api_key
+async def list_activity():
+    logs = ActivityLog.query.filter_by(user_id=g.user.id).order_by(ActivityLog.created_at.desc()).limit(50).all()
+    return jsonify([{
+        "id": l.id,
+        "action": l.action,
+        "details": l.details,
+        "ip_address": l.ip_address,
+        "created_at": l.created_at.isoformat() if l.created_at else None
+    } for l in logs])
 
 @app.route('/api/v1/files/<int:file_id>', methods=['GET'])
 @require_api_key
@@ -2835,6 +2885,22 @@ def update_db_schema():
                     file_type VARCHAR(50) NOT NULL,
                     content TEXT,
                     filepath VARCHAR(500),
+                    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY(user_id) REFERENCES user(id)
+                )
+            """)
+
+        # Create activity_log table if it doesn't exist
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='activity_log'")
+        if not cursor.fetchone():
+            cursor.execute("""
+                CREATE TABLE activity_log (
+                    id INTEGER PRIMARY KEY,
+                    user_id INTEGER,
+                    action VARCHAR(100) NOT NULL,
+                    details VARCHAR(500),
+                    ip_address VARCHAR(45),
+                    user_agent VARCHAR(200),
                     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                     FOREIGN KEY(user_id) REFERENCES user(id)
                 )
