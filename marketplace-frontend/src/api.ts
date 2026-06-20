@@ -149,6 +149,7 @@ export const userService = {
   getMe: () => apiClient.get<User>('/me_api'),
   getProjects: () => apiClient.get<Project[]>('/portfolio/projects'),
   createProject: (title: string, description: string) => apiClient.post<Project>('/projects', { title, description }),
+  getActivity: () => apiClient.get('/activity'),
 };
 
 export const storeService = {

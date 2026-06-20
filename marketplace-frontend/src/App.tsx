@@ -18,6 +18,7 @@ import Footer from './components/Footer';
 import Modal from './components/Modal';
 import CategoryFilter from './components/CategoryFilter';
 import Toast, { ToastType } from './components/Toast';
+import CookieBanner from './components/CookieBanner';
 
 const AI_SERVICES: AIService[] = [
   { id: 'website', name: 'Software Engineering', category: 'Development', icon: Globe, description: 'Professional software engineering and multi-section website generation.', featured: true },
@@ -122,6 +123,7 @@ const App: React.FC = () => {
   const [username, setUsername] = useState('');
   const [apiKey, setApiKey] = useState('');
   const [userFiles, setUserFiles] = useState<File[]>([]);
+  const [userActivity, setUserActivity] = useState<any[]>([]);
   const [selectedService, setSelectedService] = useState<AIService | null>(null);
   const [showServiceModal, setShowServiceModal] = useState(false);
   const [servicePrompt, setServicePrompt] = useState('');
@@ -197,6 +199,7 @@ const App: React.FC = () => {
       setUser(response.data);
       setCredits(response.data.credits || 1000);
       fetchUserFiles();
+      fetchUserActivity();
     } catch (err) {
       console.error('Failed to fetch user data', err);
       localStorage.removeItem('globalApiKey');
@@ -213,6 +216,15 @@ const App: React.FC = () => {
       setUserFiles(res.data);
     } catch (err) {
       console.error('Failed to fetch files', err);
+    }
+  };
+
+  const fetchUserActivity = async () => {
+    try {
+      const res = await userService.getActivity();
+      setUserActivity(res.data);
+    } catch (err) {
+      console.error('Failed to fetch activity', err);
     }
   };
 
@@ -927,6 +939,41 @@ const App: React.FC = () => {
                          </div>
                       </div>
 
+                      {/* Activity Feed */}
+                      <div className="bg-white dark:bg-[#121212] rounded-[40px] shadow-sm border border-gray-100 dark:border-white/5 overflow-hidden">
+                         <div className="px-10 py-8 border-b border-gray-50 dark:border-white/5 flex justify-between items-center">
+                            <h3 className="text-xl font-black tracking-tight dark:text-white">Security & Activity Feed</h3>
+                            <div className="flex items-center text-xs font-bold text-gray-400">
+                               <ShieldCheck size={14} className="mr-2 text-blue-600" /> End-to-end Encrypted
+                            </div>
+                         </div>
+                         <div className="p-10">
+                            {userActivity.length === 0 ? (
+                               <div className="text-center py-10">
+                                  <p className="text-gray-400 font-bold uppercase tracking-widest text-xs">No recent activity</p>
+                               </div>
+                            ) : (
+                               <div className="space-y-6">
+                                  {userActivity.slice(0, 5).map(log => (
+                                     <div key={log.id} className="flex items-center justify-between group">
+                                        <div className="flex items-center">
+                                           <div className={`w-2 h-2 rounded-full mr-4 ${log.action === 'login' ? 'bg-green-500' : 'bg-blue-500'}`}></div>
+                                           <div>
+                                              <p className="text-sm font-black text-gray-900 dark:text-white uppercase tracking-tight">{log.action.replace('_', ' ')}</p>
+                                              <p className="text-xs text-gray-400 font-medium">{log.details}</p>
+                                           </div>
+                                        </div>
+                                        <div className="text-right">
+                                           <p className="text-[10px] text-gray-400 font-bold uppercase tracking-widest">{new Date(log.created_at).toLocaleDateString()}</p>
+                                           <p className="text-[10px] text-gray-300 font-medium">{log.ip_address}</p>
+                                        </div>
+                                     </div>
+                                  ))}
+                               </div>
+                            )}
+                         </div>
+                      </div>
+
                       {/* File Manager */}
                       <div className="bg-white dark:bg-[#121212] rounded-[40px] shadow-sm border border-gray-100 dark:border-white/5 overflow-hidden">
                          <div className="px-10 py-8 border-b border-gray-50 dark:border-white/5 flex justify-between items-center">
@@ -1218,6 +1265,7 @@ const App: React.FC = () => {
       )}
 
       <Footer />
+      <CookieBanner />
     </div>
   );
 };
