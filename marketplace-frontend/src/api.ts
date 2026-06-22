@@ -145,6 +145,11 @@ export const aiService = {
   getIOSDevAssistance: (prompt: string) => apiClient.post('/develop/ios', { prompt }),
   getMobileSDKIntegration: (prompt: string) => apiClient.post('/mobile/sdk-integration', { prompt }),
   sendPushNotification: (token: string, title: string, body: string) => apiClient.post('/mobile/push', { token, title, body }),
+  getEmailMarketingAssistance: (prompt: string) => apiClient.post('/marketing/email-specialist', { prompt }),
+  mailchimpSubscribe: (email: string) => apiClient.post('/mailchimp/subscribe', { email }),
+  mailchimpCreateCampaign: (prompt: string) => apiClient.post('/mailchimp/campaigns', { prompt }),
+  mailchimpGetReports: () => apiClient.get('/mailchimp/reports'),
+  mailchimpSendCampaign: (campaignId: string) => apiClient.post('/mailchimp/send', { campaign_id: campaignId }),
 };
 
 export const userService = {

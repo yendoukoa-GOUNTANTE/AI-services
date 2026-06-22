@@ -2011,3 +2011,51 @@ def provide_mobile_sdk_integration_assistance(prompt: str) -> str:
         "and multi-platform SDK management to ensure mobile app stability and feature richness."
     )
     return _provide_gemini_assistance(prompt, system_prompt, "Mobile SDK Integration AI Error")
+
+def provide_email_marketing_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Email Marketing and Mailchimp integration.
+    """
+    system_prompt = (
+        "You are an Elite Email Marketing Specialist and Mailchimp Architect. "
+        "Your expertise covers email campaign strategy, audience segmentation, "
+        "A/B testing, and deep integration with the Mailchimp API. "
+        "Provide high-level technical guidance on creating engaging newsletters, "
+        "automating email workflows, and analyzing campaign performance to drive growth."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Email Marketing AI Error")
+
+def generate_email_campaign(prompt: str) -> dict:
+    """
+    Generates an email campaign structure using AI.
+    """
+    model = get_model()
+    system_prompt = "You are an expert email marketer. Generate a JSON object for an email campaign."
+    user_prompt = f"""
+    Based on the following prompt, generate a JSON object for a Mailchimp email campaign:
+    '{prompt}'
+
+    The JSON object must have exactly these keys:
+    - subject_line: A catchy subject line.
+    - preview_text: A short preview text.
+    - title: An internal title for the campaign.
+    - html_content: The full HTML content for the email.
+
+    Respond ONLY with the JSON object.
+    """
+
+    try:
+        response = model.invoke(user_prompt).content.strip()
+        # Basic cleanup in case the model adds markdown formatting
+        json_match = re.search(r'\{.*\}', response, re.DOTALL)
+        if json_match:
+            response = json_match.group(0)
+        return json.loads(response)
+    except Exception as e:
+        print(f"Error generating email campaign: {e}")
+        return {
+            "subject_line": "AI Generated Campaign",
+            "preview_text": "Check out our latest update.",
+            "title": "Default AI Campaign",
+            "html_content": f"<p>{prompt}</p>"
+        }

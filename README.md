@@ -80,6 +80,7 @@ If you find this project useful, please consider sponsoring us!
 - **Debugger:** Lints HTML and CSS code to find errors, supports pasting code or fetching from GitHub.
 - **Marketer:** Creates promotional social media posts and high-fidelity videos using Google Veo 3.1.
 - **System Analyzer:** Scans a website URL for broken links.
+- **Email Marketer:** Elite email marketing specialist and Mailchimp integration architect.
 - **Fine-Tuning Specialist:** Expert guidance on LLM fine-tuning and dataset preparation.
 - **Router Capacity Architect:** Optimizes AI infrastructure with intelligent routing.
 - **DeepMind Image Gen:** Generates high-fidelity images using Imagen 3.
