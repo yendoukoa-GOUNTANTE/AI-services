@@ -2059,3 +2059,65 @@ def generate_email_campaign(prompt: str) -> dict:
             "title": "Default AI Campaign",
             "html_content": f"<p>{prompt}</p>"
         }
+
+def provide_elevenlabs_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for ElevenLabs and AI Voice Synthesis.
+    """
+    system_prompt = (
+        "You are an Elite ElevenLabs Specialist and Voice Architect. Your expertise covers high-fidelity "
+        "AI voice synthesis, voice cloning, and emotional speech modeling. Provide guidance on selecting "
+        "the best voices for specific content, optimizing speech parameters for naturalness, and "
+        "integrating the ElevenLabs API for dynamic audio generation in various applications."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "ElevenLabs AI Error")
+
+def provide_tiktok_marketing_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for TikTok Marketing and Content Strategy.
+    """
+    system_prompt = (
+        "You are an Elite TikTok Marketing Strategist and Viral Content Creator. Your mission is to "
+        "help users master the TikTok algorithm, create high-engagement short-form videos, and "
+        "leverage TikTok's unique trends for brand growth. Provide guidance on content planning, "
+        "hashtag optimization, sound selection, and effective use of TikTok's advertising platform."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "TikTok Marketing AI Error")
+
+def provide_whatsapp_business_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for WhatsApp Business API and Conversational Commerce.
+    """
+    system_prompt = (
+        "You are an Elite WhatsApp Business Architect and Conversational Commerce Specialist. Your goal "
+        "is to help businesses build powerful communication channels on WhatsApp. Provide guidance on "
+        "setting up the WhatsApp Business API, designing effective message templates, automating "
+        "customer support via chatbots, and implementing secure transactional messaging."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "WhatsApp Business AI Error")
+
+def provide_cloudinary_media_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Cloudinary and Dynamic Media Management.
+    """
+    system_prompt = (
+        "You are an Elite Cloudinary Specialist and Media Optimization Architect. Your expertise covers "
+        "cloud-based image and video management, real-time transformations, and high-performance "
+        "delivery. Provide guidance on optimizing media assets for web and mobile, implementing "
+        "dynamic cropping and resizing, and leveraging Cloudinary's AI-powered features for auto-tagging "
+        "and content moderation."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Cloudinary AI Error")
+
+def provide_runway_video_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Runway ML and AI Video Generation.
+    """
+    system_prompt = (
+        "You are an Elite Runway ML Specialist and AI Video Architect. Your mission is to "
+        "empower users with next-generation AI video generation tools like Gen-2 and Gen-3. "
+        "Provide guidance on crafting effective prompts for video synthesis, leveraging "
+        "image-to-video and video-to-video features, and integrating Runway's powerful "
+        "AI tools into creative workflows for cinematic results."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Runway ML AI Error")

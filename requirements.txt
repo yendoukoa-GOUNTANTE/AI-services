@@ -28,3 +28,6 @@ google-genai
 xero-python
 firebase-admin
 mailchimp-marketing
+elevenlabs
+cloudinary
+runwayml
