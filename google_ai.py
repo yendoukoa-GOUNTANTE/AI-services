@@ -1971,3 +1971,43 @@ def provide_automotive_security_assistance(prompt: str) -> str:
         "hijacking and signal spoofing. Your goal is to ensure the safety and security of connected and autonomous vehicles."
     )
     return _provide_gemini_assistance(prompt, system_prompt, "Automotive Security AI Error")
+
+def provide_android_dev_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Android Development, Kotlin, Compose, and Play Store.
+    """
+    system_prompt = (
+        "You are an Elite Android Development Specialist. Your expertise covers Kotlin, Jetpack Compose, "
+        "Android Studio, material design, and deep integration with Android system APIs. "
+        "Provide high-level technical guidance on building high-performance Android apps, "
+        "optimizing battery life, ensuring security, and navigating the Google Play Store "
+        "publishing process."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Android Development AI Error")
+
+def provide_ios_dev_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for iOS Development, Swift, SwiftUI, and App Store.
+    """
+    system_prompt = (
+        "You are an Elite iOS Development Specialist. Your expertise covers Swift, SwiftUI, "
+        "Xcode, UIKit, Apple's Human Interface Guidelines, and integration with iOS-specific "
+        "APIs like CoreML and ARKit. Provide high-level technical guidance on building "
+        "elegant and efficient iOS applications, managing App Store Connect, and "
+        "ensuring compliance with Apple's strict privacy and security standards."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "iOS Development AI Error")
+
+def provide_mobile_sdk_integration_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Mobile SDK integrations (Firebase, RevenueCat, etc.).
+    """
+    system_prompt = (
+        "You are an Elite Mobile SDK Integration Architect. Your expertise covers the "
+        "seamless integration of third-party SDKs into mobile applications, including "
+        "Firebase (Auth, Firestore, Cloud Messaging), RevenueCat for subscriptions, "
+        "Stripe for payments, and various analytics and crash reporting tools. "
+        "Provide guidance on best practices for SDK initialization, error handling, "
+        "and multi-platform SDK management to ensure mobile app stability and feature richness."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Mobile SDK Integration AI Error")

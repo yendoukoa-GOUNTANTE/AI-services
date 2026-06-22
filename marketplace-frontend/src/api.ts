@@ -138,9 +138,13 @@ export const aiService = {
   genericAssistance: (systemMessage: string, prompt: string, mediaData?: string, mimeType?: string) => apiClient.post('/generic/assistance', { system_message: systemMessage, prompt, media_data: mediaData, mime_type: mimeType }),
   getDeepMindImage: (prompt: string) => apiClient.post('/deepmind/image', { prompt }),
   getDeepMindVideo: (prompt: string) => apiClient.post('/deepmind/video', { prompt }),
-  getAntigravityAgentAssistance: (prompt: string) => apiClient.post('/v1/antigravity/agent', { prompt }),
-  getGeminiSparkAssistance: (prompt: string) => apiClient.post('/v1/gemini/spark', { prompt }),
-  getGitHubCopilotCoding: (prompt: string) => apiClient.post('/v1/copilot/coding', { prompt }),
+  getAntigravityAgentAssistance: (prompt: string) => apiClient.post('/antigravity/agent', { prompt }),
+  getGeminiSparkAssistance: (prompt: string) => apiClient.post('/gemini/spark', { prompt }),
+  getGitHubCopilotCoding: (prompt: string) => apiClient.post('/copilot/coding', { prompt }),
+  getAndroidDevAssistance: (prompt: string) => apiClient.post('/develop/android', { prompt }),
+  getIOSDevAssistance: (prompt: string) => apiClient.post('/develop/ios', { prompt }),
+  getMobileSDKIntegration: (prompt: string) => apiClient.post('/mobile/sdk-integration', { prompt }),
+  sendPushNotification: (token: string, title: string, body: string) => apiClient.post('/mobile/push', { token, title, body }),
 };
 
 export const userService = {

@@ -37,6 +37,9 @@ const AI_SERVICES: AIService[] = [
   { id: 'langflow', name: 'Langflow Executor', category: 'Advanced', icon: Zap, description: 'Execute complex AI workflows using Langflow.' },
   { id: 'game', name: 'Game Developer', category: 'Development', icon: Gamepad2, description: 'Create custom games using AI technologies.' },
   { id: 'backend', name: 'Backend Architect', category: 'Infrastructure', icon: Database, description: 'Generate robust Python/Flask backends.' },
+  { id: 'android-dev', name: 'Android Developer', category: 'Development', icon: Smartphone, description: 'Expert Kotlin and Jetpack Compose development for Android.' },
+  { id: 'ios-dev', name: 'iOS Developer', category: 'Development', icon: Smartphone, description: 'Elite Swift and SwiftUI development for the Apple ecosystem.' },
+  { id: 'mobile-sdk', name: 'Mobile SDK Architect', category: 'Advanced', icon: Cpu, description: 'Seamless integration of Firebase, Stripe, and other mobile SDKs.' },
   { id: 'blockchain', name: 'Blockchain Expert', category: 'Development', icon: Code2, description: 'Smart contract and blockchain solutions.' },
   { id: 'fintech', name: 'Fintech Strategist', category: 'Business', icon: CreditCard, description: 'Banking and financial technology consulting.' },
   { id: 'legal', name: 'Legal & Human Rights', category: 'Professional', icon: Scale, description: 'Expert legal research and advocacy support.' },
@@ -446,6 +449,15 @@ const App: React.FC = () => {
           break;
         case 'sage':
           response = await aiService.getSageAssistance(servicePrompt);
+          break;
+        case 'android-dev':
+          response = await aiService.getAndroidDevAssistance(servicePrompt);
+          break;
+        case 'ios-dev':
+          response = await aiService.getIOSDevAssistance(servicePrompt);
+          break;
+        case 'mobile-sdk':
+          response = await aiService.getMobileSDKIntegration(servicePrompt);
           break;
         case 'gov-admin':
           response = await aiService.getGovernmentAssistance(servicePrompt);

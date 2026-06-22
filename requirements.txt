@@ -26,3 +26,4 @@ github-copilot-sdk
 asgiref
 google-genai
 xero-python
+firebase-admin
