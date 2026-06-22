@@ -23,6 +23,7 @@ from facebook_business.exceptions import FacebookRequestError
 import firebase_admin
 from firebase_admin import credentials, messaging
 import google_ai
+import mailchimp_service
 import json
 import sqlite3
 
@@ -2871,6 +2872,87 @@ def get_meta_campaigns():
         return jsonify({"error": f"Meta API Error: {e.api_error_message()}"}), e.api_error_code()
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+
+def handle_mailchimp_response(result):
+    if "error" in result:
+        code = result.get("code")
+        if code == "CONFIG_ERROR":
+            return jsonify(result), 503
+        elif code == "API_ERROR":
+            return jsonify(result), 400
+        else:
+            return jsonify(result), 500
+    return jsonify(result), 200
+
+@app.route('/api/v1/mailchimp/subscribe', methods=['POST'])
+@require_api_key
+def mailchimp_subscribe():
+    data = request.get_json()
+    email = data.get('email')
+    if not email:
+        return jsonify({"error": _("Email is required")}), 400
+    result = mailchimp_service.subscribe_to_newsletter(email)
+    return handle_mailchimp_response(result)
+
+@app.route('/api/v1/mailchimp/campaigns', methods=['POST'])
+@require_api_key
+def mailchimp_create_campaign():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+
+    # Use AI to generate campaign details
+    campaign_info = google_ai.generate_email_campaign(prompt)
+
+    result = mailchimp_service.create_campaign(
+        subject_line=campaign_info.get('subject_line', 'New Campaign'),
+        preview_text=campaign_info.get('preview_text', ''),
+        title=campaign_info.get('title', 'AI Generated Campaign'),
+        from_name=os.environ.get("MAILCHIMP_FROM_NAME", "Yendoukoa AI"),
+        reply_to=os.environ.get("MAILCHIMP_REPLY_TO", "info@yendoukoa.ai")
+    )
+
+    if "error" in result:
+        return handle_mailchimp_response(result)
+
+    campaign_id = result['id']
+    content_result = mailchimp_service.set_campaign_content(campaign_id, campaign_info.get('html_content', ''))
+
+    if "error" in content_result:
+        return handle_mailchimp_response(content_result)
+
+    return jsonify({
+        "status": "success",
+        "campaign_id": campaign_id,
+        "campaign_info": campaign_info
+    }), 201
+
+@app.route('/api/v1/mailchimp/reports', methods=['GET'])
+@require_api_key
+def mailchimp_reports():
+    result = mailchimp_service.get_campaign_reports()
+    return handle_mailchimp_response(result)
+
+@app.route('/api/v1/mailchimp/send', methods=['POST'])
+@require_api_key
+def mailchimp_send_campaign():
+    data = request.get_json()
+    campaign_id = data.get('campaign_id')
+    if not campaign_id:
+        return jsonify({"error": _("Campaign ID is required")}), 400
+    result = mailchimp_service.send_campaign(campaign_id)
+    return handle_mailchimp_response(result)
+
+@app.route('/api/v1/marketing/email-specialist', methods=['POST'])
+@require_api_key
+def email_marketing_specialist_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+    message = google_ai.provide_email_marketing_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
 
 
 # The following block is for development purposes and should not be used in production.

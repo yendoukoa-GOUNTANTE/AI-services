@@ -2011,3 +2011,82 @@ def provide_mobile_sdk_integration_assistance(prompt: str) -> str:
         "and multi-platform SDK management to ensure mobile app stability and feature richness."
     )
     return _provide_gemini_assistance(prompt, system_prompt, "Mobile SDK Integration AI Error")
+
+def provide_email_marketing_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Email Marketing and Mailchimp integration.
+    """
+    system_prompt = (
+        "You are an Elite Email Marketing Specialist and Mailchimp Architect. "
+        "Your expertise covers email campaign strategy, audience segmentation, "
+        "A/B testing, and deep integration with the Mailchimp API. "
+        "Provide high-level technical guidance on creating engaging newsletters, "
+        "automating email workflows, and analyzing campaign performance to drive growth."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Email Marketing AI Error")
+
+def extract_json(response: str) -> dict | None:
+    """Extracts JSON from an AI response string, handling markdown fences and surrounding text."""
+    try:
+        # 1. Try to strip markdown fences
+        if "```" in response:
+            fence_match = re.search(r'```(?:json)?\s*(.*?)\s*```', response, re.DOTALL)
+            if fence_match:
+                response = fence_match.group(1).strip()
+
+        # 2. Isolate the JSON object between the first { and last }
+        start = response.find('{')
+        end = response.rfind('}')
+        if start != -1 and end != -1 and end > start:
+            response = response[start:end+1]
+
+        return json.loads(response)
+    except Exception:
+        return None
+
+def generate_email_campaign(prompt: str) -> dict:
+    """
+    Generates an email campaign structure using AI.
+    """
+    model = get_model()
+    system_prompt = "You are an expert email marketer. Generate a JSON object for an email campaign."
+    user_prompt = f"""
+    Based on the following prompt, generate a JSON object for a Mailchimp email campaign:
+    '{prompt}'
+
+    The JSON object must have exactly these keys:
+    - subject_line: A catchy subject line.
+    - preview_text: A short preview text.
+    - title: An internal title for the campaign.
+    - html_content: The full HTML content for the email.
+
+    Respond ONLY with the JSON object.
+    """
+
+    try:
+        from langchain_core.messages import SystemMessage, HumanMessage
+        messages = [
+            SystemMessage(content=system_prompt),
+            HumanMessage(content=user_prompt)
+        ]
+        response = model.invoke(messages).content.strip()
+
+        data = extract_json(response)
+        if not data:
+            raise ValueError("Failed to extract valid JSON from response")
+
+        # Validation
+        required_keys = ['subject_line', 'preview_text', 'title', 'html_content']
+        for key in required_keys:
+            if key not in data:
+                raise ValueError(f"Missing required key: {key}")
+
+        return data
+    except Exception as e:
+        print(f"Error generating email campaign: {e}")
+        return {
+            "subject_line": "AI Generated Campaign",
+            "preview_text": "Check out our latest update.",
+            "title": "Default AI Campaign",
+            "html_content": f"<p>{prompt}</p>"
+        }
