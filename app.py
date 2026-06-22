@@ -24,6 +24,11 @@ import firebase_admin
 from firebase_admin import credentials, messaging
 import google_ai
 import mailchimp_service
+import elevenlabs_service
+import runway_service
+import tiktok_service
+import whatsapp_service
+import cloudinary_service
 import json
 import sqlite3
 
@@ -2947,6 +2952,158 @@ def email_marketing_specialist_endpoint():
     if not prompt:
         return jsonify({"error": _("Prompt is required")}), 400
     message = google_ai.provide_email_marketing_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+
+@app.route('/api/v1/voice/elevenlabs/voices', methods=['GET'])
+@require_api_key
+def elevenlabs_get_voices_endpoint():
+    result = elevenlabs_service.get_voices()
+    if "error" in result:
+        return jsonify(result), 500
+    return jsonify(result)
+
+@app.route('/api/v1/voice/elevenlabs', methods=['POST'])
+@require_api_key
+def elevenlabs_assistance_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    execute = data.get('execute', False)
+    voice_id = data.get('voice_id', "21m00Tcm4TlvDq8ikWAM")
+
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+
+    if execute:
+        result = elevenlabs_service.text_to_speech(prompt, voice_id)
+        if "error" in result:
+            return jsonify(result), 500
+
+        # Log the generated file
+        new_file = File(
+            user_id=g.user.id,
+            filename=result['filename'],
+            file_type='audio',
+            filepath=result['filepath']
+        )
+        db.session.add(new_file)
+        db.session.commit()
+
+        return jsonify({
+            "status": "success",
+            "message": result['message'],
+            "file_id": new_file.id,
+            "filename": new_file.filename
+        })
+
+    message = google_ai.provide_elevenlabs_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+
+@app.route('/api/v1/market/tiktok/me', methods=['GET'])
+@require_api_key
+def tiktok_get_me_endpoint():
+    result = tiktok_service.get_tiktok_user_info()
+    if "error" in result:
+        return jsonify(result), 500
+    return jsonify(result)
+
+@app.route('/api/v1/market/tiktok', methods=['POST'])
+@require_api_key
+def tiktok_marketing_assistance_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    execute = data.get('execute', False)
+    video_url = data.get('video_url')
+
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+
+    if execute:
+        if not video_url:
+            return jsonify({"error": _("Video URL is required for TikTok sharing")}), 400
+        result = tiktok_service.share_to_tiktok(video_url, prompt)
+        return jsonify(result)
+
+    message = google_ai.provide_tiktok_marketing_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+
+@app.route('/api/v1/mobile/whatsapp', methods=['POST'])
+@require_api_key
+def whatsapp_business_assistance_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    execute = data.get('execute', False)
+    to_number = data.get('to_number')
+    template_name = data.get('template_name')
+
+    if not prompt and not template_name:
+        return jsonify({"error": _("Prompt or template_name is required")}), 400
+
+    if execute:
+        if not to_number:
+            return jsonify({"error": _("Recipient phone number is required")}), 400
+        if template_name:
+            result = whatsapp_service.send_whatsapp_template(to_number, template_name)
+        else:
+            result = whatsapp_service.send_whatsapp_message(to_number, prompt)
+        return jsonify(result)
+
+    message = google_ai.provide_whatsapp_business_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+
+@app.route('/api/v1/media/cloudinary', methods=['POST'])
+@require_api_key
+def cloudinary_media_assistance_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    execute = data.get('execute', False)
+    file_id = data.get('file_id')
+
+    if not prompt and not file_id:
+        return jsonify({"error": _("Prompt or file_id is required")}), 400
+
+    if execute:
+        if not file_id:
+            return jsonify({"error": _("File ID is required for upload to Cloudinary")}), 400
+        file_record = File.query.get(file_id)
+        if not file_record or not file_record.filepath:
+            return jsonify({"error": _("File not found or has no path")}), 404
+
+        result = cloudinary_service.upload_media(file_record.filepath)
+        return jsonify(result)
+
+    message = google_ai.provide_cloudinary_media_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+
+@app.route('/api/v1/video/runway/status/<task_id>', methods=['GET'])
+@require_api_key
+def runway_video_status_endpoint(task_id):
+    result = runway_service.get_task_status(task_id)
+    if "error" in result:
+        return jsonify(result), 500
+    return jsonify(result)
+
+@app.route('/api/v1/video/runway', methods=['POST'])
+@require_api_key
+def runway_video_assistance_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    execute = data.get('execute', False)
+
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+
+    if execute:
+        result = runway_service.generate_video(prompt)
+        if "error" in result:
+            return jsonify(result), 500
+        return jsonify(result)
+
+    message = google_ai.provide_runway_video_assistance(prompt)
     return jsonify({"status": "success", "message": message})
 
 

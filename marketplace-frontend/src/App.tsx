@@ -7,7 +7,7 @@ import {
   Truck, Building2, BookOpen, Microscope, Layout, Mail, TrendingUp, Smartphone,
   Cloud, Server, DollarSign, Handshake, PiggyBank, Brain, Camera, Video,
   Settings, Route, Mic, FileText, Download, Trash2, Save, Plus, ArrowRight,
-  Sparkles, CheckCircle2, ChevronRight, Play, ExternalLink, Loader2
+  Image, Sparkles, CheckCircle2, ChevronRight, Play, ExternalLink, Loader2
 } from 'lucide-react';
 import { userService, aiService, paymentService, fileService, storeService, setAuthToken, type User, type File, type StoreAgent, type StoreDesign } from './api';
 import type { AIService } from './types';
@@ -109,7 +109,12 @@ const AI_SERVICES: AIService[] = [
   { id: 'sage', name: 'Sage Software Expert', category: 'Professional', icon: Database, description: 'Expert guidance on Sage accounting and payroll for French businesses.' },
   { id: 'open-collective', name: 'Open Collective Specialist', category: 'Business', icon: DollarSign, description: 'Elite guidance on transparent project funding and community-led financial management.' },
   { id: 'patreon', name: 'Patreon Strategist', category: 'Business', icon: DollarSign, description: 'Expert creator monetization, membership tiers, and audience engagement strategies.' },
-  { id: 'graphic-designer', name: 'AI Graphic Designer', category: 'Arts', icon: Palette, description: 'Expert brand identity, logo design, and high-impact thumbnail creation.' }
+  { id: 'graphic-designer', name: 'AI Graphic Designer', category: 'Arts', icon: Palette, description: 'Expert brand identity, logo design, and high-impact thumbnail creation.' },
+  { id: 'elevenlabs', name: 'ElevenLabs Voice', category: 'Arts', icon: Mic, description: 'Elite AI voice synthesis and emotional speech modeling specialist.' },
+  { id: 'tiktok-market', name: 'TikTok Strategist', category: 'Business', icon: TrendingUp, description: 'Viral content creation and TikTok algorithm optimization expert.' },
+  { id: 'whatsapp-biz', name: 'WhatsApp Architect', category: 'Business', icon: Mail, description: 'Elite WhatsApp Business API and conversational commerce specialist.' },
+  { id: 'cloudinary-media', name: 'Cloudinary Specialist', category: 'Infrastructure', icon: Image, description: 'Dynamic media management and real-time image/video optimization expert.' },
+  { id: 'runway-video', name: 'Runway Video Gen', category: 'Arts', icon: Video, description: 'Next-generation AI video generation powered by Runway ML Gen-3.' }
 ];
 
 const App: React.FC = () => {
@@ -165,6 +170,13 @@ const App: React.FC = () => {
     }
     fetchStoreData();
   }, []);
+
+  useEffect(() => {
+    if (executionParams.execute) {
+      handleServiceExecution();
+      setExecutionParams({ ...executionParams, execute: false });
+    }
+  }, [executionParams.execute]);
 
   useEffect(() => {
     if (isDarkMode) {
@@ -314,8 +326,8 @@ const App: React.FC = () => {
     }
   };
 
-  const handleServiceExecution = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleServiceExecution = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     if (!user) {
       setShowLoginModal(true);
       return;
@@ -561,6 +573,21 @@ const App: React.FC = () => {
           break;
         case 'language-specialist':
           response = await aiService.getLanguageSpecialist(servicePrompt);
+          break;
+        case 'elevenlabs':
+          response = await aiService.getElevenLabsAssistance(servicePrompt);
+          break;
+        case 'tiktok-market':
+          response = await aiService.getTikTokMarketingAssistance(servicePrompt);
+          break;
+        case 'whatsapp-biz':
+          response = await aiService.getWhatsAppBusinessAssistance(servicePrompt);
+          break;
+        case 'cloudinary-media':
+          response = await aiService.getCloudinaryMediaAssistance(servicePrompt);
+          break;
+        case 'runway-video':
+          response = await aiService.getRunwayVideoAssistance(servicePrompt);
           break;
         default:
           response = { data: { message: "This service is currently in demo mode. The full integration is coming soon!" } };
@@ -1154,14 +1181,26 @@ const App: React.FC = () => {
                    <span className="text-xs font-black text-gray-400 uppercase tracking-widest">Cost for session</span>
                    <span className="text-xl font-black text-gray-900 dark:text-white">{selectedService?.price || 50} Credits</span>
                 </div>
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="bg-blue-600 text-white px-10 py-5 rounded-2xl font-black text-lg hover:bg-blue-700 transition-all shadow-2xl shadow-blue-100 active:scale-95 disabled:opacity-50 flex items-center"
-                >
-                  {loading && <Loader2 size={20} className="mr-2 animate-spin" />}
-                  {loading ? 'Processing Agent...' : 'Launch Session'}
-                </button>
+                <div className="flex space-x-4">
+                  {['elevenlabs', 'tiktok-market', 'whatsapp-biz', 'cloudinary-media', 'runway-video'].includes(selectedService?.id || '') && (
+                    <button
+                      type="button"
+                      onClick={() => setExecutionParams({ ...executionParams, execute: true })}
+                      disabled={loading}
+                      className="bg-green-600 text-white px-8 py-5 rounded-2xl font-black text-lg hover:bg-green-700 transition-all shadow-2xl shadow-green-100 active:scale-95 disabled:opacity-50 flex items-center"
+                    >
+                      {loading ? 'Processing...' : 'Direct API Execution'}
+                    </button>
+                  )}
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="bg-blue-600 text-white px-10 py-5 rounded-2xl font-black text-lg hover:bg-blue-700 transition-all shadow-2xl shadow-blue-100 active:scale-95 disabled:opacity-50 flex items-center"
+                  >
+                    {loading && <Loader2 size={20} className="mr-2 animate-spin" />}
+                    {loading ? 'Processing Agent...' : 'AI Strategy Session'}
+                  </button>
+                </div>
              </div>
           </form>
         ) : (
