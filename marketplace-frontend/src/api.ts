@@ -150,6 +150,19 @@ export const aiService = {
   mailchimpCreateCampaign: (prompt: string) => apiClient.post('/mailchimp/campaigns', { prompt }),
   mailchimpGetReports: () => apiClient.get('/mailchimp/reports'),
   mailchimpSendCampaign: (campaignId: string) => apiClient.post('/mailchimp/send', { campaign_id: campaignId }),
+  getElevenLabsAssistance: (prompt: string, execute = false, voiceId?: string) =>
+    apiClient.post('/voice/elevenlabs', { prompt, execute, voice_id: voiceId }),
+  getElevenLabsVoices: () => apiClient.get('/voice/elevenlabs/voices'),
+  getTikTokMarketingAssistance: (prompt: string, execute = false, videoUrl?: string) =>
+    apiClient.post('/market/tiktok', { prompt, execute, video_url: videoUrl }),
+  getTikTokMe: () => apiClient.get('/market/tiktok/me'),
+  getWhatsAppBusinessAssistance: (prompt: string, execute = false, toNumber?: string, templateName?: string) =>
+    apiClient.post('/mobile/whatsapp', { prompt, execute, to_number: toNumber, template_name: templateName }),
+  getCloudinaryMediaAssistance: (prompt: string, execute = false, fileId?: number) =>
+    apiClient.post('/media/cloudinary', { prompt, execute, file_id: fileId }),
+  getRunwayVideoAssistance: (prompt: string, execute = false) =>
+    apiClient.post('/video/runway', { prompt, execute }),
+  getRunwayTaskStatus: (taskId: string) => apiClient.get(`/video/runway/status/${taskId}`),
 };
 
 export const userService = {
