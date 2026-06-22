@@ -20,6 +20,8 @@ from flask_babel import Babel, _
 from facebook_business.api import FacebookAdsApi
 from facebook_business.adobjects.adaccount import AdAccount
 from facebook_business.exceptions import FacebookRequestError
+import firebase_admin
+from firebase_admin import credentials, messaging
 import google_ai
 import json
 import sqlite3
@@ -158,8 +160,22 @@ def initialize_meta_sdk():
     else:
         print("Meta Business SDK credentials not found in environment variables. Skipping initialization.")
 
+def initialize_firebase_sdk():
+    """Initializes the Firebase Admin SDK."""
+    firebase_creds_path = os.environ.get('FIREBASE_SERVICE_ACCOUNT_JSON')
+    if firebase_creds_path and os.path.exists(firebase_creds_path):
+        try:
+            cred = credentials.Certificate(firebase_creds_path)
+            firebase_admin.initialize_app(cred)
+            print("Firebase Admin SDK initialized successfully.")
+        except Exception as e:
+            print(f"Error initializing Firebase Admin SDK: {e}")
+    else:
+        print("Firebase service account credentials not found. Skipping initialization.")
+
 with app.app_context():
     initialize_meta_sdk()
+    initialize_firebase_sdk()
     google_ai.init_vertexai()
 
 def get_locale():
@@ -1140,6 +1156,64 @@ def automotive_security_endpoint():
         return jsonify({"error": _("Prompt is required")}), 400
     message = google_ai.provide_automotive_security_assistance(prompt)
     return jsonify({"status": "success", "message": message})
+
+@app.route('/api/v1/develop/android', methods=['POST'])
+@require_api_key
+def develop_android_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+    message = google_ai.provide_android_dev_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+@app.route('/api/v1/develop/ios', methods=['POST'])
+@require_api_key
+def develop_ios_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+    message = google_ai.provide_ios_dev_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+@app.route('/api/v1/mobile/sdk-integration', methods=['POST'])
+@require_api_key
+def mobile_sdk_integration_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+    message = google_ai.provide_mobile_sdk_integration_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+@app.route('/api/v1/mobile/push', methods=['POST'])
+@require_api_key
+async def send_push_notification():
+    data = request.get_json()
+    token = data.get('token')
+    title = data.get('title')
+    body = data.get('body')
+
+    if not all([token, title, body]):
+        return jsonify({"error": _("Token, title, and body are required")}), 400
+
+    try:
+        # Check if Firebase is initialized
+        if not firebase_admin._apps:
+            return jsonify({"error": _("Firebase SDK not initialized")}), 500
+
+        message = messaging.Message(
+            notification=messaging.Notification(
+                title=title,
+                body=body,
+            ),
+            token=token,
+        )
+        response = await asyncio.to_thread(messaging.send, message)
+        return jsonify({"status": "success", "message_id": response})
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 
 @app.route('/api/v1/podcast/assistance', methods=['POST'])
