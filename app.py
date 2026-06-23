@@ -30,7 +30,10 @@ import tiktok_service
 import whatsapp_service
 import cloudinary_service
 import office_service
+import paystack_service
 import json
+import hmac
+import hashlib
 import sqlite3
 
 load_dotenv(dotenv_path=".env")
@@ -106,6 +109,7 @@ class Payment(db.Model):
     status = db.Column(db.String(20), nullable=False, default='pending')
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     meta_payment_id = db.Column(db.String(120), unique=True, nullable=True)
+    paystack_reference = db.Column(db.String(120), unique=True, nullable=True)
     user = db.relationship('User', backref=db.backref('payments', lazy=True))
     def __repr__(self):
         return f'<Payment {self.id}>'
@@ -693,14 +697,23 @@ def fetch_github_file(url):
         return _("An unexpected error occurred: %(error)s", error=e)
 
 # --- Helpers ---
-def log_activity(action, details=None):
-    user_id = g.user.id if hasattr(g, 'user') and g.user else None
+def log_activity(action, details=None, user_id=None):
+    if user_id is None:
+        user_id = g.user.id if hasattr(g, 'user') and g.user else None
+
+    # Check for active request context
+    ip_address = None
+    user_agent = None
+    if request:
+        ip_address = request.remote_addr
+        user_agent = request.headers.get('User-Agent')
+
     log = ActivityLog(
         user_id=user_id,
         action=action,
         details=details,
-        ip_address=request.remote_addr,
-        user_agent=request.headers.get('User-Agent')
+        ip_address=ip_address,
+        user_agent=user_agent
     )
     db.session.add(log)
     db.session.commit()
@@ -2728,6 +2741,120 @@ def payment_webhook():
     return jsonify(status='success')
 
 
+@app.route('/api/v1/payment/paystack/initialize', methods=['POST'])
+@require_api_key
+def paystack_initialize_payment():
+    data = request.get_json()
+    amount = data.get('amount') # In major currency unit (e.g. GHS, NGN)
+    currency = data.get('currency', 'NGN')
+    callback_url = data.get('callback_url')
+
+    if not amount:
+        return jsonify({"error": _("Amount is required")}), 400
+
+    try:
+        amount_in_kobo = int(float(amount) * 100)
+    except ValueError:
+        return jsonify({"error": _("Invalid amount")}), 400
+
+    # Create a payment record in our database
+    new_payment = Payment(
+        user_id=g.user.id,
+        amount=amount_in_kobo,
+        currency=currency,
+        status='pending'
+    )
+    db.session.add(new_payment)
+    db.session.commit()
+
+    metadata = {
+        "payment_id": new_payment.id,
+        "user_id": g.user.id
+    }
+
+    response = paystack_service.initialize_transaction(
+        email=g.user.username if '@' in g.user.username else f"{g.user.username}@yendoukoa.ai",
+        amount=amount_in_kobo,
+        callback_url=callback_url,
+        metadata=metadata
+    )
+
+    if response.get('status'):
+        new_payment.paystack_reference = response['data']['reference']
+        db.session.commit()
+        return jsonify(response)
+    else:
+        new_payment.status = 'failed'
+        db.session.commit()
+        return jsonify(response), 400
+
+
+@app.route('/api/v1/payment/paystack/verify/<reference>', methods=['GET'])
+@require_api_key
+def paystack_verify_payment(reference):
+    response = paystack_service.verify_transaction(reference)
+
+    if response.get('status') and response['data']['status'] == 'success':
+        payment = Payment.query.filter_by(paystack_reference=reference).first()
+        if payment and payment.status != 'succeeded':
+            payment.status = 'succeeded'
+            db.session.commit()
+            log_activity("paystack_payment_success", f"Payment {payment.id} succeeded")
+            fulfill_paystack_payment(payment)
+        elif payment and payment.status == 'succeeded':
+            fulfill_paystack_payment(payment)
+
+    return jsonify(response)
+
+
+def fulfill_paystack_payment(payment):
+    """Fulfills a Paystack payment by adding credits to the user's account."""
+    if payment.status == 'succeeded':
+        # Check if already fulfilled - we can use ActivityLog or another column
+        # For now, we'll assume if status is 'succeeded', it's done or being done.
+        # To avoid double fulfillment, we should use a more robust check.
+        # Let's check if there's an activity log for this specific payment.
+        existing_log = ActivityLog.query.filter_by(user_id=payment.user_id, action="credit_purchase", details=f"Payment ID: {payment.id}").first()
+        if existing_log:
+            return
+
+        user = User.query.get(payment.user_id)
+        if user:
+            # 1 major unit = 10 credits. payment.amount is in kobo.
+            credits_to_add = int(payment.amount / 10)
+            user.credits += credits_to_add
+            db.session.commit()
+            log_activity("credit_purchase", f"Payment ID: {payment.id}", user_id=payment.user_id)
+
+
+@app.route('/api/v1/payment/paystack/webhook', methods=['POST'])
+def paystack_webhook():
+    payload = request.get_json()
+    sig_header = request.headers.get('x-paystack-signature')
+
+    if not sig_header:
+        return jsonify({"error": "No signature"}), 400
+
+    secret = os.environ.get('PAYSTACK_SECRET_KEY', '')
+    computed_hash = hmac.new(secret.encode('utf-8'), request.data, hashlib.sha512).hexdigest()
+
+    if computed_hash != sig_header:
+        return jsonify({"error": "Invalid signature"}), 400
+
+    event = payload.get('event')
+    data = payload.get('data')
+
+    if event == 'charge.success':
+        reference = data.get('reference')
+        payment = Payment.query.filter_by(paystack_reference=reference).first()
+        if payment and payment.status != 'succeeded':
+            payment.status = 'succeeded'
+            db.session.commit()
+            fulfill_paystack_payment(payment)
+
+    return jsonify(status='success'), 200
+
+
 @app.route('/api/v1/files/upload', methods=['POST'])
 @require_api_key
 async def upload_file():
@@ -3212,10 +3339,18 @@ def update_db_schema():
             cursor.execute("ALTER TABLE user ADD COLUMN subscription_status VARCHAR(20) DEFAULT 'inactive'")
         if 'subscription_plan' not in columns:
             cursor.execute("ALTER TABLE user ADD COLUMN subscription_plan VARCHAR(20) DEFAULT 'free'")
-        if 'stripe_customer_id' not in columns:
-            cursor.execute("ALTER TABLE user ADD COLUMN stripe_customer_id VARCHAR(120)")
         if 'credits' not in columns:
             cursor.execute("ALTER TABLE user ADD COLUMN credits INTEGER DEFAULT 1000")
+        if 'stripe_customer_id' not in columns:
+            cursor.execute("ALTER TABLE user ADD COLUMN stripe_customer_id VARCHAR(120)")
+
+        # Check for payment table
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='payment'")
+        if cursor.fetchone():
+            cursor.execute("PRAGMA table_info(payment)")
+            payment_columns = [column[1] for column in cursor.fetchall()]
+            if 'paystack_reference' not in payment_columns:
+                cursor.execute("ALTER TABLE payment ADD COLUMN paystack_reference VARCHAR(120)")
 
         # Create agent table if it doesn't exist
         cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='agent'")
