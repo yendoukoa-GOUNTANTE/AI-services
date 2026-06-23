@@ -163,6 +163,9 @@ export const aiService = {
   getRunwayVideoAssistance: (prompt: string, execute = false) =>
     apiClient.post('/video/runway', { prompt, execute }),
   getRunwayTaskStatus: (taskId: string) => apiClient.get(`/video/runway/status/${taskId}`),
+  getExcelAssistance: (prompt: string, execute = false) => apiClient.post('/business/excel', { prompt, execute }),
+  getWordAssistance: (prompt: string, execute = false) => apiClient.post('/business/word', { prompt, execute }),
+  getPowerPointAssistance: (prompt: string, execute = false) => apiClient.post('/business/powerpoint', { prompt, execute }),
 };
 
 export const userService = {

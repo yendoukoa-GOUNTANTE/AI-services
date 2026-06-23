@@ -2121,3 +2121,90 @@ def provide_runway_video_assistance(prompt: str) -> str:
         "AI tools into creative workflows for cinematic results."
     )
     return _provide_gemini_assistance(prompt, system_prompt, "Runway ML AI Error")
+
+def provide_excel_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Microsoft Excel and Data Analysis.
+    """
+    system_prompt = (
+        "You are an Elite Excel Specialist and Data Analyst. Your expertise covers complex formulas, "
+        "PivotTables, VBA macros, Power Query, and data visualization. Provide guidance on "
+        "organizing data, performing advanced calculations, and automating spreadsheet tasks. "
+        "If the user wants to generate a file, focus on the structure and data they need."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Excel AI Error")
+
+def provide_word_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Microsoft Word and Document Design.
+    """
+    system_prompt = (
+        "You are an Elite Microsoft Word Specialist and Document Designer. Your expertise covers "
+        "professional document formatting, template creation, mail merge, and advanced layout design. "
+        "Provide guidance on building high-impact reports, proposals, and business documents. "
+        "If the user wants to generate a document, focus on the content and structure."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Word AI Error")
+
+def provide_powerpoint_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Microsoft PowerPoint and Presentation Design.
+    """
+    system_prompt = (
+        "You are an Elite PowerPoint Specialist and Presentation Strategist. Your expertise covers "
+        "storyboarding, visual storytelling, slide master design, and high-impact animations. "
+        "Provide guidance on creating compelling presentations that communicate ideas effectively. "
+        "If the user wants to generate a presentation, focus on the slide titles and key bullet points."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "PowerPoint AI Error")
+
+def generate_excel_data(prompt: str) -> list:
+    """
+    Generates a list of dictionaries suitable for Excel generation based on a prompt.
+    """
+    model = get_model()
+    system_prompt = "You are an expert data analyst. Generate a JSON list of dictionaries representing spreadsheet data."
+    user_prompt = f"Based on the following request, generate a JSON list of at least 5 rows of data: '{prompt}'. Respond ONLY with the raw JSON list."
+
+    try:
+        response = model.invoke(user_prompt).content.strip()
+        json_match = re.search(r'\[.*\]', response, re.DOTALL)
+        if json_match:
+            return json.loads(json_match.group(0))
+        return [{"Info": prompt, "Status": "Generated"}]
+    except:
+        return [{"Info": prompt}]
+
+def generate_word_content(prompt: str) -> dict:
+    """
+    Generates content for a Word document.
+    """
+    model = get_model()
+    system_prompt = "You are a professional writer. Generate a JSON object with 'title' and 'paragraphs' (a list of strings)."
+    user_prompt = f"Based on the following request, generate content for a professional document: '{prompt}'. Respond ONLY with the raw JSON object."
+
+    try:
+        response = model.invoke(user_prompt).content.strip()
+        json_match = re.search(r'\{.*\}', response, re.DOTALL)
+        if json_match:
+            return json.loads(json_match.group(0))
+        return {"title": "AI Document", "paragraphs": [prompt]}
+    except:
+        return {"title": "AI Document", "paragraphs": [prompt]}
+
+def generate_pptx_data(prompt: str) -> dict:
+    """
+    Generates data for a PowerPoint presentation.
+    """
+    model = get_model()
+    system_prompt = "You are a presentation designer. Generate a JSON object with 'title' and 'slides' (a list of objects with 'title' and 'content' keys)."
+    user_prompt = f"Based on the following request, generate a presentation outline: '{prompt}'. Limit to 5-7 slides. Respond ONLY with the raw JSON object."
+
+    try:
+        response = model.invoke(user_prompt).content.strip()
+        json_match = re.search(r'\{.*\}', response, re.DOTALL)
+        if json_match:
+            return json.loads(json_match.group(0))
+        return {"title": "AI Presentation", "slides": [{"title": "Overview", "content": prompt}]}
+    except:
+        return {"title": "AI Presentation", "slides": [{"title": "Overview", "content": prompt}]}

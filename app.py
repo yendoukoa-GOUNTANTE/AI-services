@@ -29,6 +29,7 @@ import runway_service
 import tiktok_service
 import whatsapp_service
 import cloudinary_service
+import office_service
 import json
 import sqlite3
 
@@ -3104,6 +3105,91 @@ def runway_video_assistance_endpoint():
         return jsonify(result)
 
     message = google_ai.provide_runway_video_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+@app.route('/api/v1/business/excel', methods=['POST'])
+@require_api_key
+def business_excel_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    execute = data.get('execute', False)
+
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+
+    if execute:
+        excel_data = google_ai.generate_excel_data(prompt)
+        result = office_service.generate_excel(excel_data)
+        if result['status'] == 'success':
+            # Log the generated file
+            new_file = File(
+                user_id=g.user.id,
+                filename=result['filename'],
+                file_type='excel',
+                filepath=result['filepath']
+            )
+            db.session.add(new_file)
+            db.session.commit()
+            return jsonify({"status": "success", "message": _("Excel file generated successfully."), "file_id": new_file.id, "filename": new_file.filename})
+        return jsonify({"error": result.get('message')}), 500
+
+    message = google_ai.provide_excel_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+@app.route('/api/v1/business/word', methods=['POST'])
+@require_api_key
+def business_word_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    execute = data.get('execute', False)
+
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+
+    if execute:
+        doc_info = google_ai.generate_word_content(prompt)
+        result = office_service.generate_word(doc_info.get('paragraphs', []), doc_info.get('title', 'Document'))
+        if result['status'] == 'success':
+            new_file = File(
+                user_id=g.user.id,
+                filename=result['filename'],
+                file_type='word',
+                filepath=result['filepath']
+            )
+            db.session.add(new_file)
+            db.session.commit()
+            return jsonify({"status": "success", "message": _("Word document generated successfully."), "file_id": new_file.id, "filename": new_file.filename})
+        return jsonify({"error": result.get('message')}), 500
+
+    message = google_ai.provide_word_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+@app.route('/api/v1/business/powerpoint', methods=['POST'])
+@require_api_key
+def business_powerpoint_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    execute = data.get('execute', False)
+
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+
+    if execute:
+        pptx_info = google_ai.generate_pptx_data(prompt)
+        result = office_service.generate_powerpoint(pptx_info.get('slides', []), pptx_info.get('title', 'Presentation'))
+        if result['status'] == 'success':
+            new_file = File(
+                user_id=g.user.id,
+                filename=result['filename'],
+                file_type='powerpoint',
+                filepath=result['filepath']
+            )
+            db.session.add(new_file)
+            db.session.commit()
+            return jsonify({"status": "success", "message": _("PowerPoint presentation generated successfully."), "file_id": new_file.id, "filename": new_file.filename})
+        return jsonify({"error": result.get('message')}), 500
+
+    message = google_ai.provide_powerpoint_assistance(prompt)
     return jsonify({"status": "success", "message": message})
 
 

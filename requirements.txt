@@ -31,3 +31,7 @@ mailchimp-marketing
 elevenlabs
 cloudinary
 runwayml
+openpyxl
+python-docx
+python-pptx
+pandas
