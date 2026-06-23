@@ -207,6 +207,9 @@ export const paymentService = {
   getConfig: () => apiClient.get('/v1/config'),
   createPaymentIntent: (amount: number, currency: string) => apiClient.post('/payment/create-payment-intent', { amount, currency }),
   createSubscriptionCheckout: (plan: string) => apiClient.post('/payment/create-subscription-checkout', { plan }),
+  initializePaystack: (amount: number, currency: string, callbackUrl?: string) =>
+    apiClient.post('/payment/paystack/initialize', { amount, currency, callback_url: callbackUrl }),
+  verifyPaystack: (reference: string) => apiClient.get(`/payment/paystack/verify/${reference}`),
 };
 
 export default apiClient;
