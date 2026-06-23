@@ -114,7 +114,10 @@ const AI_SERVICES: AIService[] = [
   { id: 'tiktok-market', name: 'TikTok Strategist', category: 'Business', icon: TrendingUp, description: 'Viral content creation and TikTok algorithm optimization expert.' },
   { id: 'whatsapp-biz', name: 'WhatsApp Architect', category: 'Business', icon: Mail, description: 'Elite WhatsApp Business API and conversational commerce specialist.' },
   { id: 'cloudinary-media', name: 'Cloudinary Specialist', category: 'Infrastructure', icon: Image, description: 'Dynamic media management and real-time image/video optimization expert.' },
-  { id: 'runway-video', name: 'Runway Video Gen', category: 'Arts', icon: Video, description: 'Next-generation AI video generation powered by Runway ML Gen-3.' }
+  { id: 'runway-video', name: 'Runway Video Gen', category: 'Arts', icon: Video, description: 'Next-generation AI video generation powered by Runway ML Gen-3.' },
+  { id: 'excel-helper', name: 'Excel Specialist', category: 'Business', icon: Database, description: 'Elite Excel formulas, data analysis, and automated spreadsheet generation.' },
+  { id: 'word-helper', name: 'Word Architect', category: 'Business', icon: FileText, description: 'Professional document design, template creation, and automated Word generation.' },
+  { id: 'powerpoint-helper', name: 'PPT Strategist', category: 'Business', icon: Layout, description: 'Compelling presentation storyboarding and automated PowerPoint generation.' }
 ];
 
 const App: React.FC = () => {
@@ -588,6 +591,15 @@ const App: React.FC = () => {
           break;
         case 'runway-video':
           response = await aiService.getRunwayVideoAssistance(servicePrompt);
+          break;
+        case 'excel-helper':
+          response = await aiService.getExcelAssistance(servicePrompt, executionParams.execute);
+          break;
+        case 'word-helper':
+          response = await aiService.getWordAssistance(servicePrompt, executionParams.execute);
+          break;
+        case 'powerpoint-helper':
+          response = await aiService.getPowerPointAssistance(servicePrompt, executionParams.execute);
           break;
         default:
           response = { data: { message: "This service is currently in demo mode. The full integration is coming soon!" } };
@@ -1182,7 +1194,7 @@ const App: React.FC = () => {
                    <span className="text-xl font-black text-gray-900 dark:text-white">{selectedService?.price || 50} Credits</span>
                 </div>
                 <div className="flex space-x-4">
-                  {['elevenlabs', 'tiktok-market', 'whatsapp-biz', 'cloudinary-media', 'runway-video'].includes(selectedService?.id || '') && (
+                  {['elevenlabs', 'tiktok-market', 'whatsapp-biz', 'cloudinary-media', 'runway-video', 'excel-helper', 'word-helper', 'powerpoint-helper'].includes(selectedService?.id || '') && (
                     <button
                       type="button"
                       onClick={() => setExecutionParams({ ...executionParams, execute: true })}
