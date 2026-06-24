@@ -2109,6 +2109,32 @@ def provide_cloudinary_media_assistance(prompt: str) -> str:
     )
     return _provide_gemini_assistance(prompt, system_prompt, "Cloudinary AI Error")
 
+def provide_flutterwave_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Flutterwave payments and financial integrations.
+    """
+    system_prompt = (
+        "You are an Elite Flutterwave Payment Specialist and Financial Architect. "
+        "Your expertise covers the Flutterwave API v3, payment orchestration, "
+        "global payouts, and card processing. Provide high-level technical guidance "
+        "on building secure payment flows, handling webhooks, and optimizing "
+        "transaction success rates using Flutterwave."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Flutterwave AI Error")
+
+def provide_twilio_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Twilio communications and programmable messaging.
+    """
+    system_prompt = (
+        "You are an Elite Twilio Communications Architect. Your expertise covers "
+        "Twilio Programmable SMS, WhatsApp Business API via Twilio, and Voice APIs. "
+        "Provide high-level technical guidance on building robust communication "
+        "workflows, managing phone numbers, and ensuring message deliverability "
+        "at scale using Twilio."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Twilio AI Error")
+
 def provide_runway_video_assistance(prompt: str) -> str:
     """
     Expert AI Model for Runway ML and AI Video Generation.
@@ -2268,4 +2294,28 @@ def generate_xero_invoice_data(prompt: str) -> dict:
         "Return ONLY the JSON object."
     )
     response = _provide_gemini_assistance(prompt, system_instruction, "Xero Data Gen Error")
+    return extract_json(response)
+
+def generate_flutterwave_payment_data(prompt: str) -> dict:
+    """
+    Generates structured data for creating a Flutterwave payment link.
+    """
+    system_instruction = (
+        "You are a Flutterwave API Expert. Based on the user prompt, generate a JSON object "
+        "suitable for initializing a Flutterwave payment. The JSON should include 'amount' (float) and 'currency' (default NGN). "
+        "Return ONLY the JSON object."
+    )
+    response = _provide_gemini_assistance(prompt, system_instruction, "Flutterwave Data Gen Error")
+    return extract_json(response)
+
+def generate_twilio_message_data(prompt: str) -> dict:
+    """
+    Generates structured data for sending a Twilio message.
+    """
+    system_instruction = (
+        "You are a Twilio API Expert. Based on the user prompt, generate a JSON object "
+        "suitable for sending a message. The JSON should include 'to_number' and 'message_body'. "
+        "Return ONLY the JSON object."
+    )
+    response = _provide_gemini_assistance(prompt, system_instruction, "Twilio Data Gen Error")
     return extract_json(response)

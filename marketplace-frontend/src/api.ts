@@ -165,6 +165,8 @@ export const aiService = {
   getRunwayVideoAssistance: (prompt: string, execute = false) =>
     apiClient.post('/video/runway', { prompt, execute }),
   getRunwayTaskStatus: (taskId: string) => apiClient.get(`/video/runway/status/${taskId}`),
+  getFlutterwaveAssistance: (prompt: string, execute = false) => apiClient.post('/finance/flutterwave', { prompt, execute }),
+  getTwilioAssistance: (prompt: string, execute = false, isWhatsapp = false) => apiClient.post('/mobile/twilio', { prompt, execute, is_whatsapp: isWhatsapp }),
   getExcelAssistance: (prompt: string, execute = false) => apiClient.post('/business/excel', { prompt, execute }),
   getWordAssistance: (prompt: string, execute = false) => apiClient.post('/business/word', { prompt, execute }),
   getPowerPointAssistance: (prompt: string, execute = false) => apiClient.post('/business/powerpoint', { prompt, execute }),
@@ -216,6 +218,9 @@ export const paymentService = {
   initializePaystack: (amount: number, currency: string, callbackUrl?: string) =>
     apiClient.post('/payment/paystack/initialize', { amount, currency, callback_url: callbackUrl }),
   verifyPaystack: (reference: string) => apiClient.get(`/payment/paystack/verify/${reference}`),
+  initializeFlutterwave: (amount: number, currency: string, callbackUrl?: string) =>
+    apiClient.post('/payment/flutterwave/initialize', { amount, currency, callback_url: callbackUrl }),
+  verifyFlutterwave: (transactionId: number) => apiClient.get(`/payment/flutterwave/verify/${transactionId}`),
 };
 
 export default apiClient;

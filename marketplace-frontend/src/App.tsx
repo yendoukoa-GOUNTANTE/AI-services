@@ -115,6 +115,8 @@ const AI_SERVICES: AIService[] = [
   { id: 'tiktok-market', name: 'TikTok Strategist', category: 'Business', icon: TrendingUp, description: 'Viral content creation and TikTok algorithm optimization expert.' },
   { id: 'whatsapp-biz', name: 'WhatsApp Architect', category: 'Business', icon: Mail, description: 'Elite WhatsApp Business API and conversational commerce specialist.' },
   { id: 'cloudinary-media', name: 'Cloudinary Specialist', category: 'Infrastructure', icon: Image, description: 'Dynamic media management and real-time image/video optimization expert.' },
+  { id: 'flutterwave', name: 'Flutterwave Specialist', category: 'Business', icon: CreditCard, description: 'Elite Flutterwave API integration, payment orchestration, and financial architect.' },
+  { id: 'twilio', name: 'Twilio Architect', category: 'Business', icon: Smartphone, description: 'Elite Twilio programmable messaging, SMS, and WhatsApp API specialist.' },
   { id: 'calendly', name: 'Calendly Specialist', category: 'Business', icon: Settings, description: 'Elite Calendly scheduling, event management, and API integration expert.' },
   { id: 'runway-video', name: 'Runway Video Gen', category: 'Arts', icon: Video, description: 'Next-generation AI video generation powered by Runway ML Gen-3.' },
   { id: 'excel-helper', name: 'Excel Specialist', category: 'Business', icon: Database, description: 'Elite Excel formulas, data analysis, and automated spreadsheet generation.' },
@@ -593,6 +595,12 @@ const App: React.FC = () => {
           break;
         case 'cloudinary-media':
           response = await aiService.getCloudinaryMediaAssistance(servicePrompt);
+          break;
+        case 'flutterwave':
+          response = await aiService.getFlutterwaveAssistance(servicePrompt, executionParams.execute);
+          break;
+        case 'twilio':
+          response = await aiService.getTwilioAssistance(servicePrompt, executionParams.execute, executionParams.is_whatsapp);
           break;
         case 'runway-video':
           response = await aiService.getRunwayVideoAssistance(servicePrompt);
@@ -1109,6 +1117,7 @@ const App: React.FC = () => {
                    </div>
                 </div>
              )}
+
           </div>
         )}
       </main>
@@ -1121,6 +1130,30 @@ const App: React.FC = () => {
       >
         {!serviceResponse ? (
           <form onSubmit={handleServiceExecution} className="space-y-8">
+             {selectedService?.id === 'twilio' && (
+                <div className="bg-gray-50 dark:bg-white/5 p-6 rounded-2xl border border-gray-100 dark:border-white/5">
+                   <label className="block text-xs font-black text-gray-400 uppercase tracking-widest mb-4">Messaging Channel</label>
+                   <div className="grid grid-cols-2 gap-4">
+                      <button
+                        type="button"
+                        onClick={() => setExecutionParams({ ...executionParams, is_whatsapp: false })}
+                        className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center space-y-2 ${!executionParams.is_whatsapp ? 'bg-blue-600 text-white border-blue-600 shadow-lg' : 'bg-white dark:bg-white/5 text-gray-500 border-gray-100 dark:border-white/5 hover:border-blue-200'}`}
+                      >
+                         <Mail size={24} />
+                         <span className="text-xs font-black">SMS</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setExecutionParams({ ...executionParams, is_whatsapp: true })}
+                        className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center space-y-2 ${executionParams.is_whatsapp ? 'bg-blue-600 text-white border-blue-600 shadow-lg' : 'bg-white dark:bg-white/5 text-gray-500 border-gray-100 dark:border-white/5 hover:border-blue-200'}`}
+                      >
+                         <Smartphone size={24} />
+                         <span className="text-xs font-black">WhatsApp</span>
+                      </button>
+                   </div>
+                </div>
+             )}
+
              {selectedService?.id === 'marketing' && (
                 <div className="bg-gray-50 dark:bg-white/5 p-6 rounded-2xl border border-gray-100 dark:border-white/5">
                    <label className="block text-xs font-black text-gray-400 uppercase tracking-widest mb-4">Service Mode</label>
@@ -1202,7 +1235,7 @@ const App: React.FC = () => {
                    <span className="text-xl font-black text-gray-900 dark:text-white">{selectedService?.price || 50} Credits</span>
                 </div>
                 <div className="flex space-x-4">
-                  {['elevenlabs', 'tiktok-market', 'whatsapp-biz', 'cloudinary-media', 'runway-video', 'excel-helper', 'word-helper', 'powerpoint-helper', 'calendly', 'xero-specialist', 'notion-architect'].includes(selectedService?.id || '') && (
+                  {['elevenlabs', 'tiktok-market', 'whatsapp-biz', 'cloudinary-media', 'runway-video', 'excel-helper', 'word-helper', 'powerpoint-helper', 'calendly', 'xero-specialist', 'notion-architect', 'flutterwave', 'twilio'].includes(selectedService?.id || '') && (
                     <button
                       type="button"
                       onClick={() => setExecutionParams({ ...executionParams, execute: true })}
