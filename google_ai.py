@@ -2222,3 +2222,50 @@ def provide_calendly_assistance(prompt: str) -> str:
         "a professional booking experience."
     )
     return _provide_gemini_assistance(prompt, system_prompt, "Calendly AI Error")
+
+def extract_json(response: str) -> dict:
+    """
+    Extracts a JSON object from a string response.
+    """
+    try:
+        json_match = re.search(r'\{.*\}', response, re.DOTALL)
+        if json_match:
+            return json.loads(json_match.group(0))
+        return {}
+    except:
+        return {}
+
+def provide_notion_assistance(prompt: str) -> str:
+    """
+    Provides Notion workspace design and automation assistance.
+    """
+    system_instruction = (
+        "You are a Notion Architect. You are an expert in workspace design, database architecture, "
+        "and Notion API automation. Provide elite advice on how to structure Notion for maximum productivity."
+    )
+    return _provide_gemini_assistance(prompt, system_instruction, "Notion AI Error")
+
+def generate_notion_page_data(prompt: str) -> dict:
+    """
+    Generates structured data for creating a Notion page.
+    """
+    system_instruction = (
+        "You are a Notion Automation Expert. Based on the user prompt, generate a JSON object "
+        "suitable for creating a Notion page using the notion-client library. "
+        "The JSON should include 'title' (string) and 'content_blocks' (list of Notion block objects). "
+        "Return ONLY the JSON object."
+    )
+    response = _provide_gemini_assistance(prompt, system_instruction, "Notion Data Gen Error")
+    return extract_json(response)
+
+def generate_xero_invoice_data(prompt: str) -> dict:
+    """
+    Generates structured data for creating a Xero invoice.
+    """
+    system_instruction = (
+        "You are a Xero API Expert. Based on the user prompt, generate a JSON object "
+        "suitable for creating a Xero invoice. The JSON should include 'contact_name', 'amount' (float), and 'description'. "
+        "Return ONLY the JSON object."
+    )
+    response = _provide_gemini_assistance(prompt, system_instruction, "Xero Data Gen Error")
+    return extract_json(response)
