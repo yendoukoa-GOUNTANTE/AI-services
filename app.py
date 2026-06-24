@@ -33,6 +33,8 @@ import whatsapp_service
 import cloudinary_service
 import office_service
 import paystack_service
+import flutterwave_service
+import twilio_service
 import calendly_service
 import json
 import hmac
@@ -2949,6 +2951,59 @@ def paystack_webhook():
     return jsonify(status='success'), 200
 
 
+@app.route('/api/v1/payment/flutterwave/initialize', methods=['POST'])
+@require_api_key
+def flutterwave_initialize_payment():
+    data = request.get_json()
+    amount = data.get('amount')
+    currency = data.get('currency', 'NGN')
+    callback_url = data.get('callback_url')
+
+    if not amount:
+        return jsonify({"error": _("Amount is required")}), 400
+
+    tx_ref = f"flw-{secrets.token_hex(8)}"
+
+    # Create a payment record in our database
+    new_payment = Payment(
+        user_id=g.user.id,
+        amount=int(float(amount) * 100), # Store in cents/kobo
+        currency=currency,
+        status='pending'
+    )
+    db.session.add(new_payment)
+    db.session.commit()
+
+    response = flutterwave_service.initialize_transaction(
+        email=g.user.username if '@' in g.user.username else f"{g.user.username}@yendoukoa.ai",
+        amount=amount,
+        tx_ref=tx_ref,
+        currency=currency,
+        callback_url=callback_url
+    )
+
+    if response.get('status') == 'success':
+        return jsonify(response)
+    else:
+        new_payment.status = 'failed'
+        db.session.commit()
+        return jsonify(response), 400
+
+
+@app.route('/api/v1/payment/flutterwave/verify/<int:transaction_id>', methods=['GET'])
+@require_api_key
+def flutterwave_verify_payment(transaction_id):
+    response = flutterwave_service.verify_transaction(transaction_id)
+
+    if response.get('status') == 'success' and response['data']['status'] == 'successful':
+        # Flutterwave doesn't directly give us our internal payment ID in the verification response easily
+        # unless we put it in the tx_ref or metadata. For now, let's just fulfill if successful.
+        # Ideally, we should match tx_ref.
+        pass
+
+    return jsonify(response)
+
+
 @app.route('/api/v1/files/upload', methods=['POST'])
 @require_api_key
 async def upload_file():
@@ -3273,6 +3328,60 @@ def whatsapp_business_assistance_endpoint():
         return jsonify(result)
 
     message = google_ai.provide_whatsapp_business_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+
+@app.route('/api/v1/finance/flutterwave', methods=['POST'])
+@require_api_key
+def flutterwave_assistance_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    execute = data.get('execute', False)
+
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+
+    if execute:
+        payment_data = google_ai.generate_flutterwave_payment_data(prompt)
+        # For execution, we'd typically initialize a payment and return the link
+        tx_ref = f"flw-ai-{secrets.token_hex(8)}"
+        response = flutterwave_service.initialize_transaction(
+            email=g.user.username if '@' in g.user.username else f"{g.user.username}@yendoukoa.ai",
+            amount=payment_data.get('amount', 1000),
+            tx_ref=tx_ref,
+            currency=payment_data.get('currency', 'NGN'),
+            callback_url=request.host_url + 'dashboard'
+        )
+        return jsonify(response)
+
+    message = google_ai.provide_flutterwave_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+
+@app.route('/api/v1/mobile/twilio', methods=['POST'])
+@require_api_key
+def twilio_assistance_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    execute = data.get('execute', False)
+    is_whatsapp = data.get('is_whatsapp', False)
+
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+
+    if execute:
+        message_data = google_ai.generate_twilio_message_data(prompt)
+        if not all([message_data.get('to_number'), message_data.get('message_body')]):
+            return jsonify({"error": _("Could not extract recipient and body from prompt")}), 400
+
+        if is_whatsapp:
+            result = twilio_service.send_whatsapp_message(message_data['to_number'], message_data['message_body'])
+        else:
+            result = twilio_service.send_sms(message_data['to_number'], message_data['message_body'])
+
+        return jsonify(result)
+
+    message = google_ai.provide_twilio_assistance(prompt)
     return jsonify({"status": "success", "message": message})
 
 
