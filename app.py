@@ -23,6 +23,8 @@ from facebook_business.exceptions import FacebookRequestError
 import firebase_admin
 from firebase_admin import credentials, messaging
 import google_ai
+import notion_service
+import xero_service
 import mailchimp_service
 import elevenlabs_service
 import runway_service
@@ -1328,9 +1330,72 @@ def togo_assistance_endpoint():
 def xero_assistance_endpoint():
     data = request.get_json()
     prompt = data.get('prompt')
+    execute = data.get('execute', False)
     if not prompt:
         return jsonify({"error": _("Prompt is required")}), 400
+
+    if execute:
+        # Generate structured data for Xero
+        invoice_data = google_ai.generate_xero_invoice_data(prompt)
+        if not invoice_data or 'contact_name' not in invoice_data:
+            return jsonify({"error": _("Could not generate valid Xero invoice data from prompt")}), 400
+
+        # Step 1: Create or get contact (Simplified: we use search or create)
+        # For simplicity, we just try to create a contact
+        contact_res = xero_service.create_contact(invoice_data['contact_name'])
+        if 'error' in contact_res:
+            return jsonify({"error": _("Xero Contact Error: %(error)s", error=contact_res['error'])}), 400
+
+        contact_id = contact_res['contact']['contact_id']
+
+        # Step 2: Create invoice
+        invoice_res = xero_service.create_invoice(
+            contact_id,
+            invoice_data.get('amount', 0),
+            invoice_data.get('description', 'AI Generated Invoice')
+        )
+        if 'error' in invoice_res:
+            return jsonify({"error": _("Xero Invoice Error: %(error)s", error=invoice_res['error'])}), 400
+
+        message = _("Successfully executed Xero action: Invoice created for %(contact)s. Details: %(details)s",
+                    contact=invoice_data['contact_name'], details=str(invoice_res['invoice']))
+        return jsonify({"status": "success", "message": message, "invoice": invoice_res['invoice']})
+
     message = google_ai.provide_xero_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+@app.route('/api/v1/notion/assistance', methods=['POST'])
+@require_api_key
+def notion_assistance_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    execute = data.get('execute', False)
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+
+    if execute:
+        # Generate structured data for Notion
+        notion_data = google_ai.generate_notion_page_data(prompt)
+        if not notion_data or 'title' not in notion_data:
+            return jsonify({"error": _("Could not generate valid Notion data from prompt")}), 400
+
+        parent_page_id = data.get('parent_page_id') or os.environ.get("NOTION_DEFAULT_PAGE_ID")
+        if not parent_page_id:
+             return jsonify({"error": _("Parent Page ID is required for Notion execution")}), 400
+
+        result = notion_service.create_page(
+            parent_page_id,
+            notion_data['title'],
+            notion_data.get('content_blocks')
+        )
+
+        if 'error' in result:
+            return jsonify({"error": _("Notion Execution Error: %(error)s", error=result['error'])}), 400
+
+        message = _("Successfully executed Notion action: Page '%(title)s' created.", title=notion_data['title'])
+        return jsonify({"status": "success", "message": message, "page": result['page']})
+
+    message = google_ai.provide_notion_assistance(prompt)
     return jsonify({"status": "success", "message": message})
 
 @app.route('/api/v1/government/policy', methods=['POST'])
@@ -2436,6 +2501,20 @@ async def execute_agent():
         db.session.add(purchase)
         db.session.commit()
 
+        # Monetization Enhancement: Log to Notion if configured
+        notion_db_id = os.environ.get("NOTION_MONETIZATION_DB_ID")
+        if notion_db_id:
+            try:
+                notion_service.add_to_database(notion_db_id, {
+                    "Item": {"title": [{"text": {"content": f"Agent: {agent.name}"}}]},
+                    "Type": {"select": {"name": "Agent Execution"}},
+                    "User": {"rich_text": [{"text": {"content": g.user.username}}]},
+                    "Amount": {"number": agent.price_per_use},
+                    "Date": {"date": {"start": time.strftime("%Y-%m-%d")}}
+                })
+            except:
+                pass # Non-blocking
+
         return jsonify(agent_result)
     except Exception as e:
         db.session.rollback()
@@ -2470,6 +2549,20 @@ def purchase_design():
         purchase = Purchase(user_id=g.user.id, item_type='design', item_id=design.id, amount=design.price)
         db.session.add(purchase)
         db.session.commit()
+
+        # Monetization Enhancement: Log to Notion if configured
+        notion_db_id = os.environ.get("NOTION_MONETIZATION_DB_ID")
+        if notion_db_id:
+            try:
+                notion_service.add_to_database(notion_db_id, {
+                    "Item": {"title": [{"text": {"content": f"Design: {design.name}"}}]},
+                    "Type": {"select": {"name": "Design Purchase"}},
+                    "User": {"rich_text": [{"text": {"content": g.user.username}}]},
+                    "Amount": {"number": design.price},
+                    "Date": {"date": {"start": time.strftime("%Y-%m-%d")}}
+                })
+            except:
+                pass # Non-blocking
 
         return jsonify({
             "status": "success",
