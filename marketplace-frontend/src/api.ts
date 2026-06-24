@@ -163,6 +163,14 @@ export const aiService = {
   getRunwayVideoAssistance: (prompt: string, execute = false) =>
     apiClient.post('/video/runway', { prompt, execute }),
   getRunwayTaskStatus: (taskId: string) => apiClient.get(`/video/runway/status/${taskId}`),
+  getFlutterwaveAssistance: (prompt: string, execute = false, email?: string, amount?: number) =>
+    apiClient.post('/finance/flutterwave', { prompt, execute, email, amount }),
+  getNotionAssistance: (prompt: string, execute = false, pageId?: string, title?: string) =>
+    apiClient.post('/productivity/notion', { prompt, execute, page_id: pageId, title }),
+  getQuickBooksAssistance: (prompt: string, execute = false) =>
+    apiClient.post('/business/quickbooks', { prompt, execute }),
+  getTwilioAssistance: (prompt: string, execute = false, toNumber?: string) =>
+    apiClient.post('/communication/twilio', { prompt, execute, to_number: toNumber }),
   getExcelAssistance: (prompt: string, execute = false) => apiClient.post('/business/excel', { prompt, execute }),
   getWordAssistance: (prompt: string, execute = false) => apiClient.post('/business/word', { prompt, execute }),
   getPowerPointAssistance: (prompt: string, execute = false) => apiClient.post('/business/powerpoint', { prompt, execute }),

@@ -115,6 +115,10 @@ const AI_SERVICES: AIService[] = [
   { id: 'whatsapp-biz', name: 'WhatsApp Architect', category: 'Business', icon: Mail, description: 'Elite WhatsApp Business API and conversational commerce specialist.' },
   { id: 'cloudinary-media', name: 'Cloudinary Specialist', category: 'Infrastructure', icon: Image, description: 'Dynamic media management and real-time image/video optimization expert.' },
   { id: 'runway-video', name: 'Runway Video Gen', category: 'Arts', icon: Video, description: 'Next-generation AI video generation powered by Runway ML Gen-3.' },
+  { id: 'flutterwave', name: 'Flutterwave Expert', category: 'Business', icon: CreditCard, description: 'Elite Flutterwave API integration and global payment strategy specialist.' },
+  { id: 'notion', name: 'Notion Architect', category: 'Business', icon: FileText, description: 'Expert Notion API integration and automated productivity workflow designer.' },
+  { id: 'quickbooks', name: 'QuickBooks Specialist', category: 'Business', icon: Database, description: 'Elite QuickBooks Online integration and financial automation architect.' },
+  { id: 'twilio', name: 'Twilio Specialist', category: 'Advanced', icon: Mail, description: 'Expert Twilio API integration for SMS, Voice, and WhatsApp communication.' },
   { id: 'excel-helper', name: 'Excel Specialist', category: 'Business', icon: Database, description: 'Elite Excel formulas, data analysis, and automated spreadsheet generation.' },
   { id: 'word-helper', name: 'Word Architect', category: 'Business', icon: FileText, description: 'Professional document design, template creation, and automated Word generation.' },
   { id: 'powerpoint-helper', name: 'PPT Strategist', category: 'Business', icon: Layout, description: 'Compelling presentation storyboarding and automated PowerPoint generation.' }
@@ -591,6 +595,18 @@ const App: React.FC = () => {
           break;
         case 'runway-video':
           response = await aiService.getRunwayVideoAssistance(servicePrompt);
+          break;
+        case 'flutterwave':
+          response = await aiService.getFlutterwaveAssistance(servicePrompt, executionParams.execute, executionParams.email, executionParams.amount);
+          break;
+        case 'notion':
+          response = await aiService.getNotionAssistance(servicePrompt, executionParams.execute, executionParams.page_id, executionParams.title);
+          break;
+        case 'quickbooks':
+          response = await aiService.getQuickBooksAssistance(servicePrompt, executionParams.execute);
+          break;
+        case 'twilio':
+          response = await aiService.getTwilioAssistance(servicePrompt, executionParams.execute, executionParams.to_number);
           break;
         case 'excel-helper':
           response = await aiService.getExcelAssistance(servicePrompt, executionParams.execute);
@@ -1137,6 +1153,59 @@ const App: React.FC = () => {
                 </div>
              )}
 
+             {selectedService?.id === 'flutterwave' && (
+                <div className="bg-gray-50 dark:bg-white/5 p-6 rounded-2xl border border-gray-100 dark:border-white/5 space-y-4">
+                   <label className="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2">Payment Details</label>
+                   <input
+                      type="email"
+                      className="w-full bg-white dark:bg-white/10 border border-gray-200 dark:border-white/5 rounded-xl p-3 text-sm dark:text-white"
+                      placeholder="Customer Email"
+                      value={executionParams.email || ''}
+                      onChange={(e) => setExecutionParams({ ...executionParams, email: e.target.value })}
+                   />
+                   <input
+                      type="number"
+                      className="w-full bg-white dark:bg-white/10 border border-gray-200 dark:border-white/5 rounded-xl p-3 text-sm dark:text-white"
+                      placeholder="Amount (USD)"
+                      value={executionParams.amount || ''}
+                      onChange={(e) => setExecutionParams({ ...executionParams, amount: parseFloat(e.target.value) })}
+                   />
+                </div>
+             )}
+
+             {selectedService?.id === 'notion' && (
+                <div className="bg-gray-50 dark:bg-white/5 p-6 rounded-2xl border border-gray-100 dark:border-white/5 space-y-4">
+                   <label className="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2">Notion Configuration</label>
+                   <input
+                      type="text"
+                      className="w-full bg-white dark:bg-white/10 border border-gray-200 dark:border-white/5 rounded-xl p-3 text-sm dark:text-white"
+                      placeholder="Parent Page ID"
+                      value={executionParams.page_id || ''}
+                      onChange={(e) => setExecutionParams({ ...executionParams, page_id: e.target.value })}
+                   />
+                   <input
+                      type="text"
+                      className="w-full bg-white dark:bg-white/10 border border-gray-200 dark:border-white/5 rounded-xl p-3 text-sm dark:text-white"
+                      placeholder="New Page Title"
+                      value={executionParams.title || ''}
+                      onChange={(e) => setExecutionParams({ ...executionParams, title: e.target.value })}
+                   />
+                </div>
+             )}
+
+             {selectedService?.id === 'twilio' && (
+                <div className="bg-gray-50 dark:bg-white/5 p-6 rounded-2xl border border-gray-100 dark:border-white/5 space-y-4">
+                   <label className="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2">SMS Details</label>
+                   <input
+                      type="tel"
+                      className="w-full bg-white dark:bg-white/10 border border-gray-200 dark:border-white/5 rounded-xl p-3 text-sm dark:text-white"
+                      placeholder="To Number (e.g., +1234567890)"
+                      value={executionParams.to_number || ''}
+                      onChange={(e) => setExecutionParams({ ...executionParams, to_number: e.target.value })}
+                   />
+                </div>
+             )}
+
              {(selectedService?.id === 'visual-intel' || selectedService?.category === 'Advanced') && (
                 <div>
                    <label className="block text-xs font-black text-gray-400 uppercase tracking-widest mb-4">Multimodal Input</label>
@@ -1194,7 +1263,7 @@ const App: React.FC = () => {
                    <span className="text-xl font-black text-gray-900 dark:text-white">{selectedService?.price || 50} Credits</span>
                 </div>
                 <div className="flex space-x-4">
-                  {['elevenlabs', 'tiktok-market', 'whatsapp-biz', 'cloudinary-media', 'runway-video', 'excel-helper', 'word-helper', 'powerpoint-helper'].includes(selectedService?.id || '') && (
+                  {['elevenlabs', 'tiktok-market', 'whatsapp-biz', 'cloudinary-media', 'runway-video', 'excel-helper', 'word-helper', 'powerpoint-helper', 'flutterwave', 'notion', 'quickbooks', 'twilio'].includes(selectedService?.id || '') && (
                     <button
                       type="button"
                       onClick={() => setExecutionParams({ ...executionParams, execute: true })}

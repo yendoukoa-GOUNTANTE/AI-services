@@ -31,6 +31,10 @@ import whatsapp_service
 import cloudinary_service
 import office_service
 import paystack_service
+import flutterwave_service
+import notion_service
+import quickbooks_service
+import twilio_service
 import json
 import hmac
 import hashlib
@@ -3232,6 +3236,89 @@ def runway_video_assistance_endpoint():
         return jsonify(result)
 
     message = google_ai.provide_runway_video_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+
+@app.route('/api/v1/finance/flutterwave', methods=['POST'])
+@require_api_key
+def flutterwave_assistance_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    execute = data.get('execute', False)
+    email = data.get('email')
+    amount = data.get('amount')
+
+    if not prompt and not execute:
+        return jsonify({"error": _("Prompt or execute flag is required")}), 400
+
+    if execute:
+        if not email or not amount:
+            return jsonify({"error": _("Email and amount are required for execution")}), 400
+        result = flutterwave_service.initialize_transaction(email, amount)
+        return jsonify(result)
+
+    message = google_ai.provide_flutterwave_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+
+@app.route('/api/v1/productivity/notion', methods=['POST'])
+@require_api_key
+def notion_assistance_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    execute = data.get('execute', False)
+    page_id = data.get('page_id')
+    title = data.get('title')
+
+    if not prompt and not execute:
+        return jsonify({"error": _("Prompt or execute flag is required")}), 400
+
+    if execute:
+        if not page_id or not title:
+            return jsonify({"error": _("Page ID and title are required for execution")}), 400
+        result = notion_service.create_page(page_id, title)
+        return jsonify(result)
+
+    message = google_ai.provide_notion_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+
+@app.route('/api/v1/business/quickbooks', methods=['POST'])
+@require_api_key
+def quickbooks_assistance_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    execute = data.get('execute', False)
+
+    if not prompt and not execute:
+        return jsonify({"error": _("Prompt or execute flag is required")}), 400
+
+    if execute:
+        result = quickbooks_service.get_quickbooks_info()
+        return jsonify(result)
+
+    message = google_ai.provide_quickbooks_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+
+@app.route('/api/v1/communication/twilio', methods=['POST'])
+@require_api_key
+def twilio_assistance_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    execute = data.get('execute', False)
+    to_number = data.get('to_number')
+
+    if not prompt and not execute:
+        return jsonify({"error": _("Prompt or execute flag is required")}), 400
+
+    if execute:
+        if not to_number:
+            return jsonify({"error": _("To number is required for execution")}), 400
+        result = twilio_service.send_sms(to_number, prompt)
+        return jsonify(result)
+
+    message = google_ai.provide_twilio_assistance(prompt)
     return jsonify({"status": "success", "message": message})
 
 @app.route('/api/v1/business/excel', methods=['POST'])

@@ -2208,3 +2208,55 @@ def generate_pptx_data(prompt: str) -> dict:
         return {"title": "AI Presentation", "slides": [{"title": "Overview", "content": prompt}]}
     except:
         return {"title": "AI Presentation", "slides": [{"title": "Overview", "content": prompt}]}
+
+def provide_flutterwave_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Flutterwave payments and financial technology.
+    """
+    system_prompt = (
+        "You are an Elite Flutterwave Specialist and Fintech Architect. Your expertise covers "
+        "the Flutterwave API, global payment processing, handling multiple currencies, and "
+        "integrating Flutterwave for e-commerce and digital services. Provide high-level "
+        "technical guidance on transaction initialization, verification, handling webhooks, "
+        "and optimizing checkout experiences for global markets."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Flutterwave AI Error")
+
+def provide_notion_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Notion API and productivity workflows.
+    """
+    system_prompt = (
+        "You are an Elite Notion Architect and Productivity Specialist. Your expertise covers "
+        "the Notion API, database design, creating complex page structures via API, and "
+        "automating organizational workflows. Provide high-level technical guidance on "
+        "managing blocks, querying databases, and integrating Notion with other tools to "
+        "build powerful internal knowledge bases and task management systems."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Notion AI Error")
+
+def provide_quickbooks_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for QuickBooks API and financial management.
+    """
+    system_prompt = (
+        "You are an Elite QuickBooks Specialist and Financial Architect. Your expertise covers "
+        "the QuickBooks Online API, managing accounting entities (invoices, expenses, customers), "
+        "and automating financial reporting. Provide high-level technical guidance on "
+        "OAuth2 authentication, API integration best practices, and streamlining business "
+        "finances through programmatic interaction with QuickBooks."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "QuickBooks AI Error")
+
+def provide_twilio_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Twilio API and communication platforms.
+    """
+    system_prompt = (
+        "You are an Elite Twilio Specialist and Communication Architect. Your expertise covers "
+        "Twilio SMS, Voice, WhatsApp Business API, and SendGrid email delivery. Provide "
+        "high-level technical guidance on programmatic messaging, handling incoming "
+        "communications via webhooks, and building robust, scalable communication "
+        "infrastructures for apps and services."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Twilio AI Error")
