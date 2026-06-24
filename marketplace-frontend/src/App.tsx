@@ -114,6 +114,7 @@ const AI_SERVICES: AIService[] = [
   { id: 'tiktok-market', name: 'TikTok Strategist', category: 'Business', icon: TrendingUp, description: 'Viral content creation and TikTok algorithm optimization expert.' },
   { id: 'whatsapp-biz', name: 'WhatsApp Architect', category: 'Business', icon: Mail, description: 'Elite WhatsApp Business API and conversational commerce specialist.' },
   { id: 'cloudinary-media', name: 'Cloudinary Specialist', category: 'Infrastructure', icon: Image, description: 'Dynamic media management and real-time image/video optimization expert.' },
+  { id: 'calendly', name: 'Calendly Specialist', category: 'Business', icon: Settings, description: 'Elite Calendly scheduling, event management, and API integration expert.' },
   { id: 'runway-video', name: 'Runway Video Gen', category: 'Arts', icon: Video, description: 'Next-generation AI video generation powered by Runway ML Gen-3.' },
   { id: 'excel-helper', name: 'Excel Specialist', category: 'Business', icon: Database, description: 'Elite Excel formulas, data analysis, and automated spreadsheet generation.' },
   { id: 'word-helper', name: 'Word Architect', category: 'Business', icon: FileText, description: 'Professional document design, template creation, and automated Word generation.' },
@@ -600,6 +601,9 @@ const App: React.FC = () => {
           break;
         case 'powerpoint-helper':
           response = await aiService.getPowerPointAssistance(servicePrompt, executionParams.execute);
+          break;
+        case 'calendly':
+          response = await aiService.getCalendlyAssistance(servicePrompt, executionParams.execute);
           break;
         default:
           response = { data: { message: "This service is currently in demo mode. The full integration is coming soon!" } };
@@ -1194,7 +1198,7 @@ const App: React.FC = () => {
                    <span className="text-xl font-black text-gray-900 dark:text-white">{selectedService?.price || 50} Credits</span>
                 </div>
                 <div className="flex space-x-4">
-                  {['elevenlabs', 'tiktok-market', 'whatsapp-biz', 'cloudinary-media', 'runway-video', 'excel-helper', 'word-helper', 'powerpoint-helper'].includes(selectedService?.id || '') && (
+                  {['elevenlabs', 'tiktok-market', 'whatsapp-biz', 'cloudinary-media', 'runway-video', 'excel-helper', 'word-helper', 'powerpoint-helper', 'calendly'].includes(selectedService?.id || '') && (
                     <button
                       type="button"
                       onClick={() => setExecutionParams({ ...executionParams, execute: true })}

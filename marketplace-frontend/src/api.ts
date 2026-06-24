@@ -166,6 +166,10 @@ export const aiService = {
   getExcelAssistance: (prompt: string, execute = false) => apiClient.post('/business/excel', { prompt, execute }),
   getWordAssistance: (prompt: string, execute = false) => apiClient.post('/business/word', { prompt, execute }),
   getPowerPointAssistance: (prompt: string, execute = false) => apiClient.post('/business/powerpoint', { prompt, execute }),
+  getCalendlyAssistance: (prompt: string, execute = false) => apiClient.post('/calendly', { prompt, execute }),
+  getCalendlyMe: () => apiClient.get('/calendly/me'),
+  getCalendlyEventTypes: (userUri?: string) => apiClient.get('/calendly/event_types', { params: { user: userUri } }),
+  getCalendlyEvents: (userUri?: string, count = 10) => apiClient.get('/calendly/events', { params: { user: userUri, count } }),
 };
 
 export const userService = {
