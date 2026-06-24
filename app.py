@@ -31,6 +31,7 @@ import whatsapp_service
 import cloudinary_service
 import office_service
 import paystack_service
+import calendly_service
 import json
 import hmac
 import hashlib
@@ -3232,6 +3233,55 @@ def runway_video_assistance_endpoint():
         return jsonify(result)
 
     message = google_ai.provide_runway_video_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+@app.route('/api/v1/calendly/me', methods=['GET'])
+@require_api_key
+def calendly_get_me_endpoint():
+    result = calendly_service.get_user_info()
+    if "error" in result:
+        return jsonify(result), 500
+    return jsonify(result)
+
+@app.route('/api/v1/calendly/event_types', methods=['GET'])
+@require_api_key
+def calendly_list_event_types_endpoint():
+    user_uri = request.args.get('user')
+    result = calendly_service.list_event_types(user_uri)
+    if "error" in result:
+        return jsonify(result), 500
+    return jsonify(result)
+
+@app.route('/api/v1/calendly/events', methods=['GET'])
+@require_api_key
+def calendly_list_events_endpoint():
+    user_uri = request.args.get('user')
+    count = request.args.get('count', 10, type=int)
+    result = calendly_service.list_scheduled_events(user_uri, count)
+    if "error" in result:
+        return jsonify(result), 500
+    return jsonify(result)
+
+@app.route('/api/v1/calendly', methods=['POST'])
+@require_api_key
+def calendly_assistance_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    execute = data.get('execute', False)
+
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+
+    if execute:
+        # For now, "execute" on Calendly just returns user info and event types as context
+        user_info = calendly_service.get_user_info()
+        event_types = calendly_service.list_event_types()
+
+        context = f"Calendly User Info: {user_info}\nCalendly Event Types: {event_types}"
+        message = google_ai.provide_calendly_assistance(f"Context: {context}\n\nUser Question: {prompt}")
+        return jsonify({"status": "success", "message": message})
+
+    message = google_ai.provide_calendly_assistance(prompt)
     return jsonify({"status": "success", "message": message})
 
 @app.route('/api/v1/business/excel', methods=['POST'])

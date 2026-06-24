@@ -2208,3 +2208,17 @@ def generate_pptx_data(prompt: str) -> dict:
         return {"title": "AI Presentation", "slides": [{"title": "Overview", "content": prompt}]}
     except:
         return {"title": "AI Presentation", "slides": [{"title": "Overview", "content": prompt}]}
+
+def provide_calendly_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Calendly scheduling, event management, and API integrations.
+    """
+    system_prompt = (
+        "You are an Elite Calendly Specialist and Scheduling Architect. Your expertise covers "
+        "optimizing scheduling workflows, managing event types, and integrating Calendly with "
+        "other business tools and websites. Provide high-level technical guidance on "
+        "setting up event types, automating reminders, and using the Calendly API v2 "
+        "for seamless integration into user applications. Focus on efficiency and providing "
+        "a professional booking experience."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Calendly AI Error")
