@@ -2319,3 +2319,53 @@ def generate_twilio_message_data(prompt: str) -> dict:
     )
     response = _provide_gemini_assistance(prompt, system_instruction, "Twilio Data Gen Error")
     return extract_json(response)
+
+def provide_airtable_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Airtable API, database design, and automation.
+    """
+    system_prompt = (
+        "You are an Elite Airtable Architect and Database Designer. "
+        "Your expertise covers Airtable's API, base architecture, formulas, "
+        "automations, and interfaces. Provide high-level technical guidance "
+        "on designing efficient relational databases in Airtable and integrating "
+        "them with other applications."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Airtable AI Error")
+
+def generate_airtable_record_data(prompt: str) -> dict:
+    """
+    Generates structured data for creating an Airtable record.
+    """
+    system_instruction = (
+        "You are an Airtable Automation Expert. Based on the user prompt, generate a JSON object "
+        "suitable for creating an Airtable record. The JSON should include 'table_name' and 'fields' (a dictionary of field names and values). "
+        "Return ONLY the JSON object."
+    )
+    response = _provide_gemini_assistance(prompt, system_instruction, "Airtable Data Gen Error")
+    return extract_json(response)
+
+def provide_quickbooks_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for QuickBooks API, accounting workflows, and financial integrations.
+    """
+    system_prompt = (
+        "You are an Elite QuickBooks Specialist and Financial Architect. "
+        "Your expertise covers the QuickBooks Online API, OAuth 2.0, "
+        "accounting workflows (invoices, expenses, customers, reports), and "
+        "financial data management. Provide high-level technical guidance on "
+        "integrating QuickBooks into business systems and automating financial processes."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "QuickBooks AI Error")
+
+def generate_quickbooks_invoice_data(prompt: str) -> dict:
+    """
+    Generates structured data for creating a QuickBooks invoice.
+    """
+    system_instruction = (
+        "You are a QuickBooks API Expert. Based on the user prompt, generate a JSON object "
+        "suitable for creating a QuickBooks invoice. The JSON should include 'customer_name', 'amount' (float), and 'description'. "
+        "Return ONLY the JSON object."
+    )
+    response = _provide_gemini_assistance(prompt, system_instruction, "QuickBooks Data Gen Error")
+    return extract_json(response)

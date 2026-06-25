@@ -103,6 +103,8 @@ export const aiService = {
   getGovernmentAssistance: (prompt: string) => apiClient.post('/government/assistance', { prompt }),
   getTogoAssistance: (prompt: string) => apiClient.post('/togo/assistance', { prompt }),
   getXeroAssistance: (prompt: string, execute = false) => apiClient.post('/xero/assistance', { prompt, execute }),
+  getQuickBooksAssistance: (prompt: string, execute = false) => apiClient.post('/finance/quickbooks/assistance', { prompt, execute }),
+  getAirtableAssistance: (prompt: string, execute = false) => apiClient.post('/database/airtable/assistance', { prompt, execute }),
   getNotionAssistance: (prompt: string, execute = false, parentPageId?: string) =>
     apiClient.post('/notion/assistance', { prompt, execute, parent_page_id: parentPageId }),
   getPublicPolicyAssistance: (prompt: string) => apiClient.post('/government/policy', { prompt }),
