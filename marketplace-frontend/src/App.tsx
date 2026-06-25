@@ -34,6 +34,9 @@ const AI_SERVICES: AIService[] = [
   { id: 'cyber-sentinel', name: 'Cybersecurity Sentinel', category: 'Security', icon: ShieldCheck, description: 'Elite security audits, penetration testing guidance, and real-time threat intelligence.' },
   { id: 'togo-gov', name: 'Togo Public Service', category: 'Public', icon: Building2, description: 'Elite AI for Togolese public services, government administration, and national security.' },
   { id: 'xero-specialist', name: 'Xero Specialist', category: 'Business', icon: CreditCard, description: 'Elite Xero API integration, accounting workflows, and financial automation expert.' },
+  { id: 'quickbooks-specialist', name: 'QuickBooks Expert', category: 'Business', icon: CreditCard, description: 'Elite QuickBooks Online API integration and financial automation specialist.' },
+  { id: 'wave-specialist', name: 'Wave Specialist', category: 'Business', icon: DollarSign, description: 'Elite Wave Accounting API integration and GraphQL automation expert.' },
+  { id: 'airtable-specialist', name: 'Airtable Architect', category: 'Advanced', icon: Database, description: 'Elite Airtable API integration and relational database automation specialist.' },
   { id: 'notion-architect', name: 'Notion Architect', category: 'Business', icon: Layout, description: 'Elite Notion workspace design, database architecture, and API automation expert.' },
   { id: 'llama-intel', name: 'Llama 3.1 Intelligence', category: 'Advanced', icon: Brain, description: 'Deep reasoning and data-driven insights powered by Meta Llama 3.1 405B.' },
   { id: 'langflow', name: 'Langflow Executor', category: 'Advanced', icon: Zap, description: 'Execute complex AI workflows using Langflow.' },
@@ -488,6 +491,15 @@ const App: React.FC = () => {
           break;
         case 'xero-specialist':
           response = await aiService.getXeroAssistance(servicePrompt, executionParams.execute);
+          break;
+        case 'quickbooks-specialist':
+          response = await aiService.getQuickBooksAssistance(servicePrompt, executionParams.execute);
+          break;
+        case 'wave-specialist':
+          response = await aiService.getWaveAssistance(servicePrompt, executionParams.execute);
+          break;
+        case 'airtable-specialist':
+          response = await aiService.getAirtableAssistance(servicePrompt, executionParams.execute);
           break;
         case 'notion-architect':
           response = await aiService.getNotionAssistance(servicePrompt, executionParams.execute, executionParams.parentPageId);
@@ -1202,7 +1214,7 @@ const App: React.FC = () => {
                    <span className="text-xl font-black text-gray-900 dark:text-white">{selectedService?.price || 50} Credits</span>
                 </div>
                 <div className="flex space-x-4">
-                  {['elevenlabs', 'tiktok-market', 'whatsapp-biz', 'cloudinary-media', 'runway-video', 'excel-helper', 'word-helper', 'powerpoint-helper', 'calendly', 'xero-specialist', 'notion-architect'].includes(selectedService?.id || '') && (
+                  {['elevenlabs', 'tiktok-market', 'whatsapp-biz', 'cloudinary-media', 'runway-video', 'excel-helper', 'word-helper', 'powerpoint-helper', 'calendly', 'xero-specialist', 'quickbooks-specialist', 'wave-specialist', 'airtable-specialist', 'notion-architect'].includes(selectedService?.id || '') && (
                     <button
                       type="button"
                       onClick={() => setExecutionParams({ ...executionParams, execute: true })}

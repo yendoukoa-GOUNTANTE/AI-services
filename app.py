@@ -25,6 +25,9 @@ from firebase_admin import credentials, messaging
 import google_ai
 import notion_service
 import xero_service
+import quickbooks_service
+import wave_service
+import airtable_service
 import mailchimp_service
 import elevenlabs_service
 import runway_service
@@ -1362,6 +1365,105 @@ def xero_assistance_endpoint():
         return jsonify({"status": "success", "message": message, "invoice": invoice_res['invoice']})
 
     message = google_ai.provide_xero_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+@app.route('/api/v1/quickbooks/assistance', methods=['POST'])
+@require_api_key
+def quickbooks_assistance_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    execute = data.get('execute', False)
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+
+    if execute:
+        invoice_data = google_ai.generate_quickbooks_invoice_data(prompt)
+        if not invoice_data or 'customer_name' not in invoice_data:
+            return jsonify({"error": _("Could not generate valid QuickBooks data from prompt")}), 400
+
+        customer_res = quickbooks_service.create_customer(invoice_data['customer_name'])
+        if 'error' in customer_res:
+            return jsonify({"error": _("QuickBooks Customer Error: %(error)s", error=customer_res['error'])}), 400
+
+        # Note: QuickBooks API returns the created object, we need to extract ID
+        # The structure depends on the mock/real response, assuming it's in ['Customer']['Id'] or similar
+        customer_id = customer_res['customer'].get('Customer', {}).get('Id')
+        if not customer_id:
+             return jsonify({"error": _("Could not extract QuickBooks Customer ID")}), 500
+
+        invoice_res = quickbooks_service.create_invoice(
+            customer_id,
+            invoice_data.get('amount', 0),
+            invoice_data.get('description', 'AI Generated Invoice')
+        )
+        if 'error' in invoice_res:
+            return jsonify({"error": _("QuickBooks Invoice Error: %(error)s", error=invoice_res['error'])}), 400
+
+        message = _("Successfully executed QuickBooks action: Invoice created for %(customer)s.",
+                    customer=invoice_data['customer_name'])
+        return jsonify({"status": "success", "message": message, "invoice": invoice_res['invoice']})
+
+    message = google_ai.provide_quickbooks_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+@app.route('/api/v1/wave/assistance', methods=['POST'])
+@require_api_key
+def wave_assistance_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    execute = data.get('execute', False)
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+
+    if execute:
+        invoice_data = google_ai.generate_wave_invoice_data(prompt)
+        if not invoice_data or 'customer_name' not in invoice_data:
+            return jsonify({"error": _("Could not generate valid Wave data from prompt")}), 400
+
+        customer_res = wave_service.create_customer(invoice_data['customer_name'])
+        if 'error' in customer_res:
+            return jsonify({"error": _("Wave Customer Error: %(error)s", error=customer_res['error'])}), 400
+
+        customer_id = customer_res['customer']['id']
+
+        invoice_res = wave_service.create_invoice(
+            customer_id,
+            invoice_data.get('amount', 0),
+            invoice_data.get('description', 'AI Generated Invoice')
+        )
+        if 'error' in invoice_res:
+            return jsonify({"error": _("Wave Invoice Error: %(error)s", error=invoice_res['error'])}), 400
+
+        message = _("Successfully executed Wave action: Invoice created for %(customer)s.",
+                    customer=invoice_data['customer_name'])
+        return jsonify({"status": "success", "message": message, "invoice": invoice_res['invoice']})
+
+    message = google_ai.provide_wave_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+@app.route('/api/v1/airtable/assistance', methods=['POST'])
+@require_api_key
+def airtable_assistance_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    execute = data.get('execute', False)
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+
+    if execute:
+        record_data = google_ai.generate_airtable_record_data(prompt)
+        if not record_data or 'table_name' not in record_data or 'fields' not in record_data:
+            return jsonify({"error": _("Could not generate valid Airtable data from prompt")}), 400
+
+        result = airtable_service.create_record(record_data['table_name'], record_data['fields'])
+        if 'error' in result:
+            return jsonify({"error": _("Airtable Error: %(error)s", error=result['error'])}), 400
+
+        message = _("Successfully executed Airtable action: Record created in table '%(table)s'.",
+                    table=record_data['table_name'])
+        return jsonify({"status": "success", "message": message, "record": result['record']})
+
+    message = google_ai.provide_airtable_assistance(prompt)
     return jsonify({"status": "success", "message": message})
 
 @app.route('/api/v1/notion/assistance', methods=['POST'])

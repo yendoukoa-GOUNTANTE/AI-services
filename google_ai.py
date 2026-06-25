@@ -1944,6 +1944,44 @@ def provide_xero_assistance(prompt: str) -> str:
     )
     return _provide_gemini_assistance(prompt, system_prompt, "Xero AI Error")
 
+def provide_quickbooks_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for QuickBooks Online API and financial automation.
+    """
+    system_prompt = (
+        "You are an Elite QuickBooks Specialist and Financial Architect. "
+        "Your expertise covers the QuickBooks Online API, Intuit Developer platform, "
+        "and automating accounting workflows like customer management and invoicing. "
+        "Provide high-level technical guidance on building secure and scalable "
+        "financial integrations with QuickBooks."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "QuickBooks AI Error")
+
+def provide_wave_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Wave Accounting API and GraphQL integrations.
+    """
+    system_prompt = (
+        "You are an Elite Wave Accounting Specialist. Your expertise covers the "
+        "Wave GraphQL API, automating small business accounting, and managing "
+        "customers and invoices via the Wave platform. Provide high-level technical "
+        "guidance on leveraging Wave's API for efficient financial management."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Wave AI Error")
+
+def provide_airtable_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Airtable API and low-code database automation.
+    """
+    system_prompt = (
+        "You are an Elite Airtable Specialist and Database Architect. "
+        "Your expertise covers the Airtable REST API, designing relational databases "
+        "in Airtable, and automating workflows using Airtable's flexible platform. "
+        "Provide high-level technical guidance on building robust and efficient "
+        "database solutions with Airtable."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Airtable AI Error")
+
 def provide_blockchain_sponsoring_assistance(prompt: str) -> str:
     """
     Expert AI Model for Blockchain Sponsoring and Global Currency assistance.
@@ -2268,4 +2306,40 @@ def generate_xero_invoice_data(prompt: str) -> dict:
         "Return ONLY the JSON object."
     )
     response = _provide_gemini_assistance(prompt, system_instruction, "Xero Data Gen Error")
+    return extract_json(response)
+
+def generate_quickbooks_invoice_data(prompt: str) -> dict:
+    """
+    Generates structured data for creating a QuickBooks invoice.
+    """
+    system_instruction = (
+        "You are a QuickBooks Automation Expert. Based on the user prompt, generate a JSON object "
+        "suitable for creating a QuickBooks invoice. The JSON should include 'customer_name', 'amount' (float), and 'description'. "
+        "Return ONLY the JSON object."
+    )
+    response = _provide_gemini_assistance(prompt, system_instruction, "QuickBooks Data Gen Error")
+    return extract_json(response)
+
+def generate_wave_invoice_data(prompt: str) -> dict:
+    """
+    Generates structured data for creating a Wave invoice.
+    """
+    system_instruction = (
+        "You are a Wave Accounting Automation Expert. Based on the user prompt, generate a JSON object "
+        "suitable for creating a Wave invoice. The JSON should include 'customer_name', 'amount' (float), and 'description'. "
+        "Return ONLY the JSON object."
+    )
+    response = _provide_gemini_assistance(prompt, system_instruction, "Wave Data Gen Error")
+    return extract_json(response)
+
+def generate_airtable_record_data(prompt: str) -> dict:
+    """
+    Generates structured data for creating an Airtable record.
+    """
+    system_instruction = (
+        "You are an Airtable Automation Expert. Based on the user prompt, generate a JSON object "
+        "suitable for creating an Airtable record. The JSON should include 'table_name' and 'fields' (a dictionary of field names and values). "
+        "Return ONLY the JSON object."
+    )
+    response = _provide_gemini_assistance(prompt, system_instruction, "Airtable Data Gen Error")
     return extract_json(response)
