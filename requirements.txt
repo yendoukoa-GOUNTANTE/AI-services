@@ -37,3 +37,4 @@ python-pptx
 pandas
 notion-client
 twilio
+pyairtable
