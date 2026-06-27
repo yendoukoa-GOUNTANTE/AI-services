@@ -47,6 +47,9 @@ Yendoukoa AI features a diverse array of specialized agents, each accessible via
 - **Software Engineer:** Professional static website generation (HTML/CSS).
 - **Debugger:** Multi-model code analysis and conflict resolution.
 - **System Analyser:** Infrastructure audit and broken link detection.
+- **OS Kernel Architect:** Elite Yendoukoa OS kernel design and performance optimization.
+- **File System Architect:** Expert in OS file system design and data persistence.
+- **Process Controller:** OS process management and task scheduling specialist.
 - **Fine-Tuning Specialist:** LLM dataset preparation and training guidance.
 - **Antigravity Agent:** Autonomous task execution in secure Linux sandboxes.
 - **GitHub Copilot Expert:** Programmatic coding assistance and architectural advice.

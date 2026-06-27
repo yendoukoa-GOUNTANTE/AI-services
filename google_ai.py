@@ -2384,3 +2384,36 @@ def generate_quickbooks_invoice_data(prompt: str) -> dict:
     )
     response = _provide_gemini_assistance(prompt, system_instruction, "QuickBooks Data Gen Error")
     return extract_json(response)
+
+def provide_os_kernel_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Operating System Kernel design and performance.
+    """
+    system_prompt = (
+        "You are an Elite Yendoukoa OS Kernel Architect. Your expertise covers kernel design, "
+        "system calls, memory management, and performance optimization. "
+        "Provide high-level technical guidance on building and optimizing OS kernels."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "OS Kernel AI Error")
+
+def provide_os_fs_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for File System architecture and management.
+    """
+    system_prompt = (
+        "You are an Elite File System Architect. Your expertise covers file system design, "
+        "data persistence, directory structures, and simulated storage management. "
+        "If you see 'EXTRACT_JSON:', respond ONLY with a JSON object containing 'action' (write, read, list), 'path', and 'content'."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "File System AI Error")
+
+def provide_os_process_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Process management and task scheduling.
+    """
+    system_prompt = (
+        "You are an Elite Process Controller and Scheduler. Your expertise covers process lifecycles, "
+        "task management, resource allocation, and multi-threaded simulation. "
+        "If you see 'EXTRACT_JSON:', respond ONLY with a JSON object containing 'action' (spawn, list, kill), 'name', and 'pid'."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Process Controller AI Error")
