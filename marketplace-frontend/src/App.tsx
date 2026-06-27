@@ -81,6 +81,9 @@ const AI_SERVICES: AIService[] = [
   { id: 'paas', name: 'PaaS Specialist', category: 'Infrastructure', icon: Cloud, description: 'Platform as a Service expert for application development environments.' },
   { id: 'saas', name: 'SaaS Specialist', category: 'Infrastructure', icon: Globe, description: 'Software as a Service expert for internet-delivered applications.' },
   { id: 'itaas', name: 'ITaaS Specialist', category: 'Infrastructure', icon: Layout, description: 'IT as a Service expert for comprehensive IT service delivery.' },
+  { id: 'os-kernel', name: 'OS Kernel Architect', category: 'Infrastructure', icon: Cpu, description: 'Elite Yendoukoa OS kernel design, system calls, and performance optimization expert.' },
+  { id: 'os-fs', name: 'File System Architect', category: 'Infrastructure', icon: Database, description: 'Expert in OS file system design, simulated storage, and data persistence.' },
+  { id: 'os-process', name: 'Process Controller', category: 'Infrastructure', icon: Zap, description: 'Elite OS process management, task scheduling, and resource allocation specialist.' },
   { id: 'gumloop', name: 'Gumloop Expert', category: 'Advanced', icon: Zap, description: 'Elite AI-powered browser automation and workflow specialist.' },
   { id: 'n8n', name: 'n8n Architect', category: 'Advanced', icon: Cpu, description: 'Elite fair-code workflow automation and node configuration specialist.' },
   { id: 'lamatic', name: 'Lamatic.ai Specialist', category: 'Advanced', icon: Bot, description: 'Elite Generative AI app platform and RAG pipeline specialist.' },
@@ -629,6 +632,15 @@ const App: React.FC = () => {
           break;
         case 'gaming-monetization':
           response = await aiService.getGamingMonetizationAssistance(servicePrompt);
+          break;
+        case 'os-kernel':
+          response = await aiService.getOSKernelAssistance(servicePrompt, executionParams.execute);
+          break;
+        case 'os-fs':
+          response = await aiService.getOSFSAssistance(servicePrompt, executionParams.execute);
+          break;
+        case 'os-process':
+          response = await aiService.getOSProcessAssistance(servicePrompt, executionParams.execute);
           break;
         case 'calendly':
           response = await aiService.getCalendlyAssistance(servicePrompt, executionParams.execute);
@@ -1251,7 +1263,7 @@ const App: React.FC = () => {
                    <span className="text-xl font-black text-gray-900 dark:text-white">{selectedService?.price || 50} Credits</span>
                 </div>
                 <div className="flex space-x-4">
-                  {['elevenlabs', 'tiktok-market', 'whatsapp-biz', 'cloudinary-media', 'runway-video', 'excel-helper', 'word-helper', 'powerpoint-helper', 'calendly', 'xero-specialist', 'quickbooks-expert', 'airtable-architect', 'notion-architect', 'flutterwave', 'twilio'].includes(selectedService?.id || '') && (
+                  {['elevenlabs', 'tiktok-market', 'whatsapp-biz', 'cloudinary-media', 'runway-video', 'excel-helper', 'word-helper', 'powerpoint-helper', 'calendly', 'xero-specialist', 'quickbooks-expert', 'airtable-architect', 'notion-architect', 'flutterwave', 'twilio', 'os-kernel', 'os-fs', 'os-process'].includes(selectedService?.id || '') && (
                     <button
                       type="button"
                       onClick={() => setExecutionParams({ ...executionParams, execute: true })}

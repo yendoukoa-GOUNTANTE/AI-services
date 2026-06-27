@@ -38,6 +38,7 @@ import paystack_service
 import flutterwave_service
 import twilio_service
 import calendly_service
+import os_service
 import json
 import hmac
 import hashlib
@@ -3660,6 +3661,83 @@ def gaming_monetization_endpoint():
     if not prompt:
         return jsonify({"error": _("Prompt is required")}), 400
     message = google_ai.provide_gaming_monetization_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+
+@app.route('/api/v1/os/kernel', methods=['POST'])
+@require_api_key
+def os_kernel_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    execute = data.get('execute', False)
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+
+    if execute:
+        # Simulate kernel-level status check
+        status = os_service.get_system_status()
+        return jsonify({"status": "success", "message": f"Kernel Status: {json.dumps(status)}"})
+
+    message = google_ai.provide_os_kernel_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+@app.route('/api/v1/os/fs', methods=['POST'])
+@require_api_key
+def os_fs_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    execute = data.get('execute', False)
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+
+    if execute:
+        # Use AI to extract FS command (simplified)
+        fs_cmd = google_ai.extract_json(google_ai.provide_os_fs_assistance(f"EXTRACT_JSON: {prompt}"))
+        action = fs_cmd.get('action')
+        path = fs_cmd.get('path')
+        content = fs_cmd.get('content', "")
+
+        if action == "write":
+            res = os_service.fs.write_file(path, content)
+        elif action == "read":
+            res = os_service.fs.read_file(path)
+        elif action == "list":
+            res = str(os_service.fs.list_files(path or "/"))
+        else:
+            res = "Invalid FS action requested."
+
+        return jsonify({"status": "success", "message": res})
+
+    message = google_ai.provide_os_fs_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+@app.route('/api/v1/os/process', methods=['POST'])
+@require_api_key
+def os_process_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    execute = data.get('execute', False)
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+
+    if execute:
+        proc_cmd = google_ai.extract_json(google_ai.provide_os_process_assistance(f"EXTRACT_JSON: {prompt}"))
+        action = proc_cmd.get('action')
+        name = proc_cmd.get('name')
+        pid = proc_cmd.get('pid')
+
+        if action == "spawn":
+            res = f"Spawned with PID: {os_service.proc_mgr.spawn_process(name)}"
+        elif action == "list":
+            res = json.dumps(os_service.proc_mgr.list_processes())
+        elif action == "kill":
+            res = os_service.proc_mgr.kill_process(int(pid))
+        else:
+            res = "Invalid Process action requested."
+
+        return jsonify({"status": "success", "message": res})
+
+    message = google_ai.provide_os_process_assistance(prompt)
     return jsonify({"status": "success", "message": message})
 
 
