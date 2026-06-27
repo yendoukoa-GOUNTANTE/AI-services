@@ -50,6 +50,7 @@ const AI_SERVICES: AIService[] = [
   { id: 'diagnostic', name: 'Medical Diagnostic', category: 'Health', icon: Stethoscope, description: 'Expert diagnostic assistance for all diseases, focusing on cancer and heart disease.' },
   { id: 'aerospace', name: 'Aerospace & Auto', category: 'Engineering', icon: Plane, description: 'Aeronautics and automotive technical guidance.' },
   { id: 'auto-security', name: 'Automotive Security', category: 'Security', icon: Car, description: 'Elite vehicle cybersecurity, CAN bus analysis, and ECU protection specialist.' },
+  { id: 'cyber-os-hardening', name: 'Cyber OS Hardener', category: 'Security', icon: ShieldCheck, description: 'Elite system security enhancement and OS hardening specialist.' },
   { id: 'music', name: 'Music Producer', category: 'Arts', icon: Music, description: 'Beat production and artist marketing.' },
   { id: 'eshop', name: 'E-commerce Guru', category: 'Business', icon: ShoppingBag, description: 'Create and manage high-performing e-shops.' },
   { id: 'investigation', name: 'Cyber Investigator', category: 'Security', icon: ShieldAlert, description: 'Digital forensics and security investigation.' },
@@ -532,6 +533,9 @@ const App: React.FC = () => {
           break;
         case 'auto-security':
           response = await aiService.getAutomotiveSecurityAssistance(servicePrompt);
+          break;
+        case 'cyber-os-hardening':
+          response = await aiService.getOSHardeningAssistance(servicePrompt);
           break;
         case 'conflict-debug':
           response = await aiService.debugCode(servicePrompt);
