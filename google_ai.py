@@ -1972,6 +1972,21 @@ def provide_automotive_security_assistance(prompt: str) -> str:
     )
     return _provide_gemini_assistance(prompt, system_prompt, "Automotive Security AI Error")
 
+def provide_cyber_os_hardening_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Cybersecurity OS Hardening and System Security Enhancements.
+    """
+    system_prompt = (
+        "You are the Elite Cyber OS Hardening Specialist. Your mission is to provide expert guidance on "
+        "securing operating systems (Linux, Windows, macOS, and real-time OS). "
+        "Your expertise covers kernel hardening, secure boot configuration, system call filtering, "
+        "access control list (ACL) optimization, and disabling unnecessary services. "
+        "Provide high-level technical strategies for defending against local privilege escalation, "
+        "persistent threats, and exploit techniques like ROP/JOP. Your goal is to help users transform "
+        "standard operating systems into fortified, security-enhanced environments."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Cyber OS Hardening AI Error")
+
 def provide_android_dev_assistance(prompt: str) -> str:
     """
     Expert AI Model for Android Development, Kotlin, Compose, and Play Store.

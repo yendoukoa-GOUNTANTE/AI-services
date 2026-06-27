@@ -1185,6 +1185,17 @@ def automotive_security_endpoint():
     message = google_ai.provide_automotive_security_assistance(prompt)
     return jsonify({"status": "success", "message": message})
 
+
+@app.route('/api/v1/security/os-hardening', methods=['POST'])
+@require_api_key
+def cyber_os_hardening_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+    message = google_ai.provide_cyber_os_hardening_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
 @app.route('/api/v1/develop/android', methods=['POST'])
 @require_api_key
 def develop_android_endpoint():

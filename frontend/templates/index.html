@@ -24,6 +24,7 @@
                 <li><a href="#esports-assistance">{{ _('eSports') }}</a></li>
                 <li><a href="#fake-content-verification">{{ _('Verification') }}</a></li>
                 <li><a href="#malware-defense">{{ _('Malware Defender') }}</a></li>
+                <li><a href="#os-hardening-assistance">{{ _('OS Hardening') }}</a></li>
                 <li><a href="#military-assistance">{{ _('Military') }}</a></li>
                 <li><a href="#marketing-assistance">{{ _('Marketing') }}</a></li>
                 <li><a href="#xero-assistance">{{ _('Xero Specialist') }}</a></li>
@@ -294,6 +295,26 @@
                 <div class="card">
                     <h3>{{ _('Xero Specialist') }}</h3>
                     <p>{{ _('Expert assistance for Xero accounting, invoicing, and financial reporting.') }}</p>
+                </div>
+                <div class="card">
+                    <h3>{{ _('OS Hardening Specialist') }}</h3>
+                    <p>{{ _('Elite system security enhancement and OS hardening specialist for fortified environments.') }}</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- OS Hardening Specialist Section -->
+        <section id="os-hardening-assistance" class="services">
+            <h2>{{ _('OS Hardening Specialist') }}</h2>
+            <div class="service-cards">
+                <div class="card">
+                    <h3>{{ _('System Security Enhancements') }}</h3>
+                    <p>{{ _('Enter your request for kernel hardening, secure boot, or system security enhancements below.') }}</p>
+                    <textarea id="os-hardening-input" placeholder="{{ _('Your OS hardening request') }}" class="styled-textarea" rows="4"></textarea>
+                    <button id="os-hardening-btn" class="btn">{{ _('Submit') }}</button>
+                    <div class="response-container" id="os-hardening-response-container">
+                        <pre id="os-hardening-response"></pre>
+                    </div>
                 </div>
             </div>
         </section>

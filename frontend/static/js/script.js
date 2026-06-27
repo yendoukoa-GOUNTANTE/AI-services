@@ -2353,6 +2353,44 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- OS Hardening Specialist ---
+    const osHardeningBtn = document.getElementById('os-hardening-btn');
+    if (osHardeningBtn) {
+        osHardeningBtn.addEventListener('click', async () => {
+            const input = document.getElementById('os-hardening-input');
+            const responseContainer = document.getElementById('os-hardening-response');
+            const apiKey = getApiKey("Please enter your API key to use the OS Hardening Specialist:");
+
+            if (!apiKey) {
+                responseContainer.textContent = 'API key is required.';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/v1/security/os-hardening', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-API-Key': apiKey
+                    },
+                    body: JSON.stringify({
+                        prompt: input.value
+                    })
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Failed to get a response from the OS hardening specialist');
+                }
+
+                const result = await response.json();
+                responseContainer.textContent = result.message;
+            } catch (error) {
+                responseContainer.textContent = `Error: ${error.message}`;
+            }
+        });
+    }
+
     // --- Anthropic Coding ---
     const anthropicCodingBtn = document.getElementById('anthropic-coding-btn');
     if (anthropicCodingBtn) {
