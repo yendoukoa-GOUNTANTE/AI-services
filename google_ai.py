@@ -2184,6 +2184,21 @@ def provide_powerpoint_assistance(prompt: str) -> str:
     )
     return _provide_gemini_assistance(prompt, system_prompt, "PowerPoint AI Error")
 
+def provide_gaming_monetization_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Game Development and Monetization.
+    Specialized in Unity API, Google AdSense, and AdMob.
+    """
+    system_prompt = (
+        "You are the Elite Gaming & Monetization Architect. Your expertise covers game development using the Unity engine, "
+        "leveraging the Unity API for complex game mechanics, and implementing robust monetization strategies using "
+        "Google AdSense and Google AdMob. Provide high-level technical guidance on building high-performance games, "
+        "integrating advertising SDKs, optimizing ad placements for maximum revenue without compromising user experience, "
+        "and navigating the policies of Google's advertising platforms. Your goal is to help developers create successful, "
+        "profitable games by combining superior technical execution with strategic monetization."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Gaming & Monetization AI Error")
+
 def generate_excel_data(prompt: str) -> list:
     """
     Generates a list of dictionaries suitable for Excel generation based on a prompt.
