@@ -121,6 +121,7 @@ const AI_SERVICES: AIService[] = [
   { id: 'twilio', name: 'Twilio Architect', category: 'Business', icon: Smartphone, description: 'Elite Twilio programmable messaging, SMS, and WhatsApp API specialist.' },
   { id: 'calendly', name: 'Calendly Specialist', category: 'Business', icon: Settings, description: 'Elite Calendly scheduling, event management, and API integration expert.' },
   { id: 'runway-video', name: 'Runway Video Gen', category: 'Arts', icon: Video, description: 'Next-generation AI video generation powered by Runway ML Gen-3.' },
+  { id: 'gaming-monetization', name: 'Gaming Architect', category: 'Development', icon: Gamepad2, description: 'Elite game development and monetization strategies for Unity and AdMob.' },
   { id: 'excel-helper', name: 'Excel Specialist', category: 'Business', icon: Database, description: 'Elite Excel formulas, data analysis, and automated spreadsheet generation.' },
   { id: 'word-helper', name: 'Word Architect', category: 'Business', icon: FileText, description: 'Professional document design, template creation, and automated Word generation.' },
   { id: 'powerpoint-helper', name: 'PPT Strategist', category: 'Business', icon: Layout, description: 'Compelling presentation storyboarding and automated PowerPoint generation.' }
@@ -621,6 +622,9 @@ const App: React.FC = () => {
           break;
         case 'powerpoint-helper':
           response = await aiService.getPowerPointAssistance(servicePrompt, executionParams.execute);
+          break;
+        case 'gaming-monetization':
+          response = await aiService.getGamingMonetizationAssistance(servicePrompt);
           break;
         case 'calendly':
           response = await aiService.getCalendlyAssistance(servicePrompt, executionParams.execute);
