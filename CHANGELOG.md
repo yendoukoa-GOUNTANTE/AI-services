@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2025-02-24
+
+### Changed
+- **Modernized SQLAlchemy Usage:** Updated all `Model.query.get(id)` calls to `db.session.get(Model, id)` to align with SQLAlchemy 2.0 standards and resolve legacy API warnings.
+- **Improved Dependency Documentation:** Ensured `requirements.txt` accurately reflects the project's dependencies for better environment stability.
+
 ## [2.0.0] - 2025-02-24
 
 ### Added
@@ -55,6 +61,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Basic Flask backend and HTML/CSS frontend.
 - Integration with Vertex AI for code generation.
 
+[2.1.0]: https://github.com/GYFX35/AI-services/compare/v2.0.0...v2.1.0
 [2.0.0]: https://github.com/GYFX35/AI-services/releases/tag/v2.0.0
 [1.0.0]: https://github.com/GYFX35/AI-services/releases/tag/V10.0.0
 [0.1.0]: https://github.com/GYFX35/AI-services/commits/main

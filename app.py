@@ -2552,7 +2552,7 @@ async def execute_agent():
     if not agent_id:
         return jsonify({"error": _("Agent ID is required")}), 400
 
-    agent = Agent.query.get(agent_id)
+    agent = db.session.get(Agent, agent_id)
     if not agent or not agent.is_active:
         return jsonify({"error": _("Agent not found or inactive")}), 404
 
@@ -2575,7 +2575,7 @@ async def execute_agent():
     try:
         log_activity("execute_agent", f"Executed agent {agent.name} (ID: {agent.id})")
         g.user.credits -= agent.price_per_use
-        developer = User.query.get(agent.developer_id)
+        developer = db.session.get(User, agent.developer_id)
         if developer:
             developer.credits += int(agent.price_per_use * 0.8)
 
@@ -2612,7 +2612,7 @@ def purchase_design():
     if not design_id:
         return jsonify({"error": _("Design ID is required")}), 400
 
-    design = Design.query.get(design_id)
+    design = db.session.get(Design, design_id)
     if not design:
         return jsonify({"error": _("Design not found")}), 404
 
@@ -2624,7 +2624,7 @@ def purchase_design():
         # Deduct credits
         g.user.credits -= design.price
         # Pay developer (80%)
-        developer = User.query.get(design.developer_id)
+        developer = db.session.get(User, design.developer_id)
         if developer:
             developer.credits += int(design.price * 0.8)
 
@@ -2797,7 +2797,8 @@ def create_subscription_checkout():
         checkout_session = stripe.checkout.Session.create(**checkout_params)
         return jsonify({'url': checkout_session.url})
     except Exception as e:
-        return jsonify(error=str(e)), 403
+        print(f"Error creating subscription checkout: {e}")
+        return jsonify(error=str(e)), 500
 
 
 @app.route('/api/v1/payment/create-payment-intent', methods=['POST'])
@@ -2869,7 +2870,7 @@ def payment_webhook():
         payment_intent = event['data']['object']
         payment_id = payment_intent['metadata'].get('payment_id')
         if payment_id:
-            payment = Payment.query.get(int(payment_id))
+            payment = db.session.get(Payment, int(payment_id))
             if payment:
                 payment.status = 'succeeded'
                 payment.meta_payment_id = payment_intent.id # Let's store the stripe payment intent id here
@@ -2879,7 +2880,7 @@ def payment_webhook():
         user_id = session_obj.get('client_reference_id')
         customer_id = session_obj.get('customer')
         if user_id:
-            user = User.query.get(int(user_id))
+            user = db.session.get(User, int(user_id))
             if user:
                 user.subscription_status = 'active'
                 if customer_id:
@@ -2908,7 +2909,7 @@ def payment_webhook():
         payment_intent = event['data']['object']
         payment_id = payment_intent['metadata'].get('payment_id')
         if payment_id:
-            payment = Payment.query.get(int(payment_id))
+            payment = db.session.get(Payment, int(payment_id))
             if payment:
                 payment.status = 'failed'
                 db.session.commit()
@@ -2995,7 +2996,7 @@ def fulfill_paystack_payment(payment):
         if existing_log:
             return
 
-        user = User.query.get(payment.user_id)
+        user = db.session.get(User, payment.user_id)
         if user:
             # 1 major unit = 10 credits. payment.amount is in kobo.
             credits_to_add = int(payment.amount / 10)
@@ -3480,7 +3481,7 @@ def cloudinary_media_assistance_endpoint():
     if execute:
         if not file_id:
             return jsonify({"error": _("File ID is required for upload to Cloudinary")}), 400
-        file_record = File.query.get(file_id)
+        file_record = db.session.get(File, file_id)
         if not file_record or not file_record.filepath:
             return jsonify({"error": _("File not found or has no path")}), 404
 
