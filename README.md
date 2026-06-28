@@ -2,9 +2,9 @@
 
 Yendoukoa AI is a robust, scalable, and autonomous AI ecosystem designed for developers, entrepreneurs, and government institutions. We provide a unified platform for specialized AI agents across various domains.
 
-## 🚀 Release 2.0.0: Professional & Accessible
+## 🚀 Release 2.1.0: Modernized & Robust
 
-We are proud to announce the second major release of Yendoukoa AI, focusing on professional grade tools and enhanced accessibility.
+We are proud to announce the latest release of Yendoukoa AI, focusing on architectural modernization and enhanced stability.
 
 ### Key Highlights:
 - **Unified API Ecosystem:** Our production-ready API (`/api/v1`) powers multiple frontends.

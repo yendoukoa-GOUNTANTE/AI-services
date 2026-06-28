@@ -85,7 +85,7 @@ class PaystackTestCase(unittest.TestCase):
         payment = Payment.query.filter_by(paystack_reference=ref).first()
         self.assertEqual(payment.status, 'succeeded')
 
-        user = User.query.get(self.test_user.id)
+        user = db.session.get(User, self.test_user.id)
         # 10000 kobo = 100 major units = 1000 credits.
         # Initial 100 + 1000 = 1100
         self.assertEqual(user.credits, 1100)
@@ -117,7 +117,7 @@ class PaystackTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
         # Verify fulfillment
-        user = User.query.get(self.test_user.id)
+        user = db.session.get(User, self.test_user.id)
         self.assertEqual(user.credits, 600) # 100 + 500
 
         # Test with incorrect signature
@@ -140,7 +140,7 @@ class PaystackTestCase(unittest.TestCase):
 
         self.client.post('/api/v1/payment/paystack/webhook', data=data, content_type='application/json', headers={'x-paystack-signature': signature})
 
-        user = User.query.get(self.test_user.id)
+        user = db.session.get(User, self.test_user.id)
         self.assertEqual(user.credits, 600)
 
         # Simulate verify call (e.g. user redirects to success page)
@@ -148,7 +148,7 @@ class PaystackTestCase(unittest.TestCase):
             mock_verify.return_value = {'status': True, 'data': {'status': 'success', 'reference': ref, 'amount': 5000}}
             self.client.get(f'/api/v1/payment/paystack/verify/{ref}', headers={'X-API-Key': self.api_key})
 
-        user = User.query.get(self.test_user.id)
+        user = db.session.get(User, self.test_user.id)
         self.assertEqual(user.credits, 600) # Should still be 600, not 1100
 
 if __name__ == '__main__':

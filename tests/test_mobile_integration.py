@@ -19,8 +19,11 @@ mock_mods = [
     'azure.ai.inference', 'azure.core.credentials', 'xero_python'
 ]
 for mod in mock_mods:
-    m = MagicMock()
-    sys.modules[mod] = m
+    if mod not in sys.modules:
+        m = MagicMock()
+        if '.' not in mod: # Only add __path__ for top-level packages
+            m.__path__ = []
+        sys.modules[mod] = m
 
 # Mock before importing app
 with patch('app.initialize_firebase_sdk', return_value=None):
