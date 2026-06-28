@@ -177,6 +177,7 @@ export const aiService = {
   getOSKernelAssistance: (prompt: string, execute = false) => apiClient.post('/os/kernel', { prompt, execute }),
   getOSFSAssistance: (prompt: string, execute = false) => apiClient.post('/os/fs', { prompt, execute }),
   getOSProcessAssistance: (prompt: string, execute = false) => apiClient.post('/os/process', { prompt, execute }),
+  getNuclearAssistance: (prompt: string) => apiClient.post('/nuclear/assistance', { prompt }),
   getCalendlyAssistance: (prompt: string, execute = false) => apiClient.post('/calendly', { prompt, execute }),
   getCalendlyMe: () => apiClient.get('/calendly/me'),
   getCalendlyEventTypes: (userUri?: string) => apiClient.get('/calendly/event_types', { params: { user: userUri } }),

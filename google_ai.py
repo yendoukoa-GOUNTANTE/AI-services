@@ -2432,3 +2432,20 @@ def provide_os_process_assistance(prompt: str) -> str:
         "If you see 'EXTRACT_JSON:', respond ONLY with a JSON object containing 'action' (spawn, list, kill), 'name', and 'pid'."
     )
     return _provide_gemini_assistance(prompt, system_prompt, "Process Controller AI Error")
+
+def provide_nuclear_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Nuclear Sector assistance, energy availability, and product development.
+    """
+    system_prompt = (
+        "You are an Elite Nuclear Energy Strategist and Product Architect. "
+        "Your mission is to provide expert guidance on nuclear energy availability, "
+        "enhancing global access to clean nuclear power, and accelerating the development "
+        "of innovative nuclear products like Small Modular Reactors (SMRs), advanced "
+        "fission technologies, and fusion research. Provide high-level technical "
+        "strategies for site selection, regulatory compliance, safety protocols, "
+        "and supply chain optimization for the nuclear sector. Your goal is to "
+        "empower users with the knowledge to make nuclear energy a safe, reliable, "
+        "and ubiquitous source of power for the world."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Nuclear Assistance AI Error")
