@@ -63,6 +63,7 @@ class User(db.Model):
     subscription_plan = db.Column(db.String(20), default='free')
     stripe_customer_id = db.Column(db.String(120), unique=True, nullable=True)
     credits = db.Column(db.Integer, default=1000)
+    earnings = db.Column(db.Float, default=0.0)
 
     def __repr__(self):
         return f'<User {self.username}>'
@@ -118,6 +119,7 @@ class Payment(db.Model):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
     meta_payment_id = db.Column(db.String(120), unique=True, nullable=True)
     paystack_reference = db.Column(db.String(120), unique=True, nullable=True)
+    flutterwave_tx_ref = db.Column(db.String(120), unique=True, nullable=True)
     user = db.relationship('User', backref=db.backref('payments', lazy=True))
     def __repr__(self):
         return f'<Payment {self.id}>'
@@ -2423,7 +2425,8 @@ def me_api():
         "username": g.user.username,
         "subscription_status": g.user.subscription_status,
         "subscription_plan": g.user.subscription_plan,
-        "credits": g.user.credits
+        "credits": g.user.credits,
+        "earnings": g.user.earnings
     })
 
 def is_safe_url(url):
@@ -2552,7 +2555,7 @@ async def execute_agent():
     if not agent_id:
         return jsonify({"error": _("Agent ID is required")}), 400
 
-    agent = Agent.query.get(agent_id)
+    agent = db.session.get(Agent, agent_id)
     if not agent or not agent.is_active:
         return jsonify({"error": _("Agent not found or inactive")}), 404
 
@@ -2575,9 +2578,11 @@ async def execute_agent():
     try:
         log_activity("execute_agent", f"Executed agent {agent.name} (ID: {agent.id})")
         g.user.credits -= agent.price_per_use
-        developer = User.query.get(agent.developer_id)
+        developer = db.session.get(User, agent.developer_id)
         if developer:
-            developer.credits += int(agent.price_per_use * 0.8)
+            earned_credits = int(agent.price_per_use * 0.8)
+            developer.credits += earned_credits
+            developer.earnings += float(earned_credits)
 
         # Log purchase
         purchase = Purchase(user_id=g.user.id, item_type='agent_execution', item_id=agent.id, amount=agent.price_per_use)
@@ -2612,7 +2617,7 @@ def purchase_design():
     if not design_id:
         return jsonify({"error": _("Design ID is required")}), 400
 
-    design = Design.query.get(design_id)
+    design = db.session.get(Design, design_id)
     if not design:
         return jsonify({"error": _("Design not found")}), 404
 
@@ -2624,9 +2629,11 @@ def purchase_design():
         # Deduct credits
         g.user.credits -= design.price
         # Pay developer (80%)
-        developer = User.query.get(design.developer_id)
+        developer = db.session.get(User, design.developer_id)
         if developer:
-            developer.credits += int(design.price * 0.8)
+            earned_credits = int(design.price * 0.8)
+            developer.credits += earned_credits
+            developer.earnings += float(earned_credits)
 
         # Log purchase
         purchase = Purchase(user_id=g.user.id, item_type='design', item_id=design.id, amount=design.price)
@@ -2869,7 +2876,7 @@ def payment_webhook():
         payment_intent = event['data']['object']
         payment_id = payment_intent['metadata'].get('payment_id')
         if payment_id:
-            payment = Payment.query.get(int(payment_id))
+            payment = db.session.get(Payment, int(payment_id))
             if payment:
                 payment.status = 'succeeded'
                 payment.meta_payment_id = payment_intent.id # Let's store the stripe payment intent id here
@@ -2879,7 +2886,7 @@ def payment_webhook():
         user_id = session_obj.get('client_reference_id')
         customer_id = session_obj.get('customer')
         if user_id:
-            user = User.query.get(int(user_id))
+            user = db.session.get(User, int(user_id))
             if user:
                 user.subscription_status = 'active'
                 if customer_id:
@@ -2908,7 +2915,7 @@ def payment_webhook():
         payment_intent = event['data']['object']
         payment_id = payment_intent['metadata'].get('payment_id')
         if payment_id:
-            payment = Payment.query.get(int(payment_id))
+            payment = db.session.get(Payment, int(payment_id))
             if payment:
                 payment.status = 'failed'
                 db.session.commit()
@@ -2971,21 +2978,21 @@ def paystack_initialize_payment():
 def paystack_verify_payment(reference):
     response = paystack_service.verify_transaction(reference)
 
-    if response.get('status') and response['data']['status'] == 'success':
+    if response.get('status') and response.get('data') and response['data'].get('status') == 'success':
         payment = Payment.query.filter_by(paystack_reference=reference).first()
         if payment and payment.status != 'succeeded':
             payment.status = 'succeeded'
             db.session.commit()
             log_activity("paystack_payment_success", f"Payment {payment.id} succeeded")
-            fulfill_paystack_payment(payment)
+            fulfill_payment(payment)
         elif payment and payment.status == 'succeeded':
-            fulfill_paystack_payment(payment)
+            fulfill_payment(payment)
 
     return jsonify(response)
 
 
-def fulfill_paystack_payment(payment):
-    """Fulfills a Paystack payment by adding credits to the user's account."""
+def fulfill_payment(payment):
+    """Fulfills a payment by adding credits to the user's account."""
     if payment.status == 'succeeded':
         # Check if already fulfilled - we can use ActivityLog or another column
         # For now, we'll assume if status is 'succeeded', it's done or being done.
@@ -2995,7 +3002,7 @@ def fulfill_paystack_payment(payment):
         if existing_log:
             return
 
-        user = User.query.get(payment.user_id)
+        user = db.session.get(User, payment.user_id)
         if user:
             # 1 major unit = 10 credits. payment.amount is in kobo.
             credits_to_add = int(payment.amount / 10)
@@ -3027,7 +3034,7 @@ def paystack_webhook():
         if payment and payment.status != 'succeeded':
             payment.status = 'succeeded'
             db.session.commit()
-            fulfill_paystack_payment(payment)
+            fulfill_payment(payment)
 
     return jsonify(status='success'), 200
 
@@ -3050,7 +3057,8 @@ def flutterwave_initialize_payment():
         user_id=g.user.id,
         amount=int(float(amount) * 100), # Store in cents/kobo
         currency=currency,
-        status='pending'
+        status='pending',
+        flutterwave_tx_ref=tx_ref
     )
     db.session.add(new_payment)
     db.session.commit()
@@ -3076,11 +3084,16 @@ def flutterwave_initialize_payment():
 def flutterwave_verify_payment(transaction_id):
     response = flutterwave_service.verify_transaction(transaction_id)
 
-    if response.get('status') == 'success' and response['data']['status'] == 'successful':
-        # Flutterwave doesn't directly give us our internal payment ID in the verification response easily
-        # unless we put it in the tx_ref or metadata. For now, let's just fulfill if successful.
-        # Ideally, we should match tx_ref.
-        pass
+    if response.get('status') == 'success' and response.get('data') and response['data'].get('status') == 'successful':
+        tx_ref = response['data'].get('tx_ref')
+        payment = Payment.query.filter_by(flutterwave_tx_ref=tx_ref).first()
+        if payment and payment.status != 'succeeded':
+            payment.status = 'succeeded'
+            db.session.commit()
+            log_activity("flutterwave_payment_success", f"Payment {payment.id} succeeded")
+            fulfill_payment(payment)
+        elif payment and payment.status == 'succeeded':
+            fulfill_payment(payment)
 
     return jsonify(response)
 
@@ -3480,7 +3493,7 @@ def cloudinary_media_assistance_endpoint():
     if execute:
         if not file_id:
             return jsonify({"error": _("File ID is required for upload to Cloudinary")}), 400
-        file_record = File.query.get(file_id)
+        file_record = db.session.get(File, file_id)
         if not file_record or not file_record.filepath:
             return jsonify({"error": _("File not found or has no path")}), 404
 
@@ -3773,6 +3786,8 @@ def update_db_schema():
             cursor.execute("ALTER TABLE user ADD COLUMN subscription_plan VARCHAR(20) DEFAULT 'free'")
         if 'credits' not in columns:
             cursor.execute("ALTER TABLE user ADD COLUMN credits INTEGER DEFAULT 1000")
+        if 'earnings' not in columns:
+            cursor.execute("ALTER TABLE user ADD COLUMN earnings FLOAT DEFAULT 0.0")
         if 'stripe_customer_id' not in columns:
             cursor.execute("ALTER TABLE user ADD COLUMN stripe_customer_id VARCHAR(120)")
 
@@ -3783,6 +3798,8 @@ def update_db_schema():
             payment_columns = [column[1] for column in cursor.fetchall()]
             if 'paystack_reference' not in payment_columns:
                 cursor.execute("ALTER TABLE payment ADD COLUMN paystack_reference VARCHAR(120)")
+            if 'flutterwave_tx_ref' not in payment_columns:
+                cursor.execute("ALTER TABLE payment ADD COLUMN flutterwave_tx_ref VARCHAR(120)")
 
         # Create agent table if it doesn't exist
         cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='agent'")
