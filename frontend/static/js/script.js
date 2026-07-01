@@ -1,6 +1,24 @@
 document.addEventListener('DOMContentLoaded', () => {
     fetchProjects();
 
+    // --- Search Functionality ---
+    const searchInput = document.getElementById('service-search');
+    const serviceCards = document.querySelectorAll('#service-grid .card');
+
+    if (searchInput) {
+        searchInput.addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            serviceCards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                if (text.includes(term)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    }
+
     // Global API Key storage for the session
     let globalApiKey = null;
 
