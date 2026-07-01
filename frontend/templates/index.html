@@ -5,40 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yendoukoa AI</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <script src="https://js.stripe.com/v3/"></script>
     <script src="https://static.xx.fbcdn.net/payments_sdk/v1/metapay_sdk.js"></script>
 </head>
 <body>
     <header>
-        <nav>
-            <div class="logo">Yendoukoa AI</div>
+        <nav class="container">
+            <a href="/" class="logo">Yendoukoa AI</a>
             <ul>
                 <li><a href="#services">{{ _('Services') }}</a></li>
-                <li><a href="#digital-repair-assistance">{{ _('Digital Repair') }}</a></li>
-                <li><a href="#maintenance-assistance">{{ _('Maintenance') }}</a></li>
-                <li><a href="#it-operations-assistance">{{ _('IT Ops') }}</a></li>
-                <li><a href="#video-production-assistance">{{ _('Video Producer') }}</a></li>
-                <li><a href="#cloud-infrastructure-assistance">{{ _('Cloud Infra') }}</a></li>
-                <li><a href="#domain-codex-assistance">{{ _('Domain Codex') }}</a></li>
-                <li><a href="#esports-assistance">{{ _('eSports') }}</a></li>
-                <li><a href="#fake-content-verification">{{ _('Verification') }}</a></li>
-                <li><a href="#malware-defense">{{ _('Malware Defender') }}</a></li>
-                <li><a href="#os-hardening-assistance">{{ _('OS Hardening') }}</a></li>
-                <li><a href="#military-assistance">{{ _('Military') }}</a></li>
-                <li><a href="#marketing-assistance">{{ _('Marketing') }}</a></li>
-                <li><a href="#xero-assistance">{{ _('Xero Specialist') }}</a></li>
-                <li><a href="#investment-trading-assistance">{{ _('Investment') }}</a></li>
-                <li><a href="#autogpt-assistance">{{ _('AutoGPT') }}</a></li>
-                <li><a href="#llama-intelligence">{{ _('Llama Intel') }}</a></li>
-                <li><a href="#nvidia-nemotron">{{ _('Nemotron') }}</a></li>
-                <li><a href="#nvidia-mixtral">{{ _('Mixtral') }}</a></li>
-                <li><a href="#anthropic-intelligence">{{ _('Claude Intel') }}</a></li>
-                <li><a href="#anthropic-coding">{{ _('Claude Coder') }}</a></li>
-                <li><a href="#purchase">{{ _('Purchase') }}</a></li>
+                <li><a href="#purchase">{{ _('Credits') }}</a></li>
                 <li><a href="#portfolio">{{ _('Portfolio') }}</a></li>
                 <li><a href="#contact">{{ _('Contact') }}</a></li>
-                <li><a href="https://github.com/sponsors/GYFX35" target="_blank">{{ _('Sponsor') }}</a></li>
+                <li><a href="https://github.com/sponsors/GYFX35" target="_blank" class="btn btn-small" style="color: white; margin-left: 1rem;">{{ _('Sponsor') }}</a></li>
                 <li class="nav-item dropdown language-switcher">
                     <a href="#" class="dropdown-toggle">{{ LANGUAGES[get_locale()] }}</a>
                     <ul class="dropdown-menu">
@@ -54,16 +35,24 @@
 
     <main>
         <section class="hero">
-            <div class="hero-text">
-                <h1>Welcome to Yendoukoa AI</h1>
-                <p>We build custom AI solutions to help your business grow.</p>
-                <a href="#contact" class="btn">Get in Touch</a>
+            <div class="container hero-text">
+                <h1>Autonomous AI for the <span class="gradient-text">Future of Work</span></h1>
+                <p>Building specialized AI agents and strategic workflows for developers, entrepreneurs, and emerging markets worldwide.</p>
+                <div class="hero-btns">
+                    <a href="#services" class="btn">{{ _('Explore Services') }}</a>
+                    <a href="#purchase" class="btn btn-secondary">{{ _('Get Credits') }}</a>
+                </div>
             </div>
         </section>
 
-        <section id="services" class="services">
-            <h2>Our Services</h2>
-            <div class="service-cards">
+        <section id="services" class="container">
+            <h2>{{ _('Our AI Specialist Ecosystem') }}</h2>
+
+            <div class="search-container" style="max-width: 600px; margin: 0 auto 3rem; text-align: center;">
+                <input type="text" id="service-search" placeholder="{{ _('Search for a specialist (e.g. Coding, Marketing, Security)...') }}" class="styled-input">
+            </div>
+
+            <div class="service-cards" id="service-grid">
                 <div class="card">
                     <h3>AI-Powered Development</h3>
                     <p>We build custom websites, applications, and games using the latest AI technologies.</p>
@@ -1197,11 +1186,11 @@
             </div>
         </section>
 
-        <section id="purchase" class="purchase">
-            <h2>Purchase AI Credits</h2>
+        <section id="purchase" class="container">
+            <h2>{{ _('Power Your Workflow') }}</h2>
             <div class="purchase-card">
-                <h3>1000 AI Credits</h3>
-                <p>$10.00</p>
+                <h3>{{ _('1000 AI Credits') }}</h3>
+                <p class="price">$10.00</p>
                 <div id="meta-pay-button-container"></div>
                 <p id="payment-status"></p>
             </div>
