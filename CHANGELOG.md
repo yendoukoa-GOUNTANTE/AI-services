@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.0] - 2025-02-24
+
+### Added
+- **Deployment Package:** Created a comprehensive project deployment package including Python distribution files (sdist, wheel) and a unified deployment ZIP archive.
+- **Dependency Optimization:** Updated `setup.py` to include all integrated service modules (Xero, Notion, Twilio, etc.) and missing core dependencies for a smoother installation experience.
+- **Marketplace Build:** Updated the production build of the React marketplace frontend in the `docs/` directory for GitHub Pages hosting.
+
 ## [2.0.0] - 2025-02-24
 
 ### Added
@@ -55,6 +62,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Basic Flask backend and HTML/CSS frontend.
 - Integration with Vertex AI for code generation.
 
+[2.1.0]: https://github.com/GYFX35/AI-services/releases/tag/v2.1.0
 [2.0.0]: https://github.com/GYFX35/AI-services/releases/tag/v2.0.0
 [1.0.0]: https://github.com/GYFX35/AI-services/releases/tag/V10.0.0
 [0.1.0]: https://github.com/GYFX35/AI-services/commits/main
