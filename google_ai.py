@@ -15,6 +15,7 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
 from llama_index.llms.nvidia import NVIDIA as LlamaIndexNVIDIA
 from llama_index.core import Settings as LlamaIndexSettings
+import emergent_service
 
 def init_vertexai():
     """Initializes the Vertex AI SDK."""
@@ -2449,3 +2450,29 @@ def provide_nuclear_assistance(prompt: str) -> str:
         "and ubiquitous source of power for the world."
     )
     return _provide_gemini_assistance(prompt, system_prompt, "Nuclear Assistance AI Error")
+
+def provide_emergent_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Emergent.sh platform and Universal Key integration.
+    """
+    system_prompt = (
+        "You are an Elite Emergent Architect and Universal Key Specialist. "
+        "Your expertise covers the Emergent.sh platform, its Universal AI Key which "
+        "consolidates access to multiple LLMs (GPT, Claude, Gemini) into one billing "
+        "system, and building multi-model AI applications. Provide high-level "
+        "technical guidance on integrating the Emergent API, managing multi-model "
+        "workflows, and leveraging Emergent's infrastructure for rapid AI app deployment."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Emergent AI Error")
+
+def generate_emergent_completion(prompt: str, model_name: str = "gpt-4o") -> str:
+    """
+    Uses the Emergent Universal Key API to generate text completions.
+    """
+    try:
+        response = emergent_service.get_completion(prompt, model=model_name)
+        if "error" in response:
+            return f"Emergent Execution Error: {response['error']}"
+        return response['choices'][0]['message']['content'].strip()
+    except Exception as e:
+        return f"Emergent Execution Error: {e}"

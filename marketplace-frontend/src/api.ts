@@ -178,6 +178,8 @@ export const aiService = {
   getOSFSAssistance: (prompt: string, execute = false) => apiClient.post('/os/fs', { prompt, execute }),
   getOSProcessAssistance: (prompt: string, execute = false) => apiClient.post('/os/process', { prompt, execute }),
   getNuclearAssistance: (prompt: string) => apiClient.post('/nuclear/assistance', { prompt }),
+  getEmergentAssistance: (prompt: string, execute = false, modelName = 'gpt-4o') =>
+    apiClient.post('/emergent/assistance', { prompt, execute, model_name: modelName }),
   getCalendlyAssistance: (prompt: string, execute = false) => apiClient.post('/calendly', { prompt, execute }),
   getCalendlyMe: () => apiClient.get('/calendly/me'),
   getCalendlyEventTypes: (userUri?: string) => apiClient.get('/calendly/event_types', { params: { user: userUri } }),
