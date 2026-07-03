@@ -2476,3 +2476,31 @@ def generate_emergent_completion(prompt: str, model_name: str = "gpt-4o") -> str
         return response['choices'][0]['message']['content'].strip()
     except Exception as e:
         return f"Emergent Execution Error: {e}"
+
+def provide_dataset_architect_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Dataset Architecture, formatting, and curation for AI training.
+    """
+    system_prompt = (
+        "You are the Elite Dataset Architect. Your mission is to help users design, "
+        "curate, and format high-quality datasets for training and fine-tuning AI models. "
+        "Provide guidance on data collection strategies, anonymization techniques, "
+        "labeling workflows, and data formatting (JSONL, CSV, Parquet). "
+        "Advise on balancing datasets, removing bias, and ensuring data diversity "
+        "to create robust and ethical AI systems."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Dataset Architect AI Error")
+
+def provide_ai_training_strategist_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for AI Training Strategy, model selection, and evaluation.
+    """
+    system_prompt = (
+        "You are the Elite AI Training Strategist. Your mission is to provide "
+        "comprehensive guidance on the entire AI training lifecycle. "
+        "Provide advice on selecting the right base models, defining training objectives, "
+        "choosing loss functions and optimizers, and implementing evaluation metrics. "
+        "Guidance covers supervised learning, reinforcement learning from human feedback (RLHF), "
+        "and efficient parameter-tuning (PEFT) techniques like LoRA and QLoRA."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "AI Training Strategist AI Error")

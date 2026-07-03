@@ -184,6 +184,9 @@ export const aiService = {
   getCalendlyMe: () => apiClient.get('/calendly/me'),
   getCalendlyEventTypes: (userUri?: string) => apiClient.get('/calendly/event_types', { params: { user: userUri } }),
   getCalendlyEvents: (userUri?: string, count = 10) => apiClient.get('/calendly/events', { params: { user: userUri, count } }),
+  getDatasetArchitectAssistance: (prompt: string) => apiClient.post('/research/dataset-architect', { prompt }),
+  getAITrainingStrategistAssistance: (prompt: string) => apiClient.post('/research/training-strategist', { prompt }),
+  getPublicDataset: (category?: string) => apiClient.get('/research/dataset', { params: { category } }),
 };
 
 export const userService = {
