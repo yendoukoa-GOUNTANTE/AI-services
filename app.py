@@ -150,6 +150,17 @@ class ActivityLog(db.Model):
     def __repr__(self):
         return f'<ActivityLog {self.action} by {self.user_id}>'
 
+class TrainingData(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    prompt = db.Column(db.Text, nullable=False)
+    completion = db.Column(db.Text, nullable=False)
+    category = db.Column(db.String(50), default='General')
+    is_public = db.Column(db.Boolean, default=True)
+    created_at = db.Column(db.DateTime, server_default=db.func.now())
+
+    def __repr__(self):
+        return f'<TrainingData {self.id}>'
+
 # --- Flask App Setup ---
 app = Flask(__name__, template_folder='frontend/templates', static_folder='frontend/static')
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
@@ -728,6 +739,22 @@ def log_activity(action, details=None, user_id=None):
     db.session.add(log)
     db.session.commit()
 
+def log_training_data(prompt, completion, category='General'):
+    """Logs anonymized prompt-response pairs for AI training contribution."""
+    try:
+        # Simple anonymization: check for common sensitive patterns (very basic)
+        # In a real app, this would be much more robust.
+        sensitive_patterns = [r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', r'\b\d{4}-\d{4}-\d{4}-\d{4}\b']
+        is_sensitive = any(re.search(pattern, prompt) or re.search(pattern, completion) for pattern in sensitive_patterns)
+
+        if not is_sensitive:
+            data = TrainingData(prompt=prompt, completion=completion, category=category)
+            db.session.add(data)
+            db.session.commit()
+    except Exception as e:
+        print(f"Error logging training data: {e}")
+        db.session.rollback()
+
 # --- API Endpoints ---
 def require_api_key(f):
     @wraps(f)
@@ -777,6 +804,7 @@ def develop_website_endpoint():
 {css.strip()}
 ```
 """
+    log_training_data(prompt, message, category='Development')
     return jsonify({"status": "success", "message": message})
 
 @app.route('/api/v1/develop/game', methods=['POST'])
@@ -998,6 +1026,7 @@ def blockchain_code_endpoint():
     if not prompt:
         return jsonify({"error": _("Prompt is required")}), 400
     message = google_ai.generate_blockchain_code(prompt)
+    log_training_data(prompt, message, category='Blockchain')
     return jsonify({"status": "success", "message": message})
 
 
@@ -1031,6 +1060,43 @@ def learn_language_endpoint():
     if not prompt:
         return jsonify({"error": _("Prompt is required")}), 400
     message = google_ai.learn_language(prompt)
+    log_training_data(prompt, message, category='Language')
+    return jsonify({"status": "success", "message": message})
+
+
+@app.route('/api/v1/research/dataset', methods=['GET'])
+def get_public_dataset():
+    category = request.args.get('category')
+    query = TrainingData.query.filter_by(is_public=True)
+    if category:
+        query = query.filter_by(category=category)
+    data = query.order_by(TrainingData.created_at.desc()).limit(100).all()
+    return jsonify([{
+        "id": d.id,
+        "prompt": d.prompt,
+        "completion": d.completion,
+        "category": d.category,
+        "created_at": d.created_at.isoformat()
+    } for d in data])
+
+@app.route('/api/v1/research/dataset-architect', methods=['POST'])
+@require_api_key
+def dataset_architect_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+    message = google_ai.provide_dataset_architect_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+@app.route('/api/v1/research/training-strategist', methods=['POST'])
+@require_api_key
+def training_strategist_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+    message = google_ai.provide_ai_training_strategist_assistance(prompt)
     return jsonify({"status": "success", "message": message})
 
 
@@ -3902,6 +3968,20 @@ def update_db_schema():
                 )
             """)
 
+        # Create training_data table if it doesn't exist
+        cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='training_data'")
+        if not cursor.fetchone():
+            cursor.execute("""
+                CREATE TABLE training_data (
+                    id INTEGER PRIMARY KEY,
+                    prompt TEXT NOT NULL,
+                    completion TEXT NOT NULL,
+                    category VARCHAR(50) DEFAULT 'General',
+                    is_public BOOLEAN DEFAULT 1,
+                    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+                )
+            """)
+
         conn.commit()
         conn.close()
 
@@ -3931,4 +4011,14 @@ def init_db_command():
         ]
         db.session.bulk_save_objects(projects)
         db.session.commit()
+
+    if not TrainingData.query.first():
+        sample_data = [
+            TrainingData(prompt="How do I harden a Linux kernel?", completion="To harden a Linux kernel, you should enable features like KSPP, use specialized security modules (SELinux/AppArmor), and apply patches like Grsecurity if possible...", category="Security"),
+            TrainingData(prompt="Write a simple smart contract in Solidity.", completion="pragma solidity ^0.8.0;\n\ncontract SimpleStorage {\n    uint256 public data;\n    function set(uint256 _data) public { data = _data; }\n}", category="Blockchain"),
+            TrainingData(prompt="Translate 'Hello World' to Fon.", completion="In Fon (Togo/Benin), 'Hello World' can be translated as 'Kùabo xɛ lɔ'.", category="Language")
+        ]
+        db.session.bulk_save_objects(sample_data)
+        db.session.commit()
+
     print("Database initialized.")

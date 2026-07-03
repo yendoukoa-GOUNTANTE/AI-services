@@ -130,7 +130,10 @@ const AI_SERVICES: AIService[] = [
   { id: 'gaming-monetization', name: 'Gaming Architect', category: 'Development', icon: Gamepad2, description: 'Elite game development and monetization strategies for Unity and AdMob.' },
   { id: 'excel-helper', name: 'Excel Specialist', category: 'Business', icon: Database, description: 'Elite Excel formulas, data analysis, and automated spreadsheet generation.' },
   { id: 'word-helper', name: 'Word Architect', category: 'Business', icon: FileText, description: 'Professional document design, template creation, and automated Word generation.' },
-  { id: 'powerpoint-helper', name: 'PPT Strategist', category: 'Business', icon: Layout, description: 'Compelling presentation storyboarding and automated PowerPoint generation.' }
+  { id: 'powerpoint-helper', name: 'PPT Strategist', category: 'Business', icon: Layout, description: 'Compelling presentation storyboarding and automated PowerPoint generation.' },
+  { id: 'dataset-architect', name: 'Dataset Architect', category: 'Research', icon: Database, description: 'Elite specialist for AI dataset design, curation, and formatting for model training.' },
+  { id: 'training-strategist', name: 'AI Training Strategist', category: 'Research', icon: Brain, description: 'Expert guidance on AI training objectives, model selection, and RLHF workflows.' },
+  { id: 'dataset-explorer', name: 'Open Dataset Explorer', category: 'Research', icon: Globe, description: 'Explore and contribute to our open-source anonymized AI training datasets.', featured: true }
 ];
 
 const App: React.FC = () => {
@@ -638,6 +641,20 @@ const App: React.FC = () => {
         case 'powerpoint-helper':
           response = await aiService.getPowerPointAssistance(servicePrompt, executionParams.execute);
           break;
+        case 'dataset-architect':
+          response = await aiService.getDatasetArchitectAssistance(servicePrompt);
+          break;
+        case 'training-strategist':
+          response = await aiService.getAITrainingStrategistAssistance(servicePrompt);
+          break;
+        case 'dataset-explorer':
+          response = await aiService.getPublicDataset(servicePrompt);
+          // Format the dataset as a readable string for the response
+          if (Array.isArray(response.data)) {
+            const formatted = response.data.map((d: any) => `### Item ${d.id} (${d.category})\n**Prompt:** ${d.prompt}\n**Completion:** ${d.completion}\n`).join('\n---\n');
+            response.data.message = formatted || "No public data found in this category.";
+          }
+          break;
         case 'gaming-monetization':
           response = await aiService.getGamingMonetizationAssistance(servicePrompt);
           break;
@@ -878,7 +895,7 @@ const App: React.FC = () => {
                   <p className="text-gray-500 dark:text-gray-400 font-bold mt-2">Browse {filteredServices.length} specialized AI assistants.</p>
                 </div>
                 <CategoryFilter
-                  categories={['All', 'Development', 'Business', 'Public', 'Support', 'Security', 'Advanced', 'Infrastructure', 'Science', 'Arts']}
+                  categories={['All', 'Development', 'Business', 'Public', 'Support', 'Security', 'Advanced', 'Infrastructure', 'Science', 'Arts', 'Research']}
                   selectedCategory={selectedCategory}
                   onSelectCategory={setSelectedCategory}
                 />
