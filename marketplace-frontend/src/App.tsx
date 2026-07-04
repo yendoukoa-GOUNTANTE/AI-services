@@ -50,6 +50,7 @@ const AI_SERVICES: AIService[] = [
   { id: 'diagnostic', name: 'Medical Diagnostic', category: 'Health', icon: Stethoscope, description: 'Expert diagnostic assistance for all diseases, focusing on cancer and heart disease.' },
   { id: 'nuclear-strategy', name: 'Nuclear Strategy Architect', category: 'Engineering', icon: Atom, description: 'Expert guidance on nuclear energy availability, global access, and innovative product development.', featured: true },
   { id: 'emergent', name: 'Emergent Architect', category: 'Advanced', icon: Cpu, description: 'Elite multi-model AI integration and Universal Key expert powered by Emergent.sh.', featured: true },
+  { id: 'devrev', name: 'DevRev Support', category: 'Business', icon: Building2, description: 'Elite DevRev architect for automated customer support and work management.', featured: true },
   { id: 'aerospace', name: 'Aerospace & Auto', category: 'Engineering', icon: Plane, description: 'Aeronautics and automotive technical guidance.' },
   { id: 'auto-security', name: 'Automotive Security', category: 'Security', icon: Car, description: 'Elite vehicle cybersecurity, CAN bus analysis, and ECU protection specialist.' },
   { id: 'cyber-os-hardening', name: 'Cyber OS Hardener', category: 'Security', icon: ShieldCheck, description: 'Elite system security enhancement and OS hardening specialist.' },
@@ -375,6 +376,9 @@ const App: React.FC = () => {
           break;
         case 'emergent':
           response = await aiService.getEmergentAssistance(servicePrompt, executionParams.execute, executionParams.model_name);
+          break;
+        case 'devrev':
+          response = await aiService.getDevRevAssistance(servicePrompt, executionParams.execute, executionParams.appliesToPart);
           break;
         case 'website':
           response = await aiService.generateWebsite(servicePrompt);
@@ -1288,7 +1292,7 @@ const App: React.FC = () => {
                    <span className="text-xl font-black text-gray-900 dark:text-white">{selectedService?.price || 50} Credits</span>
                 </div>
                 <div className="flex space-x-4">
-                  {['elevenlabs', 'tiktok-market', 'whatsapp-biz', 'cloudinary-media', 'runway-video', 'excel-helper', 'word-helper', 'powerpoint-helper', 'calendly', 'xero-specialist', 'quickbooks-expert', 'airtable-architect', 'notion-architect', 'flutterwave', 'twilio', 'os-kernel', 'os-fs', 'os-process', 'emergent'].includes(selectedService?.id || '') && (
+                  {['elevenlabs', 'tiktok-market', 'whatsapp-biz', 'cloudinary-media', 'runway-video', 'excel-helper', 'word-helper', 'powerpoint-helper', 'calendly', 'xero-specialist', 'quickbooks-expert', 'airtable-architect', 'notion-architect', 'flutterwave', 'twilio', 'os-kernel', 'os-fs', 'os-process', 'emergent', 'devrev'].includes(selectedService?.id || '') && (
                     <button
                       type="button"
                       onClick={() => setExecutionParams({ ...executionParams, execute: true })}

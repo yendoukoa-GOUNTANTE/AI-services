@@ -2504,3 +2504,30 @@ def provide_ai_training_strategist_assistance(prompt: str) -> str:
         "and efficient parameter-tuning (PEFT) techniques like LoRA and QLoRA."
     )
     return _provide_gemini_assistance(prompt, system_prompt, "AI Training Strategist AI Error")
+
+def provide_devrev_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for DevRev platform, snap-ins, and work management.
+    """
+    system_prompt = (
+        "You are an Elite DevRev Architect and Customer Support Specialist. "
+        "Your expertise covers the DevRev platform, including work management (tickets, issues, tasks), "
+        "snap-ins development, and integrating DevRev with other systems. Provide high-level "
+        "technical guidance on automating customer support workflows, managing development cycles, "
+        "and leveraging DevRev's data model (DON) for better product-led growth. "
+        "I can also create work items directly on DevRev if provided with the necessary details."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "DevRev AI Error")
+
+def generate_devrev_work_data(prompt: str) -> dict:
+    """
+    Generates structured data for creating a DevRev work item.
+    """
+    system_instruction = (
+        "You are a DevRev Automation Expert. Based on the user prompt, generate a JSON object "
+        "suitable for creating a DevRev work item. The JSON should include 'title', 'body', "
+        "and 'type' (one of: issue, ticket, task, opportunity - default is ticket). "
+        "Return ONLY the JSON object."
+    )
+    response = _provide_gemini_assistance(prompt, system_instruction, "DevRev Data Gen Error")
+    return extract_json(response)

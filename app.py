@@ -38,6 +38,7 @@ import paystack_service
 import flutterwave_service
 import twilio_service
 import calendly_service
+import devrev_service
 import os_service
 import json
 import hmac
@@ -3846,6 +3847,40 @@ def emergent_assistance_endpoint():
     else:
         message = google_ai.provide_emergent_assistance(prompt)
 
+    return jsonify({"status": "success", "message": message})
+
+
+@app.route('/api/v1/support/devrev', methods=['POST'])
+@require_api_key
+def devrev_assistance_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    execute = data.get('execute', False)
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+
+    if execute:
+        # Generate structured data for DevRev
+        work_data = google_ai.generate_devrev_work_data(prompt)
+        if not work_data or 'title' not in work_data:
+            return jsonify({"error": _("Could not generate valid DevRev work data from prompt")}), 400
+
+        applies_to_part = data.get('applies_to_part')
+        result = devrev_service.create_work(
+            work_data['title'],
+            work_data.get('body', ''),
+            work_data.get('type', 'ticket'),
+            applies_to_part
+        )
+
+        if 'error' in result:
+            return jsonify({"error": _("DevRev Execution Error: %(error)s", error=result['error'])}), 400
+
+        message = _("Successfully executed DevRev action: %(type)s '%(title)s' created.",
+                    type=work_data.get('type', 'ticket').capitalize(), title=work_data['title'])
+        return jsonify({"status": "success", "message": message, "work": result['work']})
+
+    message = google_ai.provide_devrev_assistance(prompt)
     return jsonify({"status": "success", "message": message})
 
 
