@@ -54,6 +54,7 @@ const AI_SERVICES: AIService[] = [
   { id: 'aerospace', name: 'Aerospace & Auto', category: 'Engineering', icon: Plane, description: 'Aeronautics and automotive technical guidance.' },
   { id: 'auto-security', name: 'Automotive Security', category: 'Security', icon: Car, description: 'Elite vehicle cybersecurity, CAN bus analysis, and ECU protection specialist.' },
   { id: 'cyber-os-hardening', name: 'Cyber OS Hardener', category: 'Security', icon: ShieldCheck, description: 'Elite system security enhancement and OS hardening specialist.' },
+  { id: 'scam-detector', name: 'Scam & Fraud Detector', category: 'Security', icon: ShieldAlert, description: 'Detect 419 scams and global grazers in messages, emails, and phone calls.', featured: true },
   { id: 'music', name: 'Music Producer', category: 'Arts', icon: Music, description: 'Beat production and artist marketing.' },
   { id: 'eshop', name: 'E-commerce Guru', category: 'Business', icon: ShoppingBag, description: 'Create and manage high-performing e-shops.' },
   { id: 'investigation', name: 'Cyber Investigator', category: 'Security', icon: ShieldAlert, description: 'Digital forensics and security investigation.' },
@@ -554,6 +555,9 @@ const App: React.FC = () => {
           break;
         case 'cyber-os-hardening':
           response = await aiService.getOSHardeningAssistance(servicePrompt);
+          break;
+        case 'scam-detector':
+          response = await aiService.getScamDetection(servicePrompt);
           break;
         case 'conflict-debug':
           response = await aiService.debugCode(servicePrompt);

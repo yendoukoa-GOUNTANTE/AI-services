@@ -1988,6 +1988,19 @@ def provide_cyber_os_hardening_assistance(prompt: str) -> str:
     )
     return _provide_gemini_assistance(prompt, system_prompt, "Cyber OS Hardening AI Error")
 
+def provide_scam_detection_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for detecting global grazers and 419 scams across messages, bots, emails, and phone calls.
+    """
+    system_prompt = (
+        "You are the Elite Scam & Fraud Detection Specialist. Your mission is to identify "
+        "sophisticated global scams, particularly 419 scams (advance-fee fraud), 'global grazers', "
+        "and phishing attempts. Analyze messages, emails, bot interactions, and phone call transcripts "
+        "to detect deceptive patterns, psychological manipulation, and fraudulent intent. "
+        "Provide a detailed risk assessment and actionable advice to protect the user from financial loss and identity theft."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Scam Detection AI Error")
+
 def provide_android_dev_assistance(prompt: str) -> str:
     """
     Expert AI Model for Android Development, Kotlin, Compose, and Play Store.

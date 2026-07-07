@@ -118,6 +118,7 @@ export const aiService = {
   getCybersecuritySentinel: (prompt: string) => apiClient.post('/security/sentinel', { prompt }),
   getAutomotiveSecurityAssistance: (prompt: string) => apiClient.post('/automotive/security', { prompt }),
   getOSHardeningAssistance: (prompt: string) => apiClient.post('/security/os-hardening', { prompt }),
+  getScamDetection: (prompt: string) => apiClient.post('/security/scam-detector', { prompt }),
   getConflictDebugAssistance: (prompt: string, mediaData?: string, mimeType?: string) => apiClient.post('/conflict-debug/assistance', { prompt, media_data: mediaData, mime_type: mimeType }),
   executeLangflow: (prompt: string) => apiClient.post('/langflow/execute', { prompt }),
   getAutoMLFeatureEngineering: (prompt: string) => apiClient.post('/automl/feature-engineering', { prompt }),
