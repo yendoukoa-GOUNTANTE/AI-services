@@ -183,6 +183,8 @@ export const aiService = {
     apiClient.post('/emergent/assistance', { prompt, execute, model_name: modelName }),
   getDevRevAssistance: (prompt: string, execute = false, appliesToPart?: string) =>
     apiClient.post('/support/devrev', { prompt, execute, applies_to_part: appliesToPart }),
+  getShoplineAssistance: (prompt: string, execute = false) =>
+    apiClient.post('/ecommerce/shopline/assistance', { prompt, execute }),
   getCalendlyAssistance: (prompt: string, execute = false) => apiClient.post('/calendly', { prompt, execute }),
   getCalendlyMe: () => apiClient.get('/calendly/me'),
   getCalendlyEventTypes: (userUri?: string) => apiClient.get('/calendly/event_types', { params: { user: userUri } }),
