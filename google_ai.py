@@ -2544,3 +2544,30 @@ def generate_devrev_work_data(prompt: str) -> dict:
     )
     response = _provide_gemini_assistance(prompt, system_instruction, "DevRev Data Gen Error")
     return extract_json(response)
+
+def provide_shopline_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Shopline e-commerce, API integration, and store management.
+    """
+    system_prompt = (
+        "You are an Elite Shopline Specialist and E-commerce Architect. "
+        "Your expertise covers the Shopline Admin API (REST and GraphQL), Storefront API, "
+        "store customization, theme development, and integrating Shopline with other business tools. "
+        "Provide high-level technical guidance on building headless e-commerce solutions, "
+        "automating order processing, managing product catalogs, and optimizing customer experience on Shopline."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Shopline AI Error")
+
+def generate_shopline_product_data(prompt: str) -> dict:
+    """
+    Generates structured data for creating a Shopline product.
+    """
+    system_instruction = (
+        "You are a Shopline Automation Expert. Based on the user prompt, generate a JSON object "
+        "suitable for creating a Shopline product via the REST Admin API. "
+        "The JSON should include 'title' (required), 'body_html' (optional), 'vendor' (optional), "
+        "'product_type' (optional), and 'price' (optional, as a float or numeric string). "
+        "Return ONLY the JSON object."
+    )
+    response = _provide_gemini_assistance(prompt, system_instruction, "Shopline Data Gen Error")
+    return extract_json(response)

@@ -39,6 +39,7 @@ import flutterwave_service
 import twilio_service
 import calendly_service
 import devrev_service
+import shopline_service
 import os_service
 import json
 import hmac
@@ -3891,6 +3892,39 @@ def devrev_assistance_endpoint():
         return jsonify({"status": "success", "message": message, "work": result['work']})
 
     message = google_ai.provide_devrev_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+
+@app.route('/api/v1/ecommerce/shopline/assistance', methods=['POST'])
+@require_api_key
+def shopline_assistance_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    execute = data.get('execute', False)
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+
+    if execute:
+        # Generate structured data for Shopline
+        product_data = google_ai.generate_shopline_product_data(prompt)
+        if not product_data or 'title' not in product_data:
+            return jsonify({"error": _("Could not generate valid Shopline product data from prompt")}), 400
+
+        result = shopline_service.create_product(
+            product_data['title'],
+            product_data.get('body_html'),
+            product_data.get('vendor'),
+            product_data.get('product_type'),
+            product_data.get('price')
+        )
+
+        if 'error' in result:
+            return jsonify({"error": _("Shopline Execution Error: %(error)s", error=result['error'])}), 400
+
+        message = _("Successfully executed Shopline action: Product '%(title)s' created.", title=product_data['title'])
+        return jsonify({"status": "success", "message": message, "product": result['product']})
+
+    message = google_ai.provide_shopline_assistance(prompt)
     return jsonify({"status": "success", "message": message})
 
 
