@@ -192,6 +192,8 @@ export const aiService = {
   getDatasetArchitectAssistance: (prompt: string) => apiClient.post('/research/dataset-architect', { prompt }),
   getAITrainingStrategistAssistance: (prompt: string) => apiClient.post('/research/training-strategist', { prompt }),
   getPublicDataset: (category?: string) => apiClient.get('/research/dataset', { params: { category } }),
+  getPerplexityAssistance: (prompt: string, execute = false, modelName = 'sonar-pro') =>
+    apiClient.post('/perplexity/assistance', { prompt, execute, model_name: modelName }),
 };
 
 export const userService = {

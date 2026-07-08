@@ -16,6 +16,7 @@ from langchain_core.output_parsers import StrOutputParser
 from llama_index.llms.nvidia import NVIDIA as LlamaIndexNVIDIA
 from llama_index.core import Settings as LlamaIndexSettings
 import emergent_service
+import perplexity_service
 
 def init_vertexai():
     """Initializes the Vertex AI SDK."""
@@ -2557,6 +2558,31 @@ def provide_shopline_assistance(prompt: str) -> str:
         "automating order processing, managing product catalogs, and optimizing customer experience on Shopline."
     )
     return _provide_gemini_assistance(prompt, system_prompt, "Shopline AI Error")
+
+def provide_perplexity_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Perplexity AI and search-grounded research.
+    """
+    system_prompt = (
+        "You are an Elite Perplexity AI Strategist and Research Architect. "
+        "Your expertise covers the Perplexity Sonar API, web-grounded AI responses, "
+        "and building search-enhanced AI applications. Provide high-level "
+        "technical guidance on integrating the Perplexity API, optimizing search-based "
+        "queries, and leveraging citations for factual accuracy and verifiability."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Perplexity AI Error")
+
+def generate_perplexity_completion(prompt: str, model_name: str = "sonar-pro") -> str:
+    """
+    Uses the Perplexity Sonar API to generate search-grounded completions.
+    """
+    try:
+        response = perplexity_service.get_completion(prompt, model=model_name)
+        if "error" in response:
+            return f"Perplexity Execution Error: {response['error']}"
+        return response['choices'][0]['message']['content'].strip()
+    except Exception as e:
+        return f"Perplexity Execution Error: {e}"
 
 def generate_shopline_product_data(prompt: str) -> dict:
     """
