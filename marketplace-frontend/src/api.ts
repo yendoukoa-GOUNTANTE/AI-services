@@ -187,6 +187,8 @@ export const aiService = {
     apiClient.post('/ecommerce/shopline/assistance', { prompt, execute }),
   getZendeskAssistance: (prompt: string, execute = false) =>
     apiClient.post('/support/zendesk', { prompt, execute }),
+  getPerplexityAssistance: (prompt: string, execute = false, modelName = 'sonar-pro') =>
+    apiClient.post('/perplexity/assistance', { prompt, execute, model_name: modelName }),
   getCalendlyAssistance: (prompt: string, execute = false) => apiClient.post('/calendly', { prompt, execute }),
   getCalendlyMe: () => apiClient.get('/calendly/me'),
   getCalendlyEventTypes: (userUri?: string) => apiClient.get('/calendly/event_types', { params: { user: userUri } }),

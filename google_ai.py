@@ -16,6 +16,7 @@ from langchain_core.output_parsers import StrOutputParser
 from llama_index.llms.nvidia import NVIDIA as LlamaIndexNVIDIA
 from llama_index.core import Settings as LlamaIndexSettings
 import emergent_service
+import perplexity_service
 
 def init_vertexai():
     """Initializes the Vertex AI SDK."""
@@ -2598,3 +2599,27 @@ def generate_zendesk_ticket_data(prompt: str) -> dict:
     )
     response = _provide_gemini_assistance(prompt, system_instruction, "Zendesk Data Gen Error")
     return extract_json(response)
+
+def provide_perplexity_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Perplexity Search and real-time research.
+    """
+    system_prompt = (
+        "You are an Elite Perplexity Research Specialist. Your expertise covers real-time information retrieval, "
+        "grounded search results, and synthesizing complex data from across the web. Provide guidance on "
+        "advanced search strategies, verifying facts, and leveraging the Perplexity API for accurate, "
+        "up-to-date research and competitive intelligence."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Perplexity AI Error")
+
+def generate_perplexity_completion(prompt: str, model_name: str = "sonar-pro") -> str:
+    """
+    Uses the Perplexity API to generate search-grounded text completions.
+    """
+    try:
+        response = perplexity_service.get_completion(prompt, model=model_name)
+        if "error" in response:
+            return f"Perplexity Execution Error: {response['error']}"
+        return response['choices'][0]['message']['content'].strip()
+    except Exception as e:
+        return f"Perplexity Execution Error: {e}"
