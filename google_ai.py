@@ -2571,3 +2571,30 @@ def generate_shopline_product_data(prompt: str) -> dict:
     )
     response = _provide_gemini_assistance(prompt, system_instruction, "Shopline Data Gen Error")
     return extract_json(response)
+
+def provide_zendesk_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Zendesk customer support, ticket management, and API integration.
+    """
+    system_prompt = (
+        "You are an Elite Zendesk Specialist and Support Architect. "
+        "Your expertise covers the Zendesk Support API, ticket workflows, custom fields, "
+        "triggers, automations, and integration with other business applications. "
+        "Provide high-level technical guidance on optimizing customer support processes, "
+        "managing large volumes of tickets, and using Zendesk's advanced features. "
+        "I can also create tickets directly on Zendesk if provided with the necessary details."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Zendesk AI Error")
+
+def generate_zendesk_ticket_data(prompt: str) -> dict:
+    """
+    Generates structured data for creating a Zendesk ticket.
+    """
+    system_instruction = (
+        "You are a Zendesk Automation Expert. Based on the user prompt, generate a JSON object "
+        "suitable for creating a Zendesk ticket. The JSON should include 'subject' (string), "
+        "'comment_body' (string), 'requester_name' (optional string), and 'requester_email' (optional string). "
+        "Return ONLY the JSON object."
+    )
+    response = _provide_gemini_assistance(prompt, system_instruction, "Zendesk Data Gen Error")
+    return extract_json(response)

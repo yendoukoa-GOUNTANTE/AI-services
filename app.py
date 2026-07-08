@@ -40,6 +40,7 @@ import twilio_service
 import calendly_service
 import devrev_service
 import shopline_service
+import zendesk_service
 import os_service
 import json
 import hmac
@@ -3925,6 +3926,38 @@ def shopline_assistance_endpoint():
         return jsonify({"status": "success", "message": message, "product": result['product']})
 
     message = google_ai.provide_shopline_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+
+@app.route('/api/v1/support/zendesk', methods=['POST'])
+@require_api_key
+def zendesk_assistance_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    execute = data.get('execute', False)
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+
+    if execute:
+        # Generate structured data for Zendesk
+        ticket_data = google_ai.generate_zendesk_ticket_data(prompt)
+        if not ticket_data or 'subject' not in ticket_data or 'comment_body' not in ticket_data:
+            return jsonify({"error": _("Could not generate valid Zendesk ticket data from prompt")}), 400
+
+        result = zendesk_service.create_ticket(
+            ticket_data['subject'],
+            ticket_data['comment_body'],
+            ticket_data.get('requester_name'),
+            ticket_data.get('requester_email')
+        )
+
+        if 'error' in result:
+            return jsonify({"error": _("Zendesk Execution Error: %(error)s", error=result['error'])}), 400
+
+        message = _("Successfully executed Zendesk action: Ticket '%(subject)s' created.", subject=ticket_data['subject'])
+        return jsonify({"status": "success", "message": message, "ticket": result['ticket']})
+
+    message = google_ai.provide_zendesk_assistance(prompt)
     return jsonify({"status": "success", "message": message})
 
 
