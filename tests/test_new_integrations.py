@@ -4,21 +4,16 @@ import sys
 import os
 
 # Mock dependencies before importing app
-sys.modules['elevenlabs'] = MagicMock()
-sys.modules['elevenlabs.client'] = MagicMock()
-sys.modules['cloudinary'] = MagicMock()
-sys.modules['cloudinary.uploader'] = MagicMock()
-sys.modules['cloudinary.utils'] = MagicMock()
-sys.modules['runwayml'] = MagicMock()
-sys.modules['google.genai'] = MagicMock()
-sys.modules['google.genai.types'] = MagicMock()
-sys.modules['azure.ai.inference'] = MagicMock()
-sys.modules['azure.core.credentials'] = MagicMock()
-sys.modules['firebase_admin'] = MagicMock()
-sys.modules['firebase_admin.credentials'] = MagicMock()
-sys.modules['firebase_admin.messaging'] = MagicMock()
-sys.modules['mailchimp_marketing'] = MagicMock()
-sys.modules['mailchimp_marketing.api_client'] = MagicMock()
+for mod in [
+    'elevenlabs', 'elevenlabs.client', 'cloudinary', 'cloudinary.uploader', 'cloudinary.utils',
+    'runwayml', 'google.genai', 'google.genai.types', 'azure.ai.inference', 'azure.core.credentials',
+    'firebase_admin', 'firebase_admin.credentials', 'firebase_admin.messaging',
+    'mailchimp_marketing', 'mailchimp_marketing.api_client'
+]:
+    try:
+        __import__(mod)
+    except ImportError:
+        sys.modules[mod] = MagicMock()
 
 from app import app, db, User
 

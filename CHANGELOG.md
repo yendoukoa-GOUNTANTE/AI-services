@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.1] - 2026-07-09
+
+### Fixed
+- **Mobile Development Tests:** Fixed `tests/test_google_ai_mobile.py` to correctly mock the internal `_provide_gemini_assistance` helper instead of the non-existent `generate_content` attribute.
+- **Global MagicMock Pollution:** Prevented `sys.modules` MagicMock monkeypatching in `test_mobile_integration.py`, `test_new_integrations.py`, and `test_mailchimp.py` from polluting and corrupting globally installed packages.
+- **Test Isolation and Database Fixtures:** Resolved database connection leak and state corruption caused by local client fixture definitions in `test_scam_detector.py` by aligning with the global `conftest.py` setup.
+
 ## [2.1.0] - 2025-02-24
 
 ### Added
@@ -62,6 +69,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Basic Flask backend and HTML/CSS frontend.
 - Integration with Vertex AI for code generation.
 
+[2.1.1]: https://github.com/GYFX35/AI-services/releases/tag/v2.1.1
 [2.1.0]: https://github.com/GYFX35/AI-services/releases/tag/v2.1.0
 [2.0.0]: https://github.com/GYFX35/AI-services/releases/tag/v2.0.0
 [1.0.0]: https://github.com/GYFX35/AI-services/releases/tag/V10.0.0

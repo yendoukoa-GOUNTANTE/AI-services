@@ -4,8 +4,11 @@ import os
 import sys
 
 # Mock mailchimp_marketing before importing app
-sys.modules['mailchimp_marketing'] = MagicMock()
-sys.modules['mailchimp_marketing.api_client'] = MagicMock()
+for mod in ['mailchimp_marketing', 'mailchimp_marketing.api_client']:
+    try:
+        __import__(mod)
+    except ImportError:
+        sys.modules[mod] = MagicMock()
 
 import app
 
