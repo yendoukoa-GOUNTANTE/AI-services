@@ -74,6 +74,13 @@ If you find this project useful, please consider sponsoring us!
 [![Sponsor](https://img.shields.io/badge/Sponsor-Open%20Collective-7f9bff?style=for-the-badge&logo=open-collective)](https://opencollective.com/yendoukoa)
 [![Sponsor](https://img.shields.io/badge/Sponsor-Patreon-f96854?style=for-the-badge&logo=patreon)](https://patreon.com/yendoukoa)
 
+### Python Software Foundation (PSF) Support
+
+We proudly support the Python Software Foundation. If you'd like to fund Python's core development, infrastructure (like PyPI), and global community grants, please consider sponsoring or donating to the PSF directly:
+
+[![Sponsor PSF](https://img.shields.io/badge/Sponsor-Python%20Software%20Foundation-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://github.com/sponsors/psf)
+[![Donate PSF](https://img.shields.io/badge/Donate-PSF%20Donations-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/psf/donations/)
+
 ## Features
 
 - **Software Engineer:** Generates multi-section HTML and CSS for a static website.

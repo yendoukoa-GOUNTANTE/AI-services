@@ -2,6 +2,20 @@
   "name": "marketplace-frontend",
   "private": true,
   "version": "2.0.0",
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/GYFX35"
+    },
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/psf"
+    },
+    {
+      "type": "custom",
+      "url": "https://www.python.org/psf/donations/"
+    }
+  ],
   "type": "module",
   "scripts": {
     "dev": "vite",

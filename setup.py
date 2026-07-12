@@ -83,5 +83,11 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
+    project_urls={
+        "Funding": "https://github.com/sponsors/GYFX35",
+        "PSF Sponsors": "https://github.com/sponsors/psf",
+        "PSF Donations": "https://www.python.org/psf/donations/",
+        "Source": "https://github.com/GYFX35/AI-services",
+    },
     python_requires='>=3.6',
 )
