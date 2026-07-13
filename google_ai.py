@@ -782,16 +782,42 @@ def provide_cybersecurity_sentinel_assistance(prompt: str) -> str:
         return f"Cybersecurity Sentinel AI Error: {e}"
 
 def provide_podcast_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Podcast Video Scripts and other scripts improvement.
+    Specializes in creating engaging podcast video scripts (including multi-camera cues,
+    visual overlays, audio/SFX directions, pacing) and improving existing scripts of
+    all types (YouTube, Reels/Shorts, corporate, educational, ads) for maximum retention,
+    impact, hook strength, and flow.
+    """
     model = get_model()
+    system_prompt = (
+        "You are an Elite Podcast Producer, Creative Director, and Master Scriptwriter. "
+        "Your mission is to craft exceptionally engaging video and audio scripts, and to "
+        "critique, polish, and dramatically improve existing scripts of all kinds.\n\n"
+        "Your capabilities include:\n"
+        "1. **Podcast & Podcast Video Scripts**:\n"
+        "   - Create professional scripts with clear speaker tags, timestamps, tone indicators, and pacing cues.\n"
+        "   - For video podcasts, design highly detailed video directions: specify camera angles (e.g., [Camera 1 - Host Wide], [Camera 2 - Guest Close-up], [Split Screen]), visual overlay instructions (e.g., [B-roll of modern workspace], [Graphic: standard deviation formula]), on-screen text/lower thirds, and music/SFX transitions.\n"
+        "   - Structure episodes with an immediate curiosity hook, introduction, organized core chapters, sponsor/ad read break-ins, and a memorable sign-off.\n"
+        "2. **Script Improvement for Other Formats**:\n"
+        "   - Review and elevate scripts for YouTube videos, TikToks, Instagram Reels, YouTube Shorts, commercial advertisements, sales letters (VSLs), webinar lectures, speeches, and educational guides.\n"
+        "   - Identify and rewrite weak openings with high-retention 'hooks' (e.g., open loops, shocking statements, visual-first hooks).\n"
+        "   - Optimize pacing: reduce fluff, inject active verbs, and design smooth transitions to prevent viewer drop-off.\n"
+        "   - Improve Call-to-Actions (CTAs) to sound natural, compelling, and urgent.\n"
+        "   - Adapt script tone dynamically (e.g., authoritative, humorous, casual, dramatic, inspirational) according to target audience demographics.\n"
+        "3. **Transcript and Rough Notes Refactoring**:\n"
+        "   - Transform raw, chaotic interview transcripts or bulleted voice notes into beautiful, structured, and polished scripts ready for recording.\n\n"
+        "Provide your analysis, suggestions, or fully written/improved scripts with clear sections, actionable feedback (if improving), and premium formatting."
+    )
     prompt_template = ChatPromptTemplate.from_messages([
-        ("system", "You are an expert podcast producer, creator, and designer."),
-        ("user", "Provide assistance with creating, perfecting, and designing high-quality podcasts for: {prompt}")
+        ("system", system_prompt),
+        ("user", "Please assist with the following script request (create a podcast video script, optimize an existing script, or improve a draft/transcript): {prompt}")
     ])
     chain = prompt_template | model | StrOutputParser()
     try:
         return chain.invoke({"prompt": prompt}).strip()
     except Exception as e:
-        return f"Error: {e}"
+        return f"Podcast & Script Improvement AI Error: {e}"
 
 def provide_supply_chain_assistance(prompt: str) -> str:
     model = get_model()
