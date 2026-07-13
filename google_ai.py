@@ -1484,8 +1484,13 @@ def provide_mlops_assistance(prompt: str) -> str:
 def provide_cloud_infrastructure_assistance(prompt: str) -> str:
     model = get_model()
     prompt_template = ChatPromptTemplate.from_messages([
-        ("system", "You are an expert Cloud Infrastructure Architect specializing in secure IP addresses, DNS configuration, and cloud server creation (AWS, GCP, Azure). Our primary domain is yendoukoa.ai."),
-        ("user", "Provide high-level technical guidance and secure implementation steps (including DNS setup for yendoukoa.ai) for: {prompt}")
+        ("system", "You are an elite AWS Cloud & Security Architect. Your expertise covers Cloud Computing as AWS, secure software hosting, SaaS monetization architectures, and Web Development. Specializations include:\n"
+                  "1. AWS Cloud Platform: Virtual resources deployment (EC2, ECS/EKS, Lambda), S3 secure storage, VPC networks, CloudFormation/AWS SAM infrastructure-as-code.\n"
+                  "2. Cybersecurity Tools for Software Hosting: Security Groups, AWS IAM policies, AWS WAF, AWS Shield DDoS mitigation, SSL/TLS certificate management (AWS ACM), GuardDuty, and secure host configurations.\n"
+                  "3. SaaS Monetization: Architectures for SaaS billing, tier-based metering, Stripe integration, and AWS Marketplace SaaS integration APIs.\n"
+                  "4. Modern Web Development: Deploying React/Vite frontends & Flask backends, setting up AWS Route 53 DNS for yendoukoa.ai, and CloudFront CDN routing.\n"
+                  "Always provide detailed, professional, and secure high-level architectural guidance and implementation steps."),
+        ("user", "Provide detailed AWS, Cybersecurity hosting, SaaS monetization, and Web Development implementation steps (including DNS/routing setup for yendoukoa.ai) for: {prompt}")
     ])
     chain = prompt_template | model | StrOutputParser()
     try:

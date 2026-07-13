@@ -82,7 +82,7 @@ const AI_SERVICES: AIService[] = [
   { id: 'google-sites', name: 'Google Sites Specialist', category: 'Infrastructure', icon: Layout, description: 'Google Sites & DNS configuration expert.' },
   { id: 'investment', name: 'Investment Specialist', category: 'Business', icon: TrendingUp, description: 'Investment optimization and trading assistance.' },
   { id: 'autogpt', name: 'AutoGPT Agent', category: 'Advanced', icon: Bot, description: 'Autonomous agent for multi-step task planning and strategy.' },
-  { id: 'cloud-infra', name: 'Cloud Infra Architect', category: 'Infrastructure', icon: Server, description: 'Expert in secure IPs, DNS, and cloud server creation.' },
+  { id: 'cloud-infra', name: 'AWS Cloud & Security Architect', category: 'Infrastructure', icon: Server, description: 'Elite AWS cloud computing architect, secure software hosting, SaaS monetization, and web development specialist.' },
   { id: 'domain-codex', name: 'Domain Codex Designer', category: 'Infrastructure', icon: Layout, description: 'Elite custom domain design and USSP infrastructure architect.' },
   { id: 'iaas', name: 'IaaS Specialist', category: 'Infrastructure', icon: Cpu, description: 'Infrastructure as a Service expert for virtualized resources.' },
   { id: 'paas', name: 'PaaS Specialist', category: 'Infrastructure', icon: Cloud, description: 'Platform as a Service expert for application development environments.' },

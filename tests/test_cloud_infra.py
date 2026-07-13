@@ -25,3 +25,13 @@ def test_cloud_infrastructure_assistance_endpoint_missing_prompt(client, auth_he
 
     assert response.status_code == 400
     assert 'error' in response.json
+
+@patch('google_ai.provide_cloud_infrastructure_assistance')
+def test_cloud_infrastructure_with_aws_prompts(mock_gen, client, auth_headers):
+    mock_gen.return_value = "Mock AWS SaaS Monetization Architect Response"
+    response = client.post('/api/v1/cloud-infrastructure/assistance',
+                           json={'prompt': 'Design an AWS architecture for SaaS hosting with automatic Stripe monetization.'},
+                           headers=auth_headers)
+    assert response.status_code == 200
+    assert response.json['status'] == 'success'
+    assert "Mock AWS" in response.json['message']
