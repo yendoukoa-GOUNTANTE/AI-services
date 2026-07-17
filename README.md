@@ -111,7 +111,7 @@ section: About Me
   text: I am a professional photographer specializing in landscapes.
 section: Gallery
   images: 4
-footer: Copyright © 2024 Jane Doe
+footer: Copyright © 2026 Jane Doe
 ```
 
 ### Debugger
@@ -206,4 +206,4 @@ We've created a dedicated **Local Project Portal** to help you manage and explor
 For a detailed catalog of the Yendoukoa AI ecosystem, including architecture, specialized agents, and developer resources, please refer to our **[Project Artifacts Manifest](PROJECT_ARTIFACTS.md)**.
 
 ---
-*© 2024 Yendoukoa AI. Empowering the future of autonomous intelligence.*
+*© 2026 Yendoukoa AI. Empowering the future of autonomous intelligence.*
