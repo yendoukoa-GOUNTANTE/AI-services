@@ -2479,6 +2479,27 @@ def provide_os_process_assistance(prompt: str) -> str:
     )
     return _provide_gemini_assistance(prompt, system_prompt, "Process Controller AI Error")
 
+def provide_os_dhcp_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for DHCP Server management and configuration.
+    """
+    system_prompt = (
+        "You are an Elite DHCP Server Administrator. Your expertise covers IP address pools, lease allocations, "
+        "subnet masks, gateway configurations, and network settings.\n"
+        "If you see 'EXTRACT_JSON:', respond ONLY with a JSON object containing:\n"
+        "- 'action': one of 'allocate', 'release', 'list', 'configure', 'get_config'\n"
+        "- 'mac': MAC address string (required for 'allocate' and 'release')\n"
+        "- 'hostname': hostname string (required for 'allocate')\n"
+        "- 'requested_ip': requested IP address string (optional for 'allocate')\n"
+        "- 'start_ip': start IP pool string (optional for 'configure')\n"
+        "- 'end_ip': end IP pool string (optional for 'configure')\n"
+        "- 'subnet_mask': subnet mask string (optional for 'configure')\n"
+        "- 'gateway': gateway IP string (optional for 'configure')\n"
+        "- 'dns': DNS IP string (optional for 'configure')\n"
+        "- 'lease_duration': lease duration in seconds as integer (optional for 'configure')"
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "DHCP Server AI Error")
+
 def provide_nuclear_assistance(prompt: str) -> str:
     """
     Expert AI Model for Nuclear Sector assistance, energy availability, and product development.
