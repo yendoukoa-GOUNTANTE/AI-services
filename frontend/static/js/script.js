@@ -2315,6 +2315,44 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- Psychoanalyst & Dream Interpreter ---
+    const psychoanalysisBtn = document.getElementById('psychoanalysis-btn');
+    if (psychoanalysisBtn) {
+        psychoanalysisBtn.addEventListener('click', async () => {
+            const input = document.getElementById('psychoanalysis-input');
+            const responseContainer = document.getElementById('psychoanalysis-response');
+            const apiKey = getApiKey("Please enter your API key to use the Psychoanalyst & Dream Interpreter:");
+
+            if (!apiKey) {
+                responseContainer.textContent = 'API key is required.';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/v1/psychoanalysis/assistance', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-API-Key': apiKey
+                    },
+                    body: JSON.stringify({
+                        prompt: input.value
+                    })
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Failed to get a response from the Psychoanalyst');
+                }
+
+                const result = await response.json();
+                responseContainer.textContent = result.message;
+            } catch (error) {
+                responseContainer.textContent = `Error: ${error.message}`;
+            }
+        });
+    }
+
     // --- Xero Specialist ---
     const xeroBtn = document.getElementById('xero-btn');
     if (xeroBtn) {

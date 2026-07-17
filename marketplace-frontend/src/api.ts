@@ -196,6 +196,7 @@ export const aiService = {
   getDatasetArchitectAssistance: (prompt: string) => apiClient.post('/research/dataset-architect', { prompt }),
   getAITrainingStrategistAssistance: (prompt: string) => apiClient.post('/research/training-strategist', { prompt }),
   getPublicDataset: (category?: string) => apiClient.get('/research/dataset', { params: { category } }),
+  getPsychoanalysisAssistance: (prompt: string) => apiClient.post('/psychoanalysis/assistance', { prompt }),
 };
 
 export const userService = {
