@@ -3833,6 +3833,56 @@ def os_process_endpoint():
     return jsonify({"status": "success", "message": message})
 
 
+@app.route('/api/v1/os/dhcp', methods=['POST'])
+@require_api_key
+def os_dhcp_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    execute = data.get('execute', False)
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+
+    if execute:
+        dhcp_cmd = google_ai.extract_json(google_ai.provide_os_dhcp_assistance(f"EXTRACT_JSON: {prompt}"))
+        action = dhcp_cmd.get('action')
+        mac = dhcp_cmd.get('mac')
+        hostname = dhcp_cmd.get('hostname')
+        requested_ip = dhcp_cmd.get('requested_ip')
+        start_ip = dhcp_cmd.get('start_ip')
+        end_ip = dhcp_cmd.get('end_ip')
+        subnet_mask = dhcp_cmd.get('subnet_mask')
+        gateway = dhcp_cmd.get('gateway')
+        dns = dhcp_cmd.get('dns')
+        lease_duration = dhcp_cmd.get('lease_duration')
+
+        if action == "allocate":
+            if not mac or not hostname:
+                res = "Error: MAC address and hostname are required for lease allocation."
+            else:
+                try:
+                    res = json.dumps(os_service.dhcp_server.allocate_lease(mac, hostname, requested_ip))
+                except Exception as e:
+                    res = str(e)
+        elif action == "release":
+            if not mac:
+                res = "Error: MAC address is required for lease release."
+            else:
+                res = os_service.dhcp_server.release_lease(mac)
+        elif action == "list":
+            res = json.dumps(os_service.dhcp_server.list_leases())
+        elif action == "get_config":
+            res = json.dumps(os_service.dhcp_server.get_config())
+        elif action == "configure":
+            res = os_service.dhcp_server.configure(start_ip, end_ip, subnet_mask, gateway, dns, lease_duration)
+        else:
+            res = "Invalid DHCP action requested."
+
+        return jsonify({"status": "success", "message": res})
+
+    message = google_ai.provide_os_dhcp_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+
 @app.route('/api/v1/nuclear/assistance', methods=['POST'])
 @require_api_key
 def nuclear_assistance_endpoint():
