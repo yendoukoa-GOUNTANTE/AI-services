@@ -85,4 +85,4 @@ Yendoukoa AI features a diverse array of specialized agents, each accessible via
 - **`langflow_flows/`:** Visual AI workflow definitions for Langflow execution.
 
 ---
-*© 2024 Yendoukoa AI. Empowering the future of autonomous intelligence.*
+*© 2026 Yendoukoa AI. Empowering the future of autonomous intelligence.*
