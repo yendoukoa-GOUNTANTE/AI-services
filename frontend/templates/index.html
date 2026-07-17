@@ -35,6 +35,7 @@
                 <li><a href="#nvidia-mixtral">{{ _('Mixtral') }}</a></li>
                 <li><a href="#anthropic-intelligence">{{ _('Claude Intel') }}</a></li>
                 <li><a href="#anthropic-coding">{{ _('Claude Coder') }}</a></li>
+                <li><a href="#psychoanalysis-assistance">{{ _('Psychoanalyst') }}</a></li>
                 <li><a href="#purchase">{{ _('Purchase') }}</a></li>
                 <li><a href="#portfolio">{{ _('Portfolio') }}</a></li>
                 <li><a href="#contact">{{ _('Contact') }}</a></li>
@@ -299,6 +300,26 @@
                 <div class="card">
                     <h3>{{ _('OS Hardening Specialist') }}</h3>
                     <p>{{ _('Elite system security enhancement and OS hardening specialist for fortified environments.') }}</p>
+                </div>
+                <div class="card">
+                    <h3>{{ _('Psychoanalyst & Dream Interpreter') }}</h3>
+                    <p>{{ _('Analyze dreams, decodes unconscious desires, and provides psychoanalytic advices and expert guidance.') }}</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Psychoanalyst Section -->
+        <section id="psychoanalysis-assistance" class="services">
+            <h2>{{ _('Psychoanalyst & Dream Interpreter') }}</h2>
+            <div class="service-cards">
+                <div class="card">
+                    <h3>{{ _('Dream Interpretation & Psychoanalytic Advices') }}</h3>
+                    <p>{{ _('Enter details of your dreams or psychological exploration for deep psychoanalytic insights and supportive advices.') }}</p>
+                    <textarea id="psychoanalysis-input" placeholder="{{ _('Describe your dream or psychological patterns...') }}" class="styled-textarea" rows="4"></textarea>
+                    <button id="psychoanalysis-btn" class="btn">{{ _('Submit') }}</button>
+                    <div class="response-container" id="psychoanalysis-response-container">
+                        <pre id="psychoanalysis-response"></pre>
+                    </div>
                 </div>
             </div>
         </section>
