@@ -47,6 +47,7 @@ const AI_SERVICES: AIService[] = [
   { id: 'mobile-sdk', name: 'Mobile SDK Architect', category: 'Advanced', icon: Cpu, description: 'Seamless integration of Firebase, Stripe, and other mobile SDKs.' },
   { id: 'blockchain', name: 'Blockchain Expert', category: 'Development', icon: Code2, description: 'Smart contract and blockchain solutions.' },
   { id: 'fintech', name: 'Fintech Strategist', category: 'Business', icon: CreditCard, description: 'Banking and financial technology consulting.' },
+  { id: 'offshore-assistance', name: 'Offshore Specialist', category: 'Business', icon: Building2, description: 'Expert assistance for offshore company structuring, compliance, and global banking strategy.' },
   { id: 'legal', name: 'Legal & Human Rights', category: 'Professional', icon: Scale, description: 'Expert legal research and advocacy support.' },
   { id: 'diagnostic', name: 'Medical Diagnostic', category: 'Health', icon: Stethoscope, description: 'Expert diagnostic assistance for all diseases, focusing on cancer and heart disease.' },
   { id: 'nuclear-strategy', name: 'Nuclear Strategy Architect', category: 'Engineering', icon: Atom, description: 'Expert guidance on nuclear energy availability, global access, and innovative product development.', featured: true },
@@ -405,6 +406,9 @@ const App: React.FC = () => {
           break;
         case 'fintech':
           response = await aiService.getFinancialAdvice(servicePrompt);
+          break;
+        case 'offshore-assistance':
+          response = await aiService.getOffshoreAssistance(servicePrompt);
           break;
         case 'diagnostic':
           response = await aiService.getDiagnosticAssistance(servicePrompt);
