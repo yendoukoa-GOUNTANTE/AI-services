@@ -256,6 +256,44 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- Offshore Assistance ---
+    const offshoreAssistanceBtn = document.getElementById('offshore-assistance-btn');
+    if (offshoreAssistanceBtn) {
+        offshoreAssistanceBtn.addEventListener('click', async () => {
+            const input = document.getElementById('offshore-assistance-input');
+            const responseContainer = document.getElementById('offshore-assistance-response');
+            const apiKey = getApiKey("Please enter your API key to use the Offshore Companies Specialist:");
+
+            if (!apiKey) {
+                responseContainer.textContent = 'API key is required.';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/v1/offshore/assistance', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-API-Key': apiKey
+                    },
+                    body: JSON.stringify({
+                        prompt: input.value
+                    })
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Failed to get a response from the offshore companies specialist');
+                }
+
+                const result = await response.json();
+                responseContainer.textContent = result.message;
+            } catch (error) {
+                responseContainer.textContent = `Error: ${error.message}`;
+            }
+        });
+    }
+
     // --- Create Project ---
     const createProjectBtn = document.getElementById('create-project-btn');
     if (createProjectBtn) {

@@ -102,6 +102,7 @@ export const aiService = {
   getSageAssistance: (prompt: string) => apiClient.post('/sage/assistance', { prompt }),
   getGovernmentAssistance: (prompt: string) => apiClient.post('/government/assistance', { prompt }),
   getTogoAssistance: (prompt: string) => apiClient.post('/togo/assistance', { prompt }),
+  getOffshoreAssistance: (prompt: string) => apiClient.post('/offshore/assistance', { prompt }),
   getXeroAssistance: (prompt: string, execute = false) => apiClient.post('/xero/assistance', { prompt, execute }),
   getQuickBooksAssistance: (prompt: string, execute = false) => apiClient.post('/finance/quickbooks/assistance', { prompt, execute }),
   getAirtableAssistance: (prompt: string, execute = false) => apiClient.post('/database/airtable/assistance', { prompt, execute }),
