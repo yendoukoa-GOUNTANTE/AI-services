@@ -36,6 +36,7 @@
                 <li><a href="#anthropic-intelligence">{{ _('Claude Intel') }}</a></li>
                 <li><a href="#anthropic-coding">{{ _('Claude Coder') }}</a></li>
                 <li><a href="#psychoanalysis-assistance">{{ _('Psychoanalyst') }}</a></li>
+                <li><a href="#offshore-assistance">{{ _('Offshore Specialist') }}</a></li>
                 <li><a href="#purchase">{{ _('Purchase') }}</a></li>
                 <li><a href="#portfolio">{{ _('Portfolio') }}</a></li>
                 <li><a href="#contact">{{ _('Contact') }}</a></li>
@@ -304,6 +305,26 @@
                 <div class="card">
                     <h3>{{ _('Psychoanalyst & Dream Interpreter') }}</h3>
                     <p>{{ _('Analyze dreams, decodes unconscious desires, and provides psychoanalytic advices and expert guidance.') }}</p>
+                </div>
+                <div class="card">
+                    <h3>{{ _('Offshore Company Specialist') }}</h3>
+                    <p>{{ _('Assist offshore companies with legal tax optimization, compliance, corporate structuring, and operations.') }}</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Offshore Specialist Section -->
+        <section id="offshore-assistance" class="services">
+            <h2>{{ _('Offshore Company Specialist') }}</h2>
+            <div class="service-cards">
+                <div class="card">
+                    <h3>{{ _('Corporate Structuring, Compliance & Tax Optimization') }}</h3>
+                    <p>{{ _('Enter details about your offshore business activities, jurisdictions of interest, or international compliance questions.') }}</p>
+                    <textarea id="offshore-input" placeholder="{{ _('Describe your offshore corporate structuring or compliance request...') }}" class="styled-textarea" rows="4"></textarea>
+                    <button id="offshore-btn" class="btn">{{ _('Submit') }}</button>
+                    <div class="response-container" id="offshore-response-container">
+                        <pre id="offshore-response"></pre>
+                    </div>
                 </div>
             </div>
         </section>
