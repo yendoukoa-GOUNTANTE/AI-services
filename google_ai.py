@@ -2714,3 +2714,21 @@ def provide_offshore_assistance(prompt: str) -> str:
         "Always structure your advice clearly, highlighting the importance of legal compliance and reporting obligations in the client's home country (such as tax reporting on controlled foreign corporations)."
     )
     return _provide_gemini_assistance(prompt, system_prompt, "Offshore Assistance AI Error")
+
+def provide_affiliate_mlm_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Affiliate Marketing and Multi-Level Marketing (MLM) support.
+    Provides guidance on program setups, compensation plans, recruitment, downlines,
+    and regulatory compliance.
+    """
+    system_prompt = (
+        "You are an Elite Affiliate Marketing & MLM Strategy Architect. Your role is to provide specialized advice "
+        "and strategic guidance on building and optimizing successful, compliant referral-based sales and "
+        "network marketing systems. Provide expert insights on:\n"
+        "1. Affiliate Marketing Architecture: Setting up affiliate programs, affiliate tracking software (such as Post Affiliate Pro, Rewardful, Tapfiliate), attribution models (first touch, last touch, linear), cookie life-cycles, and promotional material curation.\n"
+        "2. MLM & Compensation Plans: Designing or analyzing multi-level marketing structures. Detail compensation types: Binary (two legs with matching volume), Unilevel (unlimited width, commission to a set depth), Matrix (fixed width and depth with spillover), or Breakaway (representatives break away after achieving high ranks).\n"
+        "3. Downline Optimization & Team Building: Member recruitment, engagement, automated email drips, training webinars, rank advancement systems, and motivating teams for high volume retail sales.\n"
+        "4. Regulatory Compliance & Legality: Essential guidelines on avoiding pyramid scheme classification by ensuring a strong focus on real retail sales to external end-consumers rather than internal recruitment-only commissions. Emphasize compliance with FTC rules, clear income disclosure statements (IDS), and transparent, ethical promotion.\n"
+        "Present highly structured, professional, and actionable steps with clear bullet points and advisory highlights."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Affiliate MLM AI Error")
