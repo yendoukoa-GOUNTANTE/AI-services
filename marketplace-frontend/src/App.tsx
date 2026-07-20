@@ -25,6 +25,7 @@ const AI_SERVICES: AIService[] = [
   { id: 'conflict-debug', name: 'Debugger', category: 'Development', icon: ShieldCheck, description: 'Elite code debugging and multi-model conflict resolution specialist.', featured: true },
   { id: 'marketing', name: 'Marketer', category: 'Business', icon: TrendingUp, description: 'Expert marketing bot management and high-fidelity video generation.', featured: true },
   { id: 'email-specialist', name: 'Email Marketer', category: 'Business', icon: Mail, description: 'Elite email marketing specialist and Mailchimp integration architect.', featured: true },
+  { id: 'affiliate-mlm', name: 'Affiliate & MLM Specialist', category: 'Business', icon: TrendingUp, description: 'Expert affiliate program setup, commission attribution, and MLM compensation plan strategy.', featured: true },
   { id: 'system-analyzer', name: 'System Analyzer', category: 'Infrastructure', icon: Search, description: 'Advanced system analysis, broken link detection, and infrastructure audits.', featured: true },
   { id: 'antigravity', name: 'Antigravity Agent', category: 'Advanced', icon: Bot, description: 'Elite agentic development with secure Linux sandbox execution and reasoning.' },
   { id: 'gemini-spark', name: 'Gemini Spark', category: 'Advanced', icon: Zap, description: '24/7 personal AI agent for autonomous multi-step tasks and workspace intelligence.' },
@@ -409,6 +410,9 @@ const App: React.FC = () => {
           break;
         case 'offshore-assistance':
           response = await aiService.getOffshoreAssistance(servicePrompt);
+          break;
+        case 'affiliate-mlm':
+          response = await aiService.getAffiliateMLMAssistance(servicePrompt);
           break;
         case 'diagnostic':
           response = await aiService.getDiagnosticAssistance(servicePrompt);

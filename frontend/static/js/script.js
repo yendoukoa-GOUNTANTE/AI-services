@@ -256,6 +256,44 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- Affiliate Marketing & MLM Assistance ---
+    const affiliateMlmBtn = document.getElementById('affiliate-mlm-btn');
+    if (affiliateMlmBtn) {
+        affiliateMlmBtn.addEventListener('click', async () => {
+            const input = document.getElementById('affiliate-mlm-input');
+            const responseContainer = document.getElementById('affiliate-mlm-response');
+            const apiKey = getApiKey("Please enter your API key to use the Affiliate & MLM Specialist:");
+
+            if (!apiKey) {
+                responseContainer.textContent = 'API key is required.';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/v1/marketing/affiliate-mlm', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-API-Key': apiKey
+                    },
+                    body: JSON.stringify({
+                        prompt: input.value
+                    })
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Failed to get a response from the affiliate & MLM specialist');
+                }
+
+                const result = await response.json();
+                responseContainer.textContent = result.message;
+            } catch (error) {
+                responseContainer.textContent = `Error: ${error.message}`;
+            }
+        });
+    }
+
     // --- Offshore Assistance ---
     const offshoreAssistanceBtn = document.getElementById('offshore-assistance-btn');
     if (offshoreAssistanceBtn) {
