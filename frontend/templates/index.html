@@ -639,8 +639,13 @@
             <div class="service-cards">
                 <div class="card">
                     <h3>{{ _('Marketing & Bot Support') }}</h3>
-                    <p>{{ _('Enter your request for e-mail marketing, SMS campaigns, or bot management below.') }}</p>
-                    <textarea id="marketing-input" placeholder="{{ _('Your marketing or bot request') }}" class="styled-textarea" rows="4"></textarea>
+                    <p>{{ _('Select your service mode and enter your request below.') }}</p>
+                    <select id="marketing-type" class="styled-input" style="margin-bottom: 20px;">
+                        <option value="bot">{{ _('Marketing Bot & Strategy') }}</option>
+                        <option value="video">{{ _('Video Generation (Veo 3.1)') }}</option>
+                        <option value="twin">{{ _('Digital Twins Simulation') }}</option>
+                    </select>
+                    <textarea id="marketing-input" placeholder="{{ _('Your marketing, bot, video, or digital twin request') }}" class="styled-textarea" rows="4"></textarea>
                     <button id="marketing-btn" class="btn">{{ _('Submit') }}</button>
                     <div class="response-container" id="marketing-response-container">
                         <pre id="marketing-response"></pre>

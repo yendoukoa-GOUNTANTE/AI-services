@@ -423,6 +423,8 @@ const App: React.FC = () => {
         case 'marketing':
           if (executionParams.type === 'video') {
             response = await aiService.generateMarketingVideo(servicePrompt);
+          } else if (executionParams.type === 'twin') {
+            response = await aiService.getMarketingTwinAssistance(servicePrompt);
           } else {
             response = await aiService.getMarketingAssistance(servicePrompt);
           }
@@ -1242,14 +1244,14 @@ const App: React.FC = () => {
              {selectedService?.id === 'marketing' && (
                 <div className="bg-gray-50 dark:bg-white/5 p-6 rounded-2xl border border-gray-100 dark:border-white/5">
                    <label className="block text-xs font-black text-gray-400 uppercase tracking-widest mb-4">Service Mode</label>
-                   <div className="grid grid-cols-2 gap-4">
+                   <div className="grid grid-cols-3 gap-4">
                       <button
                         type="button"
                         onClick={() => setExecutionParams({ ...executionParams, type: 'bot' })}
-                        className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center space-y-2 ${executionParams.type !== 'video' ? 'bg-blue-600 text-white border-blue-600 shadow-lg' : 'bg-white dark:bg-white/5 text-gray-500 border-gray-100 dark:border-white/5 hover:border-blue-200'}`}
+                        className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center space-y-2 ${executionParams.type !== 'video' && executionParams.type !== 'twin' ? 'bg-blue-600 text-white border-blue-600 shadow-lg' : 'bg-white dark:bg-white/5 text-gray-500 border-gray-100 dark:border-white/5 hover:border-blue-200'}`}
                       >
                          <Bot size={24} />
-                         <span className="text-xs font-black">Bot & Strategy</span>
+                         <span className="text-xs font-black text-center">Bot & Strategy</span>
                       </button>
                       <button
                         type="button"
@@ -1257,7 +1259,15 @@ const App: React.FC = () => {
                         className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center space-y-2 ${executionParams.type === 'video' ? 'bg-blue-600 text-white border-blue-600 shadow-lg' : 'bg-white dark:bg-white/5 text-gray-500 border-gray-100 dark:border-white/5 hover:border-blue-200'}`}
                       >
                          <Video size={24} />
-                         <span className="text-xs font-black">Video Gen</span>
+                         <span className="text-xs font-black text-center">Video Gen</span>
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setExecutionParams({ ...executionParams, type: 'twin' })}
+                        className={`p-4 rounded-xl border-2 transition-all flex flex-col items-center space-y-2 ${executionParams.type === 'twin' ? 'bg-blue-600 text-white border-blue-600 shadow-lg' : 'bg-white dark:bg-white/5 text-gray-500 border-gray-100 dark:border-white/5 hover:border-blue-200'}`}
+                      >
+                         <Cpu size={24} />
+                         <span className="text-xs font-black text-center">Digital Twins</span>
                       </button>
                    </div>
                 </div>
