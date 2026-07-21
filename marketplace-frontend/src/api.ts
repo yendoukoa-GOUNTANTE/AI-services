@@ -74,6 +74,7 @@ export const aiService = {
   getDiagnosticAssistance: (prompt: string) => apiClient.post('/diagnostic/assistance', { prompt }),
   getMarketingAssistance: (prompt: string) => apiClient.post('/marketing/assistance', { prompt }),
   generateMarketingVideo: (prompt: string) => apiClient.post('/marketing/video', { prompt }),
+  getMarketingTwinAssistance: (prompt: string) => apiClient.post('/marketing/twin', { prompt }),
   getDigitalRepairAssistance: (prompt: string) => apiClient.post('/digital-repair/assistance', { prompt }),
   getInvestmentTradingAssistance: (prompt: string) => apiClient.post('/investment-trading/assistance', { prompt }),
   getAutoGPTAssistance: (prompt: string) => apiClient.post('/autogpt/assistance', { prompt }),

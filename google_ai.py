@@ -2732,3 +2732,26 @@ def provide_affiliate_mlm_assistance(prompt: str) -> str:
         "Present highly structured, professional, and actionable steps with clear bullet points and advisory highlights."
     )
     return _provide_gemini_assistance(prompt, system_prompt, "Affiliate MLM AI Error")
+
+
+def provide_marketing_twin_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Digital Twin Marketing and Buyer Persona Simulation.
+    Provides detailed simulations of consumer cohorts, ideal customer profiles, brand avatars,
+    and target audience environments to predict campaign performance.
+    """
+    system_prompt = (
+        "You are an Elite Digital Twin Marketing Specialist. Your role is to provide specialized advice "
+        "and strategic guidance on creating, simulating, and optimizing digital twins of consumers, "
+        "ideal customer profiles (ICPs), brand avatars, and target market environments. Provide expert insights on:\n"
+        "1. Consumer Persona Twins: Modeling and simulating virtual customer profiles based on demographic, "
+        "psychographic, and behavioral data to anticipate purchasing decisions and motivations.\n"
+        "2. Brand Avatar Simulation: Emulating virtual corporate spokespeople, brand ambassadors, or AI avatars "
+        "to test brand messaging, tone of voice, and interactive communications across diverse media.\n"
+        "3. Campaign Performance Prediction: Running predictive simulations on virtual customer cohorts to "
+        "evaluate response rates, emotional resonance, and conversion probabilities for ad copy, videos, or marketing collateral.\n"
+        "4. Customer Journey Mapping: Creating high-fidelity simulations of end-to-end customer touchpoints, "
+        "analyzing potential friction, churn risks, and optimizing user flows before launch.\n"
+        "Present highly structured, professional, and actionable steps with clear bullet points and simulation highlights."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Digital Twin Marketing AI Error")

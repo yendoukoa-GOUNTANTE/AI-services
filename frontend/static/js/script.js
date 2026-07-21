@@ -1786,6 +1786,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (marketingBtn) {
         marketingBtn.addEventListener('click', async () => {
             const input = document.getElementById('marketing-input');
+            const typeSelect = document.getElementById('marketing-type');
             const responseContainer = document.getElementById('marketing-response');
             const apiKey = getApiKey("Please enter your API key to use the Digital Marketing & Bot Specialist:");
 
@@ -1794,8 +1795,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
 
+            const selectedType = typeSelect ? typeSelect.value : 'bot';
+            let endpoint = '/api/v1/marketing/assistance';
+            if (selectedType === 'video') {
+                endpoint = '/api/v1/marketing/video';
+            } else if (selectedType === 'twin') {
+                endpoint = '/api/v1/marketing/twin';
+            }
+
             try {
-                const response = await fetch('/api/v1/marketing/assistance', {
+                const response = await fetch(endpoint, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
