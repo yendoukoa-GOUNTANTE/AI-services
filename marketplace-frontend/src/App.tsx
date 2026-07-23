@@ -38,6 +38,7 @@ const AI_SERVICES: AIService[] = [
   { id: 'quickbooks-expert', name: 'QuickBooks Expert', category: 'Business', icon: CreditCard, description: 'Elite QuickBooks Online API integration, accounting workflows, and financial automation expert.' },
   { id: 'airtable-architect', name: 'Airtable Architect', category: 'Database', icon: Database, description: 'Elite Airtable base design, API integration, and database automation expert.' },
   { id: 'notion-architect', name: 'Notion Architect', category: 'Business', icon: Layout, description: 'Elite Notion workspace design, database architecture, and API automation expert.' },
+  { id: 'quantum-ai', name: 'Quantum AI Specialist (IA Quantique)', category: 'Advanced', icon: Atom, description: 'Expert quantum computing, QML, QAOA/VQE, and post-quantum safe cryptography for all sectors.', featured: true },
   { id: 'psychoanalysis', name: 'Psychanalyste & Interprète de Rêves', category: 'Health', icon: Brain, description: 'Analyze dreams, unconscious desires, and get psychoanalytic advices and expert guidance.', featured: true },
   { id: 'llama-intel', name: 'Llama 3.1 Intelligence', category: 'Advanced', icon: Brain, description: 'Deep reasoning and data-driven insights powered by Meta Llama 3.1 405B.' },
   { id: 'langflow', name: 'Langflow Executor', category: 'Advanced', icon: Zap, description: 'Execute complex AI workflows using Langflow.' },
@@ -419,6 +420,9 @@ const App: React.FC = () => {
           break;
         case 'psychoanalysis':
           response = await aiService.getPsychoanalysisAssistance(servicePrompt);
+          break;
+        case 'quantum-ai':
+          response = await aiService.getQuantumAssistance(servicePrompt);
           break;
         case 'marketing':
           if (executionParams.type === 'video') {

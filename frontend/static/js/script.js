@@ -256,6 +256,44 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- Quantum AI (IA Quantique) Assistance ---
+    const quantumAssistanceBtn = document.getElementById('quantum-assistance-btn');
+    if (quantumAssistanceBtn) {
+        quantumAssistanceBtn.addEventListener('click', async () => {
+            const input = document.getElementById('quantum-assistance-input');
+            const responseContainer = document.getElementById('quantum-assistance-response');
+            const apiKey = getApiKey("Please enter your API key to use the Quantum AI Specialist:");
+
+            if (!apiKey) {
+                responseContainer.textContent = 'API key is required.';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/v1/quantum/assistance', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-API-Key': apiKey
+                    },
+                    body: JSON.stringify({
+                        prompt: input.value
+                    })
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Failed to get a response from the Quantum AI Specialist');
+                }
+
+                const result = await response.json();
+                responseContainer.textContent = result.message;
+            } catch (error) {
+                responseContainer.textContent = `Error: ${error.message}`;
+            }
+        });
+    }
+
     // --- Affiliate Marketing & MLM Assistance ---
     const affiliateMlmBtn = document.getElementById('affiliate-mlm-btn');
     if (affiliateMlmBtn) {

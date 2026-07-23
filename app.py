@@ -4074,6 +4074,17 @@ def psychoanalysis_assistance_endpoint():
     return jsonify({"status": "success", "message": message})
 
 
+@app.route('/api/v1/quantum/assistance', methods=['POST'])
+@require_api_key
+def quantum_assistance_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+    message = google_ai.provide_quantum_ai_assistance(prompt)
+    return jsonify({"status": "success", "message": message})
+
+
 # The following block is for development purposes and should not be used in production.
 # Use a production-ready WSGI server like Gunicorn to run the.
 # Example: gunicorn --bind 0.0.0.0:5000 app:app
