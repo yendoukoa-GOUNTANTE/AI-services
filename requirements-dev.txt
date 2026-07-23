@@ -1,5 +1,6 @@
 pytest
 pytest-flask
+pytest-mock
 flake8
 black
 python-dotenv
