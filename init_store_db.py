@@ -50,14 +50,18 @@ def init_db():
     # Check if marketer agent exists
     cursor.execute("SELECT id FROM agent WHERE name = 'Elite Marketer Bot'")
     agent = cursor.fetchone()
+    new_desc = 'Advanced marketing strategy, GTM configuration, and campaign management agent.'
     if not agent:
         cursor.execute("""
             INSERT INTO agent (developer_id, name, description, endpoint_url, price_per_use, category)
             VALUES (?, ?, ?, ?, ?, ?)
-        """, (user_id, 'Elite Marketer Bot', 'Advanced marketing strategy and campaign management agent.', 'http://localhost:5001/api/v1/marketing/assistance', 75, 'Business'))
+        """, (user_id, 'Elite Marketer Bot', new_desc, 'http://localhost:5001/api/v1/marketing/assistance', 75, 'Business'))
         print("Marketer Agent registered")
     else:
-        print("Marketer Agent already exists")
+        cursor.execute("""
+            UPDATE agent SET description = ? WHERE name = 'Elite Marketer Bot'
+        """, (new_desc,))
+        print("Marketer Agent description updated")
 
     conn.commit()
     conn.close()

@@ -86,7 +86,7 @@ We proudly support the Python Software Foundation. If you'd like to fund Python'
 - **AWS Cloud & Security Architect:** Expert AWS cloud platform engineering, secure software hosting, advanced cybersecurity tools, SaaS monetization integrations, and modern web development deployments.
 - **Software Engineer:** Generates multi-section HTML and CSS for a static website.
 - **Debugger:** Lints HTML and CSS code to find errors, supports pasting code or fetching from GitHub.
-- **Marketer:** Creates promotional social media posts and high-fidelity videos using Google Veo 3.1.
+- **Marketer:** Creates promotional social media posts, high-fidelity videos using Google Veo 3.1, Google Tag Manager (GTM) setups, and campaigns tool integration.
 - **System Analyzer:** Scans a website URL for broken links.
 - **Email Marketer:** Elite email marketing specialist and Mailchimp integration architect.
 - **Fine-Tuning Specialist:** Expert guidance on LLM fine-tuning and dataset preparation.
