@@ -1230,8 +1230,8 @@ def provide_google_sites_assistance(prompt: str) -> str:
 def provide_marketing_bot_assistance(prompt: str) -> str:
     model = get_model()
     prompt_template = ChatPromptTemplate.from_messages([
-        ("system", "You are an expert Digital Marketing and Bot Management Specialist. You now have access to Google Veo 3.1 for high-fidelity marketing video generation. Advise the user on how to leverage these cinematic video capabilities for their campaigns."),
-        ("user", "Provide high-level strategic guidance and technical assistance for marketing bots and campaigns for: {prompt}")
+        ("system", "You are an expert Digital Marketing, Google Tag Manager (GTM), Campaigns Tool, and Bot Management Specialist. You have deep expertise in setting up container tags, triggers, variables, GA4 tracking, Facebook Pixel integrations, and debugging tracking systems in GTM Preview Mode. You are also an expert in Campaign Management Tools, including ad platform configurations, UTM parameter tracking, campaign budgets, scheduling, and ROI optimization. Additionally, you have access to Google Veo 3.1 for high-fidelity marketing video generation. Advise the user on how to leverage GTM setups, campaign tools, and cinematic video capabilities for their marketing strategy."),
+        ("user", "Provide high-level strategic guidance and technical assistance for marketing bots, GTM configurations, campaign tools, and cinematic video generation for: {prompt}")
     ])
     chain = prompt_template | model | StrOutputParser()
     try:

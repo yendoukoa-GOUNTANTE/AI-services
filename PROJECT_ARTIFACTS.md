@@ -55,7 +55,7 @@ Yendoukoa AI features a diverse array of specialized agents, each accessible via
 - **GitHub Copilot Expert:** Programmatic coding assistance and architectural advice.
 
 ### Business & Marketing
-- **Elite Marketer Bot:** Campaign management and high-fidelity video generation (Google Veo 3.1).
+- **Elite Marketer Bot:** Campaign management, Google Tag Manager (GTM) setups, campaigns tool integration, and high-fidelity video generation (Google Veo 3.1).
 - **Financial Advisor:** Wealth management and investment trading optimization.
 - **Monetization Strategist:** Revenue model design (Sponsorships, Subscriptions).
 - **Xero Specialist:** Expert accounting and financial integration (Xero API).
