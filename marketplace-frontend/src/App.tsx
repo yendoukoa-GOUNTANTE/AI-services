@@ -23,7 +23,7 @@ import CookieBanner from './components/CookieBanner';
 const AI_SERVICES: AIService[] = [
   { id: 'website', name: 'Software Engineering', category: 'Development', icon: Globe, description: 'Professional software engineering and multi-section website generation.', featured: true },
   { id: 'conflict-debug', name: 'Debugger', category: 'Development', icon: ShieldCheck, description: 'Elite code debugging and multi-model conflict resolution specialist.', featured: true },
-  { id: 'marketing', name: 'Marketer', category: 'Business', icon: TrendingUp, description: 'Expert marketing bot management and high-fidelity video generation.', featured: true },
+  { id: 'marketing', name: 'Marketer', category: 'Business', icon: TrendingUp, description: 'Expert marketing bot management, high-fidelity video generation, GTM setup, and campaign tools integration.', featured: true },
   { id: 'email-specialist', name: 'Email Marketer', category: 'Business', icon: Mail, description: 'Elite email marketing specialist and Mailchimp integration architect.', featured: true },
   { id: 'affiliate-mlm', name: 'Affiliate & MLM Specialist', category: 'Business', icon: TrendingUp, description: 'Expert affiliate program setup, commission attribution, and MLM compensation plan strategy.', featured: true },
   { id: 'system-analyzer', name: 'System Analyzer', category: 'Infrastructure', icon: Search, description: 'Advanced system analysis, broken link detection, and infrastructure audits.', featured: true },
