@@ -1,5 +1,6 @@
 import sys
 import os
+import re
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import time
 import requests
@@ -708,7 +709,7 @@ def fetch_github_file(url):
         path_parts = parsed_url.path.strip('/').split('/')
         if len(path_parts) < 4 or path_parts[2] != 'blob':
             return _("Error: URL does not appear to be a valid GitHub file URL (e.g., .../user/repo/blob/branch/file).")
-        user, repo, _, branch = path_parts[:4]
+        user, repo, _blob, branch = path_parts[:4]
         file_path = '/'.join(path_parts[4:])
         raw_url = f"https://raw.githubusercontent.com/{user}/{repo}/{branch}/{file_path}"
         headers = {'User-Agent': 'AI-Agent-Checker/1.0'}

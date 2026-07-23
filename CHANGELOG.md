@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.1.2] - 2026-07-21
+
+### Fixed
+- **Local Scope Shadowing (Flask-Babel):** Renamed the throwaway tuple unpacking variable from `_` to `_blob` in `fetch_github_file` within `app.py` to prevent shadowing of the Flask-Babel translation function `_()`, which caused runtime `UnboundLocalError`.
+- **Missing Module Import:** Added missing `import re` statement in `app.py` to support regex-based scrubbing of PII in the privacy-preserving `log_training_data` function.
+- **Developer Dependencies:** Added `pytest-mock` to `requirements-dev.txt` to prevent test runner crashes due to missing mocker fixture during local test suites execution.
+
 ## [2.1.1] - 2026-07-09
 
 ### Fixed
@@ -69,6 +76,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Basic Flask backend and HTML/CSS frontend.
 - Integration with Vertex AI for code generation.
 
+[2.1.2]: https://github.com/GYFX35/AI-services/releases/tag/v2.1.2
 [2.1.1]: https://github.com/GYFX35/AI-services/releases/tag/v2.1.1
 [2.1.0]: https://github.com/GYFX35/AI-services/releases/tag/v2.1.0
 [2.0.0]: https://github.com/GYFX35/AI-services/releases/tag/v2.0.0

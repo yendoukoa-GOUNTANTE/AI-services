@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="ai-services-agent",
-    version="2.1.1",
+    version="2.1.2",
     author="Jules",
     author_email="jules@example.com",
     description="A web-based AI agent that can perform several roles to assist with software development and business tasks.",
