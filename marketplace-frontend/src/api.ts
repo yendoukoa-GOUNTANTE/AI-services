@@ -200,6 +200,7 @@ export const aiService = {
   getAITrainingStrategistAssistance: (prompt: string) => apiClient.post('/research/training-strategist', { prompt }),
   getPublicDataset: (category?: string) => apiClient.get('/research/dataset', { params: { category } }),
   getPsychoanalysisAssistance: (prompt: string) => apiClient.post('/psychoanalysis/assistance', { prompt }),
+  getQuantumAssistance: (prompt: string) => apiClient.post('/quantum/assistance', { prompt }),
 };
 
 export const userService = {

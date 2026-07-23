@@ -84,6 +84,7 @@ We proudly support the Python Software Foundation. If you'd like to fund Python'
 ## Features
 
 - **AWS Cloud & Security Architect:** Expert AWS cloud platform engineering, secure software hosting, advanced cybersecurity tools, SaaS monetization integrations, and modern web development deployments.
+- **Quantum AI Specialist (IA Quantique):** Expert quantum computing, quantum machine learning (QML), quantum neural networks (QNN), combinatorial optimization (QAOA/VQE), and post-quantum safe cryptography for all sectors.
 - **Software Engineer:** Generates multi-section HTML and CSS for a static website.
 - **Debugger:** Lints HTML and CSS code to find errors, supports pasting code or fetching from GitHub.
 - **Marketer:** Creates promotional social media posts and high-fidelity videos using Google Veo 3.1.
