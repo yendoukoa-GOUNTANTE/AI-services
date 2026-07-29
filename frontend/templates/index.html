@@ -316,6 +316,28 @@
             </div>
         </section>
 
+        <!-- Investor Data Room & Founder Assistant Section -->
+        <section id="founder-data-room" class="services">
+            <h2>{{ _('Investor Data Room & Founder Assistant') }}</h2>
+            <div class="service-cards">
+                <div class="card">
+                    <h3>{{ _('Fundraising Strategy & Due Diligence Automation') }}</h3>
+                    <p>{{ _('Enter your startup description, industry, and target VC fundraising round stage (e.g., SaaS Pre-Seed, Biotech Series A) to receive professional data room architecture advice.') }}</p>
+                    <textarea id="founder-data-room-input" placeholder="{{ _('Describe your startup business and fundraising round stage...') }}" class="styled-textarea" rows="4"></textarea>
+                    <div style="margin: 15px 0; text-align: left;">
+                        <label style="display: inline-flex; align-items: center; cursor: pointer; font-size: 14px; gap: 8px;">
+                            <input type="checkbox" id="founder-data-room-compile" style="width: 18px; height: 18px; cursor: pointer;">
+                            <strong>{{ _('Compile & save Due Diligence Checklist document (.docx) to my secure File vault') }}</strong>
+                        </label>
+                    </div>
+                    <button id="founder-data-room-btn" class="btn">{{ _('Get Founder Assistance') }}</button>
+                    <div class="response-container" id="founder-data-room-response-container">
+                        <pre id="founder-data-room-response"></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Quantum AI Specialist (IA Quantique) Section -->
         <section id="quantum-assistance" class="services">
             <h2>{{ _('Quantum AI Specialist (IA Quantique)') }}</h2>

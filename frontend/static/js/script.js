@@ -256,6 +256,50 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // --- Investor Data Room & Founder Assistance ---
+    const founderDataRoomBtn = document.getElementById('founder-data-room-btn');
+    if (founderDataRoomBtn) {
+        founderDataRoomBtn.addEventListener('click', async () => {
+            const input = document.getElementById('founder-data-room-input');
+            const compileCheck = document.getElementById('founder-data-room-compile');
+            const responseContainer = document.getElementById('founder-data-room-response');
+            const apiKey = getApiKey("Please enter your API key to use the Investor Data Room & Founder Assistant:");
+
+            if (!apiKey) {
+                responseContainer.textContent = 'API key is required.';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/v1/founder/data-room/assistance', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-API-Key': apiKey
+                    },
+                    body: JSON.stringify({
+                        prompt: input.value,
+                        execute: compileCheck ? compileCheck.checked : false
+                    })
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.error || 'Failed to get a response from the Founder Assistant');
+                }
+
+                const result = await response.json();
+                if (result.filename) {
+                    responseContainer.textContent = `${result.message}\n\nGenerated Filename: ${result.filename}\nFile ID: ${result.file_id}`;
+                } else {
+                    responseContainer.textContent = result.message;
+                }
+            } catch (error) {
+                responseContainer.textContent = `Error: ${error.message}`;
+            }
+        });
+    }
+
     // --- Quantum AI (IA Quantique) Assistance ---
     const quantumAssistanceBtn = document.getElementById('quantum-assistance-btn');
     if (quantumAssistanceBtn) {

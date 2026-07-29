@@ -4085,6 +4085,64 @@ def quantum_assistance_endpoint():
     return jsonify({"status": "success", "message": message})
 
 
+@app.route('/api/v1/founder/data-room/assistance', methods=['POST'])
+@require_api_key
+def founder_data_room_assistance_endpoint():
+    data = request.get_json()
+    prompt = data.get('prompt')
+    execute = data.get('execute', False)
+
+    if not prompt:
+        return jsonify({"error": _("Prompt is required")}), 400
+
+    if execute:
+        checklist_data = google_ai.generate_investor_checklist_data(prompt)
+        title = checklist_data.get('title', 'Investor Due Diligence Checklist')
+        paragraphs = []
+        paragraphs.append(
+            "Custom-compiled investor due diligence index prepared "
+            "for the Virtual Data Room.\n"
+        )
+        for category in checklist_data.get('categories', []):
+            paragraphs.append(f"\n--- {category.get('name', 'Category')} ---")
+            for item in category.get('items', []):
+                paragraphs.append(f"[ ]  {item}")
+
+        result = office_service.generate_word(
+            paragraphs,
+            title,
+            filename_prefix="investor_diligence_checklist"
+        )
+        if result['status'] == 'success':
+            new_file = File(
+                user_id=g.user.id,
+                filename=result['filename'],
+                file_type='word',
+                filepath=result['filepath']
+            )
+            db.session.add(new_file)
+            db.session.commit()
+            msg = _(
+                "Investor due diligence checklist compiled and saved to your "
+                "secure File vault successfully."
+            )
+            return jsonify({
+                "status": "success",
+                "message": msg,
+                "file_id": new_file.id,
+                "filename": new_file.filename
+            })
+        else:
+            err_msg = result.get('message', _("Compilation failed"))
+            return jsonify({
+                "status": "error",
+                "message": err_msg
+            }), 500
+    else:
+        message = google_ai.provide_investor_data_room_assistance(prompt)
+        return jsonify({"status": "success", "message": message})
+
+
 # The following block is for development purposes and should not be used in production.
 # Use a production-ready WSGI server like Gunicorn to run the.
 # Example: gunicorn --bind 0.0.0.0:5000 app:app
