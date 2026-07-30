@@ -38,6 +38,7 @@ const AI_SERVICES: AIService[] = [
   { id: 'quickbooks-expert', name: 'QuickBooks Expert', category: 'Business', icon: CreditCard, description: 'Elite QuickBooks Online API integration, accounting workflows, and financial automation expert.' },
   { id: 'airtable-architect', name: 'Airtable Architect', category: 'Database', icon: Database, description: 'Elite Airtable base design, API integration, and database automation expert.' },
   { id: 'notion-architect', name: 'Notion Architect', category: 'Business', icon: Layout, description: 'Elite Notion workspace design, database architecture, and API automation expert.' },
+  { id: 'investor-data-room', name: 'Investor Data Room & Founder Assistant', category: 'Business', icon: DollarSign, description: 'Elite AI due diligence assistant, investor data room compiler, and strategic fundraising advisor for founders.' },
   { id: 'quantum-ai', name: 'Quantum AI Specialist (IA Quantique)', category: 'Advanced', icon: Atom, description: 'Expert quantum computing, QML, QAOA/VQE, and post-quantum safe cryptography for all sectors.', featured: true },
   { id: 'psychoanalysis', name: 'Psychanalyste & Interprète de Rêves', category: 'Health', icon: Brain, description: 'Analyze dreams, unconscious desires, and get psychoanalytic advices and expert guidance.', featured: true },
   { id: 'llama-intel', name: 'Llama 3.1 Intelligence', category: 'Advanced', icon: Brain, description: 'Deep reasoning and data-driven insights powered by Meta Llama 3.1 405B.' },
@@ -396,6 +397,9 @@ const App: React.FC = () => {
           break;
         case 'perplexity-search':
           response = await aiService.getPerplexityAssistance(servicePrompt, executionParams.execute, executionParams.model_name);
+          break;
+        case 'investor-data-room':
+          response = await aiService.getFounderAssistance(servicePrompt, executionParams.execute);
           break;
         case 'website':
           response = await aiService.generateWebsite(servicePrompt);
@@ -1334,7 +1338,7 @@ const App: React.FC = () => {
                    <span className="text-xl font-black text-gray-900 dark:text-white">{selectedService?.price || 50} Credits</span>
                 </div>
                 <div className="flex space-x-4">
-                  {['elevenlabs', 'tiktok-market', 'whatsapp-biz', 'cloudinary-media', 'runway-video', 'excel-helper', 'word-helper', 'powerpoint-helper', 'calendly', 'xero-specialist', 'quickbooks-expert', 'airtable-architect', 'notion-architect', 'flutterwave', 'twilio', 'os-kernel', 'os-fs', 'os-process', 'emergent', 'devrev', 'shopline', 'zendesk', 'perplexity-search'].includes(selectedService?.id || '') && (
+                  {['elevenlabs', 'tiktok-market', 'whatsapp-biz', 'cloudinary-media', 'runway-video', 'excel-helper', 'word-helper', 'powerpoint-helper', 'calendly', 'xero-specialist', 'quickbooks-expert', 'airtable-architect', 'notion-architect', 'flutterwave', 'twilio', 'os-kernel', 'os-fs', 'os-process', 'emergent', 'devrev', 'shopline', 'zendesk', 'perplexity-search', 'investor-data-room'].includes(selectedService?.id || '') && (
                     <button
                       type="button"
                       onClick={() => setExecutionParams({ ...executionParams, execute: true })}

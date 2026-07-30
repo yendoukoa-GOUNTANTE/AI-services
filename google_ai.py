@@ -2780,3 +2780,69 @@ def provide_quantum_ai_assistance(prompt: str) -> str:
         "Present highly structured, technically rigorous, yet actionable insights with clear bullet points and strategic highlights."
     )
     return _provide_gemini_assistance(prompt, system_prompt, "Quantum AI Error")
+
+
+def provide_investor_data_room_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Investor Data Room design, diligence preparation,
+    and Founder assistance to get VC funding.
+    """
+    system_prompt = (
+        "You are an Elite Investor Data Room Architect and Venture Capital "
+        "Fundraising Advisor. Your role is to guide startup founders through "
+        "organizing their virtual data rooms (VDR), designing diligence "
+        "checklist indices, drafting SAFE/KISS instruments, finalizing pitch "
+        "decks, organizing financial models, and successfully navigating "
+        "early to growth stage (Pre-Seed to Series B) venture rounds.\n\n"
+        "Your core competencies include:\n"
+        "1. **Virtual Data Room Architecture**: Designing logical folder "
+        "structures (Corporate, Financial, Intellectual Property, Employment, "
+        "Commercial Contracts, and Regulatory) to streamline VC review.\n"
+        "2. **Diligence Checklist Automation**: Automatically preparing "
+        "comprehensive checklist indices tailored to the company's industry, "
+        "jurisdiction, and target round sizing.\n"
+        "3. **Fundraising Advisory & Terms**: Directing strategies on Cap "
+        "Table management, SAFE valuation caps, discount rates, investor "
+        "updates, and term sheet term negotiations.\n\n"
+        "Ensure your response is highly professional, action-oriented, and "
+        "clearly structured."
+    )
+    return _provide_gemini_assistance(
+        prompt,
+        system_prompt,
+        "Investor Data Room AI Error"
+    )
+
+
+def generate_investor_checklist_data(prompt: str) -> dict:
+    """
+    Generates structured JSON representation of an investor due diligence index
+    based on the founder's business profile and target funding stage.
+    """
+    system_instruction = (
+        "You are an expert VC Due Diligence Analyst. Based on user prompt, "
+        "generate a JSON object representing a comprehensive due diligence "
+        "data room checklist index for a VC fundraising round. "
+        "The JSON MUST match the following structure:\n"
+        "{\n"
+        "  \"title\": \"Investor Checklist\",\n"
+        "  \"categories\": [\n"
+        "    {\n"
+        "      \"name\": \"1. Corporate Organization\",\n"
+        "      \"items\": [\n"
+        "        \"Certificate of Incorporation\",\n"
+        "        \"Minutes of all Board & Stockholder meetings\",\n"
+        "        \"Current Cap Table\"\n"
+        "      ]\n"
+        "    }\n"
+        "  ]\n"
+        "}\n\n"
+        "Include 4 to 6 categories with relevant items based on the user's "
+        "prompt. Return ONLY the raw JSON object."
+    )
+    response = _provide_gemini_assistance(
+        prompt,
+        system_instruction,
+        "Investor Checklist Gen Error"
+    )
+    return extract_json(response)
