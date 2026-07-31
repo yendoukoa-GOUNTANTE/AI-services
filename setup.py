@@ -77,6 +77,7 @@ setup(
         "pandas",
         "twilio",
         "pyairtable",
+        "reportlab",
     ],
     classifiers=[
         "Programming Language :: Python :: 3",

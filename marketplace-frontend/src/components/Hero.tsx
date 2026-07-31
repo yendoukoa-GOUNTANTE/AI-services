@@ -35,6 +35,13 @@ const Hero: React.FC<HeroProps> = ({ searchQuery, setSearchQuery, onTryAI }) => 
             >
               Try AI Engineer Free
             </button>
+            <a
+              href="/api/v1/download/one-pager"
+              download="yendoukoa_ai_one_pager.pdf"
+              className="bg-blue-500/20 text-white border border-blue-300/40 px-10 py-5 rounded-2xl font-black text-xl hover:bg-blue-500/30 transition-all flex items-center justify-center shadow-lg"
+            >
+              Download One-Pager
+            </a>
             <button className="text-blue-100 font-bold hover:text-white transition-colors flex items-center group">
                Watch Demo <span className="ml-2 group-hover:translate-x-1 transition-transform">→</span>
             </button>

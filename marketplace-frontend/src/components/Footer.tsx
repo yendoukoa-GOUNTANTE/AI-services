@@ -36,6 +36,7 @@ const Footer: React.FC = () => {
           <div className="md:col-span-2">
             <h4 className="font-black mb-8 text-white uppercase tracking-widest text-xs">Resources</h4>
             <ul className="space-y-4 text-gray-400 font-bold">
+              <li><a href="/api/v1/download/one-pager" download="yendoukoa_ai_one_pager.pdf" className="hover:text-blue-500 transition-colors">One-Pager PDF</a></li>
               <li><a href="./CHANGELOG.md" target="_blank" className="hover:text-blue-500 transition-colors">Changelog</a></li>
               <li><a href="#" className="hover:text-blue-500 transition-colors">Documentation</a></li>
               <li><a href="#" className="hover:text-blue-500 transition-colors">API Keys</a></li>

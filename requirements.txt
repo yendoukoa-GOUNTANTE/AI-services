@@ -38,3 +38,4 @@ pandas
 notion-client
 twilio
 pyairtable
+reportlab

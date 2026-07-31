@@ -789,6 +789,22 @@ def promotion():
 def index():
     return render_template('index.html')
 
+@app.route('/api/v1/download/one-pager', methods=['GET'])
+@app.route('/download-one-pager', methods=['GET'])
+def download_one_pager():
+    import one_pager_generator
+    try:
+        pdf_bytes = one_pager_generator.generate_project_one_pager()
+        import io
+        return send_file(
+            io.BytesIO(pdf_bytes),
+            mimetype='application/pdf',
+            as_attachment=True,
+            download_name='yendoukoa_ai_one_pager.pdf'
+        )
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 @app.route('/api/v1/develop/website', methods=['POST'])
 @require_api_key
 def develop_website_endpoint():

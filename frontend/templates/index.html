@@ -58,7 +58,10 @@
             <div class="hero-text">
                 <h1>Welcome to Yendoukoa AI</h1>
                 <p>We build custom AI solutions to help your business grow.</p>
-                <a href="#contact" class="btn">Get in Touch</a>
+                <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
+                    <a href="#contact" class="btn">Get in Touch</a>
+                    <a href="/download-one-pager" class="btn btn-secondary" style="border: 2px solid white; color: white; background: rgba(255,255,255,0.1);">{{ _('Download One-Pager PDF') }}</a>
+                </div>
             </div>
         </section>
 
@@ -1354,6 +1357,7 @@
     <footer id="contact">
         <p>&copy; 2026 Yendoukoa AI. All rights reserved.</p>
         <p>
+            <a href="/download-one-pager" style="font-weight: bold; color: var(--primary-color);">{{ _('Download One-Pager PDF') }}</a> |
             <a href="https://github.com/sponsors/GYFX35" target="_blank">{{ _('Sponsor us on GitHub') }}</a> |
             <a href="https://buy.stripe.com/example" target="_blank">{{ _('Sponsor us via Stripe') }}</a> |
             <a href="https://github.com/sponsors/psf" target="_blank">{{ _('Sponsor PSF on GitHub') }}</a> |
