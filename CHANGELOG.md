@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.2.0] - 2026-07-31
+
+### Added
+- **Project One-Pager PDF:** Integrated ReportLab to generate highly-stylized, in-memory executive Project One-Pager briefs dynamically, available via direct download endpoints and accessible through the frontend platforms.
+- **Quantum AI Specialist ("IA Quantique"):** Added a specialized AI role providing expert guidance on Quantum Computing, QML, Quantum Neural Networks, and Post-Quantum Cryptography across sectors.
+- **Offshore Company Specialist:** Added an expert AI assistant on international tax structures, offshore setups, multi-jurisdictional compliance, and asset protection.
+- **Specialist Perplexity Search & Research:** Seamlessly integrated Perplexity AI using OpenAI-compatible APIs (`sonar-pro`) for search-grounded completions, enabling AI research strategy formulation and search executions.
+- **Elite Marketer Bot Upgrade (GTM & Campaigns):** Enhanced the marketing capabilities with Google Tag Manager setups, Campaign Management Tools, Google Veo 3.1 video generation, and Digital Twin Simulation for target audience behavior prediction.
+- **DevRev Support AI Integration:** Expanded supporting roles with DevRev AI, allowing DevRev-powered support strategies and direct ticket/work item creation via the DevRev API.
+- **Shopline Specialist AI:** Integrated Shopline REST Admin API support to allow AI-guided Shopify-alternative product creation and store setup optimizations.
+- **Zendesk Specialist AI:** Enabled Zendesk API ticket creation and customer support management with robust JSON extraction.
+- **Virtual DHCP Server:** Built a simulated local and remote DHCP server administrative suite with IP lease allocation, pool configuration, and dedicated CLI control tools.
+- **Investor Data Room & Founder Assistant:** Added a strategic advisor on SAFE notes, VC diligence, pitch deck layouts, and automated `.docx` index generation compiled directly to user File knowledge vaults.
+- **Affiliate & MLM Marketing Specialist:** Integrated structured guidance on multi-level marketing structures, affiliate network commission attribution, downline tracking, and FTC regulatory compliance.
+- **Scam & Fraud Detector:** Introduced specialized AI threat analysis targeting 419 advance-fee scams, spoofed domains, and "global grazer" deceptive email/phone patterns, backed by specialized training database seeding.
+- **Podcast Video Scripts & Improver:** Provided robust multi-camera video scriptwriting, dynamic visuals cues, and professional scripts optimizer tools.
+
 ## [2.1.2] - 2026-07-21
 
 ### Fixed
@@ -76,6 +93,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Basic Flask backend and HTML/CSS frontend.
 - Integration with Vertex AI for code generation.
 
+[2.2.0]: https://github.com/GYFX35/AI-services/releases/tag/v2.2.0
 [2.1.2]: https://github.com/GYFX35/AI-services/releases/tag/v2.1.2
 [2.1.1]: https://github.com/GYFX35/AI-services/releases/tag/v2.1.1
 [2.1.0]: https://github.com/GYFX35/AI-services/releases/tag/v2.1.0
