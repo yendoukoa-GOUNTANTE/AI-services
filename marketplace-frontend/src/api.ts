@@ -202,6 +202,7 @@ export const aiService = {
   getPsychoanalysisAssistance: (prompt: string) => apiClient.post('/psychoanalysis/assistance', { prompt }),
   getQuantumAssistance: (prompt: string) => apiClient.post('/quantum/assistance', { prompt }),
   getFounderAssistance: (prompt: string, execute = false) => apiClient.post('/founder/data-room/assistance', { prompt, execute }),
+  getBusinessCloserAssistance: (prompt: string) => apiClient.post('/business/closer', { prompt }),
 };
 
 export const userService = {

@@ -36,6 +36,7 @@
                 <li><a href="#anthropic-intelligence">{{ _('Claude Intel') }}</a></li>
                 <li><a href="#anthropic-coding">{{ _('Claude Coder') }}</a></li>
                 <li><a href="#psychoanalysis-assistance">{{ _('Psychoanalyst') }}</a></li>
+                <li><a href="#business-closer-assistance">{{ _('Business Closer') }}</a></li>
                 <li><a href="#purchase">{{ _('Purchase') }}</a></li>
                 <li><a href="#portfolio">{{ _('Portfolio') }}</a></li>
                 <li><a href="#contact">{{ _('Contact') }}</a></li>
@@ -61,6 +62,22 @@
                 <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 20px;">
                     <a href="#contact" class="btn">Get in Touch</a>
                     <a href="/download-one-pager" class="btn btn-secondary" style="border: 2px solid white; color: white; background: rgba(255,255,255,0.1);">{{ _('Download One-Pager PDF') }}</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Business Closer Specialist Section -->
+        <section id="business-closer-assistance" class="services">
+            <h2>{{ _('Business Closer Specialist') }}</h2>
+            <div class="service-cards">
+                <div class="card">
+                    <h3>{{ _('High-Ticket Sales Closer & Negotiation Advisor') }}</h3>
+                    <p>{{ _('Enter details about your high-value deal, prospect objections, or contract terms to receive expert closing strategies.') }}</p>
+                    <textarea id="business-closer-input" placeholder="{{ _('Describe the deal size, objection, or negotiation context...') }}" class="styled-textarea" rows="4"></textarea>
+                    <button id="business-closer-btn" class="btn">{{ _('Submit') }}</button>
+                    <div class="response-container" id="business-closer-response-container">
+                        <pre id="business-closer-response"></pre>
+                    </div>
                 </div>
             </div>
         </section>
@@ -315,6 +332,10 @@
                 <div class="card">
                     <h3>{{ _('Psychoanalyst & Dream Interpreter') }}</h3>
                     <p>{{ _('Analyze dreams, decodes unconscious desires, and provides psychoanalytic advices and expert guidance.') }}</p>
+                </div>
+                <div class="card">
+                    <h3>{{ _('Business Closer Specialist') }}</h3>
+                    <p>{{ _('Elite high-ticket sales closer, negotiation expert, and contract finalization strategist.') }}</p>
                 </div>
             </div>
         </section>
