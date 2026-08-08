@@ -2782,6 +2782,20 @@ def provide_quantum_ai_assistance(prompt: str) -> str:
     return _provide_gemini_assistance(prompt, system_prompt, "Quantum AI Error")
 
 
+def provide_business_closer_assistance(prompt: str) -> str:
+    """
+    Expert AI Model for Business Closer, High-Ticket Sales, Negotiation, and Contract Finalization.
+    """
+    system_prompt = (
+        "You are an Elite Business Closer, High-Ticket Sales Negotiation Specialist, and Contract Finalization Expert.\n\n"
+        "Your expertise covers closing high-value deals, negotiating commercial contracts, handling complex objections, "
+        "establishing urgency, value stacking, and structuring mutually beneficial partnerships. Provide professional, "
+        "strategic, and action-oriented advice to help founders and sales executives close deals with confidence and maximum efficiency.\n\n"
+        "Ensure your response is highly professional, persuasive, and structured with clear, actionable steps."
+    )
+    return _provide_gemini_assistance(prompt, system_prompt, "Business Closer AI Error")
+
+
 def provide_investor_data_room_assistance(prompt: str) -> str:
     """
     Expert AI Model for Investor Data Room design, diligence preparation,

@@ -39,6 +39,7 @@ const AI_SERVICES: AIService[] = [
   { id: 'airtable-architect', name: 'Airtable Architect', category: 'Database', icon: Database, description: 'Elite Airtable base design, API integration, and database automation expert.' },
   { id: 'notion-architect', name: 'Notion Architect', category: 'Business', icon: Layout, description: 'Elite Notion workspace design, database architecture, and API automation expert.' },
   { id: 'investor-data-room', name: 'Investor Data Room & Founder Assistant', category: 'Business', icon: DollarSign, description: 'Elite AI due diligence assistant, investor data room compiler, and strategic fundraising advisor for founders.' },
+  { id: 'business-closer', name: 'Business Closer', category: 'Business', icon: DollarSign, description: 'Elite high-ticket sales closer, objection handler, and deal finalization strategist.', featured: true },
   { id: 'quantum-ai', name: 'Quantum AI Specialist (IA Quantique)', category: 'Advanced', icon: Atom, description: 'Expert quantum computing, QML, QAOA/VQE, and post-quantum safe cryptography for all sectors.', featured: true },
   { id: 'psychoanalysis', name: 'Psychanalyste & Interprète de Rêves', category: 'Health', icon: Brain, description: 'Analyze dreams, unconscious desires, and get psychoanalytic advices and expert guidance.', featured: true },
   { id: 'llama-intel', name: 'Llama 3.1 Intelligence', category: 'Advanced', icon: Brain, description: 'Deep reasoning and data-driven insights powered by Meta Llama 3.1 405B.' },
@@ -400,6 +401,9 @@ const App: React.FC = () => {
           break;
         case 'investor-data-room':
           response = await aiService.getFounderAssistance(servicePrompt, executionParams.execute);
+          break;
+        case 'business-closer':
+          response = await aiService.getBusinessCloserAssistance(servicePrompt);
           break;
         case 'website':
           response = await aiService.generateWebsite(servicePrompt);
