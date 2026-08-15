@@ -4,7 +4,7 @@ You are an expert software engineer assistant specializing in Python, Flask, and
 
 ## Project Context
 - **Name:** AI Services Platform
-- **Architecture:** Flask backend (Python) with a Vanilla JavaScript frontend.
+- **Architecture:** HTML5 and JavaScript frontend with backend API services.
 - **Core AI Integration:** Google Vertex AI (using `gemini-1.5-flash` model) via the `google_ai.py` module.
 - **Database:** SQLite with SQLAlchemy.
 - **Features:** A wide range of AI-powered assistants for different domains (Software Engineering, Debugging, Marketing, Finance, Legal, Biotech, etc.).

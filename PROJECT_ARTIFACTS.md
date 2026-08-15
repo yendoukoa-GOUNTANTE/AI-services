@@ -1,6 +1,6 @@
-# Yendoukoa AI: Project Artifacts Manifest
+# BigSupport AI: Project Artifacts Manifest
 
-This document provides a comprehensive catalog of the artifacts and components within the Yendoukoa AI ecosystem.
+This document provides a comprehensive catalog of the artifacts and components within the BigSupport AI ecosystem.
 
 ## 🏛️ Ecosystem Architecture
 
@@ -26,11 +26,11 @@ The project follows a split architecture designed for scalability, performance, 
 - **Directory:** `marketplace-frontend/`
 - **Technology:** React, Vite, TypeScript, Tailwind CSS, Lucide Icons.
 - **Deployment Build:** Located in `docs/` for GitHub Pages hosting.
-- **URL:** [https://yendoukoa.ai](https://yendoukoa.ai) (Local: [http://localhost:5173](http://localhost:5173))
+- **URL:** [https://bigsupport.ai](https://bigsupport.ai) (Local: [http://localhost:5173](http://localhost:5173))
 
 ### 4. Local Project Portal
-- **Directory:** `yendoukoa-ai-site/`
-- **Entry Point:** `yendoukoa-ai-site/index.html`
+- **Directory:** `bigsupport-ai-site/`
+- **Entry Point:** `bigsupport-ai-site/index.html`
 - **Purpose:** A standalone dashboard for local environment management, service monitoring, and documentation access.
 
 ### 5. Multi-Platform Extensions
@@ -41,13 +41,13 @@ The project follows a split architecture designed for scalability, performance, 
 
 ## 🤖 Specialized AI Agents Catalog
 
-Yendoukoa AI features a diverse array of specialized agents, each accessible via the platform API.
+BigSupport AI features a diverse array of specialized agents, each accessible via the platform API.
 
 ### Software & Development
 - **Software Engineer:** Professional static website generation (HTML/CSS).
 - **Debugger:** Multi-model code analysis and conflict resolution.
 - **System Analyser:** Infrastructure audit and broken link detection.
-- **OS Kernel Architect:** Elite Yendoukoa OS kernel design and performance optimization.
+- **OS Kernel Architect:** Elite BigSupport OS kernel design and performance optimization.
 - **File System Architect:** Expert in OS file system design and data persistence.
 - **Process Controller:** OS process management and task scheduling specialist.
 - **Fine-Tuning Specialist:** LLM dataset preparation and training guidance.
@@ -85,4 +85,4 @@ Yendoukoa AI features a diverse array of specialized agents, each accessible via
 - **`langflow_flows/`:** Visual AI workflow definitions for Langflow execution.
 
 ---
-*© 2026 Yendoukoa AI. Empowering the future of autonomous intelligence.*
+*© 2026 BigSupport AI. Empowering the future of autonomous intelligence.*

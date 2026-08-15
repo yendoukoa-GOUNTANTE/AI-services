@@ -45,7 +45,7 @@ const AI_SERVICES: AIService[] = [
   { id: 'llama-intel', name: 'Llama 3.1 Intelligence', category: 'Advanced', icon: Brain, description: 'Deep reasoning and data-driven insights powered by Meta Llama 3.1 405B.' },
   { id: 'langflow', name: 'Langflow Executor', category: 'Advanced', icon: Zap, description: 'Execute complex AI workflows using Langflow.' },
   { id: 'game', name: 'Game Developer', category: 'Development', icon: Gamepad2, description: 'Create custom games using AI technologies.' },
-  { id: 'backend', name: 'Backend Architect', category: 'Infrastructure', icon: Database, description: 'Generate robust Python/Flask backends.' },
+  { id: 'backend', name: 'Backend Architect', category: 'Infrastructure', icon: Database, description: 'Generate robust HTML5/JavaScript solutions.' },
   { id: 'android-dev', name: 'Android Developer', category: 'Development', icon: Smartphone, description: 'Expert Kotlin and Jetpack Compose development for Android.' },
   { id: 'ios-dev', name: 'iOS Developer', category: 'Development', icon: Smartphone, description: 'Elite Swift and SwiftUI development for the Apple ecosystem.' },
   { id: 'mobile-sdk', name: 'Mobile SDK Architect', category: 'Advanced', icon: Cpu, description: 'Seamless integration of Firebase, Stripe, and other mobile SDKs.' },
@@ -94,7 +94,7 @@ const AI_SERVICES: AIService[] = [
   { id: 'paas', name: 'PaaS Specialist', category: 'Infrastructure', icon: Cloud, description: 'Platform as a Service expert for application development environments.' },
   { id: 'saas', name: 'SaaS Specialist', category: 'Infrastructure', icon: Globe, description: 'Software as a Service expert for internet-delivered applications.' },
   { id: 'itaas', name: 'ITaaS Specialist', category: 'Infrastructure', icon: Layout, description: 'IT as a Service expert for comprehensive IT service delivery.' },
-  { id: 'os-kernel', name: 'OS Kernel Architect', category: 'Infrastructure', icon: Cpu, description: 'Elite Yendoukoa OS kernel design, system calls, and performance optimization expert.' },
+  { id: 'os-kernel', name: 'OS Kernel Architect', category: 'Infrastructure', icon: Cpu, description: 'Elite BigSupport OS kernel design, system calls, and performance optimization expert.' },
   { id: 'os-fs', name: 'File System Architect', category: 'Infrastructure', icon: Database, description: 'Expert in OS file system design, simulated storage, and data persistence.' },
   { id: 'os-process', name: 'Process Controller', category: 'Infrastructure', icon: Zap, description: 'Elite OS process management, task scheduling, and resource allocation specialist.' },
   { id: 'gumloop', name: 'Gumloop Expert', category: 'Advanced', icon: Zap, description: 'Elite AI-powered browser automation and workflow specialist.' },
@@ -916,7 +916,7 @@ const App: React.FC = () => {
                       Core Intelligence
                     </h2>
                     <p className="text-2xl font-black text-gray-900 dark:text-white tracking-tight leading-tight">
-                      Experience the primary pillars of the <span className="text-blue-600 underline decoration-blue-200 underline-offset-8">Yendoukoa ecosystem.</span>
+                      Experience the primary pillars of the <span className="text-blue-600 underline decoration-blue-200 underline-offset-8">BigSupport ecosystem.</span>
                     </p>
                   </div>
                   <button className="flex items-center text-gray-900 dark:text-gray-300 font-black text-sm hover:text-blue-600 transition-colors group">
@@ -994,7 +994,7 @@ const App: React.FC = () => {
                    <div className="col-span-full text-center py-32 bg-gray-50 dark:bg-white/5 rounded-[40px] border-2 border-dashed border-gray-200 dark:border-white/10">
                       <Bot size={64} className="mx-auto mb-6 text-gray-300 opacity-20" />
                       <h3 className="text-2xl font-black text-gray-900 dark:text-white mb-2">No community agents found.</h3>
-                      <p className="text-gray-500 dark:text-gray-400 font-bold">Be the first to monetize your AI models on Yendoukoa.</p>
+                      <p className="text-gray-500 dark:text-gray-400 font-bold">Be the first to monetize your AI models on BigSupport.</p>
                    </div>
                 ) : filteredStoreAgents.map((agent) => (
                   <ServiceCard
@@ -1026,7 +1026,7 @@ const App: React.FC = () => {
                           Elite UI/UX kits, landing pages, and production-ready API configurations. Own the code, ship the experience.
                        </p>
                        <div className="mt-8 flex flex-wrap gap-4">
-                          {['React', 'Next.js', 'Tailwind', 'Python API', 'Figma'].map(tech => (
+                          {['React', 'Next.js', 'Tailwind', 'HTML5/JS API', 'Figma'].map(tech => (
                              <span key={tech} className="bg-white/10 px-4 py-1.5 rounded-full text-xs font-black tracking-widest uppercase border border-white/10">
                                 {tech}
                              </span>
@@ -1432,7 +1432,7 @@ const App: React.FC = () => {
                 onClick={() => setModalMode(modalMode === 'register' ? 'login' : 'register')}
                 className="text-sm font-black text-blue-600 hover:underline"
               >
-                {modalMode === 'register' ? 'Already have a key?' : 'New to Yendoukoa?'}
+                {modalMode === 'register' ? 'Already have a key?' : 'New to BigSupport?'}
               </button>
            </div>
         </form>

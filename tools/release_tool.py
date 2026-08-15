@@ -80,7 +80,7 @@ def run_packaging():
 
 def main():
     print(f"{BLUE}===================================================={RESET}")
-    print(f"{BLUE}      Yendoukoa AI - Custom Release Validation      {RESET}")
+    print(f"{BLUE}      BigSupport AI - Custom Release Validation      {RESET}")
     print(f"{BLUE}===================================================={RESET}\n")
 
     steps = [

@@ -35,8 +35,8 @@ const Navbar: React.FC<NavbarProps> = ({
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <div className="flex items-center space-x-2 group cursor-pointer" onClick={() => setActiveTab('marketplace')}>
-              <img src="/logo.svg" alt="Yendoukoa AI Logo" className="h-9 w-9 group-hover:scale-110 transition-transform" />
-              <span className="text-xl font-black text-gray-900 tracking-tight transition-colors">Yendoukoa <span className="text-blue-600">AI</span></span>
+              <img src="/logo.svg" alt="BigSupport AI Logo" className="h-9 w-9 group-hover:scale-110 transition-transform" />
+              <span className="text-xl font-black text-gray-900 tracking-tight transition-colors">BigSupport <span className="text-blue-600">AI</span></span>
             </div>
             <div className="hidden md:ml-10 md:flex md:space-x-8">
               {[

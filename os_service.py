@@ -7,13 +7,13 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class VirtualFS:
-    """A simulated in-memory file system for Yendoukoa OS."""
+    """A simulated in-memory file system for BigSupport OS."""
     def __init__(self):
         # Initial root structure
         self.files = {
-            "/boot/kernel.bin": "Yendoukoa OS Kernel v1.0.0-stable",
-            "/etc/hostname": "yendoukoa-ai-node-01",
-            "/home/user/welcome.txt": "Welcome to Yendoukoa OS! Your AI-driven workspace is ready."
+            "/boot/kernel.bin": "BigSupport OS Kernel v1.0.0-stable",
+            "/etc/hostname": "bigsupport-ai-node-01",
+            "/home/user/welcome.txt": "Welcome to BigSupport OS! Your AI-driven workspace is ready."
         }
 
     def write_file(self, path, content):
@@ -41,7 +41,7 @@ class VirtualFS:
         return f"Error: File {path} not found"
 
 class VirtualProcessManager:
-    """A simulated process manager for Yendoukoa OS."""
+    """A simulated process manager for BigSupport OS."""
     def __init__(self):
         self.processes = {
             1: {"name": "systemd", "status": "running", "cpu": "0.1%", "mem": "1.2MB"},
@@ -86,7 +86,7 @@ def get_system_status():
     }
 
 class VirtualDHCPServer:
-    """A simulated DHCP server for Yendoukoa OS."""
+    """A simulated DHCP server for BigSupport OS."""
     def __init__(self):
         self.start_ip = "192.168.1.100"
         self.end_ip = "192.168.1.200"
@@ -97,7 +97,7 @@ class VirtualDHCPServer:
         self.leases = {
             "00:1A:2B:3C:4D:5E": {
                 "ip": "192.168.1.100",
-                "hostname": "yendoukoa-core-node",
+                "hostname": "bigsupport-core-node",
                 "lease_time": 1715800000,
                 "expiry": 1715800000 + 86400
             }

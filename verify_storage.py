@@ -14,7 +14,7 @@ async def verify_file_storage():
 
         # Register/Login
         await page.click("nav >> text=Login / Register")
-        await page.wait_for_selector("h3:has-text('Join Yendoukoa AI')")
+        await page.wait_for_selector("h3:has-text('Join BigSupport AI')")
         await page.fill('input[placeholder="Choose a username"]', "testuser_file_2")
         # Click the register button inside the modal
         await page.click('form >> button:has-text("Register")')

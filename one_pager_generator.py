@@ -5,7 +5,7 @@ from reportlab.lib import colors
 import io
 
 def generate_project_one_pager():
-    """Generates a beautiful executive one-pager PDF for Yendoukoa AI and returns bytes."""
+    """Generates a beautiful executive one-pager PDF for BigSupport AI and returns bytes."""
     buffer = io.BytesIO()
 
     # Page size is letter: 612 x 792 points. Margins of 0.5 inches (36 pt)
@@ -99,7 +99,7 @@ def generate_project_one_pager():
 
     # 1. Header Banner Table
     header_content = [
-        [Paragraph("YENDOUKOA AI", title_style)],
+        [Paragraph("BIGSUPPORT AI", title_style)],
         [Paragraph("The All-in-One Autonomous AI Ecosystem for Developers, SMEs & Governments", subtitle_style)]
     ]
     header_table = Table(header_content, colWidths=[540])
@@ -134,9 +134,9 @@ def generate_project_one_pager():
     story.append(Spacer(1, 4))
 
     exec_summary_text = (
-        "<b>Yendoukoa AI</b> is a state-of-the-art decentralized AI platform featuring specialized autonomous agents "
+        "<b>BigSupport AI</b> is a state-of-the-art decentralized AI platform featuring specialized autonomous agents "
         "tailored for high-compute engineering, compliance, security, and strategic tasks. Built on a unique split architecture, "
-        "Yendoukoa AI utilizes a static React marketplace frontend optimized for rapid client performance and hosted on GitHub Pages, "
+        "BigSupport AI utilizes a static React marketplace frontend optimized for rapid client performance and hosted on GitHub Pages, "
         "powering transactions via a separate, highly scalable Flask API gateway. Users can leverage <b>Multi-Model Intelligence</b>, "
         "accessing world-class systems like Gemini 1.5 Pro, GPT-4o, Anthropic Claude 3.5 Sonnet, Llama 3.1 405B, and NVIDIA Nemotron "
         "seamlessly through a single integrated interface."
@@ -209,7 +209,7 @@ def generate_project_one_pager():
     story.append(Spacer(1, 4))
 
     sponsorship_text = (
-        "Yendoukoa AI operates with high transparency and is backed by multi-channel global crowdfunding through GitHub Sponsors, "
+        "BigSupport AI operates with high transparency and is backed by multi-channel global crowdfunding through GitHub Sponsors, "
         "Open Collective, and Patreon. To promote a sustainable future for autonomous intelligence, we allocate direct financial "
         "sponsorship and donations to the <b>Python Software Foundation (PSF)</b> to power PyPI, core Python updates, and global community development."
     )
