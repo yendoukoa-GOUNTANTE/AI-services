@@ -1,10 +1,10 @@
-# Yendoukoa AI: The All-in-One Autonomous AI Ecosystem
+# BigSupport AI: The All-in-One Autonomous AI Ecosystem
 
-Yendoukoa AI is a robust, scalable, and autonomous AI ecosystem designed for developers, entrepreneurs, and government institutions. We provide a unified platform for specialized AI agents across various domains.
+BigSupport AI is a robust, scalable, and autonomous AI ecosystem designed for developers, entrepreneurs, and government institutions. We provide a unified platform for specialized AI agents across various domains.
 
 ## 🚀 Release 2.0.0: Professional & Accessible
 
-We are proud to announce the second major release of Yendoukoa AI, focusing on professional grade tools and enhanced accessibility.
+We are proud to announce the second major release of BigSupport AI, focusing on professional grade tools and enhanced accessibility.
 
 ### Key Highlights:
 - **Unified API Ecosystem:** Our production-ready API (`/api/v1`) powers multiple frontends.
@@ -15,7 +15,7 @@ We are proud to announce the second major release of Yendoukoa AI, focusing on p
 
 ## 🌐 Multi-Platform Accessibility
 
-Yendoukoa AI is accessible across your devices and browsers!
+BigSupport AI is accessible across your devices and browsers!
 
 -   **Browsers:** Support for **Chrome** and **Firefox** via our browser extension.
 -   **Mobile:** Installable as a Progressive Web App (PWA) on **Android** and **iOS**.
@@ -23,7 +23,7 @@ Yendoukoa AI is accessible across your devices and browsers!
 
 ## 📊 Market Analysis (TAM, SAM, SOM)
 
-Yendoukoa AI targets a high-growth intersection of Generative AI, Developer Tools, and Financial Inclusion in emerging markets.
+BigSupport AI targets a high-growth intersection of Generative AI, Developer Tools, and Financial Inclusion in emerging markets.
 
 ### 🌎 TAM (Total Addressable Market) - $500B+
 The global AI software and services market is projected to exceed **$500 Billion** by 2030. This includes generative AI, automated business workflows, and enterprise-grade intelligence.
@@ -39,7 +39,7 @@ Our immediate target is to capture **500,000 active users**. We are positioned t
 
 ## 💰 Monetization & Business Model
 
-Yendoukoa AI is built on a sustainable business model. Our monetization strategy is three-fold:
+BigSupport AI is built on a sustainable business model. Our monetization strategy is three-fold:
 
 ### 1. Subscription-Based Access (SaaS)
 We offer tiered subscription plans powered by **Stripe**:
@@ -54,25 +54,25 @@ Our platform utilizes a flexible **Credit System** for high-compute tasks:
 -   **Transparent Usage:** Real-time credit tracking is available.
 
 ### 3. USSD & Mobile Financial Services
-Specializing in emerging markets, Yendoukoa AI provides a unique **USSD & Blockchain Ecosystem**:
+Specializing in emerging markets, BigSupport AI provides a unique **USSD & Blockchain Ecosystem**:
 -   **USSD Blockchain Integration:** Financial services and blockchain interaction via USSD.
 -   **Enterprise USSD Solutions:** Custom USSD gateway design and smart contract interfaces for mobile operators and banks.
 -   **Transaction Security:** Specialized AI agents for fraud detection in mobile money ecosystems.
 
 ## 🏗️ Split Architecture
 
-Yendoukoa AI uses a split architecture to optimize deployment and performance:
+BigSupport AI uses a split architecture to optimize deployment and performance:
 
 1.  **Frontend (Static):** The React-based marketplace frontend is hosted on **GitHub Pages** (the `docs/` directory).
-2.  **Backend (API):** The Flask-based API is deployed separately.
+2.  **Backend (API):** The HTML5 and JavaScript-powered API is deployed separately.
 
 ## Sponsorship
 
 If you find this project useful, please consider sponsoring us!
 
 [![Sponsor](https://img.shields.io/badge/Sponsor-GitHub-ea4aaa?style=for-the-badge&logo=github-sponsors)](https://github.com/sponsors/GYFX35)
-[![Sponsor](https://img.shields.io/badge/Sponsor-Open%20Collective-7f9bff?style=for-the-badge&logo=open-collective)](https://opencollective.com/yendoukoa)
-[![Sponsor](https://img.shields.io/badge/Sponsor-Patreon-f96854?style=for-the-badge&logo=patreon)](https://patreon.com/yendoukoa)
+[![Sponsor](https://img.shields.io/badge/Sponsor-Open%20Collective-7f9bff?style=for-the-badge&logo=open-collective)](https://opencollective.com/bigsupport)
+[![Sponsor](https://img.shields.io/badge/Sponsor-Patreon-f96854?style=for-the-badge&logo=patreon)](https://patreon.com/bigsupport)
 
 ### Python Software Foundation (PSF) Support
 
@@ -187,16 +187,16 @@ Enter a full website URL to scan the page for broken links.
     ```
 
 ## GitHub Copilot Integration
-Yendoukoa AI is optimized for AI-assisted development.
+BigSupport AI is optimized for AI-assisted development.
 - **Custom Instructions:** Provided in `.github/copilot-instructions.md`.
 - **Copilot SDK:** Integrated for programmatic agentic workflows.
 - **GitHub Models:** Access top-tier models (GPT-4o, Llama 3.1) via the GitHub Models API.
 
 ## 🏠 Local Project Portal
 
-We've created a dedicated **Local Project Portal** to help you manage and explore the Yendoukoa AI ecosystem in your development environment.
+We've created a dedicated **Local Project Portal** to help you manage and explore the BigSupport AI ecosystem in your development environment.
 
-- **Access the Portal:** Open `yendoukoa-ai-site/index.html` in your browser.
+- **Access the Portal:** Open `bigsupport-ai-site/index.html` in your browser.
 - **Features:**
     - **One-Click Service Launch:** Quick links to your local Flask API (Port 5001) and React Marketplace (Port 5173).
     - **Ecosystem Overview:** Visual guide to core specialists and market strategy.
@@ -204,7 +204,7 @@ We've created a dedicated **Local Project Portal** to help you manage and explor
 
 ## 📂 Project Manifest
 
-For a detailed catalog of the Yendoukoa AI ecosystem, including architecture, specialized agents, and developer resources, please refer to our **[Project Artifacts Manifest](PROJECT_ARTIFACTS.md)**.
+For a detailed catalog of the BigSupport AI ecosystem, including architecture, specialized agents, and developer resources, please refer to our **[Project Artifacts Manifest](PROJECT_ARTIFACTS.md)**.
 
 ---
-*© 2026 Yendoukoa AI. Empowering the future of autonomous intelligence.*
+*© 2026 BigSupport AI. Empowering the future of autonomous intelligence.*

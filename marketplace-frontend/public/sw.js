@@ -1,4 +1,4 @@
-const CACHE_NAME = 'yendoukoa-ai-v1';
+const CACHE_NAME = 'bigsupport-ai-v1';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',

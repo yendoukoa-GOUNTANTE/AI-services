@@ -356,7 +356,7 @@ def provide_domain_codex_assistance(prompt: str) -> str:
         "and USSP (U-space Service Provider) infrastructure using Codex-level insights. "
         "Provide high-level technical guidance, strategic design plans, and secure "
         "implementation steps for advanced AI projects requiring specialized network "
-        "architectures and domain naming conventions. Our primary domain is yendoukoa.ai."
+        "architectures and domain naming conventions. Our primary domain is bigsupport.ai."
     )
     prompt_template = ChatPromptTemplate.from_messages([
         ("system", system_prompt),
@@ -1218,8 +1218,8 @@ def provide_maintenance_assistance(prompt: str) -> str:
 def provide_google_sites_assistance(prompt: str) -> str:
     model = get_model()
     prompt_template = ChatPromptTemplate.from_messages([
-        ("system", "You are an expert Google Sites and DNS Specialist. Our primary domain is yendoukoa.ai."),
-        ("user", "Provide high-level technical guidance for Google Sites, DNS, and custom subdomains (especially for yendoukoa.ai) for: {prompt}")
+        ("system", "You are an expert Google Sites and DNS Specialist. Our primary domain is bigsupport.ai."),
+        ("user", "Provide high-level technical guidance for Google Sites, DNS, and custom subdomains (especially for bigsupport.ai) for: {prompt}")
     ])
     chain = prompt_template | model | StrOutputParser()
     try:
@@ -1488,9 +1488,9 @@ def provide_cloud_infrastructure_assistance(prompt: str) -> str:
                   "1. AWS Cloud Platform: Virtual resources deployment (EC2, ECS/EKS, Lambda), S3 secure storage, VPC networks, CloudFormation/AWS SAM infrastructure-as-code.\n"
                   "2. Cybersecurity Tools for Software Hosting: Security Groups, AWS IAM policies, AWS WAF, AWS Shield DDoS mitigation, SSL/TLS certificate management (AWS ACM), GuardDuty, and secure host configurations.\n"
                   "3. SaaS Monetization: Architectures for SaaS billing, tier-based metering, Stripe integration, and AWS Marketplace SaaS integration APIs.\n"
-                  "4. Modern Web Development: Deploying React/Vite frontends & Flask backends, setting up AWS Route 53 DNS for yendoukoa.ai, and CloudFront CDN routing.\n"
+                  "4. Modern Web Development: Deploying React/Vite frontends & Flask backends, setting up AWS Route 53 DNS for bigsupport.ai, and CloudFront CDN routing.\n"
                   "Always provide detailed, professional, and secure high-level architectural guidance and implementation steps."),
-        ("user", "Provide detailed AWS, Cybersecurity hosting, SaaS monetization, and Web Development implementation steps (including DNS/routing setup for yendoukoa.ai) for: {prompt}")
+        ("user", "Provide detailed AWS, Cybersecurity hosting, SaaS monetization, and Web Development implementation steps (including DNS/routing setup for bigsupport.ai) for: {prompt}")
     ])
     chain = prompt_template | model | StrOutputParser()
     try:
@@ -2451,7 +2451,7 @@ def provide_os_kernel_assistance(prompt: str) -> str:
     Expert AI Model for Operating System Kernel design and performance.
     """
     system_prompt = (
-        "You are an Elite Yendoukoa OS Kernel Architect. Your expertise covers kernel design, "
+        "You are an Elite BigSupport OS Kernel Architect. Your expertise covers kernel design, "
         "system calls, memory management, and performance optimization. "
         "Provide high-level technical guidance on building and optimizing OS kernels."
     )

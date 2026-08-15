@@ -34,7 +34,7 @@ def initialize_transaction(email, amount, tx_ref, currency='NGN', callback_url=N
             "email": email
         },
         "customizations": customizations or {
-            "title": "Yendoukoa AI",
+            "title": "BigSupport AI",
             "description": "Payment for AI Services"
         }
     }

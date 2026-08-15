@@ -1,6 +1,6 @@
 {
-  "name": "Yendoukoa AI",
-  "short_name": "Yendoukoa",
+  "name": "BigSupport AI",
+  "short_name": "BigSupport",
   "description": "Multi-platform AI Service Marketplace",
   "start_url": "./",
   "display": "standalone",

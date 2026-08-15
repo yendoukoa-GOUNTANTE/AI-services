@@ -167,7 +167,7 @@ msgid "Here is the generated code for your website."
 msgstr "Aquí tienes el código generado para tu sitio web."
 
 #: app.py:432
-msgid "Here is the generated code for your Python backend."
+msgid "Here is the generated code for your HTML5/JavaScript stack."
 msgstr "Aquí está el código generado para su backend de Python."
 
 #: app.py:441

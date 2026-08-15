@@ -1,12 +1,12 @@
 {
   "manifest_version": 3,
-  "name": "Yendoukoa AI Extension",
+  "name": "BigSupport AI Extension",
   "version": "1.0.0",
-  "description": "Access Yendoukoa AI directly from your browser.",
+  "description": "Access BigSupport AI directly from your browser.",
   "action": {
     "default_popup": "index.html",
     "default_icon": "icon.svg"
   },
   "permissions": ["activeTab", "storage"],
-  "host_permissions": ["https://yendoukoa.ai/*"]
+  "host_permissions": ["https://bigsupport.ai/*"]
 }

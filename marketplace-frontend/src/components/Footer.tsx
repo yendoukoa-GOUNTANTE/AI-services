@@ -8,8 +8,8 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-20">
           <div className="md:col-span-4">
             <div className="flex items-center space-x-2 mb-8">
-              <img src="/logo.svg" alt="Yendoukoa AI Logo" className="h-10 w-10 brightness-0 invert" />
-              <span className="text-2xl font-black tracking-tight">Yendoukoa <span className="text-blue-500">AI</span></span>
+              <img src="/logo.svg" alt="BigSupport AI Logo" className="h-10 w-10 brightness-0 invert" />
+              <span className="text-2xl font-black tracking-tight">BigSupport <span className="text-blue-500">AI</span></span>
             </div>
             <p className="text-gray-400 text-lg leading-relaxed mb-8 font-medium">
               Empowering the next generation of builders with professional-grade AI services and autonomous agents.
@@ -36,7 +36,7 @@ const Footer: React.FC = () => {
           <div className="md:col-span-2">
             <h4 className="font-black mb-8 text-white uppercase tracking-widest text-xs">Resources</h4>
             <ul className="space-y-4 text-gray-400 font-bold">
-              <li><a href="/api/v1/download/one-pager" download="yendoukoa_ai_one_pager.pdf" className="hover:text-blue-500 transition-colors">One-Pager PDF</a></li>
+              <li><a href="/api/v1/download/one-pager" download="bigsupport_ai_one_pager.pdf" className="hover:text-blue-500 transition-colors">One-Pager PDF</a></li>
               <li><a href="./CHANGELOG.md" target="_blank" className="hover:text-blue-500 transition-colors">Changelog</a></li>
               <li><a href="#" className="hover:text-blue-500 transition-colors">Documentation</a></li>
               <li><a href="#" className="hover:text-blue-500 transition-colors">API Keys</a></li>
@@ -61,7 +61,7 @@ const Footer: React.FC = () => {
         </div>
 
         <div className="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-gray-500 font-bold text-xs">
-          <p>&copy; 2026 Yendoukoa AI. Built for the autonomous future.</p>
+          <p>&copy; 2026 BigSupport AI. Built for the autonomous future.</p>
           <div className="flex space-x-8 mt-6 md:mt-0">
              <button className="hover:text-white transition-colors">Privacy Policy</button>
              <button className="hover:text-white transition-colors">Terms of Service</button>

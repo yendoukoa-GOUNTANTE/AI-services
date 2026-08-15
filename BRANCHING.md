@@ -1,4 +1,4 @@
-# Branching Strategy for Yendoukoa AI
+# Branching Strategy for BigSupport AI
 
 To ensure the stability of the `main` branch, we follow a strict branching strategy.
 

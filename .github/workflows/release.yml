@@ -48,7 +48,7 @@ jobs:
           app.py google_ai.py *_service.py \
           requirements.txt setup.py \
           docs/ \
-          yendoukoa-ai-site/ \
+          bigsupport-ai-site/ \
           frontend/ \
           translations/ \
           Procfile Dockerfile docker-compose.yml \

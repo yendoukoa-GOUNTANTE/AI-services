@@ -168,7 +168,7 @@ class TrainingData(db.Model):
 # --- Flask App Setup ---
 app = Flask(__name__, template_folder='frontend/templates', static_folder='frontend/static')
 app.wsgi_app = ProxyFix(app.wsgi_app, x_for=1, x_proto=1, x_host=1, x_prefix=1)
-CORS(app, resources={r"/api/*": {"origins": ["https://yendoukoa.ai", "http://localhost:5173", "http://localhost:3000"]}}, supports_credentials=True)
+CORS(app, resources={r"/api/*": {"origins": ["https://bigsupport.ai", "http://localhost:5173", "http://localhost:3000"]}}, supports_credentials=True)
 app.config['SECRET_KEY'] = secrets.token_hex(16)
 # Ensure we use the absolute path for the database to avoid confusion between current working directory and app file location
 import os
@@ -550,7 +550,7 @@ if __name__ == '__main__':
     app.run(debug=True, port=5001)
 """
     response_message = f"""
-{_("Here is the generated code for your Python backend.")}
+{_("Here is the generated code for your HTML5/JavaScript stack.")}
 **backend.py:**
 ```python
 {backend_code.strip()}
@@ -800,7 +800,7 @@ def download_one_pager():
             io.BytesIO(pdf_bytes),
             mimetype='application/pdf',
             as_attachment=True,
-            download_name='yendoukoa_ai_one_pager.pdf'
+            download_name='bigsupport_ai_one_pager.pdf'
         )
     except Exception as e:
         return jsonify({"error": str(e)}), 500
@@ -3086,7 +3086,7 @@ def paystack_initialize_payment():
     }
 
     response = paystack_service.initialize_transaction(
-        email=g.user.username if '@' in g.user.username else f"{g.user.username}@yendoukoa.ai",
+        email=g.user.username if '@' in g.user.username else f"{g.user.username}@bigsupport.ai",
         amount=amount_in_kobo,
         callback_url=callback_url,
         metadata=metadata
@@ -3193,7 +3193,7 @@ def flutterwave_initialize_payment():
     db.session.commit()
 
     response = flutterwave_service.initialize_transaction(
-        email=g.user.username if '@' in g.user.username else f"{g.user.username}@yendoukoa.ai",
+        email=g.user.username if '@' in g.user.username else f"{g.user.username}@bigsupport.ai",
         amount=amount,
         tx_ref=tx_ref,
         currency=currency,
@@ -3405,8 +3405,8 @@ def mailchimp_create_campaign():
         subject_line=campaign_info.get('subject_line', 'New Campaign'),
         preview_text=campaign_info.get('preview_text', ''),
         title=campaign_info.get('title', 'AI Generated Campaign'),
-        from_name=os.environ.get("MAILCHIMP_FROM_NAME", "Yendoukoa AI"),
-        reply_to=os.environ.get("MAILCHIMP_REPLY_TO", "info@yendoukoa.ai")
+        from_name=os.environ.get("MAILCHIMP_FROM_NAME", "BigSupport AI"),
+        reply_to=os.environ.get("MAILCHIMP_REPLY_TO", "info@bigsupport.ai")
     )
 
     if "error" in result:
@@ -3569,7 +3569,7 @@ def flutterwave_assistance_endpoint():
         # For execution, we'd typically initialize a payment and return the link
         tx_ref = f"flw-ai-{secrets.token_hex(8)}"
         response = flutterwave_service.initialize_transaction(
-            email=g.user.username if '@' in g.user.username else f"{g.user.username}@yendoukoa.ai",
+            email=g.user.username if '@' in g.user.username else f"{g.user.username}@bigsupport.ai",
             amount=payment_data.get('amount', 1000),
             tx_ref=tx_ref,
             currency=payment_data.get('currency', 'NGN'),
